@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -10,302 +9,218 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;overflow:hidden}
-
 :root{
  --bg:#050505;
- --panel:#0d0e0e;
- --panel2:#141515;
- --gold:#d8a735;
- --gold2:#ffe18a;
- --gold3:#8e671b;
- --text:#fff;
- --muted:#858987;
- --green:#35d28a;
- --red:#e74d59;
+ --p:#101212;
+ --g:#d8a735;
+ --g2:#ffe18a;
+ --mut:#777;
+ --red:#ef5360
 }
-
 body{
- font-family:Inter,Arial,sans-serif;
- background:
- radial-gradient(circle at 50% -15%,rgba(255,204,77,.14),transparent 35%),
- #050505;
- color:white;
+ font-family:Arial,sans-serif;
+ background:#050505;
+ color:#fff
 }
-
-button,input,textarea{font:inherit;outline:none}
+button,input,select{font:inherit;outline:0}
 button{cursor:pointer}
 .hidden{display:none!important}
-
-/* ================= START ================= */
 
 #welcome{
  position:fixed;
  inset:0;
- z-index:999;
+ z-index:1000;
  display:flex;
  align-items:center;
  justify-content:center;
  text-align:center;
  background:
- radial-gradient(circle at center,rgba(215,167,53,.15),transparent 30%),
- #050505;
+ radial-gradient(circle,rgba(216,167,53,.14),transparent 35%),
+ #050505
 }
 
-.welcome-box{
- width:min(430px,90%);
- animation:welcomeIn 1s ease;
-}
+.wbox{width:min(430px,90%)}
+.brand{font-size:42px;font-weight:900}
+.brand span,.goldText{color:var(--g2)}
+.sub{color:#888;margin:12px 0 28px}
+.auth{display:grid;gap:10px}
 
-@keyframes welcomeIn{
- from{opacity:0;transform:translateY(25px) scale(.97)}
- to{opacity:1;transform:none}
-}
-
-.brand{
- font-size:42px;
- font-weight:1000;
- letter-spacing:2px;
-}
-.brand span{color:var(--gold2)}
-
-.welcome-sub{
- color:#858585;
- margin:12px 0 30px;
-}
-
-.auth-buttons{
- display:grid;
- gap:10px;
+.gold,.dark,.back,.cash{
+ border-radius:12px;
+ padding:14px;
+ font-weight:900
 }
 
 .gold{
  border:0;
- border-radius:12px;
- padding:15px;
  color:#080808;
- font-weight:900;
- background:linear-gradient(135deg,#a87820,#ffe27c,#b67e1e);
- box-shadow:0 0 30px rgba(216,167,53,.14);
+ background:linear-gradient(135deg,#9e721f,#ffe27c,#b77e20)
 }
 
-.dark-btn{
- border:1px solid #30322f;
- background:#111313;
- color:white;
- border-radius:12px;
- padding:15px;
- font-weight:800;
+.dark,.back{
+ border:1px solid #30332f;
+ background:#121414;
+ color:#fff
 }
 
-.demo-note{
+.note{
  color:#555;
  font-size:11px;
- margin-top:20px;
  line-height:1.5;
+ margin-top:14px
 }
 
-/* ================= MODALS ================= */
-
-.modal{
+.modal,.choice{
  position:fixed;
  inset:0;
  z-index:900;
  display:flex;
  align-items:center;
  justify-content:center;
- padding:20px;
- background:rgba(0,0,0,.78);
- backdrop-filter:blur(15px);
+ padding:18px;
+ background:rgba(0,0,0,.82);
+ backdrop-filter:blur(14px)
 }
 
-.modal-box{
- width:min(420px,100%);
+.box{
+ width:min(430px,100%);
  padding:24px;
  border-radius:22px;
- background:#101111;
- border:1px solid rgba(216,167,53,.25);
- box-shadow:0 30px 100px #000;
+ background:#101212;
+ border:1px solid rgba(216,167,53,.25)
 }
 
-.modal-title{
- font-size:25px;
- font-weight:900;
- margin-bottom:18px;
-}
+.box h2{margin-bottom:16px}
 
 .field{
  width:100%;
- padding:14px;
- margin-bottom:10px;
- border-radius:11px;
- border:1px solid #2a2d2b;
+ padding:13px;
+ margin-bottom:9px;
+ border-radius:10px;
+ border:1px solid #30332f;
  background:#080909;
- color:white;
+ color:#fff
 }
 
-.close{
- width:100%;
- margin-top:9px;
- border:1px solid #2c302d;
- background:#171918;
- color:#aaa;
- padding:12px;
- border-radius:11px;
-}
-
-/* ================= APP ================= */
+.box .gold{width:100%}
+.close{width:100%;margin-top:8px}
 
 #app{
- position:fixed;
- inset:0;
  display:none;
+ position:fixed;
+ inset:0
 }
 
 .header{
- height:65px;
+ height:64px;
  position:absolute;
- top:0;
- left:0;
- right:0;
+ inset:0 0 auto;
  z-index:50;
  display:flex;
  align-items:center;
  justify-content:space-between;
  padding:0 15px;
- background:rgba(5,5,5,.92);
- border-bottom:1px solid rgba(216,167,53,.12);
- backdrop-filter:blur(18px);
+ background:rgba(5,5,5,.94);
+ border-bottom:1px solid #252825
 }
 
-.logo{
- font-weight:1000;
- font-size:22px;
-}
-.logo span{color:var(--gold2)}
+.logo{font-size:22px;font-weight:900}
+.logo span{color:var(--g2)}
 
 .money{
- padding:9px 13px;
- border-radius:11px;
- background:#111313;
- border:1px solid rgba(216,167,53,.25);
- font-weight:900;
- color:var(--gold2);
+ padding:8px 12px;
+ border:1px solid rgba(216,167,53,.3);
+ border-radius:10px;
+ color:var(--g2);
+ font-weight:900
 }
 
 #pages{
  position:absolute;
- inset:65px 0 74px;
- overflow:auto;
+ inset:64px 0 74px;
+ overflow:auto
 }
 
 .page{
  display:none;
- max-width:1100px;
+ max-width:1050px;
  margin:auto;
- padding:20px 15px 35px;
+ padding:20px 15px 35px
 }
+
 .page.active{display:block}
 
 .title{
  font-size:30px;
- font-weight:1000;
-}
-.subtitle{
- margin-top:5px;
- color:#777;
+ font-weight:900
 }
 
-/* ================= HOME ================= */
+.subtitle{
+ color:#777;
+ margin-top:4px
+}
 
 .hero{
- min-height:240px;
- border-radius:24px;
- padding:25px;
- margin-bottom:20px;
- overflow:hidden;
- position:relative;
+ min-height:230px;
+ margin-bottom:18px;
+ padding:24px;
+ border-radius:23px;
+ border:1px solid rgba(216,167,53,.3);
  background:
- radial-gradient(circle at 85% 20%,rgba(255,218,120,.28),transparent 20%),
- linear-gradient(135deg,#191711,#0b0c0c 65%);
- border:1px solid rgba(216,167,53,.28);
-}
-
-.hero:before{
- content:"";
- position:absolute;
- width:260px;
- height:260px;
- right:-100px;
- bottom:-150px;
- border-radius:50%;
- border:1px solid rgba(255,218,120,.3);
- box-shadow:0 0 70px rgba(255,218,120,.12);
+ radial-gradient(circle at 90% 15%,rgba(255,216,110,.2),transparent 25%),
+ linear-gradient(135deg,#1b1810,#0b0c0c)
 }
 
 .hero small{
- color:var(--gold2);
- letter-spacing:2px;
+ color:var(--g2);
  font-weight:900;
+ letter-spacing:2px
 }
 
 .hero h1{
- max-width:580px;
- margin-top:12px;
  font-size:34px;
- line-height:1.05;
+ margin:12px 0
 }
 
 .hero p{
- max-width:530px;
  color:#999;
- margin:13px 0 20px;
  line-height:1.5;
+ max-width:600px;
+ margin-bottom:18px
 }
 
-.banner-grid{
+.banners{
  display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:12px;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px
 }
 
 .banner{
- min-height:145px;
- border-radius:18px;
- padding:20px;
+ min-height:130px;
+ padding:18px;
+ border-radius:17px;
  border:1px solid #292d2a;
  background:
- radial-gradient(circle at 90% 10%,rgba(216,167,53,.16),transparent 30%),
- #101212;
+ radial-gradient(circle at 90% 10%,rgba(216,167,53,.15),transparent 30%),
+ #101212
 }
 
-.banner b{
- font-size:18px;
-}
 .banner p{
  color:#777;
  font-size:13px;
  margin-top:8px;
- line-height:1.4;
+ line-height:1.4
 }
 
-@media(min-width:700px){
- .banner-grid{grid-template-columns:repeat(3,1fr)}
-}
-
-/* ================= BOTTOM ================= */
-
-.bottom{
+.navbar{
  position:absolute;
- z-index:100;
- bottom:0;
- left:0;
- right:0;
+ inset:auto 0 0;
  height:74px;
+ z-index:80;
  display:grid;
  grid-template-columns:repeat(4,1fr);
- background:rgba(7,8,8,.96);
- border-top:1px solid rgba(216,167,53,.15);
- backdrop-filter:blur(18px);
+ background:rgba(7,8,8,.97);
+ border-top:1px solid #252825
 }
 
 .nav{
@@ -317,216 +232,155 @@ button{cursor:pointer}
  align-items:center;
  justify-content:center;
  gap:4px;
- font-size:10px;
+ font-size:10px
 }
 
-.nav .icon{
- font-size:21px;
+.nav i{
+ font-style:normal;
+ font-size:21px
 }
 
-.nav.active{
- color:var(--gold2);
-}
+.nav.active{color:var(--g2)}
 
-/* ================= GAMES ================= */
-
-.game-grid{
+.games{
  display:grid;
- grid-template-columns:repeat(2,1fr);
+ grid-template-columns:repeat(3,1fr);
  gap:12px;
- margin-top:18px;
+ margin-top:18px
 }
 
-.game-card{
+.card{
  height:190px;
- border-radius:19px;
  overflow:hidden;
- border:1px solid #292c2a;
+ border-radius:18px;
+ border:1px solid #292d2a;
  background:#111313;
- position:relative;
- transition:.2s;
+ cursor:pointer
 }
 
-.game-card:active{
- transform:scale(.97);
-}
-
-.game-art{
+.art{
  height:135px;
  display:flex;
  align-items:center;
  justify-content:center;
- position:relative;
- overflow:hidden;
-}
-
-.vin-art{
- background:
- radial-gradient(circle,#e5bc52 0 3%,transparent 4%),
- linear-gradient(135deg,#7c1d20,#160607 70%);
-}
-
-.aviator-art{
- background:
- radial-gradient(circle at 70% 30%,#e2b83d,transparent 5%),
- linear-gradient(145deg,#193247,#05090d);
-}
-
-.gorila-art{
- background:
- radial-gradient(circle at 50% 35%,#d59c35,transparent 5%),
- linear-gradient(145deg,#203e19,#070b06);
-}
-
-.art-logo{
- font-size:39px;
- font-weight:1000;
- text-shadow:0 5px 30px #000;
-}
-
-.game-info{
- padding:10px 12px;
-}
-.game-info b{font-size:14px}
-.game-info small{
- display:block;
- margin-top:4px;
- color:#6e726f;
-}
-
-.badge{
- position:absolute;
- top:9px;
- left:9px;
- padding:5px 7px;
- border-radius:6px;
- font-size:9px;
+ font-size:36px;
  font-weight:900;
- color:#ffe18a;
- background:#000b;
+ text-shadow:0 4px 20px #000
 }
 
-@media(min-width:700px){
- .game-grid{grid-template-columns:repeat(3,1fr)}
+.vin{background:linear-gradient(135deg,#711c20,#100606)}
+.avi{background:linear-gradient(145deg,#193247,#05090d)}
+.gor{background:linear-gradient(145deg,#264719,#060906)}
+
+.ci{padding:10px 12px}
+
+.ci small{
+ display:block;
+ color:#777;
+ margin-top:4px
 }
 
-/* ================= PROFILE ================= */
-
-.profile-box{
- margin-top:18px;
+.profile{
  display:grid;
  gap:12px;
+ margin-top:18px
 }
 
-.profile-card{
+.pc{
  padding:20px;
- border-radius:20px;
- background:#101212;
- border:1px solid #292c2a;
+ border-radius:18px;
+ border:1px solid #292d2a;
+ background:#101212
 }
 
 .avatar{
  width:80px;
  height:80px;
  border-radius:50%;
- background:linear-gradient(135deg,#b57f20,#ffe083);
+ overflow:hidden;
+ background:linear-gradient(135deg,#a87820,#ffe083);
  display:flex;
  align-items:center;
  justify-content:center;
- overflow:hidden;
  color:#080808;
- font-size:30px;
+ font-size:28px;
  font-weight:900;
- margin-bottom:12px;
+ margin-bottom:12px
 }
 
 .avatar img{
  width:100%;
  height:100%;
- object-fit:cover;
+ object-fit:cover
 }
 
-.profile-name{
+.pname{
  font-size:22px;
- font-weight:900;
+ font-weight:900
 }
 
-.profile-nick{
+.pnick{
  color:#777;
- margin-top:4px;
+ margin-top:3px
 }
 
 .stat{
  display:flex;
  justify-content:space-between;
- padding:13px 0;
- border-bottom:1px solid #242725;
+ padding:12px 0;
+ border-bottom:1px solid #242725
 }
-.stat:last-child{border:0}
+
 .stat span{color:#777}
 
-/* ================= SETTINGS ================= */
-
-.settings{
- display:grid;
- gap:10px;
- margin-top:18px;
-}
-
 .setting{
- padding:15px;
- border:1px solid #292d2a;
- border-radius:12px;
- background:#101212;
  display:flex;
- justify-content:space-between;
  align-items:center;
+ justify-content:space-between;
+ padding:13px 0;
+ border-bottom:1px solid #242725
 }
+
+.setting:last-child{border:0}
 
 .setting select{
  background:#080909;
- color:white;
+ color:#fff;
  border:1px solid #30332f;
- padding:8px;
  border-radius:8px;
+ padding:7px
 }
 
-/* ================= SUPPORT ================= */
+.support{margin-top:18px}
 
-.support-card{
- margin-top:18px;
- padding:20px;
- border-radius:20px;
- background:#101212;
- border:1px solid #292d2a;
-}
-
-.support-btn{
+.supportBtn{
  width:100%;
  padding:14px;
- margin-top:10px;
- border-radius:11px;
- border:1px solid #2c302d;
- background:#171a18;
- color:white;
+ margin-bottom:10px;
  text-align:left;
+ border:1px solid #30332f;
+ border-radius:11px;
+ background:#171918;
+ color:#fff
 }
 
-.support-btn b{display:block}
-.support-btn small{color:#777}
+.supportBtn small{
+ display:block;
+ color:#777;
+ margin-top:3px
+}
 
 .chat{
- margin-top:15px;
  border:1px solid #292d2a;
- border-radius:16px;
+ border-radius:15px;
  overflow:hidden;
- background:#080909;
+ background:#080909
 }
 
-.chat-messages{
+.messages{
  height:240px;
  overflow:auto;
- padding:12px;
+ padding:12px
 }
 
 .msg{
@@ -535,349 +389,233 @@ button{cursor:pointer}
  margin-bottom:8px;
  border-radius:10px;
  background:#171a18;
- font-size:13px;
+ font-size:13px
 }
 
 .msg.me{
  margin-left:auto;
- background:#3a2c10;
- color:#ffe18a;
+ background:#3c2d0e;
+ color:#ffe18a
 }
 
-.chat-input{
+.chatin{
  display:flex;
- border-top:1px solid #292d2a;
+ border-top:1px solid #292d2a
 }
-.chat-input input{
+
+.chatin input{
  flex:1;
  padding:13px;
  background:#0b0c0c;
- color:white;
- border:0;
-}
-.chat-input button{
- width:65px;
- border:0;
- background:var(--gold);
+ color:#fff;
+ border:0
 }
 
-/* ================= GAME OVERLAY ================= */
+.chatin button{
+ width:60px;
+ border:0;
+ background:var(--g)
+}
 
-#gameOverlay{
+#game{
+ display:none;
  position:fixed;
  inset:0;
  z-index:500;
- display:none;
- background:#050606;
- overflow:hidden;
+ background:#050606
 }
 
-#gameOverlay.show{display:block}
-
-.game-header{
+.gamehead{
  height:62px;
  position:absolute;
- top:0;
- left:0;
- right:0;
- z-index:20;
+ inset:0 0 auto;
+ z-index:10;
  display:flex;
  align-items:center;
  justify-content:space-between;
  padding:0 14px;
- background:rgba(5,6,6,.93);
- border-bottom:1px solid #272a28;
- backdrop-filter:blur(18px);
+ background:rgba(5,6,6,.95);
+ border-bottom:1px solid #292c29
 }
 
-.back-btn{
- border:1px solid #30332f;
- border-radius:10px;
- background:#111313;
- color:white;
- padding:9px 12px;
-}
-
-.game-title{
- font-weight:1000;
-}
-
-.game-body{
+.gamebody{
  position:absolute;
  inset:62px 0 0;
  overflow:auto;
- padding:20px 15px 35px;
+ padding:18px 14px 30px
 }
 
-.game-inner{
+.gameinner{
  max-width:650px;
- margin:auto;
+ margin:auto
 }
 
-/* ================= VIN777 ================= */
-
-.vin-machine{
- margin-top:5px;
- border-radius:26px;
- padding:18px;
- background:
- linear-gradient(145deg,#1a1711,#090a0a);
+.machine{
+ padding:17px;
+ border-radius:24px;
  border:1px solid rgba(216,167,53,.4);
- box-shadow:0 0 60px rgba(216,167,53,.08);
+ background:linear-gradient(145deg,#1b1710,#080909)
 }
 
-.vin-logo{
+.gtitle{
  text-align:center;
+ color:var(--g2);
  font-size:28px;
- font-weight:1000;
- color:#ffe083;
- margin-bottom:18px;
+ font-weight:900;
+ margin-bottom:15px
 }
 
 .reels{
  display:grid;
  grid-template-columns:repeat(3,1fr);
- gap:8px;
- padding:8px;
- border-radius:16px;
+ gap:7px;
+ padding:7px;
+ border-radius:15px;
  background:#050505;
- border:3px solid #4c3a18;
+ border:2px solid #4d3b18
 }
 
 .reel{
- height:125px;
+ height:120px;
  display:flex;
  align-items:center;
  justify-content:center;
- border-radius:10px;
- background:
- linear-gradient(180deg,#292a27,#0a0b0b);
- border:1px solid #3b3d38;
- font-size:47px;
- font-weight:1000;
- color:#ffe083;
- text-shadow:0 0 25px rgba(255,214,99,.35);
+ border-radius:9px;
+ background:linear-gradient(#292b28,#090a0a);
+ font-size:43px;
+ font-weight:900;
+ color:#ffe083
 }
 
-.reel.spin{
- animation:reelShake .08s linear infinite;
+.spin{
+ animation:shake .08s linear infinite
 }
 
-@keyframes reelShake{
- 0%{transform:translateY(-5px)}
+@keyframes shake{
  50%{transform:translateY(5px)}
- 100%{transform:translateY(-5px)}
 }
 
-.payline{
- text-align:center;
- color:#888;
- font-size:11px;
- padding:13px;
-}
-
-.game-controls{
+.controls{
  display:grid;
  grid-template-columns:1fr 1fr;
- gap:9px;
+ gap:8px;
+ margin-top:10px
 }
 
-.control{
- padding:12px;
- border-radius:11px;
- background:#111313;
- border:1px solid #2b2e2b;
+.ctl{
+ padding:11px;
  text-align:center;
+ border-radius:10px;
+ background:#111313;
+ border:1px solid #2b2e2b
 }
-.control small{
+
+.ctl small{
  display:block;
  color:#666;
- font-size:9px;
- margin-bottom:4px;
+ font-size:9px
 }
 
-.spin-btn{
- grid-column:1/-1;
- padding:16px;
- border:0;
- border-radius:13px;
- background:linear-gradient(135deg,#a87820,#ffe17c,#b17b20);
- color:#080808;
- font-weight:1000;
+.spinbtn{
+ grid-column:1/-1
 }
 
-.win-text{
- min-height:35px;
+.result{
  text-align:center;
+ min-height:35px;
+ padding:12px;
  color:#ffe083;
- font-weight:1000;
- margin-top:13px;
+ font-weight:900
 }
 
-.win-text.big{
- animation:winPulse .35s ease-in-out infinite alternate;
+.big{
+ animation:pulse .3s infinite alternate
 }
 
-@keyframes winPulse{
- from{transform:scale(1);text-shadow:0 0 5px #ffd45e}
- to{transform:scale(1.18);text-shadow:0 0 35px #ffe083}
-}
-
-/* ================= WIN EFFECT ================= */
-
-#winFX{
- position:fixed;
- inset:0;
- z-index:800;
- pointer-events:none;
- display:none;
- overflow:hidden;
-}
-
-#winFX.show{display:block}
-
-.win-banner{
- position:absolute;
- top:36%;
- left:50%;
- transform:translate(-50%,-50%) scale(.5);
- padding:20px 35px;
- border-radius:15px;
- border:2px solid #ffe083;
- background:linear-gradient(135deg,#21180a,#070707);
- color:#ffe083;
- font-size:34px;
- font-weight:1000;
- box-shadow:0 0 80px rgba(255,214,95,.4);
- animation:bannerPop .7s forwards;
-}
-
-@keyframes bannerPop{
- 0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}
- 60%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}
- 100%{opacity:1;transform:translate(-50%,-50%) scale(1)}
-}
-
-.coin{
- position:absolute;
- top:-40px;
- font-size:22px;
- color:#ffd75e;
- animation:coinFall linear forwards;
-}
-
-@keyframes coinFall{
+@keyframes pulse{
  to{
-  transform:translateY(110vh) rotate(720deg);
-  opacity:.1;
+  transform:scale(1.15);
+  text-shadow:0 0 30px #ffe083
  }
 }
 
-/* ================= AVIATOR ================= */
-
-.flight-box{
- height:430px;
- border-radius:24px;
- overflow:hidden;
+.flight{
+ height:410px;
  position:relative;
- background:
- linear-gradient(180deg,#102536,#05080b);
+ overflow:hidden;
+ border-radius:23px;
  border:1px solid #26333a;
+ background:linear-gradient(180deg,#102536,#05080b)
 }
 
-.market-grid{
+.grid{
  position:absolute;
  inset:0;
- opacity:.25;
+ opacity:.22;
  background-image:
- linear-gradient(#65737b 1px,transparent 1px),
- linear-gradient(90deg,#65737b 1px,transparent 1px);
+ linear-gradient(#72818a 1px,transparent 1px),
+ linear-gradient(90deg,#72818a 1px,transparent 1px);
  background-size:45px 45px;
- transform:perspective(500px) rotateX(58deg) scale(1.6);
- transform-origin:bottom;
+ transform:perspective(500px) rotateX(58deg) scale(1.5);
+ transform-origin:bottom
 }
 
-.flight-greeting{
+.destination{
  position:absolute;
+ z-index:3;
+ top:15px;
  left:15px;
  right:15px;
- top:15px;
- z-index:4;
- padding:13px;
- border-radius:12px;
- background:#05080bcc;
  text-align:center;
- color:#ffe083;
+ padding:12px;
+ border-radius:11px;
+ background:#05080bcc;
+ color:#ffe083
 }
 
-.multiplier{
+.mult{
  position:absolute;
- z-index:4;
- top:46%;
+ z-index:3;
+ top:44%;
  left:0;
  right:0;
  text-align:center;
- font-size:58px;
- font-weight:1000;
+ font-size:55px;
+ font-weight:900
 }
 
 .plane{
  position:absolute;
- z-index:5;
- left:10%;
+ z-index:4;
+ left:8%;
  bottom:18%;
- font-size:48px;
- filter:drop-shadow(0 0 15px rgba(255,210,80,.5));
- transition:.08s linear;
+ font-size:46px;
+ transition:.08s
 }
 
-.flight-controls{
+.flightBtns{
  display:grid;
  grid-template-columns:1fr 1fr;
- gap:9px;
- margin-top:12px;
+ gap:8px;
+ margin-top:10px
 }
 
-.cash-btn{
+.cash{
  border:0;
- border-radius:12px;
- padding:15px;
  background:linear-gradient(135deg,#198a57,#48d697);
- color:#06140d;
- font-weight:1000;
+ color:#06140d
 }
 
-.crash{
- color:#ff5260!important;
-}
+.crash{color:var(--red)}
 
-/* ================= GORILA ================= */
-
-.gorila-machine{
- border-radius:25px;
- padding:16px;
- background:
- radial-gradient(circle at 50% 0%,rgba(164,112,38,.22),transparent 35%),
- #0a0d09;
- border:1px solid #58451f;
-}
-
-.gorila-logo{
- text-align:center;
- color:#ffd86a;
- font-size:27px;
- font-weight:1000;
- margin-bottom:15px;
-}
-
-.fruit-grid{
+.fruits{
  display:grid;
  grid-template-columns:repeat(5,1fr);
  gap:5px;
  padding:7px;
  border-radius:15px;
  background:#050505;
- border:2px solid #493b1d;
+ border:2px solid #493b1d
 }
 
 .fruit{
@@ -886,1333 +624,1638 @@ button{cursor:pointer}
  align-items:center;
  justify-content:center;
  border-radius:7px;
- background:linear-gradient(#262a25,#0b0d0b);
- border:1px solid #343931;
- font-size:30px;
+ background:linear-gradient(#282b27,#0b0d0b);
+ font-size:29px;
+ border:1px solid #343931
 }
 
-.fruit.line{
- box-shadow:0 0 0 2px #ffe083,0 0 20px #ffe083;
- animation:linePulse .45s infinite alternate;
+.line{
+ box-shadow:
+ 0 0 0 2px #ffe083,
+ 0 0 18px #ffe083;
+ animation:line .4s infinite alternate
 }
 
-@keyframes linePulse{
- from{transform:scale(1)}
+@keyframes line{
  to{transform:scale(1.08)}
 }
 
-.gorila-message{
+.gmsg{
  text-align:center;
- color:#888;
- min-height:34px;
+ min-height:38px;
  padding:12px;
- font-weight:800;
+ color:#aaa
 }
 
-/* ================= CITY CHOICE ================= */
-
-.choice{
- position:fixed;
- inset:0;
- z-index:600;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:18px;
- background:rgba(0,0,0,.82);
- backdrop-filter:blur(18px);
-}
-
-.choice-box{
- width:min(470px,100%);
- padding:24px;
- border-radius:24px;
+.choiceBox{
+ width:min(460px,100%);
+ padding:23px;
+ border-radius:22px;
  background:#101313;
- border:1px solid rgba(216,167,53,.28);
+ border:1px solid rgba(216,167,53,.28)
 }
 
-.choice-box h2{
- font-size:27px;
-}
-
-.choice-box p{
+.choiceBox p{
  color:#777;
- margin:8px 0 18px;
+ margin:7px 0 16px
 }
 
-.destinations{
+.destgrid{
  display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:9px;
+ grid-template-columns:1fr 1fr;
+ gap:8px
 }
 
-.destination{
+.dest{
+ padding:14px;
+ border-radius:11px;
  border:1px solid #30332f;
  background:#171a18;
- color:white;
- padding:15px;
- border-radius:12px;
+ color:#fff;
+ text-align:left
 }
 
-.destination b{display:block}
-.destination small{color:#777}
+.dest small{
+ display:block;
+ color:#777;
+ margin-top:4px
+}
 
-/* ================= TOAST ================= */
+#fx{
+ display:none;
+ position:fixed;
+ inset:0;
+ z-index:800;
+ pointer-events:none;
+ overflow:hidden
+}
+
+.winbanner{
+ position:absolute;
+ top:38%;
+ left:50%;
+ transform:translate(-50%,-50%);
+ padding:18px 28px;
+ border:2px solid #ffe083;
+ border-radius:14px;
+ background:#111;
+ color:#ffe083;
+ font-size:30px;
+ font-weight:900;
+ box-shadow:0 0 70px rgba(255,214,95,.4);
+ animation:pop .65s ease
+}
+
+@keyframes pop{
+ from{
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.4)
+ }
+ to{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1)
+ }
+}
+
+.coin{
+ position:absolute;
+ top:-30px;
+ color:#ffd75e;
+ font-size:22px;
+ animation:fall linear forwards
+}
+
+@keyframes fall{
+ to{
+  transform:translateY(110vh) rotate(720deg);
+  opacity:.1
+ }
+}
 
 #toast{
  position:fixed;
- z-index:1000;
+ z-index:1100;
  left:50%;
  bottom:90px;
- transform:translateX(-50%) translateY(15px);
- padding:12px 16px;
- border-radius:11px;
+ transform:translate(-50%,15px);
+ padding:11px 15px;
+ border-radius:10px;
  background:#171a18;
  border:1px solid #4a3a1c;
  color:#ffe083;
  opacity:0;
- pointer-events:none;
- transition:.25s;
- white-space:nowrap;
+ transition:.2s;
+ pointer-events:none
 }
 
-#toast.show{
- opacity:1;
- transform:translateX(-50%);
+.show{
+ opacity:1!important;
+ transform:translate(-50%,0)!important
 }
 
-/* ================= RESPONSIVE ================= */
+@media(max-width:700px){
+ .banners{grid-template-columns:1fr}
+ .games{grid-template-columns:repeat(2,1fr)}
+}
 
 @media(max-width:390px){
  .hero h1{font-size:28px}
- .banner-grid{grid-template-columns:1fr}
- .flight-box{height:380px}
- .multiplier{font-size:48px}
- .reel{height:105px;font-size:38px}
-}
-
-@media(min-width:700px){
- .page{padding-top:35px}
+ .art{font-size:30px}
+ .reel{height:105px;font-size:36px}
+ .flight{height:370px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= WELCOME ================= -->
-
 <section id="welcome">
- <div class="welcome-box">
+ <div class="wbox">
   <div class="brand">Yes<span>MoneY</span></div>
-  <div class="welcome-sub" id="welcomeText">
-   Ласкаво просимо
+  <div class="sub">Ласкаво просимо</div>
+
+  <div class="auth">
+   <button class="gold" onclick="auth('login')">Вхід</button>
+   <button class="dark" onclick="auth('register')">Реєстрація</button>
   </div>
 
-  <div class="auth-buttons">
-   <button class="gold" onclick="openAuth('login')">Вхід</button>
-   <button class="dark-btn" onclick="openAuth('register')">Реєстрація</button>
-  </div>
-
-  <div class="demo-note">
-   Демо-платформа. Баланс та ігрова валюта є віртуальними.
+  <div class="note">
+   Демо-платформа. Усі кошти віртуальні.
   </div>
  </div>
 </section>
 
-<!-- ================= AUTH ================= -->
-
 <div id="authModal" class="modal hidden">
- <div class="modal-box">
-  <div class="modal-title" id="authTitle">Реєстрація</div>
+ <div class="box">
+  <h2 id="authTitle">Реєстрація</h2>
 
-  <input id="authName" class="field" placeholder="Ваше ім'я">
-  <input id="authNick" class="field" placeholder="Нікнейм">
-  <input id="authPassword" class="field" type="password" placeholder="Пароль">
+  <input id="aName"
+         class="field"
+         placeholder="Ваше ім'я">
 
-  <button class="gold" style="width:100%" onclick="submitAuth()">
+  <input id="aNick"
+         class="field"
+         placeholder="Нікнейм">
+
+  <input id="aPass"
+         class="field"
+         type="password"
+         placeholder="Пароль">
+
+  <button class="gold" onclick="submitAuth()">
    Продовжити
   </button>
 
-  <button class="close" onclick="closeAuth()">Закрити</button>
+  <button class="dark close" onclick="closeAuth()">
+   Закрити
+  </button>
  </div>
 </div>
-
-<!-- ================= APP ================= -->
 
 <div id="app">
 
- <header class="header">
-  <div class="logo">Yes<span>MoneY</span></div>
-  <div class="money">$ <span id="money">100</span></div>
- </header>
-
- <main id="pages">
-
-  <!-- HOME -->
-  <section id="home" class="page active">
-   <div class="hero">
-    <small>YESMONEY</small>
-    <h1 id="homeGreeting">Ласкаво просимо</h1>
-    <p>
-     Відкривайте демо-ігри, бонуси та нові розваги
-     у преміальному інтерфейсі YesMoneY.
-    </p>
-    <button class="gold" onclick="showPage('games')">
-     Відкрити ігри
-    </button>
-   </div>
-
-   <div class="banner-grid">
-    <div class="banner">
-     <b>VIP WEEK</b>
-     <p>Спеціальні події та нові демо-ігри вже скоро.</p>
-    </div>
-
-    <div class="banner">
-     <b>SPIN VIN</b>
-     <p>Відкрийте VIN-777 та випробуйте удачу.</p>
-    </div>
-
-    <div class="banner">
-     <b>AVIATOR</b>
-     <p>Обирайте напрямок та вирушайте в політ.</p>
-    </div>
-   </div>
-  </section>
-
-  <!-- GAMES -->
-  <section id="games" class="page">
-   <div class="title">Ігри</div>
-   <div class="subtitle">Оберіть гру</div>
-
-   <div class="game-grid">
-
-    <div class="game-card" onclick="openGame('vin')">
-     <div class="game-art vin-art">
-      <span class="badge">DEMO</span>
-      <div class="art-logo">VIN-777</div>
-     </div>
-     <div class="game-info">
-      <b>VIN-777</b>
-      <small>Premium slot</small>
-     </div>
-    </div>
-
-    <div class="game-card" onclick="openGame('aviator')">
-     <div class="game-art aviator-art">
-      <span class="badge">DEMO</span>
-      <div class="art-logo">AVIATOR</div>
-     </div>
-     <div class="game-info">
-      <b>Aviator YMY</b>
-      <small>Flight game</small>
-     </div>
-    </div>
-
-    <div class="game-card" onclick="openGame('gorila')">
-     <div class="game-art gorila-art">
-      <span class="badge">DEMO</span>
-      <div class="art-logo">GORILA</div>
-     </div>
-     <div class="game-info">
-      <b>GORILA KING</b>
-      <small>Fruit adventure</small>
-     </div>
-    </div>
-
-   </div>
-  </section>
-
-  <!-- LIVE -->
-  <section id="live" class="page">
-   <div class="title">Live ігри</div>
-   <div class="subtitle">Розділ готується</div>
-
-   <div class="banner" style="margin-top:18px">
-    <b>LIVE CASINO</b>
-    <p>
-     Тут з'являться live-ігри після підключення
-     повноцінної серверної системи.
-    </p>
-   </div>
-  </section>
-
-  <!-- PROFILE -->
-  <section id="profile" class="page">
-   <div class="title">Особистий кабінет</div>
-   <div class="subtitle">Ваш профіль</div>
-
-   <div class="profile-box">
-
-    <div class="profile-card">
-     <div class="avatar" id="avatar">
-      <span id="avatarLetter">D</span>
-     </div>
-
-     <div class="profile-name" id="profileName">Demo Player</div>
-     <div class="profile-nick" id="profileNick">@demo</div>
-
-     <div style="margin-top:18px">
-      <div class="stat">
-       <span>ID</span>
-       <strong id="profileId">000000</strong>
-      </div>
-      <div class="stat">
-       <span>Баланс</span>
-       <strong id="profileMoney">$ 100</strong>
-      </div>
-      <div class="stat">
-       <span>Статус</span>
-       <strong style="color:#ffe083">DEMO</strong>
-      </div>
-     </div>
-    </div>
-
-    <div class="profile-card">
-     <b>Редагувати профіль</b>
-
-     <input id="newName"
-      class="field"
-      style="margin-top:12px"
-      placeholder="Нове ім'я">
-
-     <input id="newNick"
-      class="field"
-      placeholder="Новий нікнейм">
-
-     <label class="dark-btn"
-      style="display:block;text-align:center">
-      Додати фото
-      <input id="avatarInput"
-       type="file"
-       accept="image/*"
-       style="display:none">
-     </label>
-
-     <button class="gold"
-      style="width:100%;margin-top:10px"
-      onclick="saveProfile()">
-      Зберегти
-     </button>
-    </div>
-
-    <div class="profile-card">
-     <b>Налаштування</b>
-
-     <div class="settings">
-
-      <div class="setting">
-       <span>Мова</span>
-
-       <select id="language" onchange="changeLanguage()">
-        <option value="uk">Українська</option>
-        <option value="ru">Русский</option>
-        <option value="en">English</option>
-       </select>
-      </div>
-
-      <div class="setting">
-       <span>Звуки</span>
-       <button class="dark-btn" onclick="toggleSound()" id="soundBtn">
-        Увімкнено
-       </button>
-      </div>
-
-     </div>
-    </div>
-
-   </div>
-  </section>
-
-  <!-- SUPPORT -->
-  <section id="support" class="page">
-   <div class="title">Підтримка</div>
-   <div class="subtitle">Ми на зв'язку</div>
-
-   <div class="support-card">
-
-    <button class="support-btn"
-     onclick="openTelegram()">
-     <b>Telegram</b>
-     <small>@ymymoney</small>
-    </button>
-
-    <div class="chat">
-     <div class="chat-messages" id="chatMessages">
-      <div class="msg">
-       Вітаємо! Це демо-чат підтримки YesMoneY.
-      </div>
-     </div>
-
-     <div class="chat-input">
-      <input id="chatInput" placeholder="Напишіть повідомлення...">
-      <button onclick="sendChat()">➤</button>
-     </div>
-    </div>
-
-    <div class="demo-note">
-     Вбудований чат цієї версії працює локально.
-     Для реального спілкування між користувачами
-     необхідний сервер.
-    </div>
-
-   </div>
-  </section>
-
- </main>
-
- <nav class="bottom">
-
-  <button class="nav" onclick="showPage('profile')" data-page="profile">
-   <span class="icon">◎</span>
-   <span>Кабінет</span>
-  </button>
-
-  <button class="nav" onclick="showPage('games')" data-page="games">
-   <span class="icon">◆</span>
-   <span>Ігри</span>
-  </button>
-
-  <button class="nav" onclick="showPage('live')" data-page="live">
-   <span class="icon">●</span>
-   <span>Live</span>
-  </button>
-
-  <button class="nav active" onclick="showPage('home')" data-page="home">
-   <span class="icon">⌂</span>
-   <span>Головна</span>
-  </button>
-
- </nav>
-
-</div>
-
-<!-- ================= GAME OVERLAY ================= -->
-
-<div id="gameOverlay">
- <div class="game-header">
-  <button class="back-btn" onclick="closeGame()">← Назад</button>
-  <div class="game-title" id="gameTitle"></div>
-  <div style="font-size:11px;color:#777">DEMO</div>
+<header class="header">
+ <div class="logo">
+  Yes<span>MoneY</span>
  </div>
 
- <div class="game-body">
-  <div id="gameContent" class="game-inner"></div>
+ <div class="money">
+  $ <span id="balance">100</span>
  </div>
-</div>
+</header>
 
-<!-- ================= CHOICE ================= -->
+<main id="pages">
 
-<div id="destinationChoice" class="choice hidden">
- <div class="choice-box">
-  <h2>Летимо?</h2>
-  <p>Оберіть напрямок для сьогоднішнього рейсу.</p>
+<section id="home" class="page active">
 
-  <div class="destinations">
+ <div class="hero">
+  <small>YESMONEY</small>
 
-   <button class="destination" onclick="chooseDestination('Балі')">
-    <b>🇮🇩 Балі</b>
-    <small>Острів мрії</small>
-   </button>
+  <h1 id="hello">
+   Ласкаво просимо
+  </h1>
 
-   <button class="destination" onclick="chooseDestination('Франція')">
-    <b>🇫🇷 Франція</b>
-    <small>Париж</small>
-   </button>
+  <p>
+   Преміальна демо-платформа з іграми,
+   акціями та персональним кабінетом.
+  </p>
 
-   <button class="destination" onclick="chooseDestination('Дубай')">
-    <b>🇦🇪 Дубай</b>
-    <small>Нічний рейс</small>
-   </button>
+  <button class="gold"
+          onclick="page('games')">
+   Відкрити ігри
+  </button>
+ </div>
 
-   <button class="destination" onclick="chooseDestination('Нью-Йорк')">
-    <b>🇺🇸 Нью-Йорк</b>
-    <small>Манхеттен</small>
+ <div class="banners">
+
+  <div class="banner">
+   <b>SPIN VIN</b>
+   <p>
+    Нові демо-раунди VIN-777.
+   </p>
+  </div>
+
+  <div class="banner">
+   <b>AVIATOR YMY</b>
+   <p>
+    Оберіть напрямок та вирушайте у політ.
+   </p>
+  </div>
+
+  <div class="banner">
+   <b>GORILA KING</b>
+   <p>
+    Фрукти, лінії та великі ефекти.
+   </p>
+  </div>
+
+ </div>
+
+</section>
+
+<section id="games" class="page">
+
+ <div class="title">
+  Ігри
+ </div>
+
+ <div class="subtitle">
+  Оберіть гру
+ </div>
+
+ <div class="games">
+
+  <div class="card"
+       onclick="openGame('vin')">
+
+   <div class="art vin">
+    VIN-777
+   </div>
+
+   <div class="ci">
+    <b>VIN-777</b>
+    <small>Premium slot • DEMO</small>
+   </div>
+
+  </div>
+
+  <div class="card"
+       onclick="openGame('aviator')">
+
+   <div class="art avi">
+    ✈ AVIATOR
+   </div>
+
+   <div class="ci">
+    <b>Aviator YMY</b>
+    <small>Flight game • DEMO</small>
+   </div>
+
+  </div>
+
+  <div class="card"
+       onclick="openGame('gorila')">
+
+   <div class="art gor">
+    GORILA
+   </div>
+
+   <div class="ci">
+    <b>GORILA KING</b>
+    <small>Fruit game • DEMO</small>
+   </div>
+
+  </div>
+
+ </div>
+
+</section>
+
+<section id="live" class="page">
+
+ <div class="title">
+  Live ігри
+ </div>
+
+ <div class="subtitle">
+  Розділ готується
+ </div>
+
+ <div class="banner" style="margin-top:18px">
+
+  <b>LIVE CASINO</b>
+
+  <p>
+   Повноцінні live-ігри з'являться
+   після підключення серверної частини.
+  </p>
+
+ </div>
+
+</section>
+
+<section id="profile" class="page">
+
+ <div class="title">
+  Особистий кабінет
+ </div>
+
+ <div class="subtitle">
+  Ваш профіль
+ </div>
+
+ <div class="profile">
+
+  <div class="pc">
+
+   <div id="avatar" class="avatar">
+    <span id="letter">D</span>
+   </div>
+
+   <div id="pname" class="pname">
+    Demo Player
+   </div>
+
+   <div id="pnick" class="pnick">
+    @demo
+   </div>
+
+   <div class="stat" style="margin-top:15px">
+    <span>ID</span>
+    <b id="pid">000000</b>
+   </div>
+
+   <div class="stat">
+    <span>Баланс</span>
+    <b id="pmoney">$ 100</b>
+   </div>
+
+   <div class="stat">
+    <span>Статус</span>
+    <b class="goldText">DEMO</b>
+   </div>
+
+  </div>
+
+  <div class="pc">
+
+   <b>Редагувати профіль</b>
+
+   <input id="nName"
+          class="field"
+          style="margin-top:12px"
+          placeholder="Нове ім'я">
+
+   <input id="nNick"
+          class="field"
+          placeholder="Новий нікнейм">
+
+   <label class="dark"
+          style="display:block;text-align:center">
+
+    Додати фото
+
+    <input id="photo"
+           type="file"
+           accept="image/*"
+           style="display:none">
+
+   </label>
+
+   <button class="gold"
+           style="width:100%;margin-top:9px"
+           onclick="saveProfile()">
+    Зберегти
    </button>
 
   </div>
+
+  <div class="pc">
+
+   <b>Налаштування</b>
+
+   <div class="setting">
+
+    <span>Мова</span>
+
+    <select id="lang"
+            onchange="setLang()">
+
+     <option value="uk">
+      Українська
+     </option>
+
+     <option value="ru">
+      Русский
+     </option>
+
+     <option value="en">
+      English
+     </option>
+
+    </select>
+
+   </div>
+
+   <div class="setting">
+
+    <span>Звуки</span>
+
+    <button class="dark"
+            id="sound"
+            onclick="toggleSound()">
+     Увімкнено
+    </button>
+
+   </div>
+
+  </div>
+
+  <div class="pc">
+
+   <b>Підтримка</b>
+
+   <button class="supportBtn"
+           onclick="telegram()">
+
+    <b>Telegram</b>
+
+    <small>
+     @ymymoney
+    </small>
+
+   </button>
+
+   <div class="chat">
+
+    <div id="messages"
+         class="messages">
+    </div>
+
+    <div class="chatin">
+
+     <input id="chatInput"
+            placeholder="Напишіть повідомлення...">
+
+     <button onclick="sendChat()">
+      ➤
+     </button>
+
+    </div>
+
+   </div>
+
+   <div class="note">
+    Вбудований чат цієї демо-версії локальний.
+    Для реального чату між відвідувачами потрібен сервер.
+   </div>
+
+  </div>
+
  </div>
+
+</section>
+
+</main>
+
+<nav class="navbar">
+
+ <button class="nav"
+         data-page="profile"
+         onclick="page('profile')">
+
+  <i>◎</i>
+  Кабінет
+
+ </button>
+
+ <button class="nav"
+         data-page="games"
+         onclick="page('games')">
+
+  <i>◆</i>
+  Ігри
+
+ </button>
+
+ <button class="nav"
+         data-page="live"
+         onclick="page('live')">
+
+  <i>●</i>
+  Live
+
+ </button>
+
+ <button class="nav active"
+         data-page="home"
+         onclick="page('home')">
+
+  <i>⌂</i>
+  Головна
+
+ </button>
+
+</nav>
+
 </div>
 
-<!-- ================= WIN FX ================= -->
+<div id="game">
 
-<div id="winFX"></div>
+ <header class="gamehead">
+
+  <button class="back"
+          onclick="closeGame()">
+   ← Назад
+  </button>
+
+  <b id="gameTitle"></b>
+
+  <small style="color:#777">
+   DEMO
+  </small>
+
+ </header>
+
+ <div class="gamebody">
+  <div id="gameContent"
+       class="gameinner">
+  </div>
+ </div>
+
+</div>
+
+<div id="choice"
+     class="choice hidden">
+
+ <div class="choiceBox">
+
+  <h2>
+   Летимо?
+  </h2>
+
+  <p>
+   Оберіть напрямок для сьогоднішнього рейсу.
+  </p>
+
+  <div class="destgrid">
+
+   <button class="dest"
+           onclick="destination('Балі')">
+
+    🇮🇩
+    <b>Балі</b>
+
+    <small>
+     Острів мрії
+    </small>
+
+   </button>
+
+   <button class="dest"
+           onclick="destination('Франція')">
+
+    🇫🇷
+    <b>Франція</b>
+
+    <small>
+     Париж
+    </small>
+
+   </button>
+
+   <button class="dest"
+           onclick="destination('Дубай')">
+
+    🇦🇪
+    <b>Дубай</b>
+
+    <small>
+     Нічний рейс
+    </small>
+
+   </button>
+
+   <button class="dest"
+           onclick="destination('Нью-Йорк')">
+
+    🇺🇸
+    <b>Нью-Йорк</b>
+
+    <small>
+     Манхеттен
+    </small>
+
+   </button>
+
+  </div>
+
+ </div>
+
+</div>
+
+<div id="fx"></div>
 <div id="toast"></div>
 
 <script>
+"use strict";
 
-/* ======================================================
-   YESMONEY 4.0
-   DEMO ONLY
-   Віртуальна валюта — $
-====================================================== */
+const KEY="yesmoney_demo_v5";
 
-const STORAGE="ymy_v4";
+let data;
 
-let state=JSON.parse(localStorage.getItem(STORAGE)||"null");
+try{
+ data=JSON.parse(
+  localStorage.getItem(KEY)||"null"
+ );
+}catch(e){
+ data=null;
+}
 
-if(!state){
- state={
+if(!data){
+
+ data={
   registered:false,
   logged:false,
   name:"",
   nick:"",
-  password:"",
+  pass:"",
   id:"",
   balance:100,
   avatar:"",
-  language:"uk",
+  lang:"uk",
   sound:true,
   chat:[]
  };
+
 }
 
+let authMode="register";
+let vinBusy=false;
+let gorBusy=false;
+let aviTimer=null;
+let aviActive=false;
+let aviBet=false;
+let aviX=1;
+let city="Балі";
+
+const $=id=>document.getElementById(id);
+
 function save(){
- localStorage.setItem(STORAGE,JSON.stringify(state));
+ localStorage.setItem(
+  KEY,
+  JSON.stringify(data)
+ );
+
  updateMoney();
 }
 
-/* ================= SOUND ENGINE ================= */
+function toast(t){
 
-let audio=null;
+ $("toast").textContent=t;
 
-function beep(freq=500,duration=.08,type="sine",volume=.035){
- if(!state.sound)return;
+ $("toast").classList.add("show");
+
+ setTimeout(
+  ()=>$("toast").classList.remove("show"),
+  2200
+ );
+
+}
+
+function beep(
+ f=440,
+ d=.07,
+ type="sine",
+ v=.03
+){
+
+ if(!data.sound)return;
 
  try{
-  audio=audio||new(window.AudioContext||window.webkitAudioContext)();
 
-  const osc=audio.createOscillator();
-  const gain=audio.createGain();
+  const C=
+   window.AudioContext||
+   window.webkitAudioContext;
 
-  osc.type=type;
-  osc.frequency.value=freq;
-  gain.gain.value=volume;
+  if(!C)return;
 
-  osc.connect(gain);
-  gain.connect(audio.destination);
+  const c=new C();
 
-  osc.start();
+  const o=c.createOscillator();
+  const g=c.createGain();
 
-  gain.gain.exponentialRampToValueAtTime(
+  o.type=type;
+  o.frequency.value=f;
+
+  g.gain.value=v;
+
+  o.connect(g);
+  g.connect(c.destination);
+
+  o.start();
+
+  g.gain.exponentialRampToValueAtTime(
    .001,
-   audio.currentTime+duration
+   c.currentTime+d
   );
 
-  osc.stop(audio.currentTime+duration);
+  o.stop(c.currentTime+d);
+
  }catch(e){}
+
 }
 
 function winSound(){
- if(!state.sound)return;
 
  beep(520,.08,"triangle",.07);
 
- setTimeout(()=>beep(680,.09,"triangle",.07),90);
- setTimeout(()=>beep(820,.12,"triangle",.08),190);
- setTimeout(()=>beep(1040,.25,"triangle",.09),300);
+ setTimeout(
+  ()=>beep(680,.09,"triangle",.07),
+  90
+ );
+
+ setTimeout(
+  ()=>beep(820,.12,"triangle",.08),
+  190
+ );
+
+ setTimeout(
+  ()=>beep(1040,.22,"triangle",.08),
+  300
+ );
+
 }
 
 function loseSound(){
- beep(240,.16,"sawtooth",.04);
- setTimeout(()=>beep(150,.25,"sawtooth",.03),130);
+
+ beep(
+  220,
+  .15,
+  "sawtooth",
+  .035
+ );
+
+ setTimeout(
+  ()=>beep(
+   140,
+   .22,
+   "sawtooth",
+   .03
+  ),
+  130
+ );
+
 }
-
-/* ================= INIT ================= */
-
-const welcome=document.getElementById("welcome");
-const app=document.getElementById("app");
 
 function init(){
 
- if(state.logged){
-  welcome.style.display="none";
-  app.style.display="block";
+ if(data.logged){
+
+  $("welcome").style.display="none";
+  $("app").style.display="block";
+
   updateProfile();
   updateHome();
-  updateMoney();
+  renderChat();
+
  }else{
-  welcome.style.display="flex";
-  app.style.display="none";
+
+  $("welcome").style.display="flex";
+  $("app").style.display="none";
+
  }
 
 }
 
-init();
+function auth(mode){
 
-/* ================= AUTH ================= */
-
-let authMode="register";
-
-function openAuth(mode){
  authMode=mode;
 
- document.getElementById("authModal").classList.remove("hidden");
+ $("authModal").classList.remove("hidden");
 
- const title=document.getElementById("authTitle");
+ $("authTitle").textContent=
+  mode==="register"
+   ?"Реєстрація"
+   :"Вхід";
 
- title.textContent=
-  mode==="register" ? "Реєстрація" : "Вхід";
+ $("aName").style.display=
+  mode==="register"
+   ?"block"
+   :"none";
 
- document.getElementById("authName").style.display=
-  mode==="register" ? "block":"none";
+ $("aNick").style.display=
+  mode==="register"
+   ?"block"
+   :"none";
 
- document.getElementById("authNick").style.display=
-  mode==="register" ? "block":"none";
 }
 
 function closeAuth(){
- document.getElementById("authModal").classList.add("hidden");
+
+ $("authModal").classList.add("hidden");
+
 }
 
 function submitAuth(){
 
- const name=document.getElementById("authName").value.trim();
- const nick=document.getElementById("authNick").value.trim();
- const password=document.getElementById("authPassword").value;
+ const n=$("aName").value.trim();
+ const k=$("aNick").value.trim();
+ const p=$("aPass").value;
 
  if(authMode==="register"){
 
-  if(!name||!nick||!password){
-   toast("Заповніть усі поля.");
-   return;
+  if(!n||!k||!p){
+
+   return toast(
+    "Заповніть усі поля."
+   );
+
   }
 
-  state.registered=true;
-  state.logged=true;
-  state.name=name;
-  state.nick=nick;
-  state.password=password;
-  state.id=String(Date.now()).slice(-8);
-  state.balance=100;
+  data={
+   ...data,
+   registered:true,
+   logged:true,
+   name:n,
+   nick:k,
+   pass:p,
+   id:String(Date.now()).slice(-8),
+   balance:100
+  };
 
   save();
 
   closeAuth();
   init();
 
-  toast("Реєстрацію завершено!");
-  return;
+  toast(
+   "Реєстрацію завершено!"
+  );
+
+ }else{
+
+  if(!data.registered){
+
+   return toast(
+    "Спочатку зареєструйтесь."
+   );
+
+  }
+
+  if(
+   k!==data.nick||
+   p!==data.pass
+  ){
+
+   return toast(
+    "Невірний нікнейм або пароль."
+   );
+
+  }
+
+  data.logged=true;
+
+  save();
+  closeAuth();
+  init();
+
  }
 
- if(!state.registered){
-  toast("Спочатку зареєструйтесь.");
-  return;
- }
-
- const savedNick=state.nick;
- const savedPass=state.password;
-
- if(nick!==savedNick||password!==savedPass){
-  toast("Невірний нікнейм або пароль.");
-  return;
- }
-
- state.logged=true;
- save();
- closeAuth();
- init();
 }
 
-/* ================= NAVIGATION ================= */
+function page(id){
 
-function showPage(id){
-
- document.querySelectorAll(".page")
- .forEach(p=>p.classList.remove("active"));
-
- document.getElementById(id)
- .classList.add("active");
-
- document.querySelectorAll(".nav")
- .forEach(n=>{
-  n.classList.toggle(
-   "active",
-   n.dataset.page===id
+ document
+  .querySelectorAll(".page")
+  .forEach(
+   x=>x.classList.remove("active")
   );
- });
 
- if(id==="profile")updateProfile();
- if(id==="home")updateHome();
+ $(id).classList.add("active");
+
+ document
+  .querySelectorAll(".nav")
+  .forEach(
+   x=>x.classList.toggle(
+    "active",
+    x.dataset.page===id
+   )
+  );
+
+ if(id==="profile")
+  updateProfile();
+
 }
 
 function updateHome(){
 
- document.getElementById("homeGreeting").textContent=
-  state.name
-  ? `Вітаємо, ${state.name}`
-  : "Ласкаво просимо";
+ $("hello").textContent=
+  data.name
+   ?"Вітаємо, "+data.name
+   :"Ласкаво просимо";
+
 }
 
 function updateMoney(){
 
- const m=document.getElementById("money");
+ $("balance").textContent=
+  Math.floor(data.balance);
 
- if(m)m.textContent=
-  Number(state.balance).toFixed(0);
+ $("pmoney").textContent=
+  "$ "+Math.floor(data.balance);
 
- const pm=document.getElementById("profileMoney");
-
- if(pm)pm.textContent=
-  "$ "+Number(state.balance).toFixed(0);
 }
-
-/* ================= PROFILE ================= */
 
 function updateProfile(){
 
- document.getElementById("profileName").textContent=
-  state.name;
+ $("pname").textContent=data.name;
+ $("pnick").textContent="@"+data.nick;
+ $("pid").textContent=data.id;
 
- document.getElementById("profileNick").textContent=
-  "@"+state.nick;
+ $("nName").value=data.name;
+ $("nNick").value=data.nick;
 
- document.getElementById("profileId").textContent=
-  state.id;
+ $("lang").value=data.lang;
 
- document.getElementById("avatarLetter").textContent=
-  (state.name[0]||"D").toUpperCase();
+ $("sound").textContent=
+  data.sound
+   ?"Увімкнено"
+   :"Вимкнено";
 
- if(state.avatar){
-  document.getElementById("avatar").innerHTML=
-   `<img src="${state.avatar}">`;
+ $("letter").textContent=
+  (data.name[0]||"D").toUpperCase();
+
+ if(data.avatar){
+
+  $("avatar").innerHTML=
+   '<img src="'+
+   data.avatar+
+   '" alt="">';
+
  }
 
- document.getElementById("newName").value=
-  state.name;
-
- document.getElementById("newNick").value=
-  state.nick;
-
- document.getElementById("language").value=
-  state.language;
-
- document.getElementById("soundBtn").textContent=
-  state.sound?"Увімкнено":"Вимкнено";
-
  updateMoney();
+
 }
+
+$("photo").addEventListener(
+ "change",
+ function(){
+
+  const f=this.files[0];
+
+  if(!f)return;
+
+  const r=new FileReader();
+
+  r.onload=e=>{
+
+   data.avatar=e.target.result;
+
+   save();
+   updateProfile();
+
+  };
+
+  r.readAsDataURL(f);
+
+ }
+);
 
 function saveProfile(){
 
- const name=document.getElementById("newName").value.trim();
- const nick=document.getElementById("newNick").value.trim();
+ const n=
+  $("nName").value.trim();
 
- if(name)state.name=name;
- if(nick)state.nick=nick;
+ const k=
+  $("nNick").value.trim();
+
+ if(n)data.name=n;
+ if(k)data.nick=k;
 
  save();
+
  updateProfile();
  updateHome();
 
- toast("Профіль оновлено.");
+ toast(
+  "Профіль оновлено."
+ );
+
 }
 
-document.getElementById("avatarInput")
-.addEventListener("change",function(){
+function setLang(){
 
- const file=this.files[0];
+ data.lang=$("lang").value;
 
- if(!file)return;
-
- const reader=new FileReader();
-
- reader.onload=e=>{
-  state.avatar=e.target.result;
-  save();
-  updateProfile();
- };
-
- reader.readAsDataURL(file);
-});
-
-function toggleSound(){
- state.sound=!state.sound;
  save();
- updateProfile();
 
  toast(
-  state.sound
-  ?"Звуки увімкнено"
-  :"Звуки вимкнено"
+  data.lang==="uk"
+   ?"Мову змінено"
+   :data.lang==="ru"
+    ?"Язык изменён"
+    :"Language changed"
  );
+
 }
 
-/* ================= LANGUAGE ================= */
+function toggleSound(){
 
-function changeLanguage(){
-
- state.language=
-  document.getElementById("language").value;
+ data.sound=!data.sound;
 
  save();
 
- const messages={
-  uk:"Мову змінено на українську.",
-  ru:"Язык изменён на русский.",
-  en:"Language changed to English."
- };
+ updateProfile();
 
- toast(messages[state.language]);
 }
 
-/* ================= TELEGRAM ================= */
+function telegram(){
 
-function openTelegram(){
  window.open(
   "https://t.me/ymymoney",
   "_blank"
  );
+
 }
 
-/* ================= CHAT ================= */
+function esc(s){
 
-function sendChat(){
+ return s
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;");
 
- const input=document.getElementById("chatInput");
-
- const text=input.value.trim();
-
- if(!text)return;
-
- state.chat.push({
-  type:"me",
-  text
- });
-
- input.value="";
-
- save();
-
- renderChat();
-
- setTimeout(()=>{
-
-  state.chat.push({
-   type:"bot",
-   text:"Дякуємо за звернення. Менеджер відповість вам у Telegram @ymymoney."
-  });
-
-  save();
-  renderChat();
-
- },900);
 }
 
 function renderChat(){
 
- const box=document.getElementById("chatMessages");
+ $("messages").innerHTML=
+  (data.chat||[])
+  .map(
+   m=>
+    '<div class="msg '+
+    (m.me?"me":"")+
+    '">'+
+    esc(m.t)+
+    '</div>'
+  )
+  .join("");
 
- if(!box)return;
+ $("messages").scrollTop=
+  $("messages").scrollHeight;
 
- box.innerHTML=
-  state.chat.map(m=>
-   `<div class="msg ${m.type==="me"?"me":""}">
-    ${escapeHTML(m.text)}
-   </div>`
-  ).join("");
-
- box.scrollTop=box.scrollHeight;
 }
 
-function escapeHTML(text){
- return text
-  .replaceAll("&","&amp;")
-  .replaceAll("<","&lt;")
-  .replaceAll(">","&gt;");
+function sendChat(){
+
+ const i=$("chatInput");
+
+ const t=i.value.trim();
+
+ if(!t)return;
+
+ data.chat.push({
+  me:true,
+  t
+ });
+
+ i.value="";
+
+ save();
+ renderChat();
+
+ setTimeout(
+  ()=>{
+
+   data.chat.push({
+    me:false,
+    t:"Дякуємо за звернення. Для швидкої відповіді зв’яжіться з @ymymoney у Telegram."
+   });
+
+   save();
+   renderChat();
+
+  },
+  700
+ );
+
 }
 
-/* ================= GAME ENGINE ================= */
+function openGame(g){
 
-const overlay=document.getElementById("gameOverlay");
-const gameContent=document.getElementById("gameContent");
-const gameTitle=document.getElementById("gameTitle");
+ $("game").style.display="block";
 
-function openGame(game){
+ if(g==="vin")
+  vin();
 
- overlay.classList.add("show");
+ if(g==="aviator")
+  aviator();
 
- if(game==="vin")openVIN();
- if(game==="aviator")openAviator();
- if(game==="gorila")openGorila();
+ if(g==="gorila")
+  gorila();
+
 }
 
 function closeGame(){
 
- overlay.classList.remove("show");
+ $("game").style.display="none";
 
- clearInterval(aviatorTimer);
- aviatorTimer=null;
+ clearInterval(aviTimer);
 
- document.getElementById("destinationChoice")
- .classList.add("hidden");
+ aviTimer=null;
+ aviActive=false;
+ aviBet=false;
+
+ $("choice").classList.add("hidden");
+
 }
 
-/* ================= VIN-777 ================= */
+function vin(){
 
-let vinBusy=false;
+ $("gameTitle").textContent=
+  "VIN-777";
 
-function openVIN(){
+ $("gameContent").innerHTML=`
 
- gameTitle.textContent="VIN-777";
+  <div class="machine">
 
- gameContent.innerHTML=`
+   <div class="gtitle">
+    VIN-777
+   </div>
 
- <div class="vin-machine">
+   <div class="reels">
 
-  <div class="vin-logo">VIN-777</div>
+    <div class="reel" id="r1">
+     7
+    </div>
 
-  <div class="reels">
+    <div class="reel" id="r2">
+     7
+    </div>
 
-   <div class="reel" id="vin1">7</div>
-   <div class="reel" id="vin2">7</div>
-   <div class="reel" id="vin3">7</div>
+    <div class="reel" id="r3">
+     7
+    </div>
+
+   </div>
+
+   <div style="
+    text-align:center;
+    color:#777;
+    font-size:11px;
+    padding:12px">
+
+    Лінія виграшу • 3 однакові символи
+
+   </div>
+
+   <div class="controls">
+
+    <div class="ctl">
+     <small>СТАВКА</small>
+     <b>$10</b>
+    </div>
+
+    <div class="ctl">
+     <small>БАЛАНС</small>
+     <b>$${Math.floor(data.balance)}</b>
+    </div>
+
+    <button
+     class="gold spinbtn"
+     onclick="spinVin()">
+
+     SPIN VIN
+
+    </button>
+
+   </div>
+
+   <div id="vinResult"
+        class="result">
+   </div>
 
   </div>
 
-  <div class="payline">
-   Лінія виграшу • 3 однакові символи
+  <div class="note">
+   Демо-гра. Валюта віртуальна.
   </div>
 
-  <div class="game-controls">
+ `;
 
-   <div class="control">
-    <small>СТАВКА</small>
-    <b>$ 10</b>
+}
+
+function spinVin(){
+
+ if(vinBusy)return;
+
+ if(data.balance<10)
+  return toast(
+   "Недостатньо віртуальних $."
+  );
+
+ vinBusy=true;
+
+ data.balance-=10;
+
+ save();
+
+ const rs=[
+  $("r1"),
+  $("r2"),
+  $("r3")
+ ];
+
+ const s=[
+  "7",
+  "7",
+  "♦",
+  "◆",
+  "BAR",
+  "★",
+  "7"
+ ];
+
+ rs.forEach(
+  x=>x.classList.add("spin")
+ );
+
+ let n=0;
+
+ const t=setInterval(
+
+  ()=>{
+
+   rs.forEach(
+    x=>
+     x.textContent=
+      s[
+       Math.floor(
+        Math.random()*s.length
+       )
+      ]
+   );
+
+   if(++n>25){
+
+    clearInterval(t);
+
+    rs.forEach(
+     x=>x.classList.remove("spin")
+    );
+
+    const a=
+     rs.map(
+      x=>x.textContent
+     );
+
+    let prize=0;
+
+    if(
+     a[0]===a[1]&&
+     a[1]===a[2]
+    ){
+
+     prize=
+      a[0]==="7"
+       ?100
+       :60;
+
+    }else if(
+     a[0]===a[1]||
+     a[1]===a[2]
+    ){
+
+     prize=20;
+
+    }
+
+    const out=
+     $("vinResult");
+
+    if(prize){
+
+     data.balance+=prize;
+
+     out.textContent=
+      "ВИГРАШ +$"+prize;
+
+     out.classList.add("big");
+
+     winFX(
+      prize>=100
+       ?"JACKPOT"
+       :"SPIN-VIN"
+     );
+
+    }else{
+
+     out.textContent=
+      "Цього разу без виграшу";
+
+     loseSound();
+
+    }
+
+    save();
+
+    setTimeout(
+     ()=>{
+
+      vin();
+      vinBusy=false;
+
+     },
+     1500
+    );
+
+   }
+
+  },
+  80
+
+ );
+
+}
+
+function aviator(){
+
+ $("gameTitle").textContent=
+  "AVIATOR YMY";
+
+ $("gameContent").innerHTML=`
+
+  <div class="flight">
+
+   <div class="grid"></div>
+
+   <div class="destination"
+        id="dest">
+
+    Летимо на Балі?
+
    </div>
 
-   <div class="control">
-    <small>БАЛАНС</small>
-    <b>$ ${state.balance}</b>
+   <div class="mult"
+        id="mult">
+
+    1.00x
+
    </div>
 
-   <button
-    class="spin-btn"
-    onclick="spinVIN()">
-    SPIN VIN
+   <div class="plane"
+        id="plane">
+
+    ✈
+
+   </div>
+
+  </div>
+
+  <div class="flightBtns">
+
+   <button class="gold"
+           onclick="showChoice()">
+
+    ВИБРАТИ МІСТО
+
+   </button>
+
+   <button class="gold"
+           onclick="startAvi()">
+
+    ПОСТАВИТИ $10
+
+   </button>
+
+   <button class="cash"
+           onclick="cashAvi()">
+
+    ЗАБРАТИ
+
    </button>
 
   </div>
 
-  <div id="vinResult" class="win-text"></div>
+  <div class="note">
+   Літак стартує сам.
+   Раунд може завершитися у будь-який момент.
+  </div>
 
- </div>
-
- <div class="demo-note">
-  Усі результати є демонстраційними.
- </div>
  `;
+
 }
 
-function spinVIN(){
+function showChoice(){
 
- if(vinBusy)return;
+ $("choice").classList.remove(
+  "hidden"
+ );
 
- const bet=10;
-
- if(state.balance<bet){
-  toast("Недостатньо віртуальних $.");
-  return;
- }
-
- vinBusy=true;
-
- state.balance-=bet;
- save();
-
- const reels=[
-  document.getElementById("vin1"),
-  document.getElementById("vin2"),
-  document.getElementById("vin3")
- ];
-
- reels.forEach(r=>r.classList.add("spin"));
-
- const symbols=[
-  "7","7","♦","◆","BAR","★","7"
- ];
-
- let count=0;
-
- const timer=setInterval(()=>{
-
-  reels.forEach(r=>{
-   r.textContent=
-    symbols[
-     Math.floor(Math.random()*symbols.length)
-    ];
-  });
-
-  count++;
-
-  if(count>27){
-
-   clearInterval(timer);
-
-   reels.forEach(r=>r.classList.remove("spin"));
-
-   const result=
-    reels.map(r=>r.textContent);
-
-   let reward=0;
-
-   if(
-    result[0]===result[1] &&
-    result[1]===result[2]
-   ){
-    reward=result[0]==="7"?100:60;
-   }
-   else if(
-    result[0]===result[1] ||
-    result[1]===result[2]
-   ){
-    reward=20;
-   }
-
-   const resultBox=
-    document.getElementById("vinResult");
-
-   if(reward>0){
-
-    state.balance+=reward;
-
-    resultBox.textContent=
-     `ВИГРАШ +$ ${reward}`;
-
-    resultBox.classList.add("big");
-
-    winSound();
-
-    winExplosion(
-     reward>=100
-     ?"JACKPOT"
-     :"SPIN-VIN"
-    );
-
-    setTimeout(()=>
-     resultBox.classList.remove("big"),
-     1700
-    );
-
-   }else{
-
-    resultBox.textContent=
-     "Цього разу без виграшу";
-
-    loseSound();
-   }
-
-   save();
-
-   setTimeout(()=>{
-    const b=document.querySelector(".control b:nth-child(2)");
-    openVIN();
-   },1500);
-
-   vinBusy=false;
-  }
-
- },80);
 }
 
-/* ================= WIN FX ================= */
+function destination(c){
 
-function winExplosion(title){
+ city=c;
 
- const fx=document.getElementById("winFX");
+ $("choice").classList.add(
+  "hidden"
+ );
 
- fx.innerHTML=
-  `<div class="win-banner">${title}</div>`;
+ if($("dest"))
+  $("dest").textContent=
+   "Летимо в "+c+"?";
 
- fx.classList.add("show");
+ toast(
+  "Напрямок: "+c
+ );
 
- winSound();
-
- for(let i=0;i<55;i++){
-
-  const c=document.createElement("div");
-
-  c.className="coin";
-  c.textContent="●";
-
-  c.style.left=
-   Math.random()*100+"%";
-
-  c.style.animationDuration=
-   (1.2+Math.random()*2)+"s";
-
-  c.style.animationDelay=
-   Math.random()*.5+"s";
-
-  fx.appendChild(c);
- }
-
- setTimeout(()=>{
-  fx.classList.remove("show");
-  fx.innerHTML="";
- },3000);
 }
 
-/* ================= AVIATOR ================= */
+function startAvi(){
 
-let aviatorTimer=null;
-let aviatorActive=false;
-let aviatorBet=false;
-let aviatorValue=1;
-let aviatorDestination="Балі";
-
-function openAviator(){
-
- gameTitle.textContent="AVIATOR YMY";
-
- gameContent.innerHTML=`
-
- <div class="flight-box">
-
-  <div class="market-grid"></div>
-
-  <div class="flight-greeting">
-   <b id="flightDestination">
-    Летимо на Балі?
-   </b>
-   <div style="font-size:11px;color:#777;margin-top:4px">
-    Оберіть напрямок перед польотом
-   </div>
-  </div>
-
-  <div id="aviatorMultiplier"
-   class="multiplier">
-   1.00x
-  </div>
-
-  <div id="plane"
-   class="plane">
-   ✈
-  </div>
-
- </div>
-
- <div class="flight-controls">
-
-  <button class="gold"
-   onclick="showDestinations()">
-   ВИБРАТИ МІСТО
-  </button>
-
-  <button class="gold"
-   onclick="startAviator()">
-   ПОСТАВИТИ $10
-  </button>
-
-  <button class="cash-btn"
-   onclick="cashOutAviator()">
-   ЗАБРАТИ
-  </button>
-
- </div>
-
- <div class="notice">
-  Літак стартує автоматично після ставки.
-  Коефіцієнт може завершитися у будь-який момент.
- </div>
- `;
-}
-
-function showDestinations(){
-
- document.getElementById(
-  "destinationChoice"
- ).classList.remove("hidden");
-}
-
-function chooseDestination(city){
-
- aviatorDestination=city;
-
- document.getElementById(
-  "destinationChoice"
- ).classList.add("hidden");
-
- const text=
-  document.getElementById("flightDestination");
-
- if(text)
-  text.textContent=
-   `Летимо в ${city}?`;
-
- toast(`Напрямок: ${city}`);
-}
-
-function startAviator(){
-
- if(aviatorActive){
-  toast("Раунд уже триває.");
-  return;
- }
-
- if(aviatorBet){
-  toast("Ставка вже зроблена.");
-  return;
- }
-
- if(state.balance<10){
-  toast("Недостатньо віртуальних $.");
-  return;
- }
-
- state.balance-=10;
- save();
-
- aviatorBet=true;
- aviatorActive=true;
- aviatorValue=1;
-
- const multiplier=
-  document.getElementById(
-   "aviatorMultiplier"
+ if(aviActive||aviBet)
+  return toast(
+   "Раунд уже триває."
   );
 
- const plane=
-  document.getElementById("plane");
+ if(data.balance<10)
+  return toast(
+   "Недостатньо віртуальних $."
+  );
 
- const crashPoint=
-  1.05+
-  Math.pow(Math.random(),2.1)*120;
-
- aviatorTimer=setInterval(()=>{
-
-  aviatorValue+=
-   .008+
-   aviatorValue*.003;
-
-  multiplier.textContent=
-   aviatorValue.toFixed(2)+"x";
-
-  plane.style.left=
-   Math.min(
-    88,
-    8+aviatorValue*2.2
-   )+"%";
-
-  plane.style.bottom=
-   Math.min(
-    80,
-    18+aviatorValue*.5
-   )+"%";
-
-  if(aviatorValue>=crashPoint){
-
-   crashAviator();
-  }
-
- },80);
-}
-
-function cashOutAviator(){
-
- if(!aviatorActive||!aviatorBet){
-  toast("Спочатку зробіть ставку.");
-  return;
- }
-
- const reward=
-  Math.floor(10*aviatorValue);
-
- state.balance+=reward;
-
- aviatorBet=false;
- aviatorActive=false;
-
- clearInterval(aviatorTimer);
- aviatorTimer=null;
+ data.balance-=10;
 
  save();
 
- winExplosion(
-  aviatorValue>=20
-  ?"BIG FLIGHT"
-  :"FLIGHT WIN"
+ aviActive=true;
+ aviBet=true;
+ aviX=1;
+
+ const crash=
+  1.05+
+  Math.pow(
+   Math.random(),
+   2.1
+  )*120;
+
+ aviTimer=setInterval(
+
+  ()=>{
+
+   aviX+=
+    .008+
+    aviX*.003;
+
+   $("mult").textContent=
+    aviX.toFixed(2)+"x";
+
+   $("plane").style.left=
+    Math.min(
+     88,
+     8+aviX*2.2
+    )+"%";
+
+   $("plane").style.bottom=
+    Math.min(
+     80,
+     18+aviX*.5
+    )+"%";
+
+   if(aviX>=crash)
+    crashAvi();
+
+  },
+  80
+
+ );
+
+}
+
+function cashAvi(){
+
+ if(!aviActive||!aviBet)
+  return toast(
+   "Спочатку зробіть ставку."
+  );
+
+ const prize=
+  Math.floor(
+   10*aviX
+  );
+
+ data.balance+=prize;
+
+ aviActive=false;
+ aviBet=false;
+
+ clearInterval(aviTimer);
+
+ aviTimer=null;
+
+ save();
+
+ winFX(
+  aviX>=20
+   ?"BIG FLIGHT"
+   :"FLIGHT WIN"
  );
 
  toast(
-  `Забрано $${reward}`
+  "Забрано $"+prize
  );
 
- setTimeout(openAviator,1300);
+ setTimeout(
+  aviator,
+  1300
+ );
+
 }
 
-function crashAviator(){
+function crashAvi(){
 
- clearInterval(aviatorTimer);
- aviatorTimer=null;
+ clearInterval(aviTimer);
 
- aviatorActive=false;
+ aviTimer=null;
 
- const m=
-  document.getElementById(
-   "aviatorMultiplier"
-  );
+ aviActive=false;
+ aviBet=false;
 
- if(m){
-  m.textContent=
-   aviatorValue.toFixed(2)+"x";
-  m.classList.add("crash");
- }
+ const m=$("mult");
+
+ m.textContent=
+  aviX.toFixed(2)+"x";
+
+ m.classList.add("crash");
 
  loseSound();
 
- aviatorBet=false;
+ setTimeout(
+  aviator,
+  1600
+ );
 
- setTimeout(()=>{
-  openAviator();
- },1800);
 }
 
-/* ================= GORILA KING ================= */
+function gorila(){
 
-let gorilaBusy=false;
+ $("gameTitle").textContent=
+  "GORILA KING";
 
-function openGorila(){
+ $("gameContent").innerHTML=`
 
- gameTitle.textContent="GORILA KING";
+  <div class="machine"
+       style="
+       background:
+       radial-gradient(
+        circle at 50% 0%,
+        rgba(164,112,38,.2),
+        transparent 35%
+       ),
+       #0a0d09">
 
- gameContent.innerHTML=`
+   <div class="gtitle">
+    GORILA KING
+   </div>
 
- <div class="gorila-machine">
+   <div id="fruits"
+        class="fruits">
+   </div>
 
-  <div class="gorila-logo">
-   GORILA KING
+   <div id="gmsg"
+        class="gmsg">
+
+    Готові до джунглів?
+
+   </div>
+
+   <button
+    class="gold"
+    style="width:100%"
+    onclick="spinGorila()">
+
+    КРУТИТИ • $10
+
+   </button>
+
   </div>
 
-  <div id="fruitGrid"
-   class="fruit-grid">
+  <div class="note">
+   Лінії можуть формуватися
+   по різних напрямках.
   </div>
 
-  <div id="gorilaMessage"
-   class="gorila-message">
-   Готові до джунглів?
-  </div>
-
-  <button
-   class="spin-btn"
-   style="width:100%"
-   onclick="spinGorila()">
-   КРУТИТИ • $10
-  </button>
-
- </div>
-
- <div class="demo-note">
-  Лінії можуть формуватися по різних напрямках.
- </div>
  `;
 
- createFruitGrid();
+ makeFruits();
+
 }
 
-function createFruitGrid(){
+function makeFruits(){
 
- const symbols=[
+ const s=[
   "🍌","🍉","🍇","🍒","◆",
   "🍌","♦","🍊","🍉","🍇",
   "🍒","🍌","◆","🍊","♦",
@@ -2220,144 +2263,204 @@ function createFruitGrid(){
   "♦","🍊","🍉","🍌","🍇"
  ];
 
- const grid=
-  document.getElementById("fruitGrid");
+ $("fruits").innerHTML=
+  s.map(
+   (x,i)=>
+    '<div class="fruit" data-i="'+
+    i+
+    '">'+
+    x+
+    "</div>"
+  )
+  .join("");
 
- grid.innerHTML=
-  symbols.map((s,i)=>
-   `<div class="fruit"
-    data-i="${i}">
-    ${s}
-   </div>`
-  ).join("");
 }
 
 function spinGorila(){
 
- if(gorilaBusy)return;
+ if(gorBusy)return;
 
- if(state.balance<10){
-  toast("Недостатньо віртуальних $.");
-  return;
- }
+ if(data.balance<10)
+  return toast(
+   "Недостатньо віртуальних $."
+  );
 
- gorilaBusy=true;
+ gorBusy=true;
 
- state.balance-=10;
+ data.balance-=10;
+
  save();
 
- const cells=
-  [...document.querySelectorAll(".fruit")];
-
- const symbols=[
-  "🍌","🍉","🍇","🍒","◆","♦","🍊"
+ const c=[
+  ...document.querySelectorAll(".fruit")
  ];
 
- let count=0;
+ const s=[
+  "🍌",
+  "🍉",
+  "🍇",
+  "🍒",
+  "◆",
+  "♦",
+  "🍊"
+ ];
 
- const interval=setInterval(()=>{
+ let n=0;
 
-  cells.forEach(c=>{
-   c.textContent=
-    symbols[
-     Math.floor(
-      Math.random()*symbols.length
-     )
-    ];
-  });
+ const t=setInterval(
 
-  count++;
+  ()=>{
 
-  if(count>20){
-
-   clearInterval(interval);
-
-   const lineType=
-    Math.floor(Math.random()*3);
-
-   let line=[];
-
-   if(lineType===0){
-    line=[5,6,7,8,9];
-   }
-
-   if(lineType===1){
-    line=[0,6,12,18,24];
-   }
-
-   if(lineType===2){
-    line=[4,8,12,16,20];
-   }
-
-   line.forEach(i=>
-    cells[i].classList.add("line")
+   c.forEach(
+    x=>
+     x.textContent=
+      s[
+       Math.floor(
+        Math.random()*s.length
+       )
+      ]
    );
 
-   const same=
-    cells[line[0]].textContent===
-    cells[line[1]].textContent;
+   if(++n>20){
 
-   const message=
-    document.getElementById(
-     "gorilaMessage"
+    clearInterval(t);
+
+    const lines=[
+     [5,6,7,8,9],
+     [0,6,12,18,24],
+     [4,8,12,16,20]
+    ];
+
+    const line=
+     lines[
+      Math.floor(
+       Math.random()*lines.length
+      )
+     ];
+
+    line.forEach(
+     i=>c[i].classList.add("line")
     );
 
-   if(same){
+    const same=
+     c[line[0]].textContent===
+     c[line[1]].textContent;
 
-    const reward=100;
+    if(same){
 
-    state.balance+=reward;
+     data.balance+=100;
 
-    message.textContent=
-     "GORILA KING! JACKPOT +$100";
+     $("gmsg").textContent=
+      "GORILA KING! JACKPOT +$100";
 
-    winExplosion("GORILA JACKPOT");
+     winFX(
+      "GORILA JACKPOT"
+     );
 
-   }else{
+    }else{
 
-    message.textContent=
-     "Лінія не склалася. Спробуйте ще.";
+     $("gmsg").textContent=
+      "Лінія не склалася. Спробуйте ще.";
 
-    loseSound();
+     loseSound();
+
+    }
+
+    save();
+
+    setTimeout(
+     ()=>{
+
+      gorila();
+      gorBusy=false;
+
+     },
+     2200
+    );
+
    }
 
-   save();
+  },
+  90
 
-   setTimeout(()=>{
-    gorilaBusy=false;
-    openGorila();
-   },2300);
-  }
+ );
 
- },90);
 }
 
-/* ================= TOAST ================= */
+function winFX(title){
 
-function toast(text){
+ const f=$("fx");
 
- const t=document.getElementById("toast");
+ f.innerHTML=
+  '<div class="winbanner">'+
+  title+
+  "</div>";
 
- t.textContent=text;
- t.classList.add("show");
+ f.style.display="block";
 
- setTimeout(()=>{
-  t.classList.remove("show");
- },2200);
-}
+ winSound();
 
-/* ================= START AUDIO ================= */
+ for(
+  let i=0;
+  i<50;
+  i++
+ ){
 
-document.addEventListener("click",e=>{
+  const c=
+   document.createElement("div");
 
- if(e.target.closest("button")){
-  beep(420,.045,"sine",.025);
+  c.className="coin";
+
+  c.textContent="●";
+
+  c.style.left=
+   Math.random()*100+
+   "%";
+
+  c.style.animationDuration=
+   1.2+
+   Math.random()*2+
+   "s";
+
+  c.style.animationDelay=
+   Math.random()*.4+
+   "s";
+
+  f.appendChild(c);
+
  }
 
-},{passive:true});
+ setTimeout(
+  ()=>{
+
+   f.style.display="none";
+   f.innerHTML="";
+
+  },
+  3000
+ );
+
+}
+
+document.addEventListener(
+ "click",
+ e=>{
+
+  if(e.target.closest("button"))
+   beep(
+    420,
+    .04,
+    "sine",
+    .02
+   );
+
+ },
+ {passive:true}
+);
+
+init();
 
 </script>
 
 </body>
 </html>
-```
