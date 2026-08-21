@@ -662,6 +662,154 @@ button {
         grid-template-columns: repeat(3,1fr);
     }
 }
+/* =========================
+   NEON SLOTS
+========================= */
+
+.slots-box {
+    text-align: center;
+    overflow: hidden;
+}
+
+.slots-header {
+    margin-bottom: 20px;
+}
+
+.slots-title {
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.slots-subtitle {
+    color: rgba(255,255,255,.5);
+    margin-top: 6px;
+}
+
+.slots-machine {
+    position: relative;
+    padding: 22px 10px;
+    border-radius: 22px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(113,103,255,.2),
+            rgba(255,255,255,.04)
+        );
+    border: 1px solid rgba(255,255,255,.1);
+    box-shadow:
+        0 0 35px rgba(113,103,255,.15);
+}
+
+.slot-reels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+}
+
+.slot-reel {
+    height: 100px;
+    border-radius: 15px;
+    background: #0e1120;
+    border: 2px solid rgba(255,255,255,.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,.4);
+}
+
+.slot-line {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 50%;
+    height: 2px;
+    background: rgba(255,255,255,.2);
+    pointer-events: none;
+}
+
+.slot-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.slot-info > div {
+    background: rgba(255,255,255,.06);
+    border-radius: 14px;
+    padding: 12px;
+}
+
+.slot-info span {
+    display: block;
+    color: rgba(255,255,255,.45);
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.slot-info strong {
+    font-size: 15px;
+}
+
+.bet-control {
+    width: 25px;
+    height: 25px;
+    border: none;
+    border-radius: 7px;
+    background: rgba(255,255,255,.1);
+    color: white;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.slots-spin {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.slots-result {
+    min-height: 25px;
+    margin-top: 13px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.slot-spinning {
+    animation: slotShake .12s linear infinite;
+}
+
+@keyframes slotShake {
+    0% {
+        transform: translateY(-3px);
+    }
+
+    50% {
+        transform: translateY(3px);
+    }
+
+    100% {
+        transform: translateY(-3px);
+    }
+}
+
+.slot-win {
+    animation: slotWin .5s ease infinite alternate;
+}
+
+@keyframes slotWin {
+    from {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(150,120,255,.3);
+    }
+
+    to {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(150,120,255,.8);
+    }
+}
 </style>
 </head>
 
@@ -1965,7 +2113,9 @@ if (userName) {
 }
 
 </script>
-
+<!-- =========================
+     NEON SLOTS
+========================= -->
 </body>
 </html>
 ```
