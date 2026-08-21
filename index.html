@@ -16,33 +16,32 @@
 }
 
 :root{
-    --bg:#07080d;
-    --panel:#10131d;
-    --panel2:#161a27;
-    --border:rgba(255,255,255,.09);
+    --bg:#05060b;
+    --panel:#0d101b;
+    --panel2:#111524;
+    --purple:#8b5cf6;
+    --violet:#b45cff;
+    --blue:#4f8cff;
+    --pink:#ff4fd8;
+    --green:#35f29a;
     --text:#fff;
-    --muted:#7f879b;
-    --purple:#795cff;
-    --purple2:#a875ff;
-    --gold:#ffd45a;
-    --green:#39df8c;
-    --red:#ff5575;
+    --muted:rgba(255,255,255,.5);
 }
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at 50% -10%,#272044 0%,#11131e 32%,#07080d 72%);
     color:var(--text);
     min-height:100vh;
+    background:
+        radial-gradient(circle at 50% -10%,#39205e 0%,transparent 35%),
+        radial-gradient(circle at 0% 50%,#101c42 0%,transparent 30%),
+        linear-gradient(180deg,#070812,#030408);
     overflow-x:hidden;
 }
 
 button{
     font-family:inherit;
-    border:0;
     cursor:pointer;
-    color:white;
 }
 
 .hidden{
@@ -53,61 +52,76 @@ button{
    WELCOME
 ========================= */
 
-#welcome{
+#welcomeScreen{
     min-height:100vh;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
-    padding:35px 20px;
-    text-align:center;
+    padding:35px 20px 45px;
+    animation:fadeIn .8s ease;
 }
 
 .logo{
-    font-size:34px;
+    text-align:center;
+    font-size:40px;
     font-weight:900;
     letter-spacing:2px;
+    text-shadow:
+        0 0 10px #8b5cf6,
+        0 0 35px rgba(139,92,246,.7);
 }
 
 .logo span{
-    color:#9278ff;
+    color:#b56cff;
 }
 
-.welcome-center{
+.auth-buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:28px;
+}
+
+.auth-btn{
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:14px;
+    padding:13px 20px;
+    color:#fff;
+    background:rgba(255,255,255,.07);
+}
+
+.auth-btn.primary{
+    border:none;
+    background:linear-gradient(135deg,#704fff,#b45cff);
+    box-shadow:0 0 25px rgba(139,92,246,.4);
+}
+
+.welcome-content{
+    text-align:center;
     max-width:500px;
     margin:auto;
 }
 
 .welcome-icon{
-    font-size:72px;
-    margin-bottom:25px;
+    font-size:75px;
+    animation:float 3s ease-in-out infinite;
+    filter:drop-shadow(0 0 20px #9c5cff);
 }
 
-.welcome-center h1{
-    font-size:32px;
-    margin-bottom:12px;
+.welcome-content h1{
+    font-size:30px;
+    margin:20px 0 12px;
 }
 
-.welcome-center p{
+.welcome-content p{
     color:var(--muted);
     line-height:1.6;
 }
 
-.auth{
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    margin-top:25px;
-}
-
-.auth button{
-    padding:14px 22px;
-    border-radius:14px;
-    background:#171a27;
-    border:1px solid var(--border);
-}
-
-.auth .primary{
-    background:linear-gradient(135deg,var(--purple),var(--purple2));
+.welcome-bottom{
+    text-align:center;
+    color:rgba(255,255,255,.3);
+    font-size:13px;
 }
 
 /* =========================
@@ -116,38 +130,40 @@ button{
 
 #app{
     min-height:100vh;
-    padding-bottom:85px;
+    padding-bottom:90px;
 }
 
 .topbar{
-    height:72px;
-    padding:0 16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:1px solid rgba(255,255,255,.05);
-    background:rgba(7,8,13,.72);
-    backdrop-filter:blur(18px);
     position:sticky;
     top:0;
     z-index:20;
+    padding:18px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(5,6,12,.72);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.06);
 }
 
 .top-logo{
-    font-size:22px;
+    font-size:25px;
     font-weight:900;
-}
-
-.top-logo span{
-    color:#9278ff;
+    letter-spacing:1px;
+    text-shadow:0 0 15px rgba(150,90,255,.8);
 }
 
 .balance{
-    background:#151824;
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:9px 13px;
-    font-weight:800;
+    padding:10px 14px;
+    border-radius:15px;
+    background:linear-gradient(
+        135deg,
+        rgba(139,92,246,.2),
+        rgba(255,255,255,.05)
+    );
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 0 20px rgba(139,92,246,.12);
+    font-weight:900;
 }
 
 .balance small{
@@ -156,25 +172,100 @@ button{
 }
 
 .content{
-    width:100%;
     max-width:760px;
     margin:auto;
-    padding:20px 15px 30px;
-}
-
-.page-title{
-    font-size:29px;
-    margin-bottom:6px;
-}
-
-.page-subtitle{
-    color:var(--muted);
-    margin-bottom:22px;
+    padding:18px 15px 30px;
 }
 
 /* =========================
-   GAME GRID
+   MAIN MENU
 ========================= */
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:28px;
+    padding:25px 20px;
+    margin-bottom:18px;
+    background:
+        radial-gradient(circle at 85% 20%,rgba(255,74,216,.25),transparent 28%),
+        radial-gradient(circle at 15% 90%,rgba(79,140,255,.2),transparent 35%),
+        linear-gradient(135deg,#111426,#090b14);
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:
+        0 0 30px rgba(119,78,255,.12),
+        inset 0 0 35px rgba(255,255,255,.025);
+}
+
+.hero:before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    right:-80px;
+    top:-80px;
+    background:#9c5cff;
+    filter:blur(80px);
+    opacity:.35;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+}
+
+.hero-label{
+    color:#b991ff;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.hero h1{
+    font-size:31px;
+    margin:8px 0;
+}
+
+.hero p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.neon-line{
+    height:2px;
+    width:100%;
+    margin-top:20px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #8b5cf6,
+        #ff4fd8,
+        transparent
+    );
+    box-shadow:
+        0 0 10px #8b5cf6,
+        0 0 20px #ff4fd8;
+}
+
+/* GAME GRID */
+
+.games-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:22px 2px 12px;
+}
+
+.games-title h2{
+    font-size:20px;
+}
+
+.games-title span{
+    color:var(--muted);
+    font-size:12px;
+}
 
 .games-grid{
     display:grid;
@@ -183,14 +274,34 @@ button{
 }
 
 .game-card{
-    min-height:150px;
-    border-radius:20px;
-    padding:18px;
-    background:linear-gradient(145deg,#171b29,#0e1018);
-    border:1px solid var(--border);
     position:relative;
     overflow:hidden;
-    transition:.2s;
+    min-height:165px;
+    padding:17px;
+    border-radius:22px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.09),
+            rgba(255,255,255,.025)
+        );
+    border:1px solid rgba(255,255,255,.09);
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.25);
+    transition:.25s;
+}
+
+.game-card:before{
+    content:"";
+    position:absolute;
+    width:100px;
+    height:100px;
+    right:-45px;
+    bottom:-45px;
+    border-radius:50%;
+    background:#805cff;
+    filter:blur(45px);
+    opacity:.3;
 }
 
 .game-card:active{
@@ -198,382 +309,356 @@ button{
 }
 
 .game-card.featured{
-    border-color:rgba(121,92,255,.45);
-    background:
-        radial-gradient(circle at top right,rgba(121,92,255,.25),transparent 55%),
-        linear-gradient(145deg,#191b2b,#0e1018);
+    border-color:rgba(255,214,76,.35);
+    box-shadow:
+        0 0 20px rgba(255,190,50,.12),
+        0 12px 30px rgba(0,0,0,.3);
 }
 
 .game-icon{
-    font-size:43px;
+    position:relative;
+    z-index:2;
+    font-size:45px;
     margin-bottom:15px;
+    filter:drop-shadow(0 0 12px rgba(160,100,255,.5));
 }
 
 .game-card h3{
+    position:relative;
+    z-index:2;
     font-size:16px;
+    margin-bottom:5px;
 }
 
 .game-card p{
+    position:relative;
+    z-index:2;
     color:var(--muted);
     font-size:12px;
-    margin-top:6px;
+}
+
+.play-label{
+    position:absolute;
+    right:12px;
+    bottom:12px;
+    padding:6px 9px;
+    border-radius:9px;
+    font-size:10px;
+    font-weight:800;
+    background:rgba(139,92,246,.18);
+    border:1px solid rgba(139,92,246,.25);
+    color:#c6adff;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.bottom-nav{
+    position:fixed;
+    z-index:50;
+    left:0;
+    right:0;
+    bottom:0;
+    height:78px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:rgba(5,6,12,.94);
+    backdrop-filter:blur(20px);
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.nav-btn{
+    background:none;
+    border:none;
+    color:rgba(255,255,255,.4);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    transition:.25s;
+}
+
+.nav-btn .nav-icon{
+    font-size:23px;
+}
+
+.nav-btn span:last-child{
+    font-size:10px;
+}
+
+.nav-btn.active{
+    color:#fff;
+    transform:translateY(-2px);
+}
+
+.nav-btn.active .nav-icon{
+    filter:
+        drop-shadow(0 0 5px #8b5cf6)
+        drop-shadow(0 0 12px #b45cff);
 }
 
 /* =========================
    777 GAME
 ========================= */
 
-.game-screen{
-    animation:fadeIn .3s ease;
+.slot-modal-box{
+    max-width:450px!important;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(255,74,216,.14),transparent 30%),
+        #080a12!important;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:
+        0 0 50px rgba(139,92,246,.2);
 }
 
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-    to{
-        opacity:1;
-        transform:none;
-    }
-}
-
-.back-btn{
-    background:#151824;
-    border:1px solid var(--border);
-    padding:10px 14px;
-    border-radius:12px;
-    margin-bottom:16px;
-}
-
-.slot-header{
+.slots-header{
     text-align:center;
     margin-bottom:18px;
 }
 
-.slot-header h1{
-    font-size:30px;
-    font-weight:900;
-    letter-spacing:3px;
+.slots-logo{
+    font-size:38px;
+    font-weight:1000;
+    letter-spacing:4px;
+    color:#fff;
+    text-shadow:
+        0 0 8px #ffdf5d,
+        0 0 20px #ff9d00,
+        0 0 40px rgba(255,90,0,.6);
 }
 
-.slot-header p{
+.slots-subtitle{
     color:var(--muted);
-    margin-top:5px;
-}
-
-.slot-machine{
-    background:
-        radial-gradient(circle at 50% 0%,rgba(121,92,255,.24),transparent 50%),
-        linear-gradient(145deg,#1a1d2b,#0c0e15);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:26px;
-    padding:18px;
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.45),
-        0 0 45px rgba(121,92,255,.08);
-}
-
-.slot-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.slot-label{
-    color:#7f879b;
     font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:1px;
+    margin-top:4px;
 }
 
-.slot-jackpot{
-    color:var(--gold);
-    font-weight:900;
+.slots-machine{
+    position:relative;
+    padding:18px;
+    border-radius:25px;
+    background:
+        linear-gradient(145deg,#24283c,#0a0c14);
+    border:2px solid rgba(255,255,255,.12);
+    box-shadow:
+        inset 0 0 30px rgba(0,0,0,.7),
+        0 0 35px rgba(139,92,246,.18);
 }
 
-.reels{
+.slot-reels{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:9px;
-    padding:9px;
-    background:#080a10;
-    border-radius:20px;
-    border:1px solid rgba(255,255,255,.07);
-    box-shadow:inset 0 0 30px rgba(0,0,0,.65);
+    gap:8px;
 }
 
-.reel{
-    height:125px;
-    border-radius:14px;
+.slot-reel{
+    height:105px;
+    border-radius:17px;
     background:
-        linear-gradient(180deg,#222635,#11131c 48%,#222635);
-    border:2px solid rgba(255,255,255,.08);
+        linear-gradient(180deg,#f7f7fa,#c7c9d1 48%,#fff);
+    color:#111;
+    border:3px solid #777b89;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:62px;
-    position:relative;
+    font-size:52px;
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,.25),
+        0 0 12px rgba(255,255,255,.08);
     overflow:hidden;
 }
 
-.reel:before,
-.reel:after{
-    content:"";
+.slot-reel.spinning{
+    animation:
+        reelShake .08s linear infinite;
+}
+
+.slot-reel.win{
+    animation:
+        reelWin .55s ease-in-out infinite alternate;
+}
+
+@keyframes reelShake{
+    0%{transform:translateY(-4px)}
+    50%{transform:translateY(4px)}
+    100%{transform:translateY(-4px)}
+}
+
+@keyframes reelWin{
+    from{
+        transform:scale(1);
+        box-shadow:
+            inset 0 0 20px rgba(0,0,0,.2),
+            0 0 10px #ffd84a;
+    }
+    to{
+        transform:scale(1.06);
+        box-shadow:
+            inset 0 0 20px rgba(0,0,0,.2),
+            0 0 30px #ffd84a,
+            0 0 55px rgba(255,190,30,.6);
+    }
+}
+
+.slot-line{
     position:absolute;
-    left:0;
-    right:0;
-    height:30px;
-    z-index:2;
+    left:13px;
+    right:13px;
+    top:50%;
+    height:3px;
+    transform:translateY(-50%);
+    background:#ff3b67;
+    box-shadow:0 0 10px #ff3b67;
     pointer-events:none;
+    opacity:.8;
 }
 
-.reel:before{
-    top:0;
-    background:linear-gradient(#11131c,transparent);
-}
-
-.reel:after{
-    bottom:0;
-    background:linear-gradient(transparent,#11131c);
-}
-
-.reel.spinning{
-    animation:shake .08s linear infinite;
-}
-
-@keyframes shake{
-    0%{transform:translateY(-3px)}
-    50%{transform:translateY(3px)}
-    100%{transform:translateY(-3px)}
-}
-
-.reel.win{
-    border-color:var(--gold);
-    box-shadow:
-        0 0 20px rgba(255,212,90,.45),
-        inset 0 0 20px rgba(255,212,90,.12);
-    animation:winPulse .45s ease-in-out infinite alternate;
-}
-
-@keyframes winPulse{
-    from{transform:scale(1)}
-    to{transform:scale(1.035)}
-}
-
-.paytable{
-    margin-top:14px;
+.slot-info{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:7px;
-}
-
-.pay{
-    background:#151824;
-    border-radius:10px;
-    padding:8px 5px;
-    text-align:center;
-    font-size:11px;
-    color:var(--muted);
-}
-
-.pay strong{
-    display:block;
-    color:white;
-    margin-top:3px;
-}
-
-.slot-message{
-    min-height:30px;
-    text-align:center;
-    margin-top:14px;
-    font-weight:900;
-}
-
-.slot-message.win{
-    color:var(--gold);
-}
-
-.slot-message.lose{
-    color:var(--muted);
-}
-
-.controls{
-    margin-top:16px;
-    display:grid;
-    grid-template-columns:1fr 1.5fr 1fr;
+    grid-template-columns:1fr 1fr;
     gap:9px;
-    align-items:center;
+    margin-top:12px;
 }
 
-.bet-box{
-    background:#151824;
-    border:1px solid var(--border);
+.slot-info>div{
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.07);
     border-radius:14px;
-    padding:8px;
+    padding:10px;
     text-align:center;
 }
 
-.bet-box small{
+.slot-info span{
     display:block;
     color:var(--muted);
     font-size:10px;
-    margin-bottom:4px;
+    margin-bottom:5px;
+}
+
+.slot-info strong{
+    font-size:15px;
 }
 
 .bet-row{
     display:flex;
     align-items:center;
-    justify-content:center;
-    gap:7px;
-}
-
-.bet-row button{
-    width:28px;
-    height:28px;
-    border-radius:8px;
-    background:#252a3a;
-    font-size:18px;
-}
-
-.bet-value{
-    min-width:40px;
-    font-weight:900;
-}
-
-.spin{
-    height:55px;
-    border-radius:16px;
-    background:linear-gradient(135deg,#795cff,#a875ff);
-    font-size:17px;
-    font-weight:900;
-    box-shadow:0 10px 25px rgba(121,92,255,.25);
-}
-
-.spin:disabled{
-    opacity:.5;
-}
-
-.quick-bet{
-    height:55px;
-    border-radius:16px;
-    background:#151824;
-    border:1px solid var(--border);
-    font-weight:800;
-}
-
-.balance-warning{
-    color:var(--red);
-    font-size:12px;
-    text-align:center;
-    margin-top:10px;
-}
-
-/* =========================
-   BONUS / PROFILE
-========================= */
-
-.card{
-    background:#11141e;
-    border:1px solid var(--border);
-    border-radius:20px;
-    padding:20px;
-    margin-bottom:12px;
-}
-
-.card p{
-    color:var(--muted);
-    line-height:1.5;
-    margin-top:8px;
-}
-
-.card-action{
-    margin-top:15px;
-    width:100%;
-    padding:13px;
-    border-radius:13px;
-    background:linear-gradient(135deg,var(--purple),var(--purple2));
-    font-weight:900;
-}
-
-.profile-avatar{
-    width:70px;
-    height:70px;
-    border-radius:50%;
-    background:linear-gradient(135deg,var(--purple),var(--purple2));
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:28px;
-    font-weight:900;
-    margin-bottom:14px;
-}
-
-.profile-name{
-    font-size:23px;
-    font-weight:900;
-}
-
-.profile-id{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:5px;
-}
-
-.info{
-    margin-top:20px;
-}
-
-.info-row{
-    display:flex;
     justify-content:space-between;
-    padding:13px 0;
-    border-bottom:1px solid rgba(255,255,255,.06);
+    margin-top:13px;
+    padding:12px;
+    border-radius:14px;
+    background:rgba(255,255,255,.05);
 }
 
-.info-row span:first-child{
-    color:var(--muted);
+.bet-buttons{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.bet-control{
+    width:32px;
+    height:32px;
+    border:none;
+    border-radius:9px;
+    background:rgba(255,255,255,.1);
+    color:#fff;
+    font-size:20px;
+}
+
+#betValue{
+    min-width:45px;
+    text-align:center;
+    font-weight:900;
+}
+
+.slots-spin{
+    width:100%;
+    margin-top:14px;
+    padding:16px;
+    border:none;
+    border-radius:15px;
+    background:
+        linear-gradient(135deg,#ff8a00,#ff3d68,#a855f7);
+    color:#fff;
+    font-size:16px;
+    font-weight:1000;
+    letter-spacing:1px;
+    box-shadow:
+        0 0 20px rgba(255,75,80,.3);
+    transition:.2s;
+}
+
+.slots-spin:active{
+    transform:scale(.97);
+}
+
+.slots-spin:disabled{
+    opacity:.55;
+}
+
+.slots-result{
+    min-height:28px;
+    text-align:center;
+    margin-top:13px;
+    font-size:15px;
+    font-weight:900;
+}
+
+.slots-result.win-text{
+    color:#ffd84a;
+    text-shadow:
+        0 0 8px #ff9d00,
+        0 0 20px #ff7b00;
+    animation:winText .5s ease infinite alternate;
+}
+
+@keyframes winText{
+    from{transform:scale(1)}
+    to{transform:scale(1.08)}
 }
 
 /* =========================
-   NAV
+   WIN EFFECT
 ========================= */
 
-.bottom-nav{
+.win-overlay{
     position:fixed;
-    z-index:50;
-    bottom:0;
-    left:0;
-    right:0;
-    height:76px;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    background:rgba(9,11,18,.96);
-    backdrop-filter:blur(18px);
-    border-top:1px solid rgba(255,255,255,.08);
+    inset:0;
+    z-index:200;
+    pointer-events:none;
+    display:none;
 }
 
-.nav-btn{
-    background:none;
-    color:#62697b;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:4px;
+.win-overlay.active{
+    display:block;
+    animation:flash .7s ease;
 }
 
-.nav-btn.active{
-    color:white;
+@keyframes flash{
+    0%{background:rgba(255,220,70,.35)}
+    100%{background:transparent}
 }
 
-.nav-icon{
-    font-size:23px;
+.coin{
+    position:absolute;
+    font-size:22px;
+    animation:coinFall 1.2s ease-out forwards;
 }
 
-.nav-btn span:last-child{
-    font-size:10px;
+@keyframes coinFall{
+    0%{
+        transform:translateY(-30px) rotate(0deg) scale(.5);
+        opacity:0;
+    }
+    15%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(100vh) rotate(720deg) scale(1);
+        opacity:0;
+    }
 }
 
 /* =========================
@@ -584,11 +669,12 @@ button{
     position:fixed;
     inset:0;
     z-index:100;
-    background:rgba(0,0,0,.75);
     display:none;
     align-items:center;
     justify-content:center;
     padding:18px;
+    background:rgba(0,0,0,.76);
+    backdrop-filter:blur(12px);
 }
 
 .modal.active{
@@ -596,70 +682,242 @@ button{
 }
 
 .modal-box{
-    width:100%;
-    max-width:420px;
-    background:#151824;
-    border:1px solid var(--border);
-    border-radius:23px;
-    padding:23px;
     position:relative;
+    width:100%;
+    max-width:430px;
+    max-height:90vh;
+    overflow-y:auto;
+    padding:23px;
+    border-radius:25px;
+    background:#151827;
+    border:1px solid rgba(255,255,255,.1);
+    animation:modalIn .3s ease;
 }
 
 .close{
     position:absolute;
-    right:13px;
+    right:14px;
     top:12px;
     width:35px;
     height:35px;
+    border:none;
     border-radius:50%;
-    background:#252938;
-    font-size:21px;
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-size:22px;
 }
 
 .modal-box h2{
+    font-size:25px;
     margin-bottom:7px;
 }
 
-.modal-sub{
+.modal-subtitle{
     color:var(--muted);
     margin-bottom:20px;
 }
 
-.input{
-    width:100%;
-    padding:14px;
-    margin-bottom:11px;
-    border-radius:12px;
-    border:1px solid var(--border);
-    outline:none;
-    background:#0d0f16;
-    color:white;
+.input-group{
+    margin-bottom:14px;
 }
 
-.submit{
+.input-group label{
+    display:block;
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.input-group input{
     width:100%;
     padding:14px;
     border-radius:13px;
-    background:linear-gradient(135deg,var(--purple),var(--purple2));
+    border:1px solid rgba(255,255,255,.08);
+    outline:none;
+    background:rgba(255,255,255,.07);
+    color:#fff;
+    font-size:15px;
+}
+
+.submit-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,#7655ff,#b45cff);
+    color:#fff;
     font-weight:900;
 }
 
+.switch{
+    text-align:center;
+    margin-top:17px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.switch button{
+    border:none;
+    background:none;
+    color:#b89cff;
+    font-weight:800;
+}
+
 /* =========================
-   RESPONSIVE
+   OTHER PAGES
 ========================= */
 
-@media(max-width:430px){
-    .reel{
-        height:105px;
-        font-size:52px;
-    }
+.page-title{
+    font-size:28px;
+    margin:10px 0 7px;
+}
 
-    .controls{
-        grid-template-columns:1fr 1.4fr 1fr;
-    }
+.page-subtitle{
+    color:var(--muted);
+    margin-bottom:20px;
+}
 
-    .spin{
-        font-size:15px;
+.bonus-card,
+.profile-card{
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:21px;
+    padding:20px;
+    margin-bottom:13px;
+}
+
+.bonus-icon{
+    font-size:40px;
+    margin-bottom:10px;
+}
+
+.bonus-card p{
+    color:var(--muted);
+    line-height:1.5;
+    font-size:14px;
+    margin-top:7px;
+}
+
+.bonus-price{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:15px;
+}
+
+.buy-btn{
+    border:none;
+    border-radius:12px;
+    padding:10px 15px;
+    background:linear-gradient(135deg,#7167ff,#a76cff);
+    color:#fff;
+    font-weight:900;
+}
+
+.avatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    font-weight:900;
+    background:linear-gradient(135deg,#7167ff,#b46cff);
+    margin-bottom:15px;
+    box-shadow:0 0 25px rgba(139,92,246,.3);
+}
+
+.profile-name{
+    font-size:22px;
+    font-weight:900;
+}
+
+.profile-id{
+    color:var(--muted);
+    margin-top:5px;
+    font-size:13px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:14px 0;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.info-row span:first-child{
+    color:var(--muted);
+}
+
+.chat-box{
+    background:rgba(255,255,255,.04);
+    border-radius:18px;
+    padding:14px;
+}
+
+.chat-message{
+    background:rgba(255,255,255,.06);
+    padding:11px;
+    border-radius:12px;
+    margin-bottom:8px;
+    font-size:13px;
+}
+
+.chat-input{
+    display:flex;
+    gap:7px;
+    margin-top:10px;
+}
+
+.chat-input input{
+    flex:1;
+    min-width:0;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    padding:12px;
+    background:rgba(255,255,255,.08);
+    color:#fff;
+}
+
+/* SUPPORT */
+
+.support-btn{
+    position:fixed;
+    z-index:60;
+    left:14px;
+    bottom:90px;
+    width:48px;
+    height:48px;
+    border:none;
+    border-radius:50%;
+    background:linear-gradient(135deg,#7167ff,#a66cff);
+    color:#fff;
+    font-size:21px;
+    box-shadow:0 8px 25px rgba(0,0,0,.35);
+}
+
+/* ANIMATIONS */
+
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-10px)}
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.96);
+    }
+    to{
+        opacity:1;
+        transform:none;
     }
 }
 
@@ -673,67 +931,63 @@ button{
 
 <body>
 
-<!-- WELCOME -->
-
-<section id="welcome">
+<section id="welcomeScreen">
 
     <div>
         <div class="logo">
             Yes<span>MoneY</span>
         </div>
-    </div>
 
-    <div class="welcome-center">
-
-        <div class="welcome-icon">🎰</div>
-
-        <h1>Ласкаво просимо</h1>
-
-        <p>
-            Грайте у демо-ігри, випробовуйте удачу
-            та отримуйте YMY.
-        </p>
-
-        <div class="auth">
-
-            <button id="loginBtn">
+        <div class="auth-buttons">
+            <button class="auth-btn" id="loginButton">
                 Увійти
             </button>
 
-            <button class="primary" id="registerBtn">
+            <button class="auth-btn primary" id="registerButton">
                 Реєстрація
             </button>
-
         </div>
-
     </div>
 
-    <div style="color:#555c6e;font-size:12px;">
-        YesMoneY • Demo Platform
+    <div class="welcome-content">
+        <div class="welcome-icon">✨</div>
+
+        <h1>Вітаємо!</h1>
+
+        <p>
+            Ласкаво просимо до YesMoneY.
+            Створіть акаунт та відкрийте
+            світ наших демо-ігор.
+        </p>
+    </div>
+
+    <div class="welcome-bottom">
+        Нова платформа • Нові можливості
     </div>
 
 </section>
 
-
-<!-- APP -->
 
 <section id="app" class="hidden">
 
     <header class="topbar">
 
         <div class="top-logo">
-            Yes<span>MoneY</span>
+            YesMoneY
         </div>
 
         <div class="balance">
-            💰 <span id="balance">50</span>
+            💰 <span id="balanceValue">50</span>
             <small>YMY</small>
         </div>
 
     </header>
 
-    <main class="content" id="content"></main>
+    <main class="content" id="mainContent"></main>
 
+    <button class="support-btn" id="supportButton">
+        🆘
+    </button>
 
     <nav class="bottom-nav">
 
@@ -747,14 +1001,14 @@ button{
             <span>Бонус</span>
         </button>
 
+        <button class="nav-btn" id="wheelButton">
+            <span class="nav-icon">🎰</span>
+            <span>Барабан</span>
+        </button>
+
         <button class="nav-btn" data-page="profile">
             <span class="nav-icon">👤</span>
             <span>Профіль</span>
-        </button>
-
-        <button class="nav-btn" id="supportBtn">
-            <span class="nav-icon">🆘</span>
-            <span>Підтримка</span>
         </button>
 
     </nav>
@@ -772,31 +1026,34 @@ button{
 
         <h2>Вхід</h2>
 
-        <p class="modal-sub">
-            Увійдіть до YesMoneY
+        <p class="modal-subtitle">
+            Ласкаво просимо назад
         </p>
 
         <form id="loginForm">
 
-            <input
-                class="input"
-                id="loginEmail"
-                type="email"
-                placeholder="Email"
-                required>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="loginEmail" required>
+            </div>
 
-            <input
-                class="input"
-                id="loginPassword"
-                type="password"
-                placeholder="Пароль"
-                required>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" id="loginPassword" required>
+            </div>
 
-            <button class="submit">
+            <button class="submit-btn">
                 УВІЙТИ
             </button>
 
         </form>
+
+        <div class="switch">
+            Немає акаунта?
+            <button id="switchToRegister">
+                Зареєструватися
+            </button>
+        </div>
 
     </div>
 
@@ -813,708 +1070,439 @@ button{
 
         <h2>Реєстрація</h2>
 
-        <p class="modal-sub">
-            Створіть акаунт YesMoneY
+        <p class="modal-subtitle">
+            Створіть свій акаунт YesMoneY
         </p>
 
         <form id="registerForm">
 
-            <input
-                class="input"
-                id="registerName"
-                type="text"
-                placeholder="Ім'я"
-                minlength="3"
-                required>
+            <div class="input-group">
+                <label>Ім'я користувача</label>
+                <input type="text" id="registerName" minlength="3" required>
+            </div>
 
-            <input
-                class="input"
-                id="registerEmail"
-                type="email"
-                placeholder="Email"
-                required>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="registerEmail" required>
+            </div>
 
-            <input
-                class="input"
-                id="registerPassword"
-                type="password"
-                placeholder="Пароль"
-                minlength="6"
-                required>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" id="registerPassword" minlength="6" required>
+            </div>
 
-            <button class="submit">
+            <div class="input-group">
+                <label>Повторіть пароль</label>
+                <input type="password" id="registerPassword2" minlength="6" required>
+            </div>
+
+            <button class="submit-btn">
                 СТВОРИТИ АКАУНТ
             </button>
 
         </form>
+
+        <div class="switch">
+            Вже маєте акаунт?
+            <button id="switchToLogin">
+                Увійти
+            </button>
+        </div>
 
     </div>
 
 </div>
 
 
+<!-- 777 -->
+
+<div class="modal" id="slotModal">
+
+    <div class="modal-box slot-modal-box">
+
+        <button class="close" data-close="slotModal">
+            ×
+        </button>
+
+        <div class="slots-header">
+
+            <div class="slots-logo">
+                777
+            </div>
+
+            <div class="slots-subtitle">
+                NEON JACKPOT • DEMO
+            </div>
+
+        </div>
+
+        <div class="slots-machine">
+
+            <div class="slot-reels">
+
+                <div class="slot-reel" id="reel1">7️⃣</div>
+                <div class="slot-reel" id="reel2">🍒</div>
+                <div class="slot-reel" id="reel3">💎</div>
+
+            </div>
+
+            <div class="slot-line"></div>
+
+        </div>
+
+        <div class="slot-info">
+
+            <div>
+                <span>СТАВКА</span>
+                <strong><span id="slotBetInfo">5</span> YMY</strong>
+            </div>
+
+            <div>
+                <span>БАЛАНС</span>
+                <strong><span id="slotBalanceInfo">50</span> YMY</strong>
+            </div>
+
+        </div>
+
+        <div class="bet-row">
+
+            <span>Размер ставки</span>
+
+            <div class="bet-buttons">
+
+                <button class="bet-control" id="betMinus">
+                    −
+                </button>
+
+                <span id="betValue">5</span>
+
+                <button class="bet-control" id="betPlus">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+        <button class="slots-spin" id="slotsSpin">
+            🎰 КРУТИТИ 777
+        </button>
+
+        <div class="slots-result" id="slotsResult"></div>
+
+    </div>
+
+</div>
+
+
+<div class="win-overlay" id="winOverlay"></div>
+
+
 <script>
-/* ==========================================
-   ДАННЫЕ
-========================================== */
+
+/* =========================
+   STORAGE
+========================= */
 
 let balance =
     Number(localStorage.getItem("ymyBalance")) || 50;
 
 let userName =
-    localStorage.getItem("ymyName") || null;
+    localStorage.getItem("ymyName");
 
 let userId =
-    localStorage.getItem("ymyId") || null;
-
-let currentPage = "games";
-
-let spinning = false;
-
-const symbols = [
-    "7️⃣",
-    "🍒",
-    "🍋",
-    "🍊",
-    "💎",
-    "⭐",
-    "🔔"
-];
-
-const payouts = {
-    "7️⃣":10,
-    "💎":8,
-    "⭐":6,
-    "🔔":5,
-    "🍒":4,
-    "🍋":3,
-    "🍊":2
-};
+    localStorage.getItem("ymyId");
 
 
-/* ==========================================
+/* =========================
    ELEMENTS
-========================================== */
+========================= */
 
-const welcome =
-    document.getElementById("welcome");
+const welcomeScreen =
+    document.getElementById("welcomeScreen");
 
 const app =
     document.getElementById("app");
 
-const content =
-    document.getElementById("content");
+const mainContent =
+    document.getElementById("mainContent");
 
-const balanceEl =
-    document.getElementById("balance");
+const balanceValue =
+    document.getElementById("balanceValue");
 
 
-/* ==========================================
+/* =========================
    SAVE
-========================================== */
+========================= */
 
-function save(){
-    localStorage.setItem("ymyBalance",balance);
-
-    if(userName)
-        localStorage.setItem("ymyName",userName);
-
-    if(userId)
-        localStorage.setItem("ymyId",userId);
-}
-
-
-/* ==========================================
-   BALANCE
-========================================== */
-
-function updateBalance(){
-
-    balanceEl.textContent =
-        Math.floor(balance);
+function saveData(){
 
     localStorage.setItem(
         "ymyBalance",
         balance
     );
+
+    localStorage.setItem(
+        "ymyName",
+        userName || ""
+    );
+
+    localStorage.setItem(
+        "ymyId",
+        userId || ""
+    );
 }
 
 
-/* ==========================================
-   APP
-========================================== */
+/* =========================
+   BALANCE
+========================= */
+
+function updateBalance(){
+
+    balanceValue.textContent =
+        Math.floor(balance);
+
+    const info =
+        document.getElementById("slotBalanceInfo");
+
+    if(info){
+        info.textContent =
+            Math.floor(balance);
+    }
+
+    saveData();
+}
+
+
+/* =========================
+   OPEN APP
+========================= */
 
 function openApp(){
 
-    welcome.classList.add("hidden");
+    welcomeScreen.classList.add("hidden");
     app.classList.remove("hidden");
 
     updateBalance();
-
     showPage("games");
 }
 
 
-/* ==========================================
-   GAMES PAGE
-========================================== */
+/* =========================
+   GAMES
+========================= */
+
+const games = [
+
+    ["🎰","777","NEON JACKPOT","featured"],
+    ["💎","Diamond Spin","Алмазний світ",""],
+    ["🔥","Fire Spin","Гарячий оберт",""],
+    ["🍀","Lucky Clover","Спробуйте удачу",""],
+    ["🌙","Moon Night","Нічна гра",""],
+    ["⚡","Lightning","Швидкий режим",""],
+    ["👑","Royal Game","Королівська гра",""],
+    ["💰","Golden Win","Золотий шанс",""],
+    ["🚀","Rocket","Піднімайтесь вище",""],
+    ["🎯","Lucky Target","Влуч у ціль",""]
+
+];
+
 
 function gamesPage(){
 
-    content.innerHTML = `
+    let html = `
+
+        <div class="page">
+
+            <div class="hero">
+
+                <div class="hero-content">
+
+                    <div class="hero-label">
+                        YESMONEY ORIGINAL
+                    </div>
+
+                    <h1>
+                        Грай. Вигравай.
+                    </h1>
+
+                    <p>
+                        Обирай гру та випробовуй
+                        удачу у світі YMY.
+                    </p>
+
+                    <div class="neon-line"></div>
+
+                </div>
+
+            </div>
+
+            <div class="games-title">
+
+                <h2>
+                    🎮 Ігри
+                </h2>
+
+                <span>
+                    ${games.length} доступних
+                </span>
+
+            </div>
+
+            <div class="games-grid">
+    `;
+
+    games.forEach((game,index)=>{
+
+        html += `
+
+            <div
+                class="game-card ${game[3]}"
+                onclick="openGame(${index})">
+
+                <div class="game-icon">
+                    ${game[0]}
+                </div>
+
+                <h3>
+                    ${game[1]}
+                </h3>
+
+                <p>
+                    ${game[2]}
+                </p>
+
+                <div class="play-label">
+                    ГРАТИ
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+    html += `
+            </div>
+        </div>
+    `;
+
+    mainContent.innerHTML = html;
+}
+
+
+/* =========================
+   OPEN GAME
+========================= */
+
+function openGame(index){
+
+    if(index === 0){
+
+        openModal("slotModal");
+        updateSlotUI();
+        return;
+    }
+
+    alert(
+        games[index][0] +
+        " " +
+        games[index][1] +
+        "\n\nЦя гра буде додана наступною."
+    );
+}
+
+
+/* =========================
+   BONUS
+========================= */
+
+function bonusPage(){
+
+    mainContent.innerHTML = `
 
         <div class="page">
 
             <h1 class="page-title">
-                Ігри
+                🎁 Бонуси
             </h1>
 
             <p class="page-subtitle">
-                Оберіть гру
+                Спеціальні пропозиції
             </p>
 
-            <div class="games-grid">
+            <div class="bonus-card">
 
-                <div
-                    class="game-card featured"
-                    onclick="open777()">
+                <div class="bonus-icon">🎁</div>
 
-                    <div class="game-icon">
-                        7️⃣
-                    </div>
-
-                    <h3>
-                        777
-                    </h3>
-
-                    <p>
-                        Classic Slots
-                    </p>
-
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">💎</div>
-                    <h3>Diamond</h3>
-                    <p>Coming soon</p>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">🔥</div>
-                    <h3>Fire Spin</h3>
-                    <p>Coming soon</p>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">🍀</div>
-                    <h3>Lucky Clover</h3>
-                    <p>Coming soon</p>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">👑</div>
-                    <h3>Royal</h3>
-                    <p>Coming soon</p>
-                </div>
-
-                <div class="game-card">
-                    <div class="game-icon">🚀</div>
-                    <h3>Rocket</h3>
-                    <p>Coming soon</p>
-                </div>
-
-            </div>
-
-        </div>
-    `;
-}
-
-
-/* ==========================================
-   777
-========================================== */
-
-function open777(){
-
-    content.innerHTML = `
-
-        <div class="game-screen">
-
-            <button
-                class="back-btn"
-                onclick="gamesPage()">
-
-                ← Назад до ігор
-
-            </button>
-
-            <div class="slot-header">
-
-                <h1>777</h1>
+                <h3>Стартовий бонус</h3>
 
                 <p>
-                    CLASSIC SLOTS
+                    Додаткові 50 YMY до ігрового балансу.
                 </p>
 
+                <div class="bonus-price">
+
+                    <strong>50 YMY</strong>
+
+                    <button
+                        class="buy-btn"
+                        onclick="buyBonus(50)">
+                        Отримати
+                    </button>
+
+                </div>
+
             </div>
 
-            <div class="slot-machine">
+            <div class="bonus-card">
 
-                <div class="slot-top">
+                <div class="bonus-icon">🔥</div>
 
-                    <span class="slot-label">
-                        DEMO GAME
-                    </span>
+                <h3>Подвійний шанс</h3>
 
-                    <span class="slot-jackpot">
-                        ★ JACKPOT
-                    </span>
+                <p>
+                    Бонус для збільшення
+                    ігрового балансу.
+                </p>
 
-                </div>
+                <div class="bonus-price">
 
-                <div class="reels">
-
-                    <div
-                        class="reel"
-                        id="reel1">
-                        7️⃣
-                    </div>
-
-                    <div
-                        class="reel"
-                        id="reel2">
-                        7️⃣
-                    </div>
-
-                    <div
-                        class="reel"
-                        id="reel3">
-                        7️⃣
-                    </div>
-
-                </div>
-
-                <div class="paytable">
-
-                    <div class="pay">
-                        777
-                        <strong>x10</strong>
-                    </div>
-
-                    <div class="pay">
-                        💎💎💎
-                        <strong>x8</strong>
-                    </div>
-
-                    <div class="pay">
-                        ⭐⭐⭐
-                        <strong>x6</strong>
-                    </div>
-
-                    <div class="pay">
-                        🔔🔔🔔
-                        <strong>x5</strong>
-                    </div>
-
-                    <div class="pay">
-                        🍒🍒🍒
-                        <strong>x4</strong>
-                    </div>
-
-                    <div class="pay">
-                        Любая
-                        <strong>x2</strong>
-                    </div>
-
-                </div>
-
-                <div
-                    id="slotMessage"
-                    class="slot-message">
-
-                </div>
-
-                <div class="controls">
-
-                    <div class="bet-box">
-
-                        <small>СТАВКА</small>
-
-                        <div class="bet-row">
-
-                            <button onclick="changeBet(-5)">
-                                −
-                            </button>
-
-                            <span
-                                id="betValue"
-                                class="bet-value">
-                                5
-                            </span>
-
-                            <button onclick="changeBet(5)">
-                                +
-                            </button>
-
-                        </div>
-
-                    </div>
+                    <strong>100 YMY</strong>
 
                     <button
-                        class="spin"
-                        id="spinBtn"
-                        onclick="spin777()">
-
-                        КРУТИТИ
-
+                        class="buy-btn"
+                        onclick="buyBonus(100)">
+                        Отримати
                     </button>
 
-                    <button
-                        class="quick-bet"
-                        onclick="changeBet(10)">
-
-                        MAX
-
-                    </button>
-
-                </div>
-
-                <div
-                    id="warning"
-                    class="balance-warning">
                 </div>
 
             </div>
 
         </div>
     `;
-
-    window.currentBet = 5;
 }
 
 
-/* ==========================================
-   BET
-========================================== */
-
-window.currentBet = 5;
-
-function changeBet(amount){
-
-    if(!window.currentBet)
-        window.currentBet = 5;
-
-    if(amount === 10){
-
-        window.currentBet =
-            Math.min(50,Math.max(5,balance));
-
-    }else{
-
-        window.currentBet += amount;
-
-        if(window.currentBet < 5)
-            window.currentBet = 5;
-
-        if(window.currentBet > 50)
-            window.currentBet = 50;
-
-        if(window.currentBet > balance)
-            window.currentBet = Math.max(5,balance);
-    }
-
-    const el =
-        document.getElementById("betValue");
-
-    if(el)
-        el.textContent =
-            window.currentBet;
-}
-
-
-/* ==========================================
-   RANDOM SYMBOL
-========================================== */
-
-function randomSymbol(){
-
-    const r =
-        Math.random();
-
-    if(r < .08) return "7️⃣";
-    if(r < .18) return "💎";
-    if(r < .30) return "⭐";
-    if(r < .42) return "🔔";
-    if(r < .62) return "🍒";
-    if(r < .81) return "🍋";
-
-    return "🍊";
-}
-
-
-/* ==========================================
-   SPIN
-========================================== */
-
-function spin777(){
-
-    if(spinning)
-        return;
-
-    const bet =
-        window.currentBet || 5;
-
-    const message =
-        document.getElementById("slotMessage");
-
-    const warning =
-        document.getElementById("warning");
-
-    const button =
-        document.getElementById("spinBtn");
-
-    if(balance < bet){
-
-        warning.textContent =
-            "Недостатньо YMY для цієї ставки.";
-
-        return;
-    }
-
-    warning.textContent = "";
-
-    balance -= bet;
-
-    updateBalance();
-
-    spinning = true;
-
-    button.disabled = true;
-
-    message.textContent = "";
-    message.className = "slot-message";
-
-    const reels = [
-        document.getElementById("reel1"),
-        document.getElementById("reel2"),
-        document.getElementById("reel3")
-    ];
-
-    reels.forEach(reel=>{
-        reel.classList.remove("win");
-        reel.classList.add("spinning");
-    });
-
-    let tick = 0;
-
-    const animation =
-        setInterval(()=>{
-
-            reels.forEach(reel=>{
-                reel.textContent =
-                    symbols[
-                        Math.floor(
-                            Math.random()*symbols.length
-                        )
-                    ];
-            });
-
-            tick++;
-
-            if(tick >= 22){
-
-                clearInterval(animation);
-
-                finishSpin(reels,bet);
-
-            }
-
-        },90);
-}
-
-
-/* ==========================================
-   FINISH
-========================================== */
-
-function finishSpin(reels,bet){
-
-    const result = [
-        randomSymbol(),
-        randomSymbol(),
-        randomSymbol()
-    ];
-
-    /*
-      Небольшой шанс на красивые
-      выигрышные комбинации.
-    */
-
-    const luck =
-        Math.random();
-
-    if(luck < .035){
-
-        result[0] =
-        result[1] =
-        result[2] = "7️⃣";
-
-    }else if(luck < .075){
-
-        const s = randomSymbol();
-
-        result[0] =
-        result[1] =
-        result[2] = s;
-
-    }
-
-    reels.forEach((reel,i)=>{
-
-        reel.classList.remove("spinning");
-
-        reel.textContent =
-            result[i];
-
-    });
-
-    const same =
-        result[0] === result[1] &&
-        result[1] === result[2];
-
-    let win = 0;
-
-    if(same){
-
-        win =
-            bet *
-            (payouts[result[0]] || 2);
-
-    }else if(
-        result[0] === result[1] ||
-        result[1] === result[2] ||
-        result[0] === result[2]
-    ){
-
-        win =
-            bet * 2;
-    }
-
-    const message =
-        document.getElementById("slotMessage");
-
-    if(win > 0){
-
-        balance += win;
-
-        updateBalance();
-
-        reels.forEach(reel=>{
-            reel.classList.add("win");
-        });
-
-        message.className =
-            "slot-message win";
-
-        message.textContent =
-            `🎉 ВИГРАШ +${win} YMY`;
-
-    }else{
-
-        message.className =
-            "slot-message lose";
-
-        message.textContent =
-            `Ставка ${bet} YMY. Спробуйте ще раз.`;
-    }
-
-    save();
-
-    spinning = false;
-
-    const button =
-        document.getElementById("spinBtn");
-
-    if(button)
-        button.disabled = false;
-}
-
-
-/* ==========================================
-   BONUS
-========================================== */
-
-function bonusPage(){
-
-    content.innerHTML = `
-
-        <h1 class="page-title">
-            🎁 Бонуси
-        </h1>
-
-        <p class="page-subtitle">
-            Доступні бонусні пропозиції
-        </p>
-
-        <div class="card">
-
-            <h2>🎁 Стартовий бонус</h2>
-
-            <p>
-                Отримайте 50 YMY до свого
-                демо-балансу.
-            </p>
-
-            <button
-                class="card-action"
-                onclick="claimBonus(50,this)">
-
-                ОТРИМАТИ 50 YMY
-
-            </button>
-
-        </div>
-
-        <div class="card">
-
-            <h2>🔥 Daily Bonus</h2>
-
-            <p>
-                Щоденна бонусна нагорода
-                буде доступна після запуску
-                повної системи акаунтів.
-            </p>
-
-        </div>
-
-    `;
-}
-
-
-/* ==========================================
-   BONUS CLAIM
-========================================== */
-
-function claimBonus(amount,button){
-
-    if(button.disabled)
-        return;
+function buyBonus(amount){
 
     balance += amount;
 
     updateBalance();
 
-    button.disabled = true;
-    button.textContent =
-        "БОНУС ОТРИМАНО ✓";
-
-    save();
+    alert(
+        "🎁 Бонус отримано!\n\n+" +
+        amount +
+        " YMY"
+    );
 }
 
 
-/* ==========================================
+/* =========================
    PROFILE
-========================================== */
+========================= */
 
 function profilePage(){
 
@@ -1524,221 +1512,168 @@ function profilePage(){
     const id =
         userId || "YMY-DEMO";
 
-    content.innerHTML = `
+    mainContent.innerHTML = `
 
-        <h1 class="page-title">
-            👤 Профіль
-        </h1>
+        <div class="page">
 
-        <p class="page-subtitle">
-            Ваш акаунт
-        </p>
+            <h1 class="page-title">
+                👤 Профіль
+            </h1>
 
-        <div class="card">
+            <p class="page-subtitle">
+                Ваш особистий кабінет
+            </p>
 
-            <div class="profile-avatar">
-                ${name.charAt(0).toUpperCase()}
-            </div>
+            <div class="profile-card">
 
-            <div class="profile-name">
-                ${name}
-            </div>
-
-            <div class="profile-id">
-                ID: ${id}
-            </div>
-
-            <div class="info">
-
-                <div class="info-row">
-                    <span>Баланс</span>
-                    <strong>
-                        ${Math.floor(balance)} YMY
-                    </strong>
+                <div class="avatar">
+                    ${name.charAt(0).toUpperCase()}
                 </div>
 
-                <div class="info-row">
-                    <span>Статус</span>
-                    <strong>
-                        Demo Player
-                    </strong>
+                <div class="profile-name">
+                    ${name}
+                </div>
+
+                <div class="profile-id">
+                    ID: ${id}
+                </div>
+
+                <div style="margin-top:20px">
+
+                    <div class="info-row">
+                        <span>Баланс</span>
+                        <span>💰 ${Math.floor(balance)} YMY</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Бонуси</span>
+                        <span>🎁 0 YMY</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Реферальні бонуси</span>
+                        <span>0 YMY</span>
+                    </div>
+
                 </div>
 
             </div>
+
+            <div class="profile-card">
+
+                <h3 style="margin-bottom:15px">
+                    💬 Чат гравців
+                </h3>
+
+                <div class="chat-box">
+
+                    <div class="chat-message">
+                        <strong>YMY_Admin:</strong>
+                        Вітаємо на платформі! 👋
+                    </div>
+
+                    <div class="chat-message">
+                        <strong>LuckyPlayer:</strong>
+                        Всім удачі! 🍀
+                    </div>
+
+                    <div class="chat-input">
+
+                        <input
+                            id="chatInput"
+                            placeholder="Повідомлення...">
+
+                        <button
+                            class="buy-btn"
+                            onclick="sendChat()">
+                            →
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button
+                class="buy-btn"
+                style="width:100%;padding:15px"
+                onclick="logout()">
+
+                Вийти з акаунта
+
+            </button>
 
         </div>
-
-        <button
-            class="card-action"
-            onclick="logout()">
-
-            ВИЙТИ
-
-        </button>
-
     `;
 }
 
 
-/* ==========================================
-   PAGES
-========================================== */
+function sendChat(){
+
+    const input =
+        document.getElementById("chatInput");
+
+    if(!input) return;
+
+    const text =
+        input.value.trim();
+
+    if(!text) return;
+
+    alert(
+        "Повідомлення відправлено:\n" +
+        text
+    );
+
+    input.value = "";
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
 
 function showPage(page){
-
-    currentPage = page;
 
     document
         .querySelectorAll(".nav-btn")
         .forEach(btn=>{
             btn.classList.remove("active");
-
-            if(btn.dataset.page === page)
-                btn.classList.add("active");
         });
 
-    if(page === "games")
+    const active =
+        document.querySelector(
+            `[data-page="${page}"]`
+        );
+
+    if(active){
+        active.classList.add("active");
+    }
+
+    if(page==="games"){
         gamesPage();
+    }
 
-    if(page === "bonus")
+    if(page==="bonus"){
         bonusPage();
+    }
 
-    if(page === "profile")
+    if(page==="profile"){
         profilePage();
+    }
 }
 
-
-/* ==========================================
-   MODALS
-========================================== */
-
-function openModal(id){
-
-    document
-        .getElementById(id)
-        .classList.add("active");
-}
-
-function closeModal(id){
-
-    document
-        .getElementById(id)
-        .classList.remove("active");
-}
-
-
-/* ==========================================
-   AUTH BUTTONS
-========================================== */
-
-document
-    .getElementById("loginBtn")
-    .onclick =
-    ()=>openModal("loginModal");
-
-document
-    .getElementById("registerBtn")
-    .onclick =
-    ()=>openModal("registerModal");
-
-
-document
-    .querySelectorAll("[data-close]")
-    .forEach(btn=>{
-
-        btn.onclick = ()=>{
-            closeModal(
-                btn.dataset.close
-            );
-        };
-
-    });
-
-
-/* ==========================================
-   REGISTER
-========================================== */
-
-document
-    .getElementById("registerForm")
-    .onsubmit =
-    function(e){
-
-        e.preventDefault();
-
-        userName =
-            document
-                .getElementById("registerName")
-                .value
-                .trim();
-
-        userId =
-            "YMY-" +
-            Math.random()
-                .toString(36)
-                .substring(2,9)
-                .toUpperCase();
-
-        balance = 50;
-
-        save();
-
-        closeModal("registerModal");
-
-        openApp();
-    };
-
-
-/* ==========================================
-   LOGIN
-========================================== */
-
-document
-    .getElementById("loginForm")
-    .onsubmit =
-    function(e){
-
-        e.preventDefault();
-
-        const email =
-            document
-                .getElementById("loginEmail")
-                .value
-                .trim();
-
-        if(!userName)
-            userName =
-                email.split("@")[0];
-
-        if(!userId)
-            userId =
-                "YMY-" +
-                Math.random()
-                    .toString(36)
-                    .substring(2,9)
-                    .toUpperCase();
-
-        save();
-
-        closeModal("loginModal");
-
-        openApp();
-    };
-
-
-/* ==========================================
-   NAVIGATION
-========================================== */
 
 document
     .querySelectorAll("[data-page]")
-    .forEach(btn=>{
+    .forEach(button=>{
 
-        btn.addEventListener(
+        button.addEventListener(
             "click",
             ()=>{
                 showPage(
-                    btn.dataset.page
+                    button.dataset.page
                 );
             }
         );
@@ -1746,48 +1681,545 @@ document
     });
 
 
-/* ==========================================
-   SUPPORT
-========================================== */
+/* =========================
+   MODALS
+========================= */
+
+function openModal(id){
+
+    const modal =
+        document.getElementById(id);
+
+    if(modal){
+        modal.classList.add("active");
+    }
+}
+
+
+function closeModal(id){
+
+    const modal =
+        document.getElementById(id);
+
+    if(modal){
+        modal.classList.remove("active");
+    }
+}
+
 
 document
-    .getElementById("supportBtn")
-    .onclick = ()=>{
+    .querySelectorAll("[data-close]")
+    .forEach(button=>{
 
-        alert(
-            "Підтримка YesMoneY\n\n" +
-            "Розділ підтримки буде " +
-            "підключено на наступному етапі."
+        button.addEventListener(
+            "click",
+            ()=>{
+                closeModal(
+                    button.dataset.close
+                );
+            }
         );
 
-    };
+    });
 
 
-/* ==========================================
+/* =========================
+   AUTH
+========================= */
+
+document
+    .getElementById("loginButton")
+    .addEventListener("click",()=>{
+        openModal("loginModal");
+    });
+
+
+document
+    .getElementById("registerButton")
+    .addEventListener("click",()=>{
+        openModal("registerModal");
+    });
+
+
+document
+    .getElementById("switchToRegister")
+    .addEventListener("click",()=>{
+
+        closeModal("loginModal");
+        openModal("registerModal");
+
+    });
+
+
+document
+    .getElementById("switchToLogin")
+    .addEventListener("click",()=>{
+
+        closeModal("registerModal");
+        openModal("loginModal");
+
+    });
+
+
+document
+    .getElementById("registerForm")
+    .addEventListener("submit",event=>{
+
+        event.preventDefault();
+
+        const name =
+            document.getElementById("registerName")
+            .value.trim();
+
+        const password =
+            document.getElementById("registerPassword")
+            .value;
+
+        const password2 =
+            document.getElementById("registerPassword2")
+            .value;
+
+        if(password !== password2){
+
+            alert("Паролі не співпадають.");
+            return;
+        }
+
+        userName = name;
+
+        userId =
+            "YMY-" +
+            Math.random()
+            .toString(36)
+            .substring(2,9)
+            .toUpperCase();
+
+        balance = 50;
+
+        saveData();
+
+        closeModal("registerModal");
+
+        openApp();
+
+        alert(
+            "Вітаємо, " +
+            name +
+            "! 🎉\n\n" +
+            "Стартовий баланс: 50 YMY."
+        );
+
+    });
+
+
+document
+    .getElementById("loginForm")
+    .addEventListener("submit",event=>{
+
+        event.preventDefault();
+
+        const email =
+            document.getElementById("loginEmail")
+            .value.trim();
+
+        if(!email) return;
+
+        if(!userName){
+
+            userName =
+                email.split("@")[0];
+
+            userId =
+                "YMY-" +
+                Math.random()
+                .toString(36)
+                .substring(2,9)
+                .toUpperCase();
+
+            saveData();
+        }
+
+        closeModal("loginModal");
+
+        openApp();
+
+    });
+
+
+/* =========================
+   777 ENGINE
+========================= */
+
+const symbols = [
+    "7️⃣",
+    "🍒",
+    "🍋",
+    "💎",
+    "⭐",
+    "🔔",
+    "🍀"
+];
+
+let bet = 5;
+let slotSpinning = false;
+
+
+const reels = [
+    document.getElementById("reel1"),
+    document.getElementById("reel2"),
+    document.getElementById("reel3")
+];
+
+
+function updateSlotUI(){
+
+    document.getElementById("betValue")
+        .textContent = bet;
+
+    document.getElementById("slotBetInfo")
+        .textContent = bet;
+
+    document.getElementById("slotBalanceInfo")
+        .textContent = Math.floor(balance);
+
+}
+
+
+document
+    .getElementById("betMinus")
+    .addEventListener("click",()=>{
+
+        if(slotSpinning) return;
+
+        bet -= 5;
+
+        if(bet < 5){
+            bet = 5;
+        }
+
+        updateSlotUI();
+
+    });
+
+
+document
+    .getElementById("betPlus")
+    .addEventListener("click",()=>{
+
+        if(slotSpinning) return;
+
+        bet += 5;
+
+        if(bet > 50){
+            bet = 50;
+        }
+
+        updateSlotUI();
+
+    });
+
+
+function randomSymbol(){
+
+    return symbols[
+        Math.floor(
+            Math.random()*symbols.length
+        )
+    ];
+}
+
+
+function createWinEffect(){
+
+    const overlay =
+        document.getElementById("winOverlay");
+
+    overlay.classList.add("active");
+
+    for(let i=0;i<28;i++){
+
+        const coin =
+            document.createElement("div");
+
+        coin.className="coin";
+
+        coin.textContent =
+            Math.random()>.35
+            ? "🪙"
+            : "✨";
+
+        coin.style.left =
+            Math.random()*100+"%";
+
+        coin.style.animationDelay =
+            Math.random()*.4+"s";
+
+        overlay.appendChild(coin);
+
+        setTimeout(()=>{
+            coin.remove();
+        },1500);
+    }
+
+    setTimeout(()=>{
+        overlay.classList.remove("active");
+    },800);
+}
+
+
+function slotWin(amount){
+
+    reels.forEach(reel=>{
+        reel.classList.add("win");
+    });
+
+    const result =
+        document.getElementById("slotsResult");
+
+    result.className =
+        "slots-result win-text";
+
+    result.textContent =
+        "🎉 ВИГРАШ +" +
+        amount +
+        " YMY!";
+
+    createWinEffect();
+
+    setTimeout(()=>{
+
+        reels.forEach(reel=>{
+            reel.classList.remove("win");
+        });
+
+        result.className =
+            "slots-result";
+
+    },2500);
+}
+
+
+function spinSlots(){
+
+    if(slotSpinning) return;
+
+    if(balance < bet){
+
+        alert(
+            "Недостатньо YMY для цієї ставки."
+        );
+
+        return;
+    }
+
+    slotSpinning = true;
+
+    const button =
+        document.getElementById("slotsSpin");
+
+    const result =
+        document.getElementById("slotsResult");
+
+    button.disabled = true;
+
+    result.className =
+        "slots-result";
+
+    result.textContent =
+        "🎰 Барабани обертаються...";
+
+    balance -= bet;
+
+    updateBalance();
+
+    reels.forEach(reel=>{
+        reel.classList.add("spinning");
+    });
+
+    let ticks = 0;
+
+    const animation =
+        setInterval(()=>{
+
+            reels.forEach(reel=>{
+                reel.textContent =
+                    randomSymbol();
+            });
+
+            ticks++;
+
+            if(ticks >= 30){
+
+                clearInterval(animation);
+
+                finishSpin();
+
+            }
+
+        },80);
+
+
+    function finishSpin(){
+
+        reels.forEach(reel=>{
+            reel.classList.remove("spinning");
+        });
+
+        /*
+           Демонстраційна логіка:
+           шанс на виграш зберігається
+           всередині локальної гри.
+        */
+
+        const chance =
+            Math.random();
+
+        let resultSymbols;
+        let win = 0;
+
+        if(chance < .07){
+
+            resultSymbols =
+                ["7️⃣","7️⃣","7️⃣"];
+
+            win = bet * 15;
+
+        }
+        else if(chance < .16){
+
+            resultSymbols =
+                ["💎","💎","💎"];
+
+            win = bet * 8;
+
+        }
+        else if(chance < .28){
+
+            resultSymbols =
+                ["🍒","🍒","🍒"];
+
+            win = bet * 4;
+
+        }
+        else if(chance < .42){
+
+            resultSymbols =
+                ["⭐","⭐","⭐"];
+
+            win = bet * 2;
+
+        }
+        else{
+
+            resultSymbols = [
+                randomSymbol(),
+                randomSymbol(),
+                randomSymbol()
+            ];
+
+        }
+
+        reels[0].textContent =
+            resultSymbols[0];
+
+        setTimeout(()=>{
+
+            reels[1].textContent =
+                resultSymbols[1];
+
+        },180);
+
+        setTimeout(()=>{
+
+            reels[2].textContent =
+                resultSymbols[2];
+
+        },360);
+
+        setTimeout(()=>{
+
+            if(win > 0){
+
+                balance += win;
+
+                updateBalance();
+
+                slotWin(win);
+
+            }
+            else{
+
+                result.className =
+                    "slots-result";
+
+                result.textContent =
+                    "😅 Спробуйте ще раз";
+
+            }
+
+            slotSpinning = false;
+            button.disabled = false;
+
+            updateSlotUI();
+
+        },500);
+    }
+}
+
+
+document
+    .getElementById("slotsSpin")
+    .addEventListener(
+        "click",
+        spinSlots
+    );
+
+
+/* =========================
+   SUPPORT
+========================= */
+
+document
+    .getElementById("supportButton")
+    .addEventListener(
+        "click",
+        ()=>{
+            alert(
+                "🆘 Підтримка\n\n" +
+                "Розділ підтримки буде " +
+                "підключений на наступному етапі."
+            );
+        }
+    );
+
+
+/* =========================
    LOGOUT
-========================================== */
+========================= */
 
 function logout(){
 
     localStorage.removeItem("ymyName");
     localStorage.removeItem("ymyId");
+    localStorage.removeItem("ymyBalance");
 
     userName = null;
     userId = null;
+    balance = 50;
 
-    welcome.classList.remove("hidden");
     app.classList.add("hidden");
+    welcomeScreen.classList.remove("hidden");
 }
 
 
-/* ==========================================
+/* =========================
    START
-========================================== */
-
-updateBalance();
+========================= */
 
 if(userName){
+
     openApp();
+
 }
 
 </script>
