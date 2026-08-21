@@ -1,2775 +1,940 @@
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>YesMoneY</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:radial-gradient(circle at top,#27304f 0%,#111426 42%,#080a12 100%);
+    color:#fff;min-height:100vh;overflow-x:hidden
+}
+button{font-family:inherit;cursor:pointer}
+.hidden{display:none!important}
+
+#welcomeScreen{
+    min-height:100vh;display:flex;flex-direction:column;
+    justify-content:space-between;padding:35px 20px 45px;
+    animation:welcomeIn .7s ease
+}
+@keyframes welcomeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.logo{font-size:38px;font-weight:900;letter-spacing:2px;text-align:center}
+.logo span{opacity:.55}
+
+.auth-buttons{display:flex;justify-content:center;gap:10px;margin-top:25px}
+.auth-btn{
+    border:1px solid rgba(255,255,255,.18);border-radius:14px;
+    padding:13px 20px;color:#fff;background:rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);font-weight:700
+}
+.auth-btn.primary,.submit-btn,.buy-btn,.spin-btn{
+    background:linear-gradient(135deg,#7167ff,#a76cff)
+}
+.auth-btn.primary{border:none;box-shadow:0 8px 25px rgba(113,103,255,.25)}
+
+.welcome-content{text-align:center;max-width:500px;margin:auto}
+.welcome-icon{font-size:70px;margin-bottom:25px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:none}50%{transform:translateY(-10px)}}
+.welcome-content h1{font-size:28px;margin-bottom:14px}
+.welcome-content p{color:rgba(255,255,255,.65);line-height:1.6}
+.welcome-bottom{text-align:center;color:rgba(255,255,255,.35);font-size:13px}
+
+#app{min-height:100vh;padding-bottom:90px}
+.topbar{
+    padding:22px 18px 10px;display:flex;align-items:center;
+    justify-content:space-between
+}
+.top-logo{font-size:25px;font-weight:900}
+.balance{
+    background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.1);
+    padding:9px 13px;border-radius:14px;font-weight:800
+}
+.balance small{color:rgba(255,255,255,.55);font-weight:500}
+.content{padding:12px 16px 25px;max-width:700px;margin:auto}
+.page{animation:pageIn .3s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.page-title{font-size:28px;margin:10px 0 7px}
+.page-subtitle{color:rgba(255,255,255,.55);margin-bottom:22px}
+
+.games-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.game-card{
+    min-height:145px;border-radius:20px;padding:17px;
+    background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
+    border:1px solid rgba(255,255,255,.09);transition:.2s
+}
+.game-card:active{transform:scale(.96)}
+.game-icon{font-size:42px;margin-bottom:15px}
+.game-card h3{font-size:16px;margin-bottom:5px}
+.game-card p{color:rgba(255,255,255,.48);font-size:12px}
+
+.game-screen{
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+    border-radius:22px;padding:20px;text-align:center
+}
+.back-btn{
+    background:rgba(255,255,255,.08);color:white;border:0;
+    border-radius:12px;padding:10px 15px;margin-bottom:20px
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background:
-        radial-gradient(circle at top, #27304f 0%, #111426 42%, #080a12 100%);
-    color: #fff;
-    min-height: 100vh;
-    overflow-x: hidden;
+.slots{
+    background:#0c0f1d;border-radius:20px;padding:20px;
+    box-shadow:0 0 35px rgba(113,103,255,.18)
+}
+.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.reel{
+    height:105px;background:#171a2b;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:48px;border:2px solid rgba(255,255,255,.1)
+}
+.reel.spinning{animation:shake .08s linear infinite}
+@keyframes shake{0%{transform:translateY(-3px)}50%{transform:translateY(3px)}100%{transform:translateY(-3px)}}
+
+.bet-row{
+    display:flex;justify-content:center;align-items:center;
+    gap:15px;margin:18px 0
+}
+.bet-row button{
+    width:38px;height:38px;border:0;border-radius:10px;
+    background:rgba(255,255,255,.1);color:#fff;font-size:22px
+}
+.bet-value{font-weight:900;font-size:18px;min-width:80px}
+.spin-btn{
+    border:0;border-radius:15px;padding:15px 35px;color:#fff;
+    font-weight:900;font-size:16px
+}
+.result{min-height:30px;margin-top:15px;font-weight:800}
+
+.bonus-card,.profile-card{
+    background:rgba(255,255,255,.075);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:20px;padding:20px;margin-bottom:13px
+}
+.bonus-icon{font-size:38px;margin-bottom:10px}
+.bonus-card p{color:rgba(255,255,255,.58);line-height:1.5;font-size:14px}
+.bonus-price{margin-top:14px;display:flex;justify-content:space-between;align-items:center}
+.buy-btn{border:0;border-radius:12px;padding:10px 15px;color:white;font-weight:800}
+
+.avatar{
+    width:70px;height:70px;border-radius:50%;
+    background:linear-gradient(135deg,#7167ff,#b46cff);
+    display:flex;align-items:center;justify-content:center;
+    font-size:30px;font-weight:900;margin-bottom:15px
+}
+.profile-name{font-size:22px;font-weight:800}
+.profile-id{color:rgba(255,255,255,.45);margin-top:5px;font-size:13px}
+.info-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.info-row:last-child{border-bottom:0}
+.info-row span:first-child{color:rgba(255,255,255,.5)}
+
+.chat-box{background:rgba(255,255,255,.05);border-radius:18px;padding:15px}
+.chat-message{background:rgba(255,255,255,.07);padding:11px;border-radius:12px;margin-bottom:8px}
+.chat-input{display:flex;gap:8px;margin-top:12px}
+.chat-input input{
+    flex:1;min-width:0;padding:13px;border:0;border-radius:12px;
+    background:rgba(255,255,255,.1);color:#fff;outline:0
 }
 
-button {
-    font-family: inherit;
-    cursor: pointer;
+.bottom-nav{
+    position:fixed;z-index:50;bottom:0;left:0;right:0;height:76px;
+    background:rgba(11,13,25,.94);backdrop-filter:blur(18px);
+    border-top:1px solid rgba(255,255,255,.08);
+    display:grid;grid-template-columns:repeat(4,1fr)
+}
+.nav-btn{
+    background:none;border:0;color:rgba(255,255,255,.42);
+    display:flex;flex-direction:column;justify-content:center;
+    align-items:center;gap:5px;transition:.2s
+}
+.nav-btn .nav-icon{font-size:23px}
+.nav-btn span:last-child{font-size:11px}
+.nav-btn.active{color:#fff;transform:translateY(-2px)}
+
+.support-btn{
+    position:fixed;z-index:60;left:14px;bottom:88px;
+    width:48px;height:48px;border:0;border-radius:50%;
+    background:linear-gradient(135deg,#7167ff,#a66cff);
+    color:#fff;font-size:22px
 }
 
-.hidden {
-    display: none !important;
+.modal{
+    position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);
+    backdrop-filter:blur(10px);display:none;align-items:center;
+    justify-content:center;padding:20px
 }
-
-/* =========================
-   WELCOME
-========================= */
-
-#welcomeScreen {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 35px 20px 45px;
-    animation: welcomeIn 1s ease;
+.modal.active{display:flex}
+.modal-box{
+    width:100%;max-width:430px;background:#171a2b;
+    border:1px solid rgba(255,255,255,.1);border-radius:25px;
+    padding:24px;position:relative;max-height:90vh;overflow:auto
 }
-
-@keyframes welcomeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.close{
+    position:absolute;right:15px;top:13px;border:0;
+    background:rgba(255,255,255,.08);color:#fff;
+    width:35px;height:35px;border-radius:50%;font-size:22px
 }
-
-.logo {
-    font-size: 38px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-align: center;
-    text-shadow: 0 0 25px rgba(255,255,255,.2);
+.modal-subtitle{color:rgba(255,255,255,.5);margin:8px 0 20px}
+.input-group{margin-bottom:15px}
+.input-group label{display:block;color:rgba(255,255,255,.65);font-size:13px;margin-bottom:7px}
+.input-group input{
+    width:100%;padding:14px;border:1px solid rgba(255,255,255,.09);
+    border-radius:13px;outline:0;background:rgba(255,255,255,.07);
+    color:#fff;font-size:15px
 }
-
-.logo span {
-    opacity: .55;
+.submit-btn{
+    width:100%;padding:15px;border:0;border-radius:14px;
+    color:#fff;font-weight:900
 }
+.switch{text-align:center;margin-top:18px;color:rgba(255,255,255,.45);font-size:13px}
+.switch button{background:none;border:0;color:#a995ff;font-weight:700}
 
-.auth-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 25px;
-}
-
-.auth-btn {
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 14px;
-    padding: 13px 20px;
-    color: white;
-    background: rgba(255,255,255,.08);
-    backdrop-filter: blur(10px);
-    font-weight: 700;
-}
-
-.auth-btn.primary {
-    background: linear-gradient(135deg, #7167ff, #9c6cff);
-    border: none;
-    box-shadow: 0 8px 25px rgba(113,103,255,.25);
-}
-
-.welcome-content {
-    text-align: center;
-    max-width: 500px;
-    margin: auto;
-}
-
-.welcome-icon {
-    font-size: 70px;
-    margin-bottom: 25px;
-    animation: floatIcon 3s ease-in-out infinite;
-}
-
-@keyframes floatIcon {
-    0%,100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-.welcome-content h1 {
-    font-size: 28px;
-    margin-bottom: 14px;
-}
-
-.welcome-content p {
-    color: rgba(255,255,255,.65);
-    line-height: 1.6;
-    font-size: 16px;
-}
-
-.welcome-bottom {
-    text-align: center;
-    color: rgba(255,255,255,.35);
-    font-size: 13px;
-}
-
-/* =========================
-   APP
-========================= */
-
-#app {
-    min-height: 100vh;
-    padding-bottom: 90px;
-}
-
-.topbar {
-    padding: 22px 18px 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.top-logo {
-    font-size: 25px;
-    font-weight: 900;
-    letter-spacing: 1px;
-}
-
-.balance {
-    background: rgba(255,255,255,.09);
-    border: 1px solid rgba(255,255,255,.1);
-    padding: 9px 13px;
-    border-radius: 14px;
-    font-weight: 800;
-}
-
-.balance small {
-    color: rgba(255,255,255,.55);
-    font-weight: 500;
-}
-
-.content {
-    padding: 12px 16px 25px;
-}
-
-.page {
-    animation: pageIn .35s ease;
-}
-
-@keyframes pageIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.page-title {
-    font-size: 28px;
-    margin: 10px 0 7px;
-}
-
-.page-subtitle {
-    color: rgba(255,255,255,.55);
-    margin-bottom: 22px;
-}
-
-/* =========================
-   GAMES
-========================= */
-
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-.game-card {
-    min-height: 145px;
-    border-radius: 20px;
-    padding: 17px;
-    background: linear-gradient(
-        145deg,
-        rgba(255,255,255,.12),
-        rgba(255,255,255,.035)
+.wheel{
+    width:245px;height:245px;margin:25px auto;border-radius:50%;
+    border:8px solid rgba(255,255,255,.15);
+    background:conic-gradient(
+        #7569ff 0 45deg,#242945 45deg 90deg,
+        #a26cff 90deg 135deg,#242945 135deg 180deg,
+        #7569ff 180deg 225deg,#242945 225deg 270deg,
+        #a26cff 270deg 315deg,#242945 315deg 360deg
     );
-    border: 1px solid rgba(255,255,255,.09);
-    position: relative;
-    overflow: hidden;
-    transition: .25s;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform 4s cubic-bezier(.12,.7,.18,1)
 }
-
-.game-card:active {
-    transform: scale(.96);
-}
-
-.game-card:first-child {
-    border-color: rgba(150,120,255,.45);
-    box-shadow: 0 0 25px rgba(113,103,255,.12);
-}
-
-.game-icon {
-    font-size: 42px;
-    margin-bottom: 15px;
-}
-
-.game-card h3 {
-    font-size: 16px;
-    margin-bottom: 5px;
-}
-
-.game-card p {
-    color: rgba(255,255,255,.48);
-    font-size: 12px;
-}
-
-/* =========================
-   BONUSES
-========================= */
-
-.bonus-card {
-    background: rgba(255,255,255,.075);
-    border: 1px solid rgba(255,255,255,.09);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 13px;
-}
-
-.bonus-icon {
-    font-size: 38px;
-    margin-bottom: 10px;
-}
-
-.bonus-card h3 {
-    margin-bottom: 8px;
-}
-
-.bonus-card p {
-    color: rgba(255,255,255,.58);
-    line-height: 1.5;
-    font-size: 14px;
-}
-
-.bonus-price {
-    margin-top: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.buy-btn {
-    border: none;
-    border-radius: 12px;
-    padding: 10px 15px;
-    background: linear-gradient(135deg,#7167ff,#a76cff);
-    color: white;
-    font-weight: 800;
-}
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile-card {
-    background: rgba(255,255,255,.075);
-    border: 1px solid rgba(255,255,255,.09);
-    border-radius: 22px;
-    padding: 22px;
-    margin-bottom: 14px;
-}
-
-.avatar {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: linear-gradient(135deg,#7167ff,#b46cff);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    font-weight: 900;
-    margin-bottom: 15px;
-}
-
-.profile-name {
-    font-size: 22px;
-    font-weight: 800;
-}
-
-.profile-id {
-    color: rgba(255,255,255,.45);
-    margin-top: 5px;
-    font-size: 13px;
-}
-
-.info-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(255,255,255,.07);
-}
-
-.info-row:last-child {
-    border-bottom: none;
-}
-
-.info-row span:first-child {
-    color: rgba(255,255,255,.5);
-}
-
-.info-row span:last-child {
-    font-weight: 800;
-}
-
-.ref-box {
-    margin-top: 15px;
-    padding: 15px;
-    border-radius: 15px;
-    background: rgba(113,103,255,.12);
-}
-
-/* =========================
-   CHAT
-========================= */
-
-.chat-box {
-    background: rgba(255,255,255,.06);
-    border-radius: 20px;
-    padding: 15px;
-    min-height: 200px;
-}
-
-.chat-message {
-    background: rgba(255,255,255,.07);
-    padding: 11px 13px;
-    border-radius: 12px;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-.chat-input {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-.chat-input input {
-    flex: 1;
-    min-width: 0;
-    padding: 13px;
-    border-radius: 12px;
-    border: none;
-    outline: none;
-    background: rgba(255,255,255,.1);
-    color: white;
-}
-
-/* =========================
-   BOTTOM NAV
-========================= */
-
-.bottom-nav {
-    position: fixed;
-    z-index: 50;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 76px;
-    background: rgba(11,13,25,.94);
-    backdrop-filter: blur(18px);
-    border-top: 1px solid rgba(255,255,255,.08);
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-}
-
-.nav-btn {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,.42);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    transition: .25s;
-}
-
-.nav-btn .nav-icon {
-    font-size: 23px;
-}
-
-.nav-btn span:last-child {
-    font-size: 11px;
-}
-
-.nav-btn.active {
-    color: white;
-    transform: translateY(-2px);
-}
-
-.nav-btn.active .nav-icon {
-    filter: drop-shadow(0 0 9px rgba(150,120,255,.8));
-}
-
-/* =========================
-   SUPPORT
-========================= */
-
-.support-btn {
-    position: fixed;
-    z-index: 60;
-    left: 14px;
-    bottom: 88px;
-    width: 48px;
-    height: 48px;
-    border: none;
-    border-radius: 50%;
-    background: linear-gradient(135deg,#7167ff,#a66cff);
-    color: white;
-    font-size: 22px;
-    box-shadow: 0 8px 25px rgba(0,0,0,.35);
-}
-
-/* =========================
-   MODAL
-========================= */
-
-.modal {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    background: rgba(0,0,0,.72);
-    backdrop-filter: blur(10px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.modal.active {
-    display: flex;
-    animation: modalBg .25s ease;
-}
-
-@keyframes modalBg {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 430px;
-    max-height: 90vh;
-    overflow-y: auto;
-    background: #171a2b;
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 25px;
-    padding: 24px;
-    position: relative;
-    animation: modalIn .3s ease;
-}
-
-@keyframes modalIn {
-    from {
-        opacity: 0;
-        transform: translateY(25px) scale(.96);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+.wheel-center{
+    width:75px;height:75px;background:#171a2b;
+    border:5px solid rgba(255,255,255,.15);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-weight:900
 }
-
-.close {
-    position: absolute;
-    right: 15px;
-    top: 13px;
-    border: none;
-    background: rgba(255,255,255,.08);
-    color: white;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    font-size: 22px;
-}
-
-.modal-box h2 {
-    font-size: 25px;
-    margin-bottom: 8px;
-}
-
-.modal-subtitle {
-    color: rgba(255,255,255,.5);
-    margin-bottom: 20px;
-}
-
-.input-group {
-    margin-bottom: 15px;
-}
-
-.input-group label {
-    display: block;
-    color: rgba(255,255,255,.65);
-    font-size: 13px;
-    margin-bottom: 7px;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid rgba(255,255,255,.09);
-    border-radius: 13px;
-    outline: none;
-    background: rgba(255,255,255,.07);
-    color: white;
-    font-size: 15px;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 14px;
-    background: linear-gradient(135deg,#7167ff,#a76cff);
-    color: white;
-    font-weight: 900;
-    margin-top: 5px;
-}
-
-.switch {
-    text-align: center;
-    margin-top: 18px;
-    color: rgba(255,255,255,.45);
-    font-size: 13px;
-}
-
-.switch button {
-    background: none;
-    border: none;
-    color: #a995ff;
-    font-weight: 700;
-}
-
-/* =========================
-   WHEEL
-========================= */
-
-.wheel-wrap {
-    text-align: center;
-    padding: 10px 0;
-}
-
-.wheel {
-    width: 245px;
-    height: 245px;
-    margin: 20px auto;
-    border-radius: 50%;
-    border: 8px solid rgba(255,255,255,.15);
-    background:
-        conic-gradient(
-            #7569ff 0deg 45deg,
-            #242945 45deg 90deg,
-            #a26cff 90deg 135deg,
-            #242945 135deg 180deg,
-            #7569ff 180deg 225deg,
-            #242945 225deg 270deg,
-            #a26cff 270deg 315deg,
-            #242945 315deg 360deg
-        );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 4s cubic-bezier(.12,.7,.18,1);
-    box-shadow: 0 0 45px rgba(117,105,255,.25);
-}
-
-.wheel-center {
-    width: 75px;
-    height: 75px;
-    background: #171a2b;
-    border: 5px solid rgba(255,255,255,.15);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-}
-
-.spin-btn {
-    padding: 15px 35px;
-    border: none;
-    border-radius: 15px;
-    background: linear-gradient(135deg,#7167ff,#ad6cff);
-    color: white;
-    font-size: 16px;
-    font-weight: 900;
-}
-
-/* =========================
-   NEON SLOTS
-========================= */
-
-.slots-box {
-    text-align: center;
-    overflow: hidden;
-}
-
-.slots-header {
-    margin-bottom: 20px;
-}
-
-.slots-title {
-    font-size: 27px;
-    font-weight: 900;
-    letter-spacing: 1px;
-}
-
-.slots-subtitle {
-    color: rgba(255,255,255,.5);
-    margin-top: 6px;
-}
-
-.slots-machine {
-    position: relative;
-    padding: 22px 10px;
-    border-radius: 22px;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(113,103,255,.2),
-            rgba(255,255,255,.04)
-        );
-    border: 1px solid rgba(255,255,255,.1);
-    box-shadow:
-        0 0 35px rgba(113,103,255,.15);
-}
-
-.slot-reels {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 9px;
-}
-
-.slot-reel {
-    height: 100px;
-    border-radius: 15px;
-    background: #0e1120;
-    border: 2px solid rgba(255,255,255,.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 48px;
-    box-shadow:
-        inset 0 0 20px rgba(0,0,0,.4);
-    transition: transform .1s;
-}
-
-.slot-line {
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    top: 50%;
-    height: 2px;
-    background: rgba(255,255,255,.2);
-    pointer-events: none;
-}
-
-.slot-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.slot-info > div {
-    background: rgba(255,255,255,.06);
-    border-radius: 14px;
-    padding: 12px;
-}
-
-.slot-info span {
-    display: block;
-    color: rgba(255,255,255,.45);
-    font-size: 12px;
-    margin-bottom: 5px;
-}
-
-.slot-info strong {
-    font-size: 15px;
-}
-
-.bet-control {
-    width: 27px;
-    height: 27px;
-    border: none;
-    border-radius: 7px;
-    background: rgba(255,255,255,.1);
-    color: white;
-    font-size: 18px;
-    line-height: 20px;
-}
-
-.slots-spin {
-    width: 100%;
-    margin-top: 15px;
-}
-
-.slots-result {
-    min-height: 25px;
-    margin-top: 13px;
-    font-size: 15px;
-    font-weight: 800;
-}
-
-.slot-spinning {
-    animation: slotShake .09s linear infinite;
-}
-
-@keyframes slotShake {
-    0% {
-        transform: translateY(-5px);
-    }
-
-    50% {
-        transform: translateY(5px);
-    }
-
-    100% {
-        transform: translateY(-5px);
-    }
-}
-
-.slot-win {
-    animation: slotWin .5s ease infinite alternate;
-}
-
-@keyframes slotWin {
-    from {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(150,120,255,.3);
-    }
-
-    to {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(150,120,255,.8);
-    }
-}
-
-/* =========================
-   SUPPORT CONTENT
-========================= */
-
-.support-content {
-    text-align: center;
-}
-
-.support-content .big-icon {
-    font-size: 55px;
-    margin: 10px 0 20px;
-}
-
-.support-content p {
-    color: rgba(255,255,255,.55);
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (min-width: 700px) {
-
-    .content {
-        max-width: 700px;
-        margin: auto;
-    }
-
-    .games-grid {
-        grid-template-columns: repeat(3,1fr);
-    }
 
+@media(min-width:700px){
+    .games-grid{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     WELCOME
-========================= -->
-
 <section id="welcomeScreen">
-
     <div>
-
-        <div class="logo">
-            Yes<span>MoneY</span>
-        </div>
-
+        <div class="logo">Yes<span>MoneY</span></div>
         <div class="auth-buttons">
-
-            <button
-                class="auth-btn"
-                id="loginButton">
-                Увійти
-            </button>
-
-            <button
-                class="auth-btn primary"
-                id="registerButton">
-                Реєстрація
-            </button>
-
+            <button class="auth-btn" id="loginButton">Увійти</button>
+            <button class="auth-btn primary" id="registerButton">Реєстрація</button>
         </div>
-
     </div>
-
 
     <div class="welcome-content">
-
-        <div class="welcome-icon">
-            ✨
-        </div>
-
-        <h1>
-            Вітаємо!
-        </h1>
-
+        <div class="welcome-icon">✨</div>
+        <h1>Вітаємо!</h1>
         <p>
             Ми раді бачити Вас на нашій новій платформі.
-            Створіть акаунт та відкрийте для себе світ
-            YesMoneY.
+            Створіть акаунт та відкрийте для себе світ YesMoneY.
         </p>
-
     </div>
-
 
     <div class="welcome-bottom">
         Нова платформа • Нові можливості
     </div>
-
 </section>
-
-
-<!-- =========================
-     APP
-========================= -->
 
 <section id="app" class="hidden">
 
     <header class="topbar">
-
-        <div class="top-logo">
-            YesMoneY
-        </div>
-
+        <div class="top-logo">YesMoneY</div>
         <div class="balance">
-
-            💰
-            <span id="balanceValue">
-                50
-            </span>
-
-            <small>
-                YMY
-            </small>
-
+            💰 <span id="balanceValue">50</span> <small>YMY</small>
         </div>
-
     </header>
 
+    <main class="content" id="mainContent"></main>
 
-    <main
-        class="content"
-        id="mainContent">
-    </main>
-
-
-    <button
-        class="support-btn"
-        id="supportButton">
-        🆘
-    </button>
-
+    <button class="support-btn" id="supportButton">🆘</button>
 
     <nav class="bottom-nav">
-
-        <button
-            class="nav-btn active"
-            data-page="games">
-
-            <span class="nav-icon">
-                🎮
-            </span>
-
-            <span>
-                Грати
-            </span>
-
+        <button class="nav-btn active" data-page="games">
+            <span class="nav-icon">🎮</span>
+            <span>Грати</span>
         </button>
 
-
-        <button
-            class="nav-btn"
-            data-page="bonus">
-
-            <span class="nav-icon">
-                🎁
-            </span>
-
-            <span>
-                Бонус
-            </span>
-
+        <button class="nav-btn" data-page="bonus">
+            <span class="nav-icon">🎁</span>
+            <span>Бонус</span>
         </button>
 
-
-        <button
-            class="nav-btn"
-            id="wheelButton">
-
-            <span class="nav-icon">
-                🎰
-            </span>
-
-            <span>
-                Барабан
-            </span>
-
+        <button class="nav-btn" id="wheelButton">
+            <span class="nav-icon">🎰</span>
+            <span>Барабан</span>
         </button>
 
-
-        <button
-            class="nav-btn"
-            data-page="profile">
-
-            <span class="nav-icon">
-                👤
-            </span>
-
-            <span>
-                Профіль
-            </span>
-
+        <button class="nav-btn" data-page="profile">
+            <span class="nav-icon">👤</span>
+            <span>Профіль</span>
         </button>
-
     </nav>
-
 </section>
 
-
-<!-- =========================
-     LOGIN
-========================= -->
-
-<div
-    class="modal"
-    id="loginModal">
-
+<div class="modal" id="loginModal">
     <div class="modal-box">
-
-        <button
-            class="close"
-            data-close="loginModal">
-            ×
-        </button>
-
-        <h2>
-            Вхід
-        </h2>
-
-        <p class="modal-subtitle">
-            Ласкаво просимо назад
-        </p>
-
+        <button class="close" data-close="loginModal">×</button>
+        <h2>Вхід</h2>
+        <p class="modal-subtitle">Ласкаво просимо назад</p>
 
         <form id="loginForm">
-
             <div class="input-group">
-
-                <label>
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="loginEmail"
-                    placeholder="Ваш email"
-                    required>
-
+                <label>Email</label>
+                <input type="email" id="loginEmail" required>
             </div>
 
-
             <div class="input-group">
-
-                <label>
-                    Пароль
-                </label>
-
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Ваш пароль"
-                    required>
-
+                <label>Пароль</label>
+                <input type="password" id="loginPassword" required>
             </div>
 
-
-            <button
-                class="submit-btn"
-                type="submit">
-
-                УВІЙТИ
-
-            </button>
-
+            <button class="submit-btn" type="submit">УВІЙТИ</button>
         </form>
 
-
         <div class="switch">
-
             Немає акаунта?
-
-            <button id="switchToRegister">
-                Зареєструватися
-            </button>
-
+            <button id="switchToRegister">Зареєструватися</button>
         </div>
-
     </div>
-
 </div>
 
-
-<!-- =========================
-     REGISTER
-========================= -->
-
-<div
-    class="modal"
-    id="registerModal">
-
+<div class="modal" id="registerModal">
     <div class="modal-box">
-
-        <button
-            class="close"
-            data-close="registerModal">
-            ×
-        </button>
-
-        <h2>
-            Реєстрація
-        </h2>
-
-        <p class="modal-subtitle">
-            Створіть свій акаунт YesMoneY
-        </p>
-
+        <button class="close" data-close="registerModal">×</button>
+        <h2>Реєстрація</h2>
+        <p class="modal-subtitle">Створіть свій акаунт YesMoneY</p>
 
         <form id="registerForm">
-
             <div class="input-group">
-
-                <label>
-                    Ім'я користувача
-                </label>
-
-                <input
-                    type="text"
-                    id="registerName"
-                    placeholder="Ваше ім'я"
-                    minlength="3"
-                    required>
-
+                <label>Ім'я користувача</label>
+                <input type="text" id="registerName" minlength="3" required>
             </div>
 
-
             <div class="input-group">
-
-                <label>
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="registerEmail"
-                    placeholder="Ваш email"
-                    required>
-
+                <label>Email</label>
+                <input type="email" id="registerEmail" required>
             </div>
 
-
             <div class="input-group">
-
-                <label>
-                    Пароль
-                </label>
-
-                <input
-                    type="password"
-                    id="registerPassword"
-                    placeholder="Мінімум 6 символів"
-                    minlength="6"
-                    required>
-
+                <label>Пароль</label>
+                <input type="password" id="registerPassword" minlength="6" required>
             </div>
 
-
             <div class="input-group">
-
-                <label>
-                    Повторіть пароль
-                </label>
-
-                <input
-                    type="password"
-                    id="registerPassword2"
-                    placeholder="Повторіть пароль"
-                    minlength="6"
-                    required>
-
+                <label>Повторіть пароль</label>
+                <input type="password" id="registerPassword2" minlength="6" required>
             </div>
 
-
-            <button
-                class="submit-btn"
-                type="submit">
-
+            <button class="submit-btn" type="submit">
                 СТВОРИТИ АКАУНТ
-
             </button>
-
         </form>
 
-
         <div class="switch">
-
             Вже маєте акаунт?
-
-            <button id="switchToLogin">
-                Увійти
-            </button>
-
+            <button id="switchToLogin">Увійти</button>
         </div>
-
     </div>
-
 </div>
 
-
-<!-- =========================
-     WHEEL
-========================= -->
-
-<div
-    class="modal"
-    id="wheelModal">
-
+<div class="modal" id="wheelModal">
     <div class="modal-box">
+        <button class="close" data-close="wheelModal">×</button>
+        <h2>🎰 Барабан</h2>
+        <p class="modal-subtitle">Випробуйте свою удачу</p>
 
-        <button
-            class="close"
-            data-close="wheelModal">
-            ×
-        </button>
-
-        <h2>
-            🎰 Барабан
-        </h2>
-
-        <p class="modal-subtitle">
-            Випробуйте свою удачу
-        </p>
-
-
-        <div class="wheel-wrap">
-
-            <div
-                class="wheel"
-                id="wheel">
-
-                <div class="wheel-center">
-                    YMY
-                </div>
-
-            </div>
-
-
-            <button
-                class="spin-btn"
-                id="spinButton">
-
-                КРУТИТИ
-
-            </button>
-
-
-            <p
-                id="wheelResult"
-                style="margin-top:18px;color:rgba(255,255,255,.6);">
-            </p>
-
+        <div class="wheel" id="wheel">
+            <div class="wheel-center">YMY</div>
         </div>
 
-    </div>
-
-</div>
-
-
-<!-- =========================
-     NEON SLOTS
-========================= -->
-
-<div
-    class="modal"
-    id="slotsModal">
-
-    <div class="modal-box slots-box">
-
-        <button
-            class="close"
-            data-close="slotsModal">
-            ×
-        </button>
-
-
-        <div class="slots-header">
-
-            <div class="slots-title">
-                🎰 Neon Slots
-            </div>
-
-            <div class="slots-subtitle">
-                Віртуальна демо-гра
-            </div>
-
-        </div>
-
-
-        <div class="slots-machine">
-
-            <div class="slot-reels">
-
-                <div
-                    class="slot-reel"
-                    id="reel1">
-                    🍒
-                </div>
-
-                <div
-                    class="slot-reel"
-                    id="reel2">
-                    💎
-                </div>
-
-                <div
-                    class="slot-reel"
-                    id="reel3">
-                    7️⃣
-                </div>
-
-            </div>
-
-            <div class="slot-line"></div>
-
-        </div>
-
-
-        <div class="slot-info">
-
-            <div>
-
-                <span>
-                    Баланс
-                </span>
-
-                <strong>
-                    💰
-                    <span
-                        id="slotBalance"
-                        style="display:inline;">
-                        50
-                    </span>
-                    YMY
-                </strong>
-
-            </div>
-
-
-            <div>
-
-                <span>
-                    Ставка
-                </span>
-
-                <strong>
-
-                    <button
-                        class="bet-control"
-                        id="minusBet">
-                        −
-                    </button>
-
-                    <span
-                        id="slotBet"
-                        style="display:inline;">
-                        5
-                    </span>
-
-                    <button
-                        class="bet-control"
-                        id="plusBet">
-                        +
-                    </button>
-
-                    YMY
-
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="spin-btn slots-spin"
-            id="slotsSpinButton">
-
+        <button class="spin-btn" id="spinButton">
             КРУТИТИ
-
         </button>
 
-
-        <div
-            id="slotsResult"
-            class="slots-result">
-        </div>
-
+        <p id="wheelResult" style="text-align:center;margin-top:15px"></p>
     </div>
-
 </div>
-
-
-<!-- =========================
-     JAVASCRIPT
-========================= -->
 
 <script>
+const welcomeScreen=document.getElementById("welcomeScreen");
+const app=document.getElementById("app");
+const mainContent=document.getElementById("mainContent");
+const balanceValue=document.getElementById("balanceValue");
 
-const welcomeScreen =
-    document.getElementById("welcomeScreen");
+let balance=Number(localStorage.getItem("ymyBalance"))||50;
+let userName=localStorage.getItem("ymyName");
+let userId=localStorage.getItem("ymyId");
 
-const app =
-    document.getElementById("app");
-
-const mainContent =
-    document.getElementById("mainContent");
-
-const balanceValue =
-    document.getElementById("balanceValue");
-
-
-let balance =
-    Number(localStorage.getItem("ymyBalance")) || 50;
-
-let userName =
-    localStorage.getItem("ymyName");
-
-let userId =
-    localStorage.getItem("ymyId");
-
-
-/* =========================
-   SAVE
-========================= */
-
-function saveData() {
-
-    localStorage.setItem(
-        "ymyBalance",
-        balance
-    );
-
-    localStorage.setItem(
-        "ymyName",
-        userName || ""
-    );
-
-    localStorage.setItem(
-        "ymyId",
-        userId || ""
-    );
-
+function saveData(){
+    localStorage.setItem("ymyBalance",balance);
+    if(userName)localStorage.setItem("ymyName",userName);
+    if(userId)localStorage.setItem("ymyId",userId);
 }
 
-
-/* =========================
-   BALANCE
-========================= */
-
-function updateBalance() {
-
-    balanceValue.textContent =
-        Math.floor(balance);
-
-    const slotBalance =
-        document.getElementById("slotBalance");
-
-    if (slotBalance) {
-        slotBalance.textContent =
-            Math.floor(balance);
-    }
-
-    localStorage.setItem(
-        "ymyBalance",
-        balance
-    );
-
+function updateBalance(){
+    balanceValue.textContent=Math.floor(balance);
+    localStorage.setItem("ymyBalance",balance);
 }
 
-
-/* =========================
-   OPEN APP
-========================= */
-
-function openApp() {
-
+function openApp(){
     welcomeScreen.classList.add("hidden");
-
     app.classList.remove("hidden");
-
     updateBalance();
-
     showPage("games");
-
 }
 
-
-/* =========================
-   GAMES
-========================= */
-
-const games = [
-
-    ["🎰","Neon Slots","Яскраві оберти"],
+const games=[
+    ["🎰","Neon Slots","Класичні три барабани"],
     ["💎","Diamond Spin","Алмазний світ"],
     ["🔥","Fire Spin","Гарячий оберт"],
-    ["🍀","Lucky Clover","Спробуйте удачу"],
+    ["🍀","Lucky Clover","Щаслива конюшина"],
     ["🌙","Moon Night","Нічна гра"],
     ["⚡","Lightning","Швидкий режим"],
     ["👑","Royal Game","Королівська гра"],
     ["💰","Golden Win","Золотий шанс"],
     ["🚀","Rocket","Піднімайтесь вище"],
     ["🎯","Lucky Target","Влуч у ціль"]
-
 ];
 
-
-function gamesPage() {
-
-    let html = `
-
+function gamesPage(){
+    mainContent.innerHTML=`
         <div class="page">
-
-            <h1 class="page-title">
-                🎮 Грати
-            </h1>
-
-            <p class="page-subtitle">
-                Оберіть гру та випробуйте удачу
-            </p>
-
+            <h1 class="page-title">🎮 Грати</h1>
+            <p class="page-subtitle">Оберіть гру та випробуйте удачу</p>
             <div class="games-grid">
-    `;
-
-
-    games.forEach((game, index) => {
-
-        html += `
-
-            <div
-                class="game-card"
-                onclick="openGame(${index})">
-
-                <div class="game-icon">
-                    ${game[0]}
-                </div>
-
-                <h3>
-                    ${game[1]}
-                </h3>
-
-                <p>
-                    ${game[2]}
-                </p>
-
-            </div>
-
-        `;
-
-    });
-
-
-    html += `
+                ${games.map((g,i)=>`
+                    <div class="game-card" onclick="openGame(${i})">
+                        <div class="game-icon">${g[0]}</div>
+                        <h3>${g[1]}</h3>
+                        <p>${g[2]}</p>
+                    </div>
+                `).join("")}
             </div>
         </div>
     `;
-
-
-    mainContent.innerHTML =
-        html;
-
 }
 
-
-/* =========================
-   BONUS
-========================= */
-
-function bonusPage() {
-
-    mainContent.innerHTML = `
-
+function bonusPage(){
+    mainContent.innerHTML=`
         <div class="page">
-
-            <h1 class="page-title">
-                🎁 Бонуси
-            </h1>
-
-            <p class="page-subtitle">
-                Спеціальні пропозиції для нових гравців
-            </p>
-
+            <h1 class="page-title">🎁 Бонуси</h1>
+            <p class="page-subtitle">Спеціальні пропозиції для гравців</p>
 
             <div class="bonus-card">
-
-                <div class="bonus-icon">
-                    🎁
-                </div>
-
-                <h3>
-                    Стартовий бонус
-                </h3>
-
-                <p>
-                    Демонстраційний бонус +50 YMY.
-                </p>
-
+                <div class="bonus-icon">🎁</div>
+                <h3>Стартовий бонус</h3>
+                <p>Додаткові 50 YMY до ігрового балансу.</p>
                 <div class="bonus-price">
-
-                    <strong>
-                        +50 YMY
-                    </strong>
-
-                    <button
-                        class="buy-btn"
-                        onclick="buyBonus(50)">
-
-                        Отримати
-
-                    </button>
-
+                    <strong>+50 YMY</strong>
+                    <button class="buy-btn" onclick="claimBonus(50,'start')">Отримати</button>
                 </div>
-
             </div>
-
 
             <div class="bonus-card">
-
-                <div class="bonus-icon">
-                    🔥
-                </div>
-
-                <h3>
-                    Подвійний шанс
-                </h3>
-
-                <p>
-                    Демонстраційний бонус +100 YMY.
-                </p>
-
+                <div class="bonus-icon">🔥</div>
+                <h3>Подвійний бонус</h3>
+                <p>Додаткові 100 YMY для ігрового режиму.</p>
                 <div class="bonus-price">
-
-                    <strong>
-                        +100 YMY
-                    </strong>
-
-                    <button
-                        class="buy-btn"
-                        onclick="buyBonus(100)">
-
-                        Отримати
-
-                    </button>
-
+                    <strong>+100 YMY</strong>
+                    <button class="buy-btn" onclick="claimBonus(100,'double')">Отримати</button>
                 </div>
-
             </div>
-
 
             <div class="bonus-card">
-
-                <div class="bonus-icon">
-                    👑
-                </div>
-
-                <h3>
-                    VIP старт
-                </h3>
-
-                <p>
-                    Демонстраційний бонус +250 YMY.
-                </p>
-
+                <div class="bonus-icon">👑</div>
+                <h3>VIP старт</h3>
+                <p>Преміальний бонус для нового гравця.</p>
                 <div class="bonus-price">
-
-                    <strong>
-                        +250 YMY
-                    </strong>
-
-                    <button
-                        class="buy-btn"
-                        onclick="buyBonus(250)">
-
-                        Отримати
-
-                    </button>
-
+                    <strong>+250 YMY</strong>
+                    <button class="buy-btn" onclick="claimBonus(250,'vip')">Отримати</button>
                 </div>
-
             </div>
-
         </div>
     `;
-
 }
 
-
-/* =========================
-   PROFILE
-========================= */
-
-function profilePage() {
-
-    const name =
-        userName || "Гість";
-
-    const id =
-        userId || "YMY-DEMO-001";
-
-
-    mainContent.innerHTML = `
-
-        <div class="page">
-
-            <h1 class="page-title">
-                👤 Профіль
-            </h1>
-
-            <p class="page-subtitle">
-                Ваш особистий кабінет
-            </p>
-
-
-            <div class="profile-card">
-
-                <div class="avatar">
-                    ${name.charAt(0).toUpperCase()}
-                </div>
-
-                <div class="profile-name">
-                    ${name}
-                </div>
-
-                <div class="profile-id">
-                    ID: ${id}
-                </div>
-
-
-                <div style="margin-top:20px">
-
-                    <div class="info-row">
-
-                        <span>
-                            Баланс
-                        </span>
-
-                        <span>
-                            💰 ${Math.floor(balance)} YMY
-                        </span>
-
-                    </div>
-
-
-                    <div class="info-row">
-
-                        <span>
-                            Бонуси
-                        </span>
-
-                        <span>
-                            🎁 0 YMY
-                        </span>
-
-                    </div>
-
-
-                    <div class="info-row">
-
-                        <span>
-                            Реферальні бонуси
-                        </span>
-
-                        <span>
-                            0 YMY
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="ref-box">
-
-                    <strong>
-                        👥 Реферальна система
-                    </strong>
-
-                    <p style="color:rgba(255,255,255,.55);margin-top:7px;font-size:13px">
-
-                        Запрошуйте друзів та отримуйте
-                        додаткові бонуси.
-
-                    </p>
-
-                    <div style="margin-top:12px;font-size:13px">
-
-                        Ваш код:
-                        <strong>
-                            ${id}
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="profile-card">
-
-                <h3 style="margin-bottom:15px">
-                    💬 Чат гравців
-                </h3>
-
-                <div class="chat-box">
-
-                    <div class="chat-message">
-                        <strong>YMY_Admin:</strong>
-                        Вітаємо на платформі! 👋
-                    </div>
-
-                    <div class="chat-message">
-                        <strong>LuckyPlayer:</strong>
-                        Всім удачі! 🍀
-                    </div>
-
-                    <div class="chat-input">
-
-                        <input
-                            id="chatInput"
-                            placeholder="Напишіть повідомлення...">
-
-                        <button
-                            class="buy-btn"
-                            onclick="sendChat()">
-
-                            →
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <button
-                class="buy-btn"
-                style="width:100%;padding:15px;margin-top:5px"
-                onclick="logout()">
-
-                Вийти з акаунта
-
-            </button>
-
-        </div>
-    `;
-
-}
-
-
-/* =========================
-   PAGES
-========================= */
-
-function showPage(page) {
-
-    document
-        .querySelectorAll(".nav-btn")
-        .forEach(button => {
-
-            button.classList.remove("active");
-
-        });
-
-
-    const active =
-        document.querySelector(
-            `[data-page="${page}"]`
-        );
-
-
-    if (active) {
-        active.classList.add("active");
-    }
-
-
-    if (page === "games") {
-        gamesPage();
-    }
-
-    if (page === "bonus") {
-        bonusPage();
-    }
-
-    if (page === "profile") {
-        profilePage();
-    }
-
-}
-
-
-/* =========================
-   GAME OPEN
-========================= */
-
-function openGame(index) {
-
-    if (index === 0) {
-
-        openModal("slotsModal");
-
-        updateSlotBalance();
-
+function claimBonus(amount,key){
+    const used=localStorage.getItem("bonus_"+key);
+
+    if(used){
+        alert("Цей бонус уже був отриманий.");
         return;
-
     }
 
-
-    const game =
-        games[index];
-
-
-    alert(
-        game[0] + " " +
-        game[1] +
-        "\n\nЦя гра буде доступна найближчим часом."
-    );
-
-}
-
-
-/* =========================
-   BONUS
-========================= */
-
-function buyBonus(amount) {
-
-    balance += amount;
-
+    balance+=amount;
+    localStorage.setItem("bonus_"+key,"1");
+    saveData();
     updateBalance();
 
-    saveData();
-
-    alert(
-        "Бонус отримано! 🎁\n\n" +
-        "+" + amount + " YMY"
-    );
-
+    alert("🎁 Бонус отримано!\n\n+"+amount+" YMY");
+    bonusPage();
 }
 
+function profilePage(){
+    const name=userName||"Гість";
+    const id=userId||"YMY-DEMO";
+
+    mainContent.innerHTML=`
+        <div class="page">
+            <h1 class="page-title">👤 Профіль</h1>
+            <p class="page-subtitle">Ваш особистий кабінет</p>
+
+            <div class="profile-card">
+                <div class="avatar">${name.charAt(0).toUpperCase()}</div>
+                <div class="profile-name">${name}</div>
+                <div class="profile-id">ID: ${id}</div>
+
+                <div style="margin-top:20px">
+                    <div class="info-row">
+                        <span>Баланс</span>
+                        <span>💰 ${Math.floor(balance)} YMY</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Бонуси</span>
+                        <span>🎁 YMY</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Реферальні бонуси</span>
+                        <span>0 YMY</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <h3 style="margin-bottom:15px">👥 Реферальна система</h3>
+                <p style="color:rgba(255,255,255,.55)">
+                    Запрошуйте друзів та отримуйте бонуси.
+                </p>
+                <div style="margin-top:12px">
+                    Ваш код: <strong>${id}</strong>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <h3 style="margin-bottom:15px">💬 Чат гравців</h3>
+
+                <div class="chat-box">
+                    <div class="chat-message">
+                        <strong>YMY_Admin:</strong> Вітаємо! 👋
+                    </div>
+
+                    <div class="chat-message">
+                        <strong>LuckyPlayer:</strong> Всім удачі! 🍀
+                    </div>
+
+                    <div id="chatMessages"></div>
+
+                    <div class="chat-input">
+                        <input id="chatInput" placeholder="Напишіть повідомлення...">
+                        <button class="buy-btn" onclick="sendChat()">→</button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="buy-btn"
+                style="width:100%;padding:15px"
+                onclick="logout()">
+                Вийти з акаунта
+            </button>
+        </div>
+    `;
+}
+
+function sendChat(){
+    const input=document.getElementById("chatInput");
+    const box=document.getElementById("chatMessages");
+
+    if(!input||!box)return;
+
+    const text=input.value.trim();
+    if(!text)return;
+
+    const msg=document.createElement("div");
+    msg.className="chat-message";
+    msg.innerHTML="<strong>"+escapeHtml(userName||"Гравець")+":</strong> "+escapeHtml(text);
+
+    box.appendChild(msg);
+    input.value="";
+}
+
+function escapeHtml(text){
+    return text.replace(/[&<>"']/g,m=>({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+    }[m]));
+}
+
+function showPage(page){
+    document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+
+    const active=document.querySelector(`[data-page="${page}"]`);
+    if(active)active.classList.add("active");
+
+    if(page==="games")gamesPage();
+    if(page==="bonus")bonusPage();
+    if(page==="profile")profilePage();
+}
 
 /* =========================
-   CHAT
+   ПЕРВАЯ РЕАЛЬНАЯ ДЕМО-ГРА
 ========================= */
 
-function sendChat() {
+function openGame(index){
+    if(index!==0){
+        openGamePlaceholder(index);
+        return;
+    }
 
-    const input =
-        document.getElementById("chatInput");
+    let bet=5;
 
-    if (!input) return;
+    mainContent.innerHTML=`
+        <div class="page">
+            <button class="back-btn" onclick="gamesPage()">← До ігор</button>
 
+            <div class="game-screen">
+                <h1>🎰 Neon Slots</h1>
+                <p class="page-subtitle">Демо-гра на віртуальні YMY</p>
 
-    const text =
-        input.value.trim();
+                <div class="slots">
+                    <div class="reels">
+                        <div class="reel" id="r1">🍒</div>
+                        <div class="reel" id="r2">💎</div>
+                        <div class="reel" id="r3">7️⃣</div>
+                    </div>
 
+                    <div class="bet-row">
+                        <button onclick="changeBet(-5)">−</button>
+                        <div class="bet-value">
+                            Ставка: <span id="betValue">${bet}</span> YMY
+                        </div>
+                        <button onclick="changeBet(5)">+</button>
+                    </div>
 
-    if (!text) return;
+                    <button class="spin-btn" id="slotSpin"
+                        onclick="spinSlots()">
+                        КРУТИТИ
+                    </button>
 
+                    <div class="result" id="slotResult"></div>
+                </div>
+            </div>
+        </div>
+    `;
 
-    alert(
-        "Повідомлення відправлено:\n" +
-        text
-    );
-
-
-    input.value = "";
-
+    window.slotBet=bet;
 }
 
+function changeBet(value){
+    if(window.slotBet===undefined)return;
 
-/* =========================
-   LOGOUT
-========================= */
+    window.slotBet+=value;
 
-function logout() {
+    if(window.slotBet<5)window.slotBet=5;
+    if(window.slotBet>Math.max(5,Math.floor(balance)))window.slotBet=Math.max(5,Math.floor(balance));
 
-    localStorage.removeItem("ymyName");
-    localStorage.removeItem("ymyId");
-    localStorage.removeItem("ymyBalance");
-
-    userName = null;
-    userId = null;
-    balance = 50;
-
-    app.classList.add("hidden");
-
-    welcomeScreen.classList.remove("hidden");
-
+    const el=document.getElementById("betValue");
+    if(el)el.textContent=window.slotBet;
 }
 
+function spinSlots(){
+    if(window.slotSpinning)return;
+
+    const bet=window.slotBet||5;
+
+    if(balance<bet){
+        alert("Недостатньо YMY для цієї ставки.");
+        return;
+    }
+
+    window.slotSpinning=true;
+    balance-=bet;
+    updateBalance();
+
+    const reels=[
+        document.getElementById("r1"),
+        document.getElementById("r2"),
+        document.getElementById("r3")
+    ];
+
+    const symbols=["🍒","🍋","🍇","💎","⭐","7️⃣","🔔"];
+
+    reels.forEach(r=>r.classList.add("spinning"));
+
+    let counter=0;
+
+    const interval=setInterval(()=>{
+        reels.forEach(r=>{
+            r.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+        });
+
+        counter++;
+
+        if(counter>=30){
+            clearInterval(interval);
+
+            reels.forEach(r=>r.classList.remove("spinning"));
+
+            const result=reels.map(r=>r.textContent);
+            let win=0;
+
+            if(result[0]===result[1]&&result[1]===result[2]){
+                if(result[0]==="7️⃣")win=bet*10;
+                else if(result[0]==="💎")win=bet*7;
+                else win=bet*5;
+            }else if(result[0]===result[1]||result[1]===result[2]||result[0]===result[2]){
+                win=bet*2;
+            }
+
+            if(win>0){
+                balance+=win;
+                document.getElementById("slotResult").textContent=
+                    "🎉 Виграш: +"+win+" YMY!";
+            }else{
+                document.getElementById("slotResult").textContent=
+                    "😅 Цього разу без виграшу.";
+            }
+
+            updateBalance();
+            saveData();
+            window.slotSpinning=false;
+        }
+    },100);
+}
+
+function openGamePlaceholder(index){
+    const game=games[index];
+
+    mainContent.innerHTML=`
+        <div class="page">
+            <button class="back-btn" onclick="gamesPage()">← До ігор</button>
+
+            <div class="game-screen">
+                <div style="font-size:65px;margin:20px">${game[0]}</div>
+                <h1>${game[1]}</h1>
+                <p class="page-subtitle">${game[2]}</p>
+
+                <div class="bonus-card">
+                    <h3>Гра готується 🎮</h3>
+                    <p style="margin-top:10px">
+                        Цей ігровий режим буде доданий
+                        на наступному етапі розробки.
+                    </p>
+                </div>
+
+                <button class="buy-btn"
+                    style="width:100%;padding:15px"
+                    onclick="gamesPage()">
+                    Повернутися до ігор
+                </button>
+            </div>
+        </div>
+    `;
+}
 
 /* =========================
    MODALS
 ========================= */
 
-function openModal(id) {
+function openModal(id){
+    document.getElementById(id).classList.add("active");
+}
 
-    const modal =
-        document.getElementById(id);
+function closeModal(id){
+    document.getElementById(id).classList.remove("active");
+}
 
-    if (modal) {
-        modal.classList.add("active");
+document.getElementById("loginButton").onclick=()=>openModal("loginModal");
+document.getElementById("registerButton").onclick=()=>openModal("registerModal");
+
+document.getElementById("switchToRegister").onclick=()=>{
+    closeModal("loginModal");
+    openModal("registerModal");
+};
+
+document.getElementById("switchToLogin").onclick=()=>{
+    closeModal("registerModal");
+    openModal("loginModal");
+};
+
+document.querySelectorAll("[data-close]").forEach(btn=>{
+    btn.onclick=()=>closeModal(btn.dataset.close);
+});
+
+/* =========================
+   РЕЄСТРАЦІЯ
+========================= */
+
+document.getElementById("registerForm").onsubmit=e=>{
+    e.preventDefault();
+
+    const name=document.getElementById("registerName").value.trim();
+    const email=document.getElementById("registerEmail").value.trim();
+    const password=document.getElementById("registerPassword").value;
+    const password2=document.getElementById("registerPassword2").value;
+
+    if(password!==password2){
+        alert("Паролі не співпадають.");
+        return;
     }
 
-}
-
-
-function closeModal(id) {
-
-    const modal =
-        document.getElementById(id);
-
-    if (modal) {
-        modal.classList.remove("active");
-    }
-
-}
-
-
-/* =========================
-   LOGIN BUTTON
-========================= */
-
-document
-    .getElementById("loginButton")
-    .addEventListener("click", () => {
-
-        openModal("loginModal");
-
-    });
-
-
-/* =========================
-   REGISTER BUTTON
-========================= */
-
-document
-    .getElementById("registerButton")
-    .addEventListener("click", () => {
-
-        openModal("registerModal");
-
-    });
-
-
-/* =========================
-   SWITCH MODALS
-========================= */
-
-document
-    .getElementById("switchToRegister")
-    .addEventListener("click", () => {
-
-        closeModal("loginModal");
-
-        openModal("registerModal");
-
-    });
-
-
-document
-    .getElementById("switchToLogin")
-    .addEventListener("click", () => {
-
-        closeModal("registerModal");
-
-        openModal("loginModal");
-
-    });
-
-
-/* =========================
-   CLOSE MODALS
-========================= */
-
-document
-    .querySelectorAll("[data-close]")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                closeModal(
-                    button.dataset.close
-                );
-
-            }
-        );
-
-    });
-
-
-/* =========================
-   REGISTER
-========================= */
-
-document
-    .getElementById("registerForm")
-    .addEventListener(
-        "submit",
-        event => {
-
-            event.preventDefault();
-
-
-            const name =
-                document
-                    .getElementById("registerName")
-                    .value
-                    .trim();
-
-
-            const password =
-                document
-                    .getElementById("registerPassword")
-                    .value;
-
-
-            const password2 =
-                document
-                    .getElementById("registerPassword2")
-                    .value;
-
-
-            if (password !== password2) {
-
-                alert(
-                    "Паролі не співпадають."
-                );
-
-                return;
-
-            }
-
-
-            userName = name;
-
-
-            userId =
-                "YMY-" +
-                Math.random()
-                    .toString(36)
-                    .substring(2,9)
-                    .toUpperCase();
-
-
-            balance = 50;
-
-
-            saveData();
-
-
-            closeModal("registerModal");
-
-
-            openApp();
-
-
-            alert(
-                "Вітаємо, " +
-                name +
-                "! 🎉\n\n" +
-                "Вам нараховано 50 YMY."
-            );
-
-        }
-    );
-
-
-/* =========================
-   LOGIN
-========================= */
-
-document
-    .getElementById("loginForm")
-    .addEventListener(
-        "submit",
-        event => {
-
-            event.preventDefault();
-
-
-            const email =
-                document
-                    .getElementById("loginEmail")
-                    .value
-                    .trim();
-
-
-            if (!email) return;
-
-
-            if (!userName) {
-
-                userName =
-                    email.split("@")[0];
-
-
-                userId =
-                    "YMY-" +
-                    Math.random()
-                        .toString(36)
-                        .substring(2,9)
-                        .toUpperCase();
-
-
-                saveData();
-
-            }
-
-
-            closeModal("loginModal");
-
-
-            openApp();
-
-
-            alert(
-                "Вітаємо, " +
-                userName +
-                "! 👋"
-            );
-
-        }
-    );
-
-
-/* =========================
-   NAVIGATION
-========================= */
-
-document
-    .querySelectorAll("[data-page]")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                showPage(
-                    button.dataset.page
-                );
-
-            }
-        );
-
-    });
-
-
-/* =========================
-   WHEEL
-========================= */
-
-const wheel =
-    document.getElementById("wheel");
-
-let spinning = false;
-
-
-document
-    .getElementById("wheelButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            openModal("wheelModal");
-
-        }
-    );
-
-
-document
-    .getElementById("spinButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            if (spinning) return;
-
-
-            spinning = true;
-
-
-            const extra =
-                1440 +
-                Math.floor(
-                    Math.random() * 1440
-                );
-
-
-            wheel.style.transform =
-                `rotate(${extra}deg)`;
-
-
-            setTimeout(
-                () => {
-
-                    const prizes = [
-                        5,
-                        10,
-                        15,
-                        25,
-                        50,
-                        75,
-                        100,
-                        0
-                    ];
-
-
-                    const prize =
-                        prizes[
-                            Math.floor(
-                                Math.random() *
-                                prizes.length
-                            )
-                        ];
-
-
-                    balance += prize;
-
-
-                    updateBalance();
-
-                    saveData();
-
-
-                    document
-                        .getElementById(
-                            "wheelResult"
-                        )
-                        .textContent =
-                            prize > 0
-                            ? `🎉 Ви виграли ${prize} YMY!`
-                            : "😅 Цього разу без виграшу.";
-
-
-                    spinning = false;
-
-                },
-                4000
-            );
-
-        }
-    );
-
-
-/* =========================
-   NEON SLOTS
-========================= */
-
-const slotSymbols = [
-    "🍒",
-    "🍋",
-    "🍊",
-    "🍀",
-    "💎",
-    "⭐",
-    "7️⃣"
-];
-
-
-let slotBet = 5;
-let slotSpinning = false;
-
-
-const reel1 =
-    document.getElementById("reel1");
-
-const reel2 =
-    document.getElementById("reel2");
-
-const reel3 =
-    document.getElementById("reel3");
-
-
-function updateSlotBalance() {
-
-    const element =
-        document.getElementById(
-            "slotBalance"
-        );
-
-    if (element) {
-
-        element.textContent =
-            Math.floor(balance);
-
-    }
-
-}
-
-
-function updateSlotBet() {
-
-    const element =
-        document.getElementById(
-            "slotBet"
-        );
-
-    if (element) {
-
-        element.textContent =
-            slotBet;
-
-    }
-
-}
-
-
-function randomSymbol() {
-
-    return slotSymbols[
-        Math.floor(
-            Math.random() *
-            slotSymbols.length
-        )
-    ];
-
-}
-
-
-function spinReel(element, duration) {
-
-    return new Promise(resolve => {
-
-        element.classList.add(
-            "slot-spinning"
-        );
-
-
-        let interval =
-            setInterval(
-                () => {
-
-                    element.textContent =
-                        randomSymbol();
-
-                },
-                80
-            );
-
-
-        setTimeout(
-            () => {
-
-                clearInterval(interval);
-
-                element.classList.remove(
-                    "slot-spinning"
-                );
-
-                const result =
-                    randomSymbol();
-
-                element.textContent =
-                    result;
-
-                resolve(result);
-
-            },
-            duration
-        );
-
-    });
-
-}
-
-
-function getSlotWin(a, b, c) {
-
-    if (a === b && b === c) {
-
-        if (a === "7️⃣") {
-            return slotBet * 15;
-        }
-
-        if (a === "💎") {
-            return slotBet * 10;
-        }
-
-        if (a === "⭐") {
-            return slotBet * 8;
-        }
-
-        return slotBet * 5;
-
-    }
-
-
-    if (a === b || a === c || b === c) {
-
-        return slotBet * 2;
-
-    }
-
-
-    return 0;
-
-}
-
-
-function setSlotResult(text) {
-
-    const result =
-        document.getElementById(
-            "slotsResult"
-        );
-
-    if (result) {
-        result.textContent = text;
-    }
-
-}
-
-
-document
-    .getElementById("minusBet")
-    .addEventListener(
-        "click",
-        () => {
-
-            if (slotSpinning) return;
-
-            slotBet =
-                Math.max(
-                    1,
-                    slotBet - 1
-                );
-
-            updateSlotBet();
-
-        }
-    );
-
-
-document
-    .getElementById("plusBet")
-    .addEventListener(
-        "click",
-        () => {
-
-            if (slotSpinning) return;
-
-            slotBet =
-                Math.min(
-                    50,
-                    slotBet + 1
-                );
-
-            updateSlotBet();
-
-        }
-    );
-
-
-document
-    .getElementById("slotsSpinButton")
-    .addEventListener(
-        "click",
-        async () => {
-
-            if (slotSpinning) return;
-
-
-            if (balance < slotBet) {
-
-                setSlotResult(
-                    "❌ Недостатньо YMY для ставки."
-                );
-
-                return;
-
-            }
-
-
-            slotSpinning = true;
-
-
-            const button =
-                document.getElementById(
-                    "slotsSpinButton"
-                );
-
-
-            button.disabled = true;
-
-            button.textContent =
-                "ОБЕРТАЄТЬСЯ...";
-
-
-            setSlotResult(
-                ""
-            );
-
-
-            reel1.classList.remove(
-                "slot-win"
-            );
-
-            reel2.classList.remove(
-                "slot-win"
-            );
-
-            reel3.classList.remove(
-                "slot-win"
-            );
-
-
-            balance -= slotBet;
-
-
-            updateBalance();
-            updateSlotBalance();
-
-
-            const a =
-                await spinReel(
-                    reel1,
-                    1200
-                );
-
-
-            const b =
-                await spinReel(
-                    reel2,
-                    1700
-                );
-
-
-            const c =
-                await spinReel(
-                    reel3,
-                    2200
-                );
-
-
-            const win =
-                getSlotWin(
-                    a,
-                    b,
-                    c
-                );
-
-
-            if (win > 0) {
-
-                balance += win;
-
-
-                reel1.classList.add(
-                    "slot-win"
-                );
-
-                reel2.classList.add(
-                    "slot-win"
-                );
-
-                reel3.classList.add(
-                    "slot-win"
-                );
-
-
-                setSlotResult(
-                    `🎉 Виграш: +${win} YMY!`
-                );
-
-            } else {
-
-                setSlotResult(
-                    "😅 Цього разу без виграшу."
-                );
-
-            }
-
-
-            updateBalance();
-            updateSlotBalance();
-            saveData();
-
-
-            button.disabled = false;
-
-            button.textContent =
-                "КРУТИТИ";
-
-
-            slotSpinning = false;
-
-        }
-    );
-
-
-/* =========================
-   SUPPORT
-========================= */
-
-document
-    .getElementById("supportButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            openSupport();
-
-        }
-    );
-
-
-function openSupport() {
-
-    const modal =
-        document.createElement("div");
-
-
-    modal.className =
-        "modal active";
-
-
-    modal.innerHTML = `
-
-        <div class="modal-box support-content">
-
-            <button
-                class="close"
-                onclick="this.closest('.modal').remove()">
-
-                ×
-
-            </button>
-
-
-            <div class="big-icon">
-                🆘
-            </div>
-
-
-            <h2>
-                Підтримка
-            </h2>
-
-
-            <p>
-
-                Якщо у Вас виникли питання,
-                наша команда підтримки допоможе
-                Вам розібратися.
-
-            </p>
-
-
-            <button
-                class="submit-btn"
-                onclick="alert('Розділ підтримки буде підключено на наступному етапі.')">
-
-                Звернутися до підтримки
-
-            </button>
-
-        </div>
-
-    `;
-
-
-    document.body.appendChild(modal);
-
-}
-
-
-/* =========================
-   AUTO LOGIN
-========================= */
-
-if (userName) {
-
+    userName=name;
+    userId="YMY-"+Math.random().toString(36).substring(2,9).toUpperCase();
+    balance=50;
+
+    localStorage.setItem("ymyEmail",email);
+    localStorage.setItem("ymyPassword",password);
+
+    saveData();
+    closeModal("registerModal");
     openApp();
 
+    alert(
+        "Вітаємо, "+name+"! 🎉\n\n"+
+        "Вам нараховано 50 YMY."
+    );
+};
+
+/* =========================
+   ВХІД
+========================= */
+
+document.getElementById("loginForm").onsubmit=e=>{
+    e.preventDefault();
+
+    const email=document.getElementById("loginEmail").value.trim();
+    const password=document.getElementById("loginPassword").value;
+
+    const savedEmail=localStorage.getItem("ymyEmail");
+    const savedPassword=localStorage.getItem("ymyPassword");
+
+    if(savedEmail && savedPassword){
+        if(email!==savedEmail || password!==savedPassword){
+            alert("Неправильний email або пароль.");
+            return;
+        }
+    }
+
+    if(!userName){
+        userName=email.split("@")[0];
+        userId="YMY-"+Math.random().toString(36).substring(2,9).toUpperCase();
+        saveData();
+    }
+
+    closeModal("loginModal");
+    openApp();
+
+    alert("Вітаємо, "+userName+"! 👋");
+};
+
+/* =========================
+   НАВІГАЦІЯ
+========================= */
+
+document.querySelectorAll("[data-page]").forEach(btn=>{
+    btn.onclick=()=>showPage(btn.dataset.page);
+});
+
+/* =========================
+   БАРАБАН
+========================= */
+
+let spinning=false;
+let wheelRotation=0;
+
+document.getElementById("wheelButton").onclick=()=>{
+    openModal("wheelModal");
+};
+
+document.getElementById("spinButton").onclick=()=>{
+    if(spinning)return;
+
+    spinning=true;
+
+    wheelRotation+=1440+Math.floor(Math.random()*1440);
+
+    document.getElementById("wheel").style.transform=
+        "rotate("+wheelRotation+"deg)";
+
+    setTimeout(()=>{
+        const prizes=[0,5,10,15,25,50,75,100];
+        const prize=prizes[Math.floor(Math.random()*prizes.length)];
+
+        balance+=prize;
+        updateBalance();
+        saveData();
+
+        document.getElementById("wheelResult").textContent=
+            prize>0
+            ?"🎉 Ви виграли "+prize+" YMY!"
+            :"😅 Цього разу без виграшу.";
+
+        spinning=false;
+    },4000);
+};
+
+/* =========================
+   ПІДТРИМКА
+========================= */
+
+document.getElementById("supportButton").onclick=()=>{
+    const modal=document.createElement("div");
+    modal.className="modal active";
+
+    modal.innerHTML=`
+        <div class="modal-box" style="text-align:center">
+            <button class="close"
+                onclick="this.closest('.modal').remove()">×</button>
+
+            <div style="font-size:55px;margin:10px 0 20px">🆘</div>
+
+            <h2>Підтримка</h2>
+
+            <p class="modal-subtitle">
+                Якщо у Вас виникли питання,
+                наша команда підтримки допоможе Вам.
+            </p>
+
+            <button class="submit-btn"
+                onclick="alert('Розділ підтримки буде підключено окремо.')">
+                Звернутися до підтримки
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+};
+
+/* =========================
+   ВИХІД
+========================= */
+
+function logout(){
+    localStorage.removeItem("ymyName");
+    localStorage.removeItem("ymyId");
+    localStorage.removeItem("ymyBalance");
+
+    userName=null;
+    userId=null;
+    balance=50;
+
+    app.classList.add("hidden");
+    welcomeScreen.classList.remove("hidden");
 }
 
+if(userName){
+    openApp();
+}
 </script>
 
 </body>
 </html>
+```
