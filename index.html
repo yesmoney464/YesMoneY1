@@ -2,2463 +2,2390 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#050505">
-<title>YesMoneY — Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>YesMoneY Demo</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden}
-:root{
- --bg:#050505;
- --p:#101212;
- --g:#d8a735;
- --g2:#ffe18a;
- --mut:#777;
- --red:#ef5360
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
-body{
- font-family:Arial,sans-serif;
- background:#050505;
- color:#fff
+
+html,body{
+    width:100%;
+    min-height:100%;
+    background:#050505;
+    color:white;
+    font-family:Arial,sans-serif;
 }
-button,input,select{font:inherit;outline:0}
-button{cursor:pointer}
-.hidden{display:none!important}
+
+button,input{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* WELCOME */
 
 #welcome{
- position:fixed;
- inset:0;
- z-index:1000;
- display:flex;
- align-items:center;
- justify-content:center;
- text-align:center;
- background:
- radial-gradient(circle,rgba(216,167,53,.14),transparent 35%),
- #050505
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at center,rgba(212,163,54,.18),transparent 35%),
+        #050505;
 }
 
-.wbox{width:min(430px,90%)}
-.brand{font-size:42px;font-weight:900}
-.brand span,.goldText{color:var(--g2)}
-.sub{color:#888;margin:12px 0 28px}
-.auth{display:grid;gap:10px}
-
-.gold,.dark,.back,.cash{
- border-radius:12px;
- padding:14px;
- font-weight:900
+.welcome-box{
+    width:100%;
+    max-width:420px;
+    text-align:center;
 }
 
-.gold{
- border:0;
- color:#080808;
- background:linear-gradient(135deg,#9e721f,#ffe27c,#b77e20)
+.logo{
+    font-size:42px;
+    font-weight:900;
+    margin-bottom:10px;
 }
 
-.dark,.back{
- border:1px solid #30332f;
- background:#121414;
- color:#fff
+.logo span{
+    color:#f4c85b;
 }
 
-.note{
- color:#555;
- font-size:11px;
- line-height:1.5;
- margin-top:14px
+.welcome-text{
+    color:#888;
+    margin-bottom:30px;
 }
 
-.modal,.choice{
- position:fixed;
- inset:0;
- z-index:900;
- display:flex;
- align-items:center;
- justify-content:center;
- padding:18px;
- background:rgba(0,0,0,.82);
- backdrop-filter:blur(14px)
+.welcome-buttons{
+    display:grid;
+    gap:12px;
 }
 
-.box{
- width:min(430px,100%);
- padding:24px;
- border-radius:22px;
- background:#101212;
- border:1px solid rgba(216,167,53,.25)
+.btn-gold{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(135deg,#9b6e1e,#ffe28a,#b27c20);
+    color:#090909;
+    font-size:16px;
+    font-weight:900;
 }
 
-.box h2{margin-bottom:16px}
-
-.field{
- width:100%;
- padding:13px;
- margin-bottom:9px;
- border-radius:10px;
- border:1px solid #30332f;
- background:#080909;
- color:#fff
+.btn-dark{
+    width:100%;
+    padding:15px;
+    border:1px solid #353735;
+    border-radius:12px;
+    background:#111313;
+    color:white;
+    font-size:16px;
+    font-weight:900;
 }
 
-.box .gold{width:100%}
-.close{width:100%;margin-top:8px}
+/* AUTH */
+
+#auth{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.88);
+}
+
+.auth-box{
+    width:100%;
+    max-width:420px;
+    padding:24px;
+    border-radius:20px;
+    background:#111313;
+    border:1px solid #59451d;
+}
+
+.auth-box h2{
+    margin-bottom:18px;
+}
+
+.input{
+    width:100%;
+    padding:14px;
+    margin-bottom:10px;
+    border:1px solid #303330;
+    border-radius:10px;
+    background:#070808;
+    color:white;
+}
+
+.auth-close{
+    margin-top:10px;
+}
+
+/* APP */
 
 #app{
- display:none;
- position:fixed;
- inset:0
+    display:none;
+    min-height:100vh;
+    background:#070808;
 }
+
+/* HEADER */
 
 .header{
- height:64px;
- position:absolute;
- inset:0 0 auto;
- z-index:50;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 15px;
- background:rgba(5,5,5,.94);
- border-bottom:1px solid #252825
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:64px;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 15px;
+    background:#090a0a;
+    border-bottom:1px solid #282b28;
 }
 
-.logo{font-size:22px;font-weight:900}
-.logo span{color:var(--g2)}
-
-.money{
- padding:8px 12px;
- border:1px solid rgba(216,167,53,.3);
- border-radius:10px;
- color:var(--g2);
- font-weight:900
+.header-logo{
+    font-size:21px;
+    font-weight:900;
 }
 
-#pages{
- position:absolute;
- inset:64px 0 74px;
- overflow:auto
+.header-logo span{
+    color:#f4c85b;
+}
+
+.balance{
+    padding:9px 13px;
+    border-radius:10px;
+    border:1px solid #59451d;
+    color:#ffe083;
+    font-weight:900;
+}
+
+/* CONTENT */
+
+.content{
+    padding-top:64px;
+    padding-bottom:75px;
 }
 
 .page{
- display:none;
- max-width:1050px;
- margin:auto;
- padding:20px 15px 35px
+    display:none;
+    max-width:1000px;
+    margin:auto;
+    padding:20px 15px 30px;
 }
 
-.page.active{display:block}
+.page.active{
+    display:block;
+}
 
 .title{
- font-size:30px;
- font-weight:900
+    font-size:30px;
+    font-weight:900;
 }
 
 .subtitle{
- color:#777;
- margin-top:4px
+    color:#777;
+    margin-top:5px;
 }
+
+/* HOME */
 
 .hero{
- min-height:230px;
- margin-bottom:18px;
- padding:24px;
- border-radius:23px;
- border:1px solid rgba(216,167,53,.3);
- background:
- radial-gradient(circle at 90% 15%,rgba(255,216,110,.2),transparent 25%),
- linear-gradient(135deg,#1b1810,#0b0c0c)
+    margin-top:15px;
+    padding:25px;
+    min-height:250px;
+    border-radius:22px;
+    border:1px solid #59451d;
+    background:
+        radial-gradient(circle at 90% 10%,rgba(255,220,120,.2),transparent 30%),
+        linear-gradient(135deg,#1b1710,#0c0e0d);
 }
 
-.hero small{
- color:var(--g2);
- font-weight:900;
- letter-spacing:2px
+.hero-label{
+    color:#f4c85b;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:2px;
 }
 
 .hero h1{
- font-size:34px;
- margin:12px 0
+    margin:12px 0;
+    font-size:34px;
 }
 
 .hero p{
- color:#999;
- line-height:1.5;
- max-width:600px;
- margin-bottom:18px
+    max-width:600px;
+    color:#999;
+    line-height:1.5;
+    margin-bottom:20px;
 }
 
 .banners{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:12px
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:15px;
 }
 
 .banner{
- min-height:130px;
- padding:18px;
- border-radius:17px;
- border:1px solid #292d2a;
- background:
- radial-gradient(circle at 90% 10%,rgba(216,167,53,.15),transparent 30%),
- #101212
+    min-height:130px;
+    padding:18px;
+    border-radius:16px;
+    border:1px solid #292d2a;
+    background:#101212;
 }
 
 .banner p{
- color:#777;
- font-size:13px;
- margin-top:8px;
- line-height:1.4
+    margin-top:8px;
+    color:#777;
+    font-size:13px;
+    line-height:1.4;
 }
 
-.navbar{
- position:absolute;
- inset:auto 0 0;
- height:74px;
- z-index:80;
- display:grid;
- grid-template-columns:repeat(4,1fr);
- background:rgba(7,8,8,.97);
- border-top:1px solid #252825
-}
-
-.nav{
- border:0;
- background:none;
- color:#666;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- gap:4px;
- font-size:10px
-}
-
-.nav i{
- font-style:normal;
- font-size:21px
-}
-
-.nav.active{color:var(--g2)}
+/* GAMES */
 
 .games{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:12px;
- margin-top:18px
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:18px;
 }
 
-.card{
- height:190px;
- overflow:hidden;
- border-radius:18px;
- border:1px solid #292d2a;
- background:#111313;
- cursor:pointer
+.game-card{
+    overflow:hidden;
+    border:1px solid #292d2a;
+    border-radius:18px;
+    background:#101212;
 }
 
-.art{
- height:135px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:36px;
- font-weight:900;
- text-shadow:0 4px 20px #000
+.game-image{
+    height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:900;
 }
 
-.vin{background:linear-gradient(135deg,#711c20,#100606)}
-.avi{background:linear-gradient(145deg,#193247,#05090d)}
-.gor{background:linear-gradient(145deg,#264719,#060906)}
-
-.ci{padding:10px 12px}
-
-.ci small{
- display:block;
- color:#777;
- margin-top:4px
+.vin{
+    background:linear-gradient(135deg,#741d22,#110606);
 }
 
-.profile{
- display:grid;
- gap:12px;
- margin-top:18px
+.aviator{
+    background:linear-gradient(135deg,#17364e,#05090d);
 }
 
-.pc{
- padding:20px;
- border-radius:18px;
- border:1px solid #292d2a;
- background:#101212
+.gorila{
+    background:linear-gradient(135deg,#294b1c,#060906);
+}
+
+.game-info{
+    padding:13px;
+}
+
+.game-info small{
+    display:block;
+    margin-top:5px;
+    color:#777;
+}
+
+.game-open{
+    margin-top:10px;
+    padding:9px 12px;
+    border:1px solid #59451d;
+    border-radius:8px;
+    background:#15130e;
+    color:#ffe083;
+}
+
+/* PROFILE */
+
+.profile-box{
+    margin-top:18px;
+    padding:20px;
+    border-radius:18px;
+    border:1px solid #292d2a;
+    background:#101212;
 }
 
 .avatar{
- width:80px;
- height:80px;
- border-radius:50%;
- overflow:hidden;
- background:linear-gradient(135deg,#a87820,#ffe083);
- display:flex;
- align-items:center;
- justify-content:center;
- color:#080808;
- font-size:28px;
- font-weight:900;
- margin-bottom:12px
-}
-
-.avatar img{
- width:100%;
- height:100%;
- object-fit:cover
-}
-
-.pname{
- font-size:22px;
- font-weight:900
-}
-
-.pnick{
- color:#777;
- margin-top:3px
+    width:75px;
+    height:75px;
+    margin-bottom:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(135deg,#9b6e1e,#ffe28a);
+    color:#090909;
+    font-size:28px;
+    font-weight:900;
 }
 
 .stat{
- display:flex;
- justify-content:space-between;
- padding:12px 0;
- border-bottom:1px solid #242725
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #292d2a;
 }
 
-.stat span{color:#777}
-
-.setting{
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:13px 0;
- border-bottom:1px solid #242725
+.stat span{
+    color:#777;
 }
 
-.setting:last-child{border:0}
+/* BOTTOM NAV */
 
-.setting select{
- background:#080909;
- color:#fff;
- border:1px solid #30332f;
- border-radius:8px;
- padding:7px
+.bottom-nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    height:74px;
+    z-index:30;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:#090a0a;
+    border-top:1px solid #282b28;
 }
 
-.support{margin-top:18px}
-
-.supportBtn{
- width:100%;
- padding:14px;
- margin-bottom:10px;
- text-align:left;
- border:1px solid #30332f;
- border-radius:11px;
- background:#171918;
- color:#fff
+.nav-btn{
+    border:0;
+    background:none;
+    color:#666;
+    font-size:10px;
 }
 
-.supportBtn small{
- display:block;
- color:#777;
- margin-top:3px
+.nav-btn strong{
+    display:block;
+    margin-bottom:5px;
+    font-size:22px;
 }
 
-.chat{
- border:1px solid #292d2a;
- border-radius:15px;
- overflow:hidden;
- background:#080909
+.nav-btn.active{
+    color:#ffe083;
 }
 
-.messages{
- height:240px;
- overflow:auto;
- padding:12px
+/* GAME */
+
+#game-screen{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    display:none;
+    background:#050606;
 }
 
-.msg{
- max-width:80%;
- padding:10px;
- margin-bottom:8px;
- border-radius:10px;
- background:#171a18;
- font-size:13px
+.game-header{
+    height:62px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 14px;
+    border-bottom:1px solid #292d2a;
+    background:#090a0a;
 }
 
-.msg.me{
- margin-left:auto;
- background:#3c2d0e;
- color:#ffe18a
+.back{
+    padding:9px 13px;
+    border:1px solid #353735;
+    border-radius:9px;
+    background:#121414;
+    color:white;
 }
 
-.chatin{
- display:flex;
- border-top:1px solid #292d2a
+.game-area{
+    max-width:650px;
+    margin:auto;
+    padding:18px 14px;
 }
 
-.chatin input{
- flex:1;
- padding:13px;
- background:#0b0c0c;
- color:#fff;
- border:0
+/* VIN */
+
+.slot-machine{
+    padding:18px;
+    border-radius:22px;
+    border:1px solid #59451d;
+    background:linear-gradient(145deg,#1a160e,#080909);
 }
 
-.chatin button{
- width:60px;
- border:0;
- background:var(--g)
-}
-
-#game{
- display:none;
- position:fixed;
- inset:0;
- z-index:500;
- background:#050606
-}
-
-.gamehead{
- height:62px;
- position:absolute;
- inset:0 0 auto;
- z-index:10;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 14px;
- background:rgba(5,6,6,.95);
- border-bottom:1px solid #292c29
-}
-
-.gamebody{
- position:absolute;
- inset:62px 0 0;
- overflow:auto;
- padding:18px 14px 30px
-}
-
-.gameinner{
- max-width:650px;
- margin:auto
-}
-
-.machine{
- padding:17px;
- border-radius:24px;
- border:1px solid rgba(216,167,53,.4);
- background:linear-gradient(145deg,#1b1710,#080909)
-}
-
-.gtitle{
- text-align:center;
- color:var(--g2);
- font-size:28px;
- font-weight:900;
- margin-bottom:15px
+.slot-title{
+    text-align:center;
+    color:#ffe083;
+    font-size:28px;
+    font-weight:900;
+    margin-bottom:15px;
 }
 
 .reels{
- display:grid;
- grid-template-columns:repeat(3,1fr);
- gap:7px;
- padding:7px;
- border-radius:15px;
- background:#050505;
- border:2px solid #4d3b18
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
+    padding:7px;
+    border-radius:14px;
+    background:#050505;
 }
 
 .reel{
- height:120px;
- display:flex;
- align-items:center;
- justify-content:center;
- border-radius:9px;
- background:linear-gradient(#292b28,#090a0a);
- font-size:43px;
- font-weight:900;
- color:#ffe083
+    height:120px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:9px;
+    background:linear-gradient(#30332f,#090a0a);
+    color:#ffe083;
+    font-size:42px;
+    font-weight:900;
 }
 
-.spin{
- animation:shake .08s linear infinite
+.spin-animation{
+    animation:shake .08s infinite;
 }
 
 @keyframes shake{
- 50%{transform:translateY(5px)}
-}
-
-.controls{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
- margin-top:10px
-}
-
-.ctl{
- padding:11px;
- text-align:center;
- border-radius:10px;
- background:#111313;
- border:1px solid #2b2e2b
-}
-
-.ctl small{
- display:block;
- color:#666;
- font-size:9px
-}
-
-.spinbtn{
- grid-column:1/-1
+    50%{
+        transform:translateY(5px);
+    }
 }
 
 .result{
- text-align:center;
- min-height:35px;
- padding:12px;
- color:#ffe083;
- font-weight:900
+    min-height:35px;
+    padding:13px;
+    text-align:center;
+    color:#ffe083;
+    font-weight:900;
 }
 
-.big{
- animation:pulse .3s infinite alternate
+.spin-button{
+    margin-top:10px;
 }
 
-@keyframes pulse{
- to{
-  transform:scale(1.15);
-  text-shadow:0 0 30px #ffe083
- }
-}
+/* AVIATOR */
 
 .flight{
- height:410px;
- position:relative;
- overflow:hidden;
- border-radius:23px;
- border:1px solid #26333a;
- background:linear-gradient(180deg,#102536,#05080b)
+    position:relative;
+    height:400px;
+    overflow:hidden;
+    border-radius:22px;
+    border:1px solid #263b4b;
+    background:linear-gradient(180deg,#102b40,#05080b);
 }
 
-.grid{
- position:absolute;
- inset:0;
- opacity:.22;
- background-image:
- linear-gradient(#72818a 1px,transparent 1px),
- linear-gradient(90deg,#72818a 1px,transparent 1px);
- background-size:45px 45px;
- transform:perspective(500px) rotateX(58deg) scale(1.5);
- transform-origin:bottom
+.flight-grid{
+    position:absolute;
+    inset:0;
+    opacity:.2;
+    background-image:
+        linear-gradient(#72818a 1px,transparent 1px),
+        linear-gradient(90deg,#72818a 1px,transparent 1px);
+    background-size:45px 45px;
 }
 
-.destination{
- position:absolute;
- z-index:3;
- top:15px;
- left:15px;
- right:15px;
- text-align:center;
- padding:12px;
- border-radius:11px;
- background:#05080bcc;
- color:#ffe083
-}
-
-.mult{
- position:absolute;
- z-index:3;
- top:44%;
- left:0;
- right:0;
- text-align:center;
- font-size:55px;
- font-weight:900
+.multiplier{
+    position:absolute;
+    top:40%;
+    left:0;
+    right:0;
+    text-align:center;
+    font-size:54px;
+    font-weight:900;
 }
 
 .plane{
- position:absolute;
- z-index:4;
- left:8%;
- bottom:18%;
- font-size:46px;
- transition:.08s
+    position:absolute;
+    left:10%;
+    bottom:18%;
+    font-size:45px;
 }
 
-.flightBtns{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
- margin-top:10px
+.aviator-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:10px;
 }
 
-.cash{
- border:0;
- background:linear-gradient(135deg,#198a57,#48d697);
- color:#06140d
+.cashout{
+    padding:14px;
+    border:0;
+    border-radius:11px;
+    background:#27a96d;
+    color:#06130d;
+    font-weight:900;
 }
 
-.crash{color:var(--red)}
+/* GORILA */
 
-.fruits{
- display:grid;
- grid-template-columns:repeat(5,1fr);
- gap:5px;
- padding:7px;
- border-radius:15px;
- background:#050505;
- border:2px solid #493b1d
+.fruit-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:5px;
+    padding:7px;
+    border-radius:14px;
+    background:#050505;
 }
 
 .fruit{
- aspect-ratio:1;
- display:flex;
- align-items:center;
- justify-content:center;
- border-radius:7px;
- background:linear-gradient(#282b27,#0b0d0b);
- font-size:29px;
- border:1px solid #343931
+    aspect-ratio:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:7px;
+    background:#242824;
+    font-size:28px;
 }
 
-.line{
- box-shadow:
- 0 0 0 2px #ffe083,
- 0 0 18px #ffe083;
- animation:line .4s infinite alternate
+.fruit-win{
+    box-shadow:
+        0 0 0 2px #ffe083,
+        0 0 18px #ffe083;
 }
 
-@keyframes line{
- to{transform:scale(1.08)}
+/* EFFECTS */
+
+#effects{
+    position:fixed;
+    inset:0;
+    z-index:400;
+    display:none;
+    pointer-events:none;
+    overflow:hidden;
 }
 
-.gmsg{
- text-align:center;
- min-height:38px;
- padding:12px;
- color:#aaa
-}
-
-.choiceBox{
- width:min(460px,100%);
- padding:23px;
- border-radius:22px;
- background:#101313;
- border:1px solid rgba(216,167,53,.28)
-}
-
-.choiceBox p{
- color:#777;
- margin:7px 0 16px
-}
-
-.destgrid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px
-}
-
-.dest{
- padding:14px;
- border-radius:11px;
- border:1px solid #30332f;
- background:#171a18;
- color:#fff;
- text-align:left
-}
-
-.dest small{
- display:block;
- color:#777;
- margin-top:4px
-}
-
-#fx{
- display:none;
- position:fixed;
- inset:0;
- z-index:800;
- pointer-events:none;
- overflow:hidden
-}
-
-.winbanner{
- position:absolute;
- top:38%;
- left:50%;
- transform:translate(-50%,-50%);
- padding:18px 28px;
- border:2px solid #ffe083;
- border-radius:14px;
- background:#111;
- color:#ffe083;
- font-size:30px;
- font-weight:900;
- box-shadow:0 0 70px rgba(255,214,95,.4);
- animation:pop .65s ease
-}
-
-@keyframes pop{
- from{
-  opacity:0;
-  transform:translate(-50%,-50%) scale(.4)
- }
- to{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1)
- }
+.win-banner{
+    position:absolute;
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding:18px 28px;
+    border:2px solid #ffe083;
+    border-radius:15px;
+    background:#111;
+    color:#ffe083;
+    font-size:30px;
+    font-weight:900;
+    box-shadow:0 0 60px rgba(255,220,120,.45);
 }
 
 .coin{
- position:absolute;
- top:-30px;
- color:#ffd75e;
- font-size:22px;
- animation:fall linear forwards
+    position:absolute;
+    top:-30px;
+    color:#ffd75e;
+    font-size:23px;
+    animation:coinfall linear forwards;
 }
 
-@keyframes fall{
- to{
-  transform:translateY(110vh) rotate(720deg);
-  opacity:.1
- }
+@keyframes coinfall{
+    to{
+        transform:translateY(110vh) rotate(720deg);
+    }
 }
+
+/* TOAST */
 
 #toast{
- position:fixed;
- z-index:1100;
- left:50%;
- bottom:90px;
- transform:translate(-50%,15px);
- padding:11px 15px;
- border-radius:10px;
- background:#171a18;
- border:1px solid #4a3a1c;
- color:#ffe083;
- opacity:0;
- transition:.2s;
- pointer-events:none
+    position:fixed;
+    left:50%;
+    bottom:90px;
+    z-index:500;
+    transform:translateX(-50%);
+    padding:11px 15px;
+    border-radius:10px;
+    border:1px solid #59451d;
+    background:#15130e;
+    color:#ffe083;
+    opacity:0;
+    pointer-events:none;
+    transition:.2s;
 }
 
-.show{
- opacity:1!important;
- transform:translate(-50%,0)!important
+#toast.show{
+    opacity:1;
 }
+
+/* MOBILE */
 
 @media(max-width:700px){
- .banners{grid-template-columns:1fr}
- .games{grid-template-columns:repeat(2,1fr)}
+
+    .banners{
+        grid-template-columns:1fr;
+    }
+
+    .games{
+        grid-template-columns:1fr 1fr;
+    }
+
 }
 
-@media(max-width:390px){
- .hero h1{font-size:28px}
- .art{font-size:30px}
- .reel{height:105px;font-size:36px}
- .flight{height:370px}
+@media(max-width:430px){
+
+    .games{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:28px;
+    }
+
 }
 </style>
 </head>
 
 <body>
 
-<section id="welcome">
- <div class="wbox">
-  <div class="brand">Yes<span>MoneY</span></div>
-  <div class="sub">Ласкаво просимо</div>
+<!-- WELCOME -->
 
-  <div class="auth">
-   <button class="gold" onclick="auth('login')">Вхід</button>
-   <button class="dark" onclick="auth('register')">Реєстрація</button>
-  </div>
+<div id="welcome">
 
-  <div class="note">
-   Демо-платформа. Усі кошти віртуальні.
-  </div>
- </div>
-</section>
+    <div class="welcome-box">
 
-<div id="authModal" class="modal hidden">
- <div class="box">
-  <h2 id="authTitle">Реєстрація</h2>
+        <div class="logo">
+            Yes<span>MoneY</span>
+        </div>
 
-  <input id="aName"
-         class="field"
-         placeholder="Ваше ім'я">
+        <div class="welcome-text">
+            Ласкаво просимо до демо-платформи
+        </div>
 
-  <input id="aNick"
-         class="field"
-         placeholder="Нікнейм">
+        <div class="welcome-buttons">
 
-  <input id="aPass"
-         class="field"
-         type="password"
-         placeholder="Пароль">
+            <button
+                class="btn-gold"
+                onclick="openAuth('login')">
+                Вхід
+            </button>
 
-  <button class="gold" onclick="submitAuth()">
-   Продовжити
-  </button>
+            <button
+                class="btn-dark"
+                onclick="openAuth('register')">
+                Реєстрація
+            </button>
 
-  <button class="dark close" onclick="closeAuth()">
-   Закрити
-  </button>
- </div>
+        </div>
+
+    </div>
+
 </div>
+
+
+<!-- AUTH -->
+
+<div id="auth">
+
+    <div class="auth-box">
+
+        <h2 id="auth-title">
+            Реєстрація
+        </h2>
+
+        <div id="register-fields">
+
+            <input
+                id="reg-name"
+                class="input"
+                placeholder="Ваше ім'я">
+
+            <input
+                id="reg-nick"
+                class="input"
+                placeholder="Нікнейм">
+
+        </div>
+
+        <input
+            id="auth-password"
+            class="input"
+            type="password"
+            placeholder="Пароль">
+
+        <button
+            class="btn-gold"
+            onclick="submitAuth()">
+            Продовжити
+        </button>
+
+        <button
+            class="btn-dark auth-close"
+            onclick="closeAuth()">
+            Назад
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- APP -->
 
 <div id="app">
 
-<header class="header">
- <div class="logo">
-  Yes<span>MoneY</span>
- </div>
+    <header class="header">
 
- <div class="money">
-  $ <span id="balance">100</span>
- </div>
-</header>
+        <div class="header-logo">
+            Yes<span>MoneY</span>
+        </div>
 
-<main id="pages">
+        <div class="balance">
+            $ <span id="balance">100</span>
+        </div>
 
-<section id="home" class="page active">
+    </header>
 
- <div class="hero">
-  <small>YESMONEY</small>
 
-  <h1 id="hello">
-   Ласкаво просимо
-  </h1>
+    <div class="content">
 
-  <p>
-   Преміальна демо-платформа з іграми,
-   акціями та персональним кабінетом.
-  </p>
+        <!-- HOME -->
 
-  <button class="gold"
-          onclick="page('games')">
-   Відкрити ігри
-  </button>
- </div>
+        <section
+            id="page-home"
+            class="page active">
 
- <div class="banners">
+            <div class="hero">
 
-  <div class="banner">
-   <b>SPIN VIN</b>
-   <p>
-    Нові демо-раунди VIN-777.
-   </p>
-  </div>
+                <div class="hero-label">
+                    YESMONEY
+                </div>
 
-  <div class="banner">
-   <b>AVIATOR YMY</b>
-   <p>
-    Оберіть напрямок та вирушайте у політ.
-   </p>
-  </div>
+                <h1 id="home-name">
+                    Ласкаво просимо
+                </h1>
 
-  <div class="banner">
-   <b>GORILA KING</b>
-   <p>
-    Фрукти, лінії та великі ефекти.
-   </p>
-  </div>
+                <p>
+                    Головне меню платформи.
+                    Тут будуть розміщені банери,
+                    акції та спеціальні пропозиції.
+                </p>
 
- </div>
+                <button
+                    class="btn-gold"
+                    onclick="showPage('games')">
+                    Перейти до ігор
+                </button>
 
-</section>
+            </div>
 
-<section id="games" class="page">
 
- <div class="title">
-  Ігри
- </div>
+            <div class="banners">
 
- <div class="subtitle">
-  Оберіть гру
- </div>
+                <div class="banner">
+                    <b>SPIN VIN</b>
+                    <p>
+                        Демо-гра VIN-777.
+                    </p>
+                </div>
 
- <div class="games">
+                <div class="banner">
+                    <b>AVIATOR YMY</b>
+                    <p>
+                        Політ та множник.
+                    </p>
+                </div>
 
-  <div class="card"
-       onclick="openGame('vin')">
+                <div class="banner">
+                    <b>GORILA KING</b>
+                    <p>
+                        Фрукти та лінії.
+                    </p>
+                </div>
 
-   <div class="art vin">
-    VIN-777
-   </div>
+            </div>
 
-   <div class="ci">
-    <b>VIN-777</b>
-    <small>Premium slot • DEMO</small>
-   </div>
+        </section>
 
-  </div>
 
-  <div class="card"
-       onclick="openGame('aviator')">
+        <!-- GAMES -->
 
-   <div class="art avi">
-    ✈ AVIATOR
-   </div>
+        <section
+            id="page-games"
+            class="page">
 
-   <div class="ci">
-    <b>Aviator YMY</b>
-    <small>Flight game • DEMO</small>
-   </div>
+            <div class="title">
+                Ігри
+            </div>
 
-  </div>
+            <div class="subtitle">
+                Оберіть демо-гру
+            </div>
 
-  <div class="card"
-       onclick="openGame('gorila')">
 
-   <div class="art gor">
-    GORILA
-   </div>
+            <div class="games">
 
-   <div class="ci">
-    <b>GORILA KING</b>
-    <small>Fruit game • DEMO</small>
-   </div>
+                <div class="game-card">
 
-  </div>
+                    <div class="game-image vin">
+                        VIN-777
+                    </div>
 
- </div>
+                    <div class="game-info">
 
-</section>
+                        <b>VIN-777</b>
 
-<section id="live" class="page">
+                        <small>
+                            Демо слот
+                        </small>
 
- <div class="title">
-  Live ігри
- </div>
+                        <button
+                            class="game-open"
+                            onclick="openGame('vin')">
+                            Грати
+                        </button>
 
- <div class="subtitle">
-  Розділ готується
- </div>
+                    </div>
 
- <div class="banner" style="margin-top:18px">
+                </div>
 
-  <b>LIVE CASINO</b>
 
-  <p>
-   Повноцінні live-ігри з'являться
-   після підключення серверної частини.
-  </p>
+                <div class="game-card">
 
- </div>
+                    <div class="game-image aviator">
+                        ✈ AVIATOR
+                    </div>
 
-</section>
+                    <div class="game-info">
 
-<section id="profile" class="page">
+                        <b>Aviator YMY</b>
 
- <div class="title">
-  Особистий кабінет
- </div>
+                        <small>
+                            Демо політ
+                        </small>
 
- <div class="subtitle">
-  Ваш профіль
- </div>
+                        <button
+                            class="game-open"
+                            onclick="openGame('aviator')">
+                            Грати
+                        </button>
 
- <div class="profile">
+                    </div>
 
-  <div class="pc">
+                </div>
 
-   <div id="avatar" class="avatar">
-    <span id="letter">D</span>
-   </div>
 
-   <div id="pname" class="pname">
-    Demo Player
-   </div>
+                <div class="game-card">
 
-   <div id="pnick" class="pnick">
-    @demo
-   </div>
+                    <div class="game-image gorila">
+                        GORILA KING
+                    </div>
 
-   <div class="stat" style="margin-top:15px">
-    <span>ID</span>
-    <b id="pid">000000</b>
-   </div>
+                    <div class="game-info">
 
-   <div class="stat">
-    <span>Баланс</span>
-    <b id="pmoney">$ 100</b>
-   </div>
+                        <b>GORILA KING</b>
 
-   <div class="stat">
-    <span>Статус</span>
-    <b class="goldText">DEMO</b>
-   </div>
+                        <small>
+                            Демо fruit game
+                        </small>
 
-  </div>
+                        <button
+                            class="game-open"
+                            onclick="openGame('gorila')">
+                            Грати
+                        </button>
 
-  <div class="pc">
+                    </div>
 
-   <b>Редагувати профіль</b>
+                </div>
 
-   <input id="nName"
-          class="field"
-          style="margin-top:12px"
-          placeholder="Нове ім'я">
+            </div>
 
-   <input id="nNick"
-          class="field"
-          placeholder="Новий нікнейм">
+        </section>
 
-   <label class="dark"
-          style="display:block;text-align:center">
 
-    Додати фото
+        <!-- LIVE -->
 
-    <input id="photo"
-           type="file"
-           accept="image/*"
-           style="display:none">
+        <section
+            id="page-live"
+            class="page">
 
-   </label>
+            <div class="title">
+                Live ігри
+            </div>
 
-   <button class="gold"
-           style="width:100%;margin-top:9px"
-           onclick="saveProfile()">
-    Зберегти
-   </button>
+            <div class="subtitle">
+                Розділ готується
+            </div>
 
-  </div>
+            <div class="banner"
+                 style="margin-top:18px">
 
-  <div class="pc">
+                <b>LIVE CASINO</b>
 
-   <b>Налаштування</b>
+                <p>
+                    Розділ буде доступний
+                    після підключення серверної
+                    частини.
+                </p>
 
-   <div class="setting">
+            </div>
 
-    <span>Мова</span>
+        </section>
 
-    <select id="lang"
-            onchange="setLang()">
 
-     <option value="uk">
-      Українська
-     </option>
+        <!-- PROFILE -->
 
-     <option value="ru">
-      Русский
-     </option>
+        <section
+            id="page-profile"
+            class="page">
 
-     <option value="en">
-      English
-     </option>
+            <div class="title">
+                Особистий кабінет
+            </div>
 
-    </select>
+            <div class="subtitle">
+                Ваш профіль
+            </div>
 
-   </div>
+            <div class="profile-box">
 
-   <div class="setting">
+                <div class="avatar">
+                    <span id="avatar-letter">
+                        Y
+                    </span>
+                </div>
 
-    <span>Звуки</span>
+                <h2 id="profile-name">
+                    Demo Player
+                </h2>
 
-    <button class="dark"
-            id="sound"
-            onclick="toggleSound()">
-     Увімкнено
-    </button>
+                <div
+                    id="profile-nick"
+                    style="color:#777;margin-top:5px">
+                    @demo
+                </div>
 
-   </div>
+                <div
+                    class="stat"
+                    style="margin-top:15px">
 
-  </div>
+                    <span>
+                        ID
+                    </span>
 
-  <div class="pc">
+                    <b id="profile-id">
+                        000000
+                    </b>
 
-   <b>Підтримка</b>
+                </div>
 
-   <button class="supportBtn"
-           onclick="telegram()">
+                <div class="stat">
 
-    <b>Telegram</b>
+                    <span>
+                        Баланс
+                    </span>
 
-    <small>
-     @ymymoney
-    </small>
+                    <b>
+                        $ <span id="profile-balance">
+                            100
+                        </span>
+                    </b>
 
-   </button>
+                </div>
 
-   <div class="chat">
+                <div class="stat">
 
-    <div id="messages"
-         class="messages">
-    </div>
+                    <span>
+                        Статус
+                    </span>
 
-    <div class="chatin">
+                    <b style="color:#ffe083">
+                        DEMO
+                    </b>
 
-     <input id="chatInput"
-            placeholder="Напишіть повідомлення...">
+                </div>
 
-     <button onclick="sendChat()">
-      ➤
-     </button>
+            </div>
+
+        </section>
 
     </div>
 
-   </div>
 
-   <div class="note">
-    Вбудований чат цієї демо-версії локальний.
-    Для реального чату між відвідувачами потрібен сервер.
-   </div>
+    <!-- NAV -->
 
-  </div>
+    <nav class="bottom-nav">
 
- </div>
+        <button
+            class="nav-btn"
+            data-page="profile"
+            onclick="showPage('profile')">
 
-</section>
+            <strong>◎</strong>
+            Кабінет
 
-</main>
+        </button>
 
-<nav class="navbar">
+        <button
+            class="nav-btn"
+            data-page="games"
+            onclick="showPage('games')">
 
- <button class="nav"
-         data-page="profile"
-         onclick="page('profile')">
+            <strong>◆</strong>
+            Ігри
 
-  <i>◎</i>
-  Кабінет
+        </button>
 
- </button>
+        <button
+            class="nav-btn"
+            data-page="live"
+            onclick="showPage('live')">
 
- <button class="nav"
-         data-page="games"
-         onclick="page('games')">
+            <strong>●</strong>
+            Live
 
-  <i>◆</i>
-  Ігри
+        </button>
 
- </button>
+        <button
+            class="nav-btn active"
+            data-page="home"
+            onclick="showPage('home')">
 
- <button class="nav"
-         data-page="live"
-         onclick="page('live')">
+            <strong>⌂</strong>
+            Головна
 
-  <i>●</i>
-  Live
+        </button>
 
- </button>
-
- <button class="nav active"
-         data-page="home"
-         onclick="page('home')">
-
-  <i>⌂</i>
-  Головна
-
- </button>
-
-</nav>
+    </nav>
 
 </div>
 
-<div id="game">
 
- <header class="gamehead">
+<!-- GAME -->
 
-  <button class="back"
-          onclick="closeGame()">
-   ← Назад
-  </button>
+<div id="game-screen">
 
-  <b id="gameTitle"></b>
+    <header class="game-header">
 
-  <small style="color:#777">
-   DEMO
-  </small>
+        <button
+            class="back"
+            onclick="closeGame()">
+            ← Назад
+        </button>
 
- </header>
+        <b id="game-title">
+            Гра
+        </b>
 
- <div class="gamebody">
-  <div id="gameContent"
-       class="gameinner">
-  </div>
- </div>
+        <small style="color:#777">
+            DEMO
+        </small>
 
-</div>
+    </header>
 
-<div id="choice"
-     class="choice hidden">
 
- <div class="choiceBox">
-
-  <h2>
-   Летимо?
-  </h2>
-
-  <p>
-   Оберіть напрямок для сьогоднішнього рейсу.
-  </p>
-
-  <div class="destgrid">
-
-   <button class="dest"
-           onclick="destination('Балі')">
-
-    🇮🇩
-    <b>Балі</b>
-
-    <small>
-     Острів мрії
-    </small>
-
-   </button>
-
-   <button class="dest"
-           onclick="destination('Франція')">
-
-    🇫🇷
-    <b>Франція</b>
-
-    <small>
-     Париж
-    </small>
-
-   </button>
-
-   <button class="dest"
-           onclick="destination('Дубай')">
-
-    🇦🇪
-    <b>Дубай</b>
-
-    <small>
-     Нічний рейс
-    </small>
-
-   </button>
-
-   <button class="dest"
-           onclick="destination('Нью-Йорк')">
-
-    🇺🇸
-    <b>Нью-Йорк</b>
-
-    <small>
-     Манхеттен
-    </small>
-
-   </button>
-
-  </div>
-
- </div>
+    <div
+        id="game-content"
+        class="game-area">
+    </div>
 
 </div>
 
-<div id="fx"></div>
+
+<!-- EFFECTS -->
+
+<div id="effects"></div>
+
 <div id="toast"></div>
 
+
 <script>
+
 "use strict";
 
-const KEY="yesmoney_demo_v5";
+/* -------------------------
+   DATA
+------------------------- */
 
-let data;
+var user = {
+    logged:false,
+    name:"",
+    nick:"",
+    id:"",
+    balance:100
+};
 
-try{
- data=JSON.parse(
-  localStorage.getItem(KEY)||"null"
- );
-}catch(e){
- data=null;
-}
 
-if(!data){
+/* -------------------------
+   STORAGE
+------------------------- */
 
- data={
-  registered:false,
-  logged:false,
-  name:"",
-  nick:"",
-  pass:"",
-  id:"",
-  balance:100,
-  avatar:"",
-  lang:"uk",
-  sound:true,
-  chat:[]
- };
+function loadUser(){
 
-}
+    try{
 
-let authMode="register";
-let vinBusy=false;
-let gorBusy=false;
-let aviTimer=null;
-let aviActive=false;
-let aviBet=false;
-let aviX=1;
-let city="Балі";
+        var saved =
+            localStorage.getItem("yesmoney_user");
 
-const $=id=>document.getElementById(id);
+        if(saved){
 
-function save(){
- localStorage.setItem(
-  KEY,
-  JSON.stringify(data)
- );
+            user =
+                JSON.parse(saved);
 
- updateMoney();
-}
+        }
 
-function toast(t){
+    }catch(error){
 
- $("toast").textContent=t;
+        user = {
+            logged:false,
+            name:"",
+            nick:"",
+            id:"",
+            balance:100
+        };
 
- $("toast").classList.add("show");
-
- setTimeout(
-  ()=>$("toast").classList.remove("show"),
-  2200
- );
+    }
 
 }
 
-function beep(
- f=440,
- d=.07,
- type="sine",
- v=.03
-){
 
- if(!data.sound)return;
+function saveUser(){
 
- try{
+    try{
 
-  const C=
-   window.AudioContext||
-   window.webkitAudioContext;
+        localStorage.setItem(
+            "yesmoney_user",
+            JSON.stringify(user)
+        );
 
-  if(!C)return;
+    }catch(error){
 
-  const c=new C();
-
-  const o=c.createOscillator();
-  const g=c.createGain();
-
-  o.type=type;
-  o.frequency.value=f;
-
-  g.gain.value=v;
-
-  o.connect(g);
-  g.connect(c.destination);
-
-  o.start();
-
-  g.gain.exponentialRampToValueAtTime(
-   .001,
-   c.currentTime+d
-  );
-
-  o.stop(c.currentTime+d);
-
- }catch(e){}
+        /* DEMO MODE */
+    }
 
 }
 
-function winSound(){
 
- beep(520,.08,"triangle",.07);
+/* -------------------------
+   INIT
+------------------------- */
 
- setTimeout(
-  ()=>beep(680,.09,"triangle",.07),
-  90
- );
+loadUser();
 
- setTimeout(
-  ()=>beep(820,.12,"triangle",.08),
-  190
- );
+if(user.logged){
 
- setTimeout(
-  ()=>beep(1040,.22,"triangle",.08),
-  300
- );
+    showApp();
 
 }
 
-function loseSound(){
 
- beep(
-  220,
-  .15,
-  "sawtooth",
-  .035
- );
+/* -------------------------
+   AUTH
+------------------------- */
 
- setTimeout(
-  ()=>beep(
-   140,
-   .22,
-   "sawtooth",
-   .03
-  ),
-  130
- );
+var authMode = "register";
 
-}
 
-function init(){
+function openAuth(mode){
 
- if(data.logged){
+    authMode = mode;
 
-  $("welcome").style.display="none";
-  $("app").style.display="block";
+    document.getElementById("auth").style.display =
+        "flex";
 
-  updateProfile();
-  updateHome();
-  renderChat();
+    if(mode === "register"){
 
- }else{
+        document.getElementById(
+            "auth-title"
+        ).textContent =
+            "Реєстрація";
 
-  $("welcome").style.display="flex";
-  $("app").style.display="none";
+        document.getElementById(
+            "register-fields"
+        ).style.display =
+            "block";
 
- }
+    }else{
 
-}
+        document.getElementById(
+            "auth-title"
+        ).textContent =
+            "Вхід";
 
-function auth(mode){
+        document.getElementById(
+            "register-fields"
+        ).style.display =
+            "none";
 
- authMode=mode;
-
- $("authModal").classList.remove("hidden");
-
- $("authTitle").textContent=
-  mode==="register"
-   ?"Реєстрація"
-   :"Вхід";
-
- $("aName").style.display=
-  mode==="register"
-   ?"block"
-   :"none";
-
- $("aNick").style.display=
-  mode==="register"
-   ?"block"
-   :"none";
+    }
 
 }
+
 
 function closeAuth(){
 
- $("authModal").classList.add("hidden");
+    document.getElementById("auth").style.display =
+        "none";
 
 }
+
 
 function submitAuth(){
 
- const n=$("aName").value.trim();
- const k=$("aNick").value.trim();
- const p=$("aPass").value;
+    var password =
+        document.getElementById(
+            "auth-password"
+        ).value.trim();
 
- if(authMode==="register"){
 
-  if(!n||!k||!p){
+    if(!password){
 
-   return toast(
-    "Заповніть усі поля."
-   );
+        toast("Введіть пароль");
 
-  }
+        return;
 
-  data={
-   ...data,
-   registered:true,
-   logged:true,
-   name:n,
-   nick:k,
-   pass:p,
-   id:String(Date.now()).slice(-8),
-   balance:100
-  };
+    }
 
-  save();
 
-  closeAuth();
-  init();
+    if(authMode === "register"){
 
-  toast(
-   "Реєстрацію завершено!"
-  );
+        var name =
+            document.getElementById(
+                "reg-name"
+            ).value.trim();
 
- }else{
+        var nick =
+            document.getElementById(
+                "reg-nick"
+            ).value.trim();
 
-  if(!data.registered){
 
-   return toast(
-    "Спочатку зареєструйтесь."
-   );
+        if(!name || !nick){
 
-  }
+            toast(
+                "Заповніть ім'я та нікнейм"
+            );
 
-  if(
-   k!==data.nick||
-   p!==data.pass
-  ){
+            return;
 
-   return toast(
-    "Невірний нікнейм або пароль."
-   );
+        }
 
-  }
 
-  data.logged=true;
+        user.logged = true;
 
-  save();
-  closeAuth();
-  init();
+        user.name = name;
 
- }
+        user.nick = nick;
 
-}
+        user.id =
+            String(
+                Date.now()
+            ).slice(-8);
 
-function page(id){
+        user.balance = 100;
 
- document
-  .querySelectorAll(".page")
-  .forEach(
-   x=>x.classList.remove("active")
-  );
 
- $(id).classList.add("active");
+        saveUser();
 
- document
-  .querySelectorAll(".nav")
-  .forEach(
-   x=>x.classList.toggle(
-    "active",
-    x.dataset.page===id
-   )
-  );
+        closeAuth();
 
- if(id==="profile")
-  updateProfile();
+        showApp();
 
-}
+        toast(
+            "Реєстрацію завершено"
+        );
 
-function updateHome(){
 
- $("hello").textContent=
-  data.name
-   ?"Вітаємо, "+data.name
-   :"Ласкаво просимо";
+    }else{
+
+        if(!user.name){
+
+            toast(
+                "Спочатку створіть акаунт"
+            );
+
+            return;
+
+        }
+
+
+        user.logged = true;
+
+        saveUser();
+
+        closeAuth();
+
+        showApp();
+
+        toast(
+            "Вхід виконано"
+        );
+
+    }
 
 }
 
-function updateMoney(){
 
- $("balance").textContent=
-  Math.floor(data.balance);
+/* -------------------------
+   APP
+------------------------- */
 
- $("pmoney").textContent=
-  "$ "+Math.floor(data.balance);
+function showApp(){
+
+    document.getElementById(
+        "welcome"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "app"
+    ).style.display =
+        "block";
+
+
+    updateProfile();
+
+    showPage("home");
 
 }
+
+
+/* -------------------------
+   PAGES
+------------------------- */
+
+function showPage(page){
+
+    var pages =
+        document.querySelectorAll(
+            ".page"
+        );
+
+
+    for(var i=0;i<pages.length;i++){
+
+        pages[i].classList.remove(
+            "active"
+        );
+
+    }
+
+
+    var target =
+        document.getElementById(
+            "page-"+page
+        );
+
+
+    if(target){
+
+        target.classList.add(
+            "active"
+        );
+
+    }
+
+
+    var nav =
+        document.querySelectorAll(
+            ".nav-btn"
+        );
+
+
+    for(var j=0;j<nav.length;j++){
+
+        nav[j].classList.remove(
+            "active"
+        );
+
+        if(
+            nav[j].getAttribute(
+                "data-page"
+            ) === page
+        ){
+
+            nav[j].classList.add(
+                "active"
+            );
+
+        }
+
+    }
+
+
+    window.scrollTo(
+        0,
+        0
+    );
+
+}
+
+
+/* -------------------------
+   PROFILE
+------------------------- */
 
 function updateProfile(){
 
- $("pname").textContent=data.name;
- $("pnick").textContent="@"+data.nick;
- $("pid").textContent=data.id;
+    document.getElementById(
+        "home-name"
+    ).textContent =
+        user.name
+        ? "Вітаємо, "+user.name
+        : "Ласкаво просимо";
 
- $("nName").value=data.name;
- $("nNick").value=data.nick;
 
- $("lang").value=data.lang;
+    document.getElementById(
+        "balance"
+    ).textContent =
+        Math.floor(
+            user.balance
+        );
 
- $("sound").textContent=
-  data.sound
-   ?"Увімкнено"
-   :"Вимкнено";
 
- $("letter").textContent=
-  (data.name[0]||"D").toUpperCase();
+    document.getElementById(
+        "profile-name"
+    ).textContent =
+        user.name || "Demo Player";
 
- if(data.avatar){
 
-  $("avatar").innerHTML=
-   '<img src="'+
-   data.avatar+
-   '" alt="">';
+    document.getElementById(
+        "profile-nick"
+    ).textContent =
+        user.nick
+        ? "@"+user.nick
+        : "@demo";
 
- }
 
- updateMoney();
+    document.getElementById(
+        "profile-id"
+    ).textContent =
+        user.id || "000000";
 
-}
 
-$("photo").addEventListener(
- "change",
- function(){
+    document.getElementById(
+        "profile-balance"
+    ).textContent =
+        Math.floor(
+            user.balance
+        );
 
-  const f=this.files[0];
 
-  if(!f)return;
-
-  const r=new FileReader();
-
-  r.onload=e=>{
-
-   data.avatar=e.target.result;
-
-   save();
-   updateProfile();
-
-  };
-
-  r.readAsDataURL(f);
-
- }
-);
-
-function saveProfile(){
-
- const n=
-  $("nName").value.trim();
-
- const k=
-  $("nNick").value.trim();
-
- if(n)data.name=n;
- if(k)data.nick=k;
-
- save();
-
- updateProfile();
- updateHome();
-
- toast(
-  "Профіль оновлено."
- );
+    document.getElementById(
+        "avatar-letter"
+    ).textContent =
+        (
+            user.name
+            ? user.name.charAt(0)
+            : "Y"
+        ).toUpperCase();
 
 }
 
-function setLang(){
 
- data.lang=$("lang").value;
+/* -------------------------
+   TOAST
+------------------------- */
 
- save();
+function toast(message){
 
- toast(
-  data.lang==="uk"
-   ?"Мову змінено"
-   :data.lang==="ru"
-    ?"Язык изменён"
-    :"Language changed"
- );
+    var t =
+        document.getElementById(
+            "toast"
+        );
 
-}
+    t.textContent =
+        message;
 
-function toggleSound(){
+    t.classList.add(
+        "show"
+    );
 
- data.sound=!data.sound;
 
- save();
+    setTimeout(
+        function(){
 
- updateProfile();
+            t.classList.remove(
+                "show"
+            );
 
-}
-
-function telegram(){
-
- window.open(
-  "https://t.me/ymymoney",
-  "_blank"
- );
+        },
+        2000
+    );
 
 }
 
-function esc(s){
 
- return s
-  .replaceAll("&","&amp;")
-  .replaceAll("<","&lt;")
-  .replaceAll(">","&gt;");
+/* -------------------------
+   GAME SYSTEM
+------------------------- */
 
-}
+function openGame(type){
 
-function renderChat(){
+    document.getElementById(
+        "game-screen"
+    ).style.display =
+        "block";
 
- $("messages").innerHTML=
-  (data.chat||[])
-  .map(
-   m=>
-    '<div class="msg '+
-    (m.me?"me":"")+
-    '">'+
-    esc(m.t)+
-    '</div>'
-  )
-  .join("");
 
- $("messages").scrollTop=
-  $("messages").scrollHeight;
+    if(type === "vin"){
 
-}
+        openVin();
 
-function sendChat(){
+    }
 
- const i=$("chatInput");
+    if(type === "aviator"){
 
- const t=i.value.trim();
+        openAviator();
 
- if(!t)return;
+    }
 
- data.chat.push({
-  me:true,
-  t
- });
+    if(type === "gorila"){
 
- i.value="";
+        openGorila();
 
- save();
- renderChat();
-
- setTimeout(
-  ()=>{
-
-   data.chat.push({
-    me:false,
-    t:"Дякуємо за звернення. Для швидкої відповіді зв’яжіться з @ymymoney у Telegram."
-   });
-
-   save();
-   renderChat();
-
-  },
-  700
- );
+    }
 
 }
 
-function openGame(g){
-
- $("game").style.display="block";
-
- if(g==="vin")
-  vin();
-
- if(g==="aviator")
-  aviator();
-
- if(g==="gorila")
-  gorila();
-
-}
 
 function closeGame(){
 
- $("game").style.display="none";
-
- clearInterval(aviTimer);
-
- aviTimer=null;
- aviActive=false;
- aviBet=false;
-
- $("choice").classList.add("hidden");
+    document.getElementById(
+        "game-screen"
+    ).style.display =
+        "none";
 
 }
 
-function vin(){
 
- $("gameTitle").textContent=
-  "VIN-777";
+/* -------------------------
+   VIN 777
+------------------------- */
 
- $("gameContent").innerHTML=`
+var vinSpinning = false;
 
-  <div class="machine">
 
-   <div class="gtitle">
-    VIN-777
-   </div>
+function openVin(){
 
-   <div class="reels">
+    document.getElementById(
+        "game-title"
+    ).textContent =
+        "VIN-777";
 
-    <div class="reel" id="r1">
-     7
-    </div>
 
-    <div class="reel" id="r2">
-     7
-    </div>
+    document.getElementById(
+        "game-content"
+    ).innerHTML =
 
-    <div class="reel" id="r3">
-     7
-    </div>
+    '<div class="slot-machine">'+
 
-   </div>
+        '<div class="slot-title">'+
+            'VIN-777'+
+        '</div>'+
 
-   <div style="
-    text-align:center;
-    color:#777;
-    font-size:11px;
-    padding:12px">
+        '<div class="reels">'+
 
-    Лінія виграшу • 3 однакові символи
+            '<div class="reel" id="vin1">'+
+                '7'+
+            '</div>'+
 
-   </div>
+            '<div class="reel" id="vin2">'+
+                '7'+
+            '</div>'+
 
-   <div class="controls">
+            '<div class="reel" id="vin3">'+
+                '7'+
+            '</div>'+
 
-    <div class="ctl">
-     <small>СТАВКА</small>
-     <b>$10</b>
-    </div>
+        '</div>'+
 
-    <div class="ctl">
-     <small>БАЛАНС</small>
-     <b>$${Math.floor(data.balance)}</b>
-    </div>
+        '<div id="vin-result" class="result">'+
+            'Готові до SPIN?'+
+        '</div>'+
 
-    <button
-     class="gold spinbtn"
-     onclick="spinVin()">
+        '<button '+
+            'class="btn-gold spin-button" '+
+            'onclick="spinVin()">'+
+            'SPIN VIN • $10'+
+        '</button>'+
 
-     SPIN VIN
-
-    </button>
-
-   </div>
-
-   <div id="vinResult"
-        class="result">
-   </div>
-
-  </div>
-
-  <div class="note">
-   Демо-гра. Валюта віртуальна.
-  </div>
-
- `;
+    '</div>';
 
 }
+
 
 function spinVin(){
 
- if(vinBusy)return;
+    if(vinSpinning){
 
- if(data.balance<10)
-  return toast(
-   "Недостатньо віртуальних $."
-  );
-
- vinBusy=true;
-
- data.balance-=10;
-
- save();
-
- const rs=[
-  $("r1"),
-  $("r2"),
-  $("r3")
- ];
-
- const s=[
-  "7",
-  "7",
-  "♦",
-  "◆",
-  "BAR",
-  "★",
-  "7"
- ];
-
- rs.forEach(
-  x=>x.classList.add("spin")
- );
-
- let n=0;
-
- const t=setInterval(
-
-  ()=>{
-
-   rs.forEach(
-    x=>
-     x.textContent=
-      s[
-       Math.floor(
-        Math.random()*s.length
-       )
-      ]
-   );
-
-   if(++n>25){
-
-    clearInterval(t);
-
-    rs.forEach(
-     x=>x.classList.remove("spin")
-    );
-
-    const a=
-     rs.map(
-      x=>x.textContent
-     );
-
-    let prize=0;
-
-    if(
-     a[0]===a[1]&&
-     a[1]===a[2]
-    ){
-
-     prize=
-      a[0]==="7"
-       ?100
-       :60;
-
-    }else if(
-     a[0]===a[1]||
-     a[1]===a[2]
-    ){
-
-     prize=20;
+        return;
 
     }
 
-    const out=
-     $("vinResult");
 
-    if(prize){
+    if(user.balance < 10){
 
-     data.balance+=prize;
+        toast(
+            "Недостатньо віртуальних $"
+        );
 
-     out.textContent=
-      "ВИГРАШ +$"+prize;
+        return;
 
-     out.classList.add("big");
+    }
 
-     winFX(
-      prize>=100
-       ?"JACKPOT"
-       :"SPIN-VIN"
-     );
+
+    vinSpinning = true;
+
+    user.balance -= 10;
+
+    saveUser();
+
+    updateProfile();
+
+
+    var reels = [
+
+        document.getElementById("vin1"),
+        document.getElementById("vin2"),
+        document.getElementById("vin3")
+
+    ];
+
+
+    var symbols = [
+        "7",
+        "7",
+        "BAR",
+        "♦",
+        "★",
+        "7"
+    ];
+
+
+    for(
+        var i=0;
+        i<reels.length;
+        i++
+    ){
+
+        reels[i].classList.add(
+            "spin-animation"
+        );
+
+    }
+
+
+    var count = 0;
+
+
+    var timer =
+        setInterval(
+            function(){
+
+                for(
+                    var j=0;
+                    j<reels.length;
+                    j++
+                ){
+
+                    reels[j].textContent =
+                        symbols[
+                            Math.floor(
+                                Math.random() *
+                                symbols.length
+                            )
+                        ];
+
+                }
+
+
+                count++;
+
+
+                if(count >= 25){
+
+                    clearInterval(timer);
+
+                    finishVin(reels);
+
+                }
+
+            },
+            80
+        );
+
+}
+
+
+function finishVin(reels){
+
+    for(
+        var i=0;
+        i<reels.length;
+        i++
+    ){
+
+        reels[i].classList.remove(
+            "spin-animation"
+        );
+
+    }
+
+
+    var win = false;
+
+    var prize = 0;
+
+
+    if(
+        reels[0].textContent ===
+        reels[1].textContent &&
+        reels[1].textContent ===
+        reels[2].textContent
+    ){
+
+        win = true;
+
+        prize =
+            reels[0].textContent === "7"
+            ? 100
+            : 50;
+
+    }
+
+
+    if(win){
+
+        user.balance += prize;
+
+        document.getElementById(
+            "vin-result"
+        ).textContent =
+            "ВИГРАШ +$"+prize;
+
+        winEffect(
+            prize >= 100
+            ? "JACKPOT"
+            : "SPIN-VIN"
+        );
 
     }else{
 
-     out.textContent=
-      "Цього разу без виграшу";
-
-     loseSound();
+        document.getElementById(
+            "vin-result"
+        ).textContent =
+            "Цього разу без виграшу";
 
     }
 
-    save();
 
-    setTimeout(
-     ()=>{
+    saveUser();
 
-      vin();
-      vinBusy=false;
+    updateProfile();
 
-     },
-     1500
+    vinSpinning = false;
+
+}
+
+
+/* -------------------------
+   AVIATOR
+------------------------- */
+
+var aviatorTimer = null;
+var aviatorRunning = false;
+var aviatorBet = false;
+var aviatorX = 1;
+
+
+function openAviator(){
+
+    clearInterval(
+        aviatorTimer
     );
 
-   }
+    aviatorRunning = false;
+    aviatorBet = false;
+    aviatorX = 1;
 
-  },
-  80
 
- );
+    document.getElementById(
+        "game-title"
+    ).textContent =
+        "Aviator YMY";
 
-}
 
-function aviator(){
+    document.getElementById(
+        "game-content"
+    ).innerHTML =
 
- $("gameTitle").textContent=
-  "AVIATOR YMY";
+    '<div class="flight">'+
 
- $("gameContent").innerHTML=`
+        '<div class="flight-grid"></div>'+
 
-  <div class="flight">
+        '<div '+
+            'class="multiplier" '+
+            'id="aviator-x">'+
+            '1.00x'+
+        '</div>'+
 
-   <div class="grid"></div>
+        '<div '+
+            'class="plane" '+
+            'id="aviator-plane">'+
+            '✈'+
+        '</div>'+
 
-   <div class="destination"
-        id="dest">
+    '</div>'+
 
-    Летимо на Балі?
+    '<div '+
+        'style="margin-top:12px;color:#888;text-align:center">'+
+        'Рейс YMY готовий до вильоту'+
+    '</div>'+
 
-   </div>
+    '<div class="aviator-buttons">'+
 
-   <div class="mult"
-        id="mult">
+        '<button '+
+            'class="btn-gold" '+
+            'onclick="startAviator()">'+
+            'ПОСТАВИТИ $10'+
+        '</button>'+
 
-    1.00x
+        '<button '+
+            'class="cashout" '+
+            'onclick="cashoutAviator()">'+
+            'ЗАБРАТИ'+
+        '</button>'+
 
-   </div>
-
-   <div class="plane"
-        id="plane">
-
-    ✈
-
-   </div>
-
-  </div>
-
-  <div class="flightBtns">
-
-   <button class="gold"
-           onclick="showChoice()">
-
-    ВИБРАТИ МІСТО
-
-   </button>
-
-   <button class="gold"
-           onclick="startAvi()">
-
-    ПОСТАВИТИ $10
-
-   </button>
-
-   <button class="cash"
-           onclick="cashAvi()">
-
-    ЗАБРАТИ
-
-   </button>
-
-  </div>
-
-  <div class="note">
-   Літак стартує сам.
-   Раунд може завершитися у будь-який момент.
-  </div>
-
- `;
+    '</div>';
 
 }
 
-function showChoice(){
 
- $("choice").classList.remove(
-  "hidden"
- );
+function startAviator(){
 
-}
+    if(aviatorRunning){
 
-function destination(c){
+        toast(
+            "Раунд вже триває"
+        );
 
- city=c;
+        return;
 
- $("choice").classList.add(
-  "hidden"
- );
+    }
 
- if($("dest"))
-  $("dest").textContent=
-   "Летимо в "+c+"?";
 
- toast(
-  "Напрямок: "+c
- );
+    if(user.balance < 10){
 
-}
+        toast(
+            "Недостатньо віртуальних $"
+        );
 
-function startAvi(){
+        return;
 
- if(aviActive||aviBet)
-  return toast(
-   "Раунд уже триває."
-  );
+    }
 
- if(data.balance<10)
-  return toast(
-   "Недостатньо віртуальних $."
-  );
 
- data.balance-=10;
+    user.balance -= 10;
 
- save();
+    saveUser();
 
- aviActive=true;
- aviBet=true;
- aviX=1;
+    updateProfile();
 
- const crash=
-  1.05+
-  Math.pow(
-   Math.random(),
-   2.1
-  )*120;
 
- aviTimer=setInterval(
+    aviatorRunning = true;
+    aviatorBet = true;
+    aviatorX = 1;
 
-  ()=>{
 
-   aviX+=
-    .008+
-    aviX*.003;
+    var crashPoint =
+        1.1 +
+        Math.random() * 15;
 
-   $("mult").textContent=
-    aviX.toFixed(2)+"x";
 
-   $("plane").style.left=
-    Math.min(
-     88,
-     8+aviX*2.2
-    )+"%";
+    aviatorTimer =
+        setInterval(
+            function(){
 
-   $("plane").style.bottom=
-    Math.min(
-     80,
-     18+aviX*.5
-    )+"%";
+                aviatorX +=
+                    .01 +
+                    aviatorX * .004;
 
-   if(aviX>=crash)
-    crashAvi();
 
-  },
-  80
+                var x =
+                    document.getElementById(
+                        "aviator-x"
+                    );
 
- );
+                var plane =
+                    document.getElementById(
+                        "aviator-plane"
+                    );
 
-}
 
-function cashAvi(){
+                if(x){
 
- if(!aviActive||!aviBet)
-  return toast(
-   "Спочатку зробіть ставку."
-  );
+                    x.textContent =
+                        aviatorX.toFixed(2)+"x";
 
- const prize=
-  Math.floor(
-   10*aviX
-  );
+                }
 
- data.balance+=prize;
 
- aviActive=false;
- aviBet=false;
+                if(plane){
 
- clearInterval(aviTimer);
+                    plane.style.left =
+                        Math.min(
+                            85,
+                            10 +
+                            aviatorX*4
+                        )+"%";
 
- aviTimer=null;
+                    plane.style.bottom =
+                        Math.min(
+                            75,
+                            18 +
+                            aviatorX*2
+                        )+"%";
 
- save();
+                }
 
- winFX(
-  aviX>=20
-   ?"BIG FLIGHT"
-   :"FLIGHT WIN"
- );
 
- toast(
-  "Забрано $"+prize
- );
+                if(
+                    aviatorX >=
+                    crashPoint
+                ){
 
- setTimeout(
-  aviator,
-  1300
- );
+                    crashAviator();
+
+                }
+
+            },
+            100
+        );
 
 }
 
-function crashAvi(){
 
- clearInterval(aviTimer);
+function cashoutAviator(){
 
- aviTimer=null;
+    if(
+        !aviatorRunning ||
+        !aviatorBet
+    ){
 
- aviActive=false;
- aviBet=false;
+        toast(
+            "Спочатку зробіть ставку"
+        );
 
- const m=$("mult");
+        return;
 
- m.textContent=
-  aviX.toFixed(2)+"x";
+    }
 
- m.classList.add("crash");
 
- loseSound();
+    var prize =
+        Math.floor(
+            10 * aviatorX
+        );
 
- setTimeout(
-  aviator,
-  1600
- );
 
-}
+    user.balance += prize;
 
-function gorila(){
+    saveUser();
 
- $("gameTitle").textContent=
-  "GORILA KING";
+    updateProfile();
 
- $("gameContent").innerHTML=`
 
-  <div class="machine"
-       style="
-       background:
-       radial-gradient(
-        circle at 50% 0%,
-        rgba(164,112,38,.2),
-        transparent 35%
-       ),
-       #0a0d09">
+    clearInterval(
+        aviatorTimer
+    );
 
-   <div class="gtitle">
-    GORILA KING
-   </div>
 
-   <div id="fruits"
-        class="fruits">
-   </div>
+    aviatorRunning = false;
+    aviatorBet = false;
 
-   <div id="gmsg"
-        class="gmsg">
 
-    Готові до джунглів?
+    winEffect(
+        "FLIGHT WIN"
+    );
 
-   </div>
 
-   <button
-    class="gold"
-    style="width:100%"
-    onclick="spinGorila()">
-
-    КРУТИТИ • $10
-
-   </button>
-
-  </div>
-
-  <div class="note">
-   Лінії можуть формуватися
-   по різних напрямках.
-  </div>
-
- `;
-
- makeFruits();
+    toast(
+        "Ви забрали $"+prize
+    );
 
 }
 
-function makeFruits(){
 
- const s=[
-  "🍌","🍉","🍇","🍒","◆",
-  "🍌","♦","🍊","🍉","🍇",
-  "🍒","🍌","◆","🍊","♦",
-  "🍉","🍇","🍌","🍒","◆",
-  "♦","🍊","🍉","🍌","🍇"
- ];
+function crashAviator(){
 
- $("fruits").innerHTML=
-  s.map(
-   (x,i)=>
-    '<div class="fruit" data-i="'+
-    i+
-    '">'+
-    x+
-    "</div>"
-  )
-  .join("");
+    clearInterval(
+        aviatorTimer
+    );
+
+
+    aviatorRunning = false;
+    aviatorBet = false;
+
+
+    var x =
+        document.getElementById(
+            "aviator-x"
+        );
+
+
+    if(x){
+
+        x.style.color =
+            "#ef5360";
+
+    }
+
+
+    setTimeout(
+        function(){
+
+            openAviator();
+
+        },
+        1400
+    );
 
 }
+
+
+/* -------------------------
+   GORILA
+------------------------- */
+
+var gorilaBusy = false;
+
+
+function openGorila(){
+
+    document.getElementById(
+        "game-title"
+    ).textContent =
+        "GORILA KING";
+
+
+    document.getElementById(
+        "game-content"
+    ).innerHTML =
+
+    '<div class="slot-machine">'+
+
+        '<div class="slot-title">'+
+            'GORILA KING'+
+        '</div>'+
+
+        '<div '+
+            'class="fruit-grid" '+
+            'id="fruit-grid">'+
+        '</div>'+
+
+        '<div '+
+            'id="gorila-result" '+
+            'class="result">'+
+            'Готові до джунглів?'+
+        '</div>'+
+
+        '<button '+
+            'class="btn-gold" '+
+            'onclick="spinGorila()">'+
+            'КРУТИТИ • $10'+
+        '</button>'+
+
+    '</div>';
+
+
+
+    createFruits();
+
+}
+
+
+function createFruits(){
+
+    var symbols = [
+        "🍌",
+        "🍉",
+        "🍇",
+        "🍒",
+        "◆",
+        "♦",
+        "🍊",
+        "🍋"
+    ];
+
+
+    var html = "";
+
+
+    for(
+        var i=0;
+        i<25;
+        i++
+    ){
+
+        html +=
+            '<div class="fruit" id="fruit-'+i+'">'+
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ]+
+            '</div>';
+
+    }
+
+
+    document.getElementById(
+        "fruit-grid"
+    ).innerHTML =
+        html;
+
+}
+
 
 function spinGorila(){
 
- if(gorBusy)return;
+    if(gorilaBusy){
 
- if(data.balance<10)
-  return toast(
-   "Недостатньо віртуальних $."
-  );
-
- gorBusy=true;
-
- data.balance-=10;
-
- save();
-
- const c=[
-  ...document.querySelectorAll(".fruit")
- ];
-
- const s=[
-  "🍌",
-  "🍉",
-  "🍇",
-  "🍒",
-  "◆",
-  "♦",
-  "🍊"
- ];
-
- let n=0;
-
- const t=setInterval(
-
-  ()=>{
-
-   c.forEach(
-    x=>
-     x.textContent=
-      s[
-       Math.floor(
-        Math.random()*s.length
-       )
-      ]
-   );
-
-   if(++n>20){
-
-    clearInterval(t);
-
-    const lines=[
-     [5,6,7,8,9],
-     [0,6,12,18,24],
-     [4,8,12,16,20]
-    ];
-
-    const line=
-     lines[
-      Math.floor(
-       Math.random()*lines.length
-      )
-     ];
-
-    line.forEach(
-     i=>c[i].classList.add("line")
-    );
-
-    const same=
-     c[line[0]].textContent===
-     c[line[1]].textContent;
-
-    if(same){
-
-     data.balance+=100;
-
-     $("gmsg").textContent=
-      "GORILA KING! JACKPOT +$100";
-
-     winFX(
-      "GORILA JACKPOT"
-     );
-
-    }else{
-
-     $("gmsg").textContent=
-      "Лінія не склалася. Спробуйте ще.";
-
-     loseSound();
+        return;
 
     }
 
-    save();
+
+    if(user.balance < 10){
+
+        toast(
+            "Недостатньо віртуальних $"
+        );
+
+        return;
+
+    }
+
+
+    gorilaBusy = true;
+
+    user.balance -= 10;
+
+    saveUser();
+
+    updateProfile();
+
+
+    var cells =
+        document.querySelectorAll(
+            ".fruit"
+        );
+
+
+    var symbols = [
+        "🍌",
+        "🍉",
+        "🍇",
+        "🍒",
+        "◆",
+        "♦",
+        "🍊",
+        "🍋"
+    ];
+
+
+    var count = 0;
+
+
+    var timer =
+        setInterval(
+            function(){
+
+                for(
+                    var i=0;
+                    i<cells.length;
+                    i++
+                ){
+
+                    cells[i].textContent =
+                        symbols[
+                            Math.floor(
+                                Math.random() *
+                                symbols.length
+                            )
+                        ];
+
+                }
+
+
+                count++;
+
+
+                if(count >= 20){
+
+                    clearInterval(timer);
+
+                    finishGorila(
+                        cells
+                    );
+
+                }
+
+            },
+            90
+        );
+
+}
+
+
+function finishGorila(cells){
+
+    var winningLine = [
+        0,
+        6,
+        12,
+        18,
+        24
+    ];
+
+
+    for(
+        var i=0;
+        i<winningLine.length;
+        i++
+    ){
+
+        cells[
+            winningLine[i]
+        ].classList.add(
+            "fruit-win"
+        );
+
+    }
+
+
+    var same =
+        cells[0].textContent ===
+        cells[6].textContent;
+
+
+    if(same){
+
+        user.balance += 100;
+
+        document.getElementById(
+            "gorila-result"
+        ).textContent =
+            "GORILA KING! +$100";
+
+
+        winEffect(
+            "JACKPOT"
+        );
+
+    }else{
+
+        document.getElementById(
+            "gorila-result"
+        ).textContent =
+            "Лінія не склалася";
+
+    }
+
+
+    saveUser();
+
+    updateProfile();
+
 
     setTimeout(
-     ()=>{
+        function(){
 
-      gorila();
-      gorBusy=false;
+            gorilaBusy = false;
 
-     },
-     2200
+        },
+        1200
     );
 
-   }
-
-  },
-  90
-
- );
-
 }
 
-function winFX(title){
 
- const f=$("fx");
+/* -------------------------
+   WIN EFFECT
+------------------------- */
 
- f.innerHTML=
-  '<div class="winbanner">'+
-  title+
-  "</div>";
+function winEffect(title){
 
- f.style.display="block";
+    var fx =
+        document.getElementById(
+            "effects"
+        );
 
- winSound();
 
- for(
-  let i=0;
-  i<50;
-  i++
- ){
+    fx.innerHTML =
+        '<div class="win-banner">'+
+        title+
+        '</div>';
 
-  const c=
-   document.createElement("div");
 
-  c.className="coin";
+    fx.style.display =
+        "block";
 
-  c.textContent="●";
 
-  c.style.left=
-   Math.random()*100+
-   "%";
+    for(
+        var i=0;
+        i<45;
+        i++
+    ){
 
-  c.style.animationDuration=
-   1.2+
-   Math.random()*2+
-   "s";
+        var coin =
+            document.createElement(
+                "div"
+            );
 
-  c.style.animationDelay=
-   Math.random()*.4+
-   "s";
 
-  f.appendChild(c);
+        coin.className =
+            "coin";
 
- }
 
- setTimeout(
-  ()=>{
+        coin.textContent =
+            "●";
 
-   f.style.display="none";
-   f.innerHTML="";
 
-  },
-  3000
- );
+        coin.style.left =
+            Math.random()*100+
+            "%";
+
+
+        coin.style.animationDuration =
+            (
+                1 +
+                Math.random()*2
+            )+"s";
+
+
+        fx.appendChild(
+            coin
+        );
+
+    }
+
+
+    setTimeout(
+        function(){
+
+            fx.style.display =
+                "none";
+
+            fx.innerHTML =
+                "";
+
+        },
+        2800
+    );
 
 }
-
-document.addEventListener(
- "click",
- e=>{
-
-  if(e.target.closest("button"))
-   beep(
-    420,
-    .04,
-    "sine",
-    .02
-   );
-
- },
- {passive:true}
-);
-
-init();
 
 </script>
 
