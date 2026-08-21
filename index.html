@@ -1,755 +1,671 @@
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>YesMoneY — 777</title>
+<title>YesMoneY</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    -webkit-tap-highlight-color: transparent;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
 }
 
-:root {
-    --bg: #07080d;
-    --panel: #11131c;
-    --panel2: #181b27;
-    --gold: #f5c84b;
-    --gold2: #ff8c24;
-    --purple: #7568ff;
-    --text: #ffffff;
-    --muted: rgba(255,255,255,.52);
+:root{
+    --bg:#07080d;
+    --panel:#10131d;
+    --panel2:#161a27;
+    --border:rgba(255,255,255,.09);
+    --text:#fff;
+    --muted:#7f879b;
+    --purple:#795cff;
+    --purple2:#a875ff;
+    --gold:#ffd45a;
+    --green:#39df8c;
+    --red:#ff5575;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
+body{
+    font-family:Arial,Helvetica,sans-serif;
     background:
-        radial-gradient(circle at 50% -10%, #30244e 0%, #111321 35%, #07080d 75%);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
+        radial-gradient(circle at 50% -10%,#272044 0%,#11131e 32%,#07080d 72%);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
 }
 
-button {
-    font-family: inherit;
-    cursor: pointer;
+button{
+    font-family:inherit;
+    border:0;
+    cursor:pointer;
+    color:white;
 }
 
-.hidden {
-    display: none !important;
+.hidden{
+    display:none!important;
 }
 
 /* =========================
    WELCOME
 ========================= */
 
-#welcomeScreen {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 35px 20px 45px;
-    animation: fadeIn .7s ease;
+#welcome{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:35px 20px;
+    text-align:center;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+.logo{
+    font-size:34px;
+    font-weight:900;
+    letter-spacing:2px;
 }
 
-.logo {
-    text-align: center;
-    font-size: 38px;
-    font-weight: 900;
-    letter-spacing: 2px;
+.logo span{
+    color:#9278ff;
 }
 
-.logo span {
-    opacity: .5;
+.welcome-center{
+    max-width:500px;
+    margin:auto;
 }
 
-.auth-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 25px;
+.welcome-icon{
+    font-size:72px;
+    margin-bottom:25px;
 }
 
-.auth-btn {
-    padding: 13px 20px;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,.15);
-    background: rgba(255,255,255,.07);
-    color: white;
-    font-weight: 800;
+.welcome-center h1{
+    font-size:32px;
+    margin-bottom:12px;
 }
 
-.auth-btn.primary {
-    background: linear-gradient(135deg,#7167ff,#a66cff);
-    border: none;
+.welcome-center p{
+    color:var(--muted);
+    line-height:1.6;
 }
 
-.welcome-content {
-    text-align: center;
-    max-width: 500px;
-    margin: auto;
+.auth{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:25px;
 }
 
-.welcome-icon {
-    font-size: 70px;
-    margin-bottom: 20px;
-    animation: float 3s ease-in-out infinite;
+.auth button{
+    padding:14px 22px;
+    border-radius:14px;
+    background:#171a27;
+    border:1px solid var(--border);
 }
 
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.welcome-content h1 {
-    font-size: 29px;
-    margin-bottom: 13px;
-}
-
-.welcome-content p {
-    color: var(--muted);
-    line-height: 1.6;
-}
-
-.welcome-bottom {
-    text-align: center;
-    color: rgba(255,255,255,.3);
-    font-size: 13px;
+.auth .primary{
+    background:linear-gradient(135deg,var(--purple),var(--purple2));
 }
 
 /* =========================
    APP
 ========================= */
 
-#app {
-    min-height: 100vh;
-    padding-bottom: 90px;
+#app{
+    min-height:100vh;
+    padding-bottom:85px;
 }
 
-.topbar {
-    height: 70px;
-    padding: 15px 17px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.topbar{
+    height:72px;
+    padding:0 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    background:rgba(7,8,13,.72);
+    backdrop-filter:blur(18px);
+    position:sticky;
+    top:0;
+    z-index:20;
 }
 
-.top-logo {
-    font-size: 24px;
-    font-weight: 900;
+.top-logo{
+    font-size:22px;
+    font-weight:900;
 }
 
-.balance {
-    padding: 9px 13px;
-    border-radius: 13px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.09);
-    font-weight: 900;
+.top-logo span{
+    color:#9278ff;
 }
 
-.balance small {
-    color: var(--muted);
+.balance{
+    background:#151824;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:9px 13px;
+    font-weight:800;
 }
 
-.content {
-    padding: 10px 15px 30px;
-    max-width: 720px;
-    margin: auto;
+.balance small{
+    color:var(--muted);
+    font-weight:500;
 }
 
-.page-title {
-    font-size: 28px;
-    margin: 12px 0 7px;
+.content{
+    width:100%;
+    max-width:760px;
+    margin:auto;
+    padding:20px 15px 30px;
 }
 
-.page-subtitle {
-    color: var(--muted);
-    margin-bottom: 20px;
+.page-title{
+    font-size:29px;
+    margin-bottom:6px;
+}
+
+.page-subtitle{
+    color:var(--muted);
+    margin-bottom:22px;
 }
 
 /* =========================
-   GAMES
+   GAME GRID
 ========================= */
 
-.games-grid {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: 12px;
+.games-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
 }
 
-.game-card {
-    min-height: 155px;
-    padding: 17px;
-    border-radius: 20px;
+.game-card{
+    min-height:150px;
+    border-radius:20px;
+    padding:18px;
+    background:linear-gradient(145deg,#171b29,#0e1018);
+    border:1px solid var(--border);
+    position:relative;
+    overflow:hidden;
+    transition:.2s;
+}
+
+.game-card:active{
+    transform:scale(.96);
+}
+
+.game-card.featured{
+    border-color:rgba(121,92,255,.45);
     background:
-        linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.035));
-    border: 1px solid rgba(255,255,255,.09);
-    transition: .2s;
+        radial-gradient(circle at top right,rgba(121,92,255,.25),transparent 55%),
+        linear-gradient(145deg,#191b2b,#0e1018);
 }
 
-.game-card:active {
-    transform: scale(.96);
+.game-icon{
+    font-size:43px;
+    margin-bottom:15px;
 }
 
-.game-icon {
-    font-size: 43px;
-    margin-bottom: 15px;
+.game-card h3{
+    font-size:16px;
 }
 
-.game-card h3 {
-    margin-bottom: 5px;
-}
-
-.game-card p {
-    color: var(--muted);
-    font-size: 12px;
-}
-
-/* =========================
-   BOTTOM NAV
-========================= */
-
-.bottom-nav {
-    position: fixed;
-    z-index: 50;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 76px;
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    background: rgba(8,9,16,.96);
-    backdrop-filter: blur(18px);
-    border-top: 1px solid rgba(255,255,255,.08);
-}
-
-.nav-btn {
-    border: none;
-    background: none;
-    color: rgba(255,255,255,.4);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    transition: .25s;
-}
-
-.nav-icon {
-    font-size: 23px;
-}
-
-.nav-btn span:last-child {
-    font-size: 11px;
-}
-
-.nav-btn.active {
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* =========================
-   SUPPORT
-========================= */
-
-.support-btn {
-    position: fixed;
-    z-index: 60;
-    left: 14px;
-    bottom: 88px;
-    width: 48px;
-    height: 48px;
-    border: none;
-    border-radius: 50%;
-    background: linear-gradient(135deg,#7167ff,#a66cff);
-    color: white;
-    font-size: 21px;
-}
-
-/* =========================
-   MODAL
-========================= */
-
-.modal {
-    position: fixed;
-    z-index: 100;
-    inset: 0;
-    background: rgba(0,0,0,.78);
-    backdrop-filter: blur(12px);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 14px;
-}
-
-.modal.active {
-    display: flex;
-    animation: modalFade .25s ease;
-}
-
-@keyframes modalFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 460px;
-    max-height: 92vh;
-    overflow-y: auto;
-    border-radius: 25px;
-    padding: 22px;
-    background: #11131d;
-    border: 1px solid rgba(255,255,255,.1);
-    animation: modalUp .3s ease;
-}
-
-@keyframes modalUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px) scale(.96);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.close {
-    float: right;
-    width: 35px;
-    height: 35px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255,255,255,.08);
-    color: white;
-    font-size: 22px;
-}
-
-/* =========================
-   AUTH
-========================= */
-
-.input-group {
-    margin-bottom: 15px;
-}
-
-.input-group label {
-    display: block;
-    color: var(--muted);
-    font-size: 13px;
-    margin-bottom: 7px;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 13px;
-    border: 1px solid rgba(255,255,255,.1);
-    outline: none;
-    background: rgba(255,255,255,.06);
-    color: white;
-    font-size: 15px;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 14px;
-    background: linear-gradient(135deg,#7167ff,#a76cff);
-    color: white;
-    font-weight: 900;
-}
-
-.switch {
-    text-align: center;
-    margin-top: 17px;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.switch button {
-    border: none;
-    background: none;
-    color: #aa9eff;
-    font-weight: 800;
+.game-card p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:6px;
 }
 
 /* =========================
    777 GAME
 ========================= */
 
-.slot-page {
-    animation: slotPageIn .4s ease;
+.game-screen{
+    animation:fadeIn .3s ease;
 }
 
-@keyframes slotPageIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    to{
+        opacity:1;
+        transform:none;
     }
 }
 
-.slot-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
+.back-btn{
+    background:#151824;
+    border:1px solid var(--border);
+    padding:10px 14px;
+    border-radius:12px;
+    margin-bottom:16px;
 }
 
-.back-game {
-    border: 1px solid rgba(255,255,255,.1);
-    background: rgba(255,255,255,.06);
-    color: white;
-    border-radius: 12px;
-    padding: 9px 13px;
+.slot-header{
+    text-align:center;
+    margin-bottom:18px;
 }
 
-.slot-title {
-    text-align: center;
-    margin: 8px 0 5px;
-    font-size: 40px;
-    font-weight: 1000;
-    font-style: italic;
-    letter-spacing: 3px;
-    color: #fff;
-    text-shadow:
-        0 0 5px #fff,
-        0 0 14px #ffb52b,
-        0 0 30px #ff6a00;
+.slot-header h1{
+    font-size:30px;
+    font-weight:900;
+    letter-spacing:3px;
 }
 
-.slot-subtitle {
-    text-align: center;
-    color: var(--muted);
-    font-size: 12px;
-    margin-bottom: 18px;
+.slot-header p{
+    color:var(--muted);
+    margin-top:5px;
 }
 
-/* MACHINE */
-
-.slot-machine {
-    position: relative;
-    padding: 12px;
-    border-radius: 27px;
+.slot-machine{
     background:
-        linear-gradient(145deg,#d29a35,#fff0a0 12%,#8d5d18 30%,#e4b447 55%,#704611 100%);
+        radial-gradient(circle at 50% 0%,rgba(121,92,255,.24),transparent 50%),
+        linear-gradient(145deg,#1a1d2b,#0c0e15);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:26px;
+    padding:18px;
     box-shadow:
-        0 0 0 3px #3c250b,
-        0 12px 40px rgba(0,0,0,.55),
-        0 0 40px rgba(255,174,45,.2);
+        0 20px 60px rgba(0,0,0,.45),
+        0 0 45px rgba(121,92,255,.08);
 }
 
-.machine-inner {
-    padding: 13px;
-    border-radius: 20px;
+.slot-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.slot-label{
+    color:#7f879b;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.slot-jackpot{
+    color:var(--gold);
+    font-weight:900;
+}
+
+.reels{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
+    padding:9px;
+    background:#080a10;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.07);
+    box-shadow:inset 0 0 30px rgba(0,0,0,.65);
+}
+
+.reel{
+    height:125px;
+    border-radius:14px;
     background:
-        radial-gradient(circle at 50% 0%,#292d42,#090b12 70%);
-    border: 2px solid rgba(255,255,255,.18);
+        linear-gradient(180deg,#222635,#11131c 48%,#222635);
+    border:2px solid rgba(255,255,255,.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:62px;
+    position:relative;
+    overflow:hidden;
 }
 
-/* PAYTABLE */
-
-.paytable {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 7px;
-    margin-bottom: 12px;
+.reel:before,
+.reel:after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    height:30px;
+    z-index:2;
+    pointer-events:none;
 }
 
-.pay-item {
-    padding: 7px 3px;
-    text-align: center;
-    border-radius: 9px;
-    background: rgba(0,0,0,.35);
-    border: 1px solid rgba(255,210,90,.2);
-    font-size: 11px;
+.reel:before{
+    top:0;
+    background:linear-gradient(#11131c,transparent);
 }
 
-.pay-symbol {
-    font-size: 21px;
+.reel:after{
+    bottom:0;
+    background:linear-gradient(transparent,#11131c);
 }
 
-.pay-item strong {
-    color: #ffd866;
+.reel.spinning{
+    animation:shake .08s linear infinite;
 }
 
-/* REELS */
+@keyframes shake{
+    0%{transform:translateY(-3px)}
+    50%{transform:translateY(3px)}
+    100%{transform:translateY(-3px)}
+}
 
-.reels-frame {
-    position: relative;
-    padding: 9px;
-    border-radius: 18px;
-    background: #05060a;
-    border: 3px solid #493214;
+.reel.win{
+    border-color:var(--gold);
     box-shadow:
-        inset 0 0 25px #000,
-        0 0 20px rgba(0,0,0,.8);
+        0 0 20px rgba(255,212,90,.45),
+        inset 0 0 20px rgba(255,212,90,.12);
+    animation:winPulse .45s ease-in-out infinite alternate;
 }
 
-.reels {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 7px;
+@keyframes winPulse{
+    from{transform:scale(1)}
+    to{transform:scale(1.035)}
 }
 
-.reel {
-    height: 125px;
-    overflow: hidden;
-    position: relative;
-    border-radius: 12px;
-    background:
-        linear-gradient(90deg,#d8d8d8,#fff,#bcbcbc);
-    border: 2px solid #6d6d6d;
-    box-shadow:
-        inset 0 0 15px rgba(0,0,0,.3);
+.paytable{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
 }
 
-.reel-strip {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: 0;
-    transition: transform .12s linear;
+.pay{
+    background:#151824;
+    border-radius:10px;
+    padding:8px 5px;
+    text-align:center;
+    font-size:11px;
+    color:var(--muted);
 }
 
-.symbol {
-    height: 125px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 65px;
-    color: #171717;
-    text-shadow:
-        0 2px 2px rgba(255,255,255,.8);
+.pay strong{
+    display:block;
+    color:white;
+    margin-top:3px;
 }
 
-.reel::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,.35),
-            transparent 25%,
-            transparent 75%,
-            rgba(0,0,0,.35)
-        );
+.slot-message{
+    min-height:30px;
+    text-align:center;
+    margin-top:14px;
+    font-weight:900;
 }
 
-.payline {
-    position: absolute;
-    z-index: 5;
-    left: 5px;
-    right: 5px;
-    top: 50%;
-    height: 3px;
-    background: #ff3d45;
-    box-shadow: 0 0 10px #ff3d45;
-    pointer-events: none;
+.slot-message.win{
+    color:var(--gold);
 }
 
-.payline-dot {
-    position: absolute;
-    top: calc(50% - 5px);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 12px #ff3844;
-    z-index: 6;
+.slot-message.lose{
+    color:var(--muted);
 }
 
-.payline-dot.left {
-    left: -1px;
+.controls{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:1fr 1.5fr 1fr;
+    gap:9px;
+    align-items:center;
 }
 
-.payline-dot.right {
-    right: -1px;
+.bet-box{
+    background:#151824;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:8px;
+    text-align:center;
 }
 
-/* CONTROLS */
-
-.slot-status {
-    min-height: 30px;
-    text-align: center;
-    margin: 13px 0 8px;
-    font-size: 15px;
-    font-weight: 900;
+.bet-box small{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+    margin-bottom:4px;
 }
 
-.slot-status.win {
-    color: #ffd34d;
-    animation: winPulse .45s infinite alternate;
+.bet-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
 }
 
-@keyframes winPulse {
-    from { transform: scale(1); }
-    to { transform: scale(1.08); }
+.bet-row button{
+    width:28px;
+    height:28px;
+    border-radius:8px;
+    background:#252a3a;
+    font-size:18px;
 }
 
-.slot-controls {
-    display: grid;
-    grid-template-columns: 1fr 1.3fr 1fr;
-    gap: 8px;
-    align-items: center;
+.bet-value{
+    min-width:40px;
+    font-weight:900;
 }
 
-.bet-box {
-    padding: 9px;
-    border-radius: 12px;
-    background: rgba(255,255,255,.07);
-    text-align: center;
+.spin{
+    height:55px;
+    border-radius:16px;
+    background:linear-gradient(135deg,#795cff,#a875ff);
+    font-size:17px;
+    font-weight:900;
+    box-shadow:0 10px 25px rgba(121,92,255,.25);
 }
 
-.bet-box small {
-    display: block;
-    color: var(--muted);
-    font-size: 10px;
-    margin-bottom: 3px;
+.spin:disabled{
+    opacity:.5;
 }
 
-.bet-value {
-    font-size: 17px;
-    font-weight: 900;
+.quick-bet{
+    height:55px;
+    border-radius:16px;
+    background:#151824;
+    border:1px solid var(--border);
+    font-weight:800;
 }
 
-.bet-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    margin-top: 6px;
-}
-
-.bet-buttons button {
-    width: 25px;
-    height: 25px;
-    border: none;
-    border-radius: 7px;
-    background: rgba(255,255,255,.12);
-    color: white;
-    font-weight: 900;
-}
-
-.spin777 {
-    height: 57px;
-    border: 3px solid #6e3c05;
-    border-radius: 15px;
-    background:
-        linear-gradient(#fff078,#ffbd28 40%,#e87900 100%);
-    color: #351d00;
-    font-size: 18px;
-    font-weight: 1000;
-    text-shadow: 0 1px rgba(255,255,255,.6);
-    box-shadow:
-        0 5px 0 #713b05,
-        0 8px 20px rgba(255,144,0,.25);
-}
-
-.spin777:active {
-    transform: translateY(4px);
-    box-shadow: 0 1px 0 #713b05;
-}
-
-.spin777:disabled {
-    opacity: .55;
-}
-
-/* WIN EFFECT */
-
-.jackpot {
-    animation: jackpot .7s ease infinite alternate;
-}
-
-@keyframes jackpot {
-    from {
-        box-shadow:
-            0 0 10px #ff9d00,
-            0 0 25px #ff4d00;
-    }
-    to {
-        box-shadow:
-            0 0 25px #ffe45b,
-            0 0 60px #ff4d00,
-            0 0 90px #ff9d00;
-    }
+.balance-warning{
+    color:var(--red);
+    font-size:12px;
+    text-align:center;
+    margin-top:10px;
 }
 
 /* =========================
    BONUS / PROFILE
 ========================= */
 
-.card {
-    padding: 20px;
-    margin-bottom: 13px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.09);
+.card{
+    background:#11141e;
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:12px;
 }
 
-.card p {
-    color: var(--muted);
-    line-height: 1.5;
-    margin-top: 7px;
+.card p{
+    color:var(--muted);
+    line-height:1.5;
+    margin-top:8px;
 }
 
-.card button {
-    margin-top: 14px;
-    padding: 11px 15px;
-    border: none;
-    border-radius: 11px;
-    background: linear-gradient(135deg,#7167ff,#a76cff);
-    color: white;
-    font-weight: 900;
+.card-action{
+    margin-top:15px;
+    width:100%;
+    padding:13px;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--purple),var(--purple2));
+    font-weight:900;
 }
 
-.info-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(255,255,255,.07);
+.profile-avatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--purple),var(--purple2));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:900;
+    margin-bottom:14px;
 }
 
-.info-row:last-child {
-    border-bottom: none;
+.profile-name{
+    font-size:23px;
+    font-weight:900;
 }
 
-.muted {
-    color: var(--muted);
+.profile-id{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:5px;
+}
+
+.info{
+    margin-top:20px;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.info-row span:first-child{
+    color:var(--muted);
+}
+
+/* =========================
+   NAV
+========================= */
+
+.bottom-nav{
+    position:fixed;
+    z-index:50;
+    bottom:0;
+    left:0;
+    right:0;
+    height:76px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:rgba(9,11,18,.96);
+    backdrop-filter:blur(18px);
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+.nav-btn{
+    background:none;
+    color:#62697b;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:4px;
+}
+
+.nav-btn.active{
+    color:white;
+}
+
+.nav-icon{
+    font-size:23px;
+}
+
+.nav-btn span:last-child{
+    font-size:10px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(0,0,0,.75);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:420px;
+    background:#151824;
+    border:1px solid var(--border);
+    border-radius:23px;
+    padding:23px;
+    position:relative;
+}
+
+.close{
+    position:absolute;
+    right:13px;
+    top:12px;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:#252938;
+    font-size:21px;
+}
+
+.modal-box h2{
+    margin-bottom:7px;
+}
+
+.modal-sub{
+    color:var(--muted);
+    margin-bottom:20px;
+}
+
+.input{
+    width:100%;
+    padding:14px;
+    margin-bottom:11px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    outline:none;
+    background:#0d0f16;
+    color:white;
+}
+
+.submit{
+    width:100%;
+    padding:14px;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--purple),var(--purple2));
+    font-weight:900;
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
 
-@media (max-width: 380px) {
-    .symbol {
-        font-size: 55px;
+@media(max-width:430px){
+    .reel{
+        height:105px;
+        font-size:52px;
     }
 
-    .reel,
-    .symbol {
-        height: 110px;
+    .controls{
+        grid-template-columns:1fr 1.4fr 1fr;
     }
 
-    .slot-controls {
-        grid-template-columns: 1fr;
+    .spin{
+        font-size:15px;
+    }
+}
+
+@media(min-width:700px){
+    .games-grid{
+        grid-template-columns:repeat(3,1fr);
     }
 }
 </style>
@@ -759,37 +675,41 @@ button {
 
 <!-- WELCOME -->
 
-<section id="welcomeScreen">
+<section id="welcome">
 
     <div>
         <div class="logo">
             Yes<span>MoneY</span>
         </div>
+    </div>
 
-        <div class="auth-buttons">
-            <button class="auth-btn" id="loginButton">
+    <div class="welcome-center">
+
+        <div class="welcome-icon">🎰</div>
+
+        <h1>Ласкаво просимо</h1>
+
+        <p>
+            Грайте у демо-ігри, випробовуйте удачу
+            та отримуйте YMY.
+        </p>
+
+        <div class="auth">
+
+            <button id="loginBtn">
                 Увійти
             </button>
 
-            <button class="auth-btn primary" id="registerButton">
+            <button class="primary" id="registerBtn">
                 Реєстрація
             </button>
+
         </div>
+
     </div>
 
-    <div class="welcome-content">
-        <div class="welcome-icon">🎰</div>
-
-        <h1>Вітаємо!</h1>
-
-        <p>
-            Ми раді бачити Вас на нашій новій платформі.
-            Створіть акаунт та відкрийте світ YesMoneY.
-        </p>
-    </div>
-
-    <div class="welcome-bottom">
-        Нова платформа • Нові можливості
+    <div style="color:#555c6e;font-size:12px;">
+        YesMoneY • Demo Platform
     </div>
 
 </section>
@@ -802,21 +722,18 @@ button {
     <header class="topbar">
 
         <div class="top-logo">
-            YesMoneY
+            Yes<span>MoneY</span>
         </div>
 
         <div class="balance">
-            💰 <span id="balanceValue">50</span>
-            <small> YMY</small>
+            💰 <span id="balance">50</span>
+            <small>YMY</small>
         </div>
 
     </header>
 
-    <main class="content" id="mainContent"></main>
+    <main class="content" id="content"></main>
 
-    <button class="support-btn" id="supportButton">
-        🆘
-    </button>
 
     <nav class="bottom-nav">
 
@@ -830,14 +747,14 @@ button {
             <span>Бонус</span>
         </button>
 
-        <button class="nav-btn" id="wheelButton">
-            <span class="nav-icon">🎰</span>
-            <span>Барабан</span>
-        </button>
-
         <button class="nav-btn" data-page="profile">
             <span class="nav-icon">👤</span>
             <span>Профіль</span>
+        </button>
+
+        <button class="nav-btn" id="supportBtn">
+            <span class="nav-icon">🆘</span>
+            <span>Підтримка</span>
         </button>
 
     </nav>
@@ -855,34 +772,31 @@ button {
 
         <h2>Вхід</h2>
 
-        <p class="muted" style="margin:8px 0 20px">
-            Ласкаво просимо назад
+        <p class="modal-sub">
+            Увійдіть до YesMoneY
         </p>
 
         <form id="loginForm">
 
-            <div class="input-group">
-                <label>Email</label>
-                <input id="loginEmail" type="email" required placeholder="Ваш email">
-            </div>
+            <input
+                class="input"
+                id="loginEmail"
+                type="email"
+                placeholder="Email"
+                required>
 
-            <div class="input-group">
-                <label>Пароль</label>
-                <input id="loginPassword" type="password" required placeholder="Ваш пароль">
-            </div>
+            <input
+                class="input"
+                id="loginPassword"
+                type="password"
+                placeholder="Пароль"
+                required>
 
-            <button class="submit-btn" type="submit">
+            <button class="submit">
                 УВІЙТИ
             </button>
 
         </form>
-
-        <div class="switch">
-            Немає акаунта?
-            <button id="switchToRegister">
-                Зареєструватися
-            </button>
-        </div>
 
     </div>
 
@@ -899,117 +813,40 @@ button {
 
         <h2>Реєстрація</h2>
 
-        <p class="muted" style="margin:8px 0 20px">
-            Створіть свій акаунт YesMoneY
+        <p class="modal-sub">
+            Створіть акаунт YesMoneY
         </p>
 
         <form id="registerForm">
 
-            <div class="input-group">
-                <label>Ім'я користувача</label>
-                <input id="registerName" type="text" minlength="3" required placeholder="Ваше ім'я">
-            </div>
+            <input
+                class="input"
+                id="registerName"
+                type="text"
+                placeholder="Ім'я"
+                minlength="3"
+                required>
 
-            <div class="input-group">
-                <label>Email</label>
-                <input id="registerEmail" type="email" required placeholder="Ваш email">
-            </div>
+            <input
+                class="input"
+                id="registerEmail"
+                type="email"
+                placeholder="Email"
+                required>
 
-            <div class="input-group">
-                <label>Пароль</label>
-                <input id="registerPassword" type="password" minlength="6" required placeholder="Мінімум 6 символів">
-            </div>
+            <input
+                class="input"
+                id="registerPassword"
+                type="password"
+                placeholder="Пароль"
+                minlength="6"
+                required>
 
-            <div class="input-group">
-                <label>Повторіть пароль</label>
-                <input id="registerPassword2" type="password" minlength="6" required placeholder="Повторіть пароль">
-            </div>
-
-            <button class="submit-btn" type="submit">
+            <button class="submit">
                 СТВОРИТИ АКАУНТ
             </button>
 
         </form>
-
-        <div class="switch">
-            Вже маєте акаунт?
-            <button id="switchToLogin">
-                Увійти
-            </button>
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- WHEEL -->
-
-<div class="modal" id="wheelModal">
-
-    <div class="modal-box">
-
-        <button class="close" data-close="wheelModal">×</button>
-
-        <h2>🎰 Барабан</h2>
-
-        <p class="muted" style="margin:8px 0 20px">
-            Випробуйте свою удачу
-        </p>
-
-        <div style="text-align:center">
-
-            <div id="wheel"
-                 style="
-                 width:240px;
-                 height:240px;
-                 margin:20px auto;
-                 border-radius:50%;
-                 border:8px solid rgba(255,255,255,.15);
-                 background:conic-gradient(
-                    #7569ff 0deg 45deg,
-                    #242945 45deg 90deg,
-                    #a26cff 90deg 135deg,
-                    #242945 135deg 180deg,
-                    #7569ff 180deg 225deg,
-                    #242945 225deg 270deg,
-                    #a26cff 270deg 315deg,
-                    #242945 315deg 360deg
-                 );
-                 display:flex;
-                 align-items:center;
-                 justify-content:center;
-                 transition:transform 4s cubic-bezier(.12,.7,.18,1);
-                 ">
-
-                <div style="
-                    width:75px;
-                    height:75px;
-                    border-radius:50%;
-                    background:#11131d;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    font-weight:900;
-                ">
-                    YMY
-                </div>
-
-            </div>
-
-            <button
-                id="spinButton"
-                class="submit-btn"
-                style="max-width:230px">
-                КРУТИТИ
-            </button>
-
-            <p id="wheelResult"
-               class="muted"
-               style="margin-top:16px">
-            </p>
-
-        </div>
 
     </div>
 
@@ -1017,60 +854,83 @@ button {
 
 
 <script>
-
-/* =========================
-   VARIABLES
-========================= */
-
-const welcomeScreen =
-    document.getElementById("welcomeScreen");
-
-const app =
-    document.getElementById("app");
-
-const mainContent =
-    document.getElementById("mainContent");
-
-const balanceValue =
-    document.getElementById("balanceValue");
-
+/* ==========================================
+   ДАННЫЕ
+========================================== */
 
 let balance =
     Number(localStorage.getItem("ymyBalance")) || 50;
 
 let userName =
-    localStorage.getItem("ymyName");
+    localStorage.getItem("ymyName") || null;
 
 let userId =
-    localStorage.getItem("ymyId");
+    localStorage.getItem("ymyId") || null;
+
+let currentPage = "games";
+
+let spinning = false;
+
+const symbols = [
+    "7️⃣",
+    "🍒",
+    "🍋",
+    "🍊",
+    "💎",
+    "⭐",
+    "🔔"
+];
+
+const payouts = {
+    "7️⃣":10,
+    "💎":8,
+    "⭐":6,
+    "🔔":5,
+    "🍒":4,
+    "🍋":3,
+    "🍊":2
+};
 
 
-function saveData() {
+/* ==========================================
+   ELEMENTS
+========================================== */
 
-    localStorage.setItem(
-        "ymyBalance",
-        balance
-    );
+const welcome =
+    document.getElementById("welcome");
 
-    if (userName) {
-        localStorage.setItem(
-            "ymyName",
-            userName
-        );
-    }
+const app =
+    document.getElementById("app");
 
-    if (userId) {
-        localStorage.setItem(
-            "ymyId",
-            userId
-        );
-    }
+const content =
+    document.getElementById("content");
+
+const balanceEl =
+    document.getElementById("balance");
+
+
+/* ==========================================
+   SAVE
+========================================== */
+
+function save(){
+    localStorage.setItem("ymyBalance",balance);
+
+    if(userName)
+        localStorage.setItem("ymyName",userName);
+
+    if(userId)
+        localStorage.setItem("ymyId",userId);
 }
 
 
-function updateBalance() {
+/* ==========================================
+   BALANCE
+========================================== */
 
-    balanceValue.textContent =
+function updateBalance(){
+
+    balanceEl.textContent =
         Math.floor(balance);
 
     localStorage.setItem(
@@ -1080,48 +940,33 @@ function updateBalance() {
 }
 
 
-/* =========================
-   OPEN APP
-========================= */
+/* ==========================================
+   APP
+========================================== */
 
-function openApp() {
+function openApp(){
 
-    welcomeScreen.classList.add("hidden");
+    welcome.classList.add("hidden");
     app.classList.remove("hidden");
 
     updateBalance();
+
     showPage("games");
 }
 
 
-/* =========================
-   GAMES
-========================= */
+/* ==========================================
+   GAMES PAGE
+========================================== */
 
-const games = [
+function gamesPage(){
 
-    ["🎰","777","Класичний слот"],
-    ["💎","Diamond Spin","Алмазний слот"],
-    ["🔥","Fire Spin","Вогняний слот"],
-    ["🍀","Lucky Clover","Щасливий слот"],
-    ["🌙","Moon Night","Нічна гра"],
-    ["⚡","Lightning","Швидкий режим"],
-    ["👑","Royal Game","Королівська гра"],
-    ["💰","Golden Win","Золотий шанс"],
-    ["🚀","Rocket","Піднімайтесь вище"],
-    ["🎯","Lucky Target","Влуч у ціль"]
-
-];
-
-
-function gamesPage() {
-
-    let html = `
+    content.innerHTML = `
 
         <div class="page">
 
             <h1 class="page-title">
-                🎮 Грати
+                Ігри
             </h1>
 
             <p class="page-subtitle">
@@ -1129,115 +974,549 @@ function gamesPage() {
             </p>
 
             <div class="games-grid">
-    `;
 
-    games.forEach((game,index) => {
+                <div
+                    class="game-card featured"
+                    onclick="open777()">
 
-        html += `
+                    <div class="game-icon">
+                        7️⃣
+                    </div>
 
-            <div
-                class="game-card"
-                onclick="openGame(${index})">
+                    <h3>
+                        777
+                    </h3>
 
-                <div class="game-icon">
-                    ${game[0]}
+                    <p>
+                        Classic Slots
+                    </p>
+
                 </div>
 
-                <h3>
-                    ${game[1]}
-                </h3>
+                <div class="game-card">
+                    <div class="game-icon">💎</div>
+                    <h3>Diamond</h3>
+                    <p>Coming soon</p>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-icon">🔥</div>
+                    <h3>Fire Spin</h3>
+                    <p>Coming soon</p>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-icon">🍀</div>
+                    <h3>Lucky Clover</h3>
+                    <p>Coming soon</p>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-icon">👑</div>
+                    <h3>Royal</h3>
+                    <p>Coming soon</p>
+                </div>
+
+                <div class="game-card">
+                    <div class="game-icon">🚀</div>
+                    <h3>Rocket</h3>
+                    <p>Coming soon</p>
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* ==========================================
+   777
+========================================== */
+
+function open777(){
+
+    content.innerHTML = `
+
+        <div class="game-screen">
+
+            <button
+                class="back-btn"
+                onclick="gamesPage()">
+
+                ← Назад до ігор
+
+            </button>
+
+            <div class="slot-header">
+
+                <h1>777</h1>
 
                 <p>
-                    ${game[2]}
+                    CLASSIC SLOTS
                 </p>
 
             </div>
 
-        `;
+            <div class="slot-machine">
+
+                <div class="slot-top">
+
+                    <span class="slot-label">
+                        DEMO GAME
+                    </span>
+
+                    <span class="slot-jackpot">
+                        ★ JACKPOT
+                    </span>
+
+                </div>
+
+                <div class="reels">
+
+                    <div
+                        class="reel"
+                        id="reel1">
+                        7️⃣
+                    </div>
+
+                    <div
+                        class="reel"
+                        id="reel2">
+                        7️⃣
+                    </div>
+
+                    <div
+                        class="reel"
+                        id="reel3">
+                        7️⃣
+                    </div>
+
+                </div>
+
+                <div class="paytable">
+
+                    <div class="pay">
+                        777
+                        <strong>x10</strong>
+                    </div>
+
+                    <div class="pay">
+                        💎💎💎
+                        <strong>x8</strong>
+                    </div>
+
+                    <div class="pay">
+                        ⭐⭐⭐
+                        <strong>x6</strong>
+                    </div>
+
+                    <div class="pay">
+                        🔔🔔🔔
+                        <strong>x5</strong>
+                    </div>
+
+                    <div class="pay">
+                        🍒🍒🍒
+                        <strong>x4</strong>
+                    </div>
+
+                    <div class="pay">
+                        Любая
+                        <strong>x2</strong>
+                    </div>
+
+                </div>
+
+                <div
+                    id="slotMessage"
+                    class="slot-message">
+
+                </div>
+
+                <div class="controls">
+
+                    <div class="bet-box">
+
+                        <small>СТАВКА</small>
+
+                        <div class="bet-row">
+
+                            <button onclick="changeBet(-5)">
+                                −
+                            </button>
+
+                            <span
+                                id="betValue"
+                                class="bet-value">
+                                5
+                            </span>
+
+                            <button onclick="changeBet(5)">
+                                +
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="spin"
+                        id="spinBtn"
+                        onclick="spin777()">
+
+                        КРУТИТИ
+
+                    </button>
+
+                    <button
+                        class="quick-bet"
+                        onclick="changeBet(10)">
+
+                        MAX
+
+                    </button>
+
+                </div>
+
+                <div
+                    id="warning"
+                    class="balance-warning">
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    window.currentBet = 5;
+}
+
+
+/* ==========================================
+   BET
+========================================== */
+
+window.currentBet = 5;
+
+function changeBet(amount){
+
+    if(!window.currentBet)
+        window.currentBet = 5;
+
+    if(amount === 10){
+
+        window.currentBet =
+            Math.min(50,Math.max(5,balance));
+
+    }else{
+
+        window.currentBet += amount;
+
+        if(window.currentBet < 5)
+            window.currentBet = 5;
+
+        if(window.currentBet > 50)
+            window.currentBet = 50;
+
+        if(window.currentBet > balance)
+            window.currentBet = Math.max(5,balance);
+    }
+
+    const el =
+        document.getElementById("betValue");
+
+    if(el)
+        el.textContent =
+            window.currentBet;
+}
+
+
+/* ==========================================
+   RANDOM SYMBOL
+========================================== */
+
+function randomSymbol(){
+
+    const r =
+        Math.random();
+
+    if(r < .08) return "7️⃣";
+    if(r < .18) return "💎";
+    if(r < .30) return "⭐";
+    if(r < .42) return "🔔";
+    if(r < .62) return "🍒";
+    if(r < .81) return "🍋";
+
+    return "🍊";
+}
+
+
+/* ==========================================
+   SPIN
+========================================== */
+
+function spin777(){
+
+    if(spinning)
+        return;
+
+    const bet =
+        window.currentBet || 5;
+
+    const message =
+        document.getElementById("slotMessage");
+
+    const warning =
+        document.getElementById("warning");
+
+    const button =
+        document.getElementById("spinBtn");
+
+    if(balance < bet){
+
+        warning.textContent =
+            "Недостатньо YMY для цієї ставки.";
+
+        return;
+    }
+
+    warning.textContent = "";
+
+    balance -= bet;
+
+    updateBalance();
+
+    spinning = true;
+
+    button.disabled = true;
+
+    message.textContent = "";
+    message.className = "slot-message";
+
+    const reels = [
+        document.getElementById("reel1"),
+        document.getElementById("reel2"),
+        document.getElementById("reel3")
+    ];
+
+    reels.forEach(reel=>{
+        reel.classList.remove("win");
+        reel.classList.add("spinning");
+    });
+
+    let tick = 0;
+
+    const animation =
+        setInterval(()=>{
+
+            reels.forEach(reel=>{
+                reel.textContent =
+                    symbols[
+                        Math.floor(
+                            Math.random()*symbols.length
+                        )
+                    ];
+            });
+
+            tick++;
+
+            if(tick >= 22){
+
+                clearInterval(animation);
+
+                finishSpin(reels,bet);
+
+            }
+
+        },90);
+}
+
+
+/* ==========================================
+   FINISH
+========================================== */
+
+function finishSpin(reels,bet){
+
+    const result = [
+        randomSymbol(),
+        randomSymbol(),
+        randomSymbol()
+    ];
+
+    /*
+      Небольшой шанс на красивые
+      выигрышные комбинации.
+    */
+
+    const luck =
+        Math.random();
+
+    if(luck < .035){
+
+        result[0] =
+        result[1] =
+        result[2] = "7️⃣";
+
+    }else if(luck < .075){
+
+        const s = randomSymbol();
+
+        result[0] =
+        result[1] =
+        result[2] = s;
+
+    }
+
+    reels.forEach((reel,i)=>{
+
+        reel.classList.remove("spinning");
+
+        reel.textContent =
+            result[i];
 
     });
 
-    html += `
-            </div>
-        </div>
-    `;
+    const same =
+        result[0] === result[1] &&
+        result[1] === result[2];
 
-    mainContent.innerHTML = html;
+    let win = 0;
+
+    if(same){
+
+        win =
+            bet *
+            (payouts[result[0]] || 2);
+
+    }else if(
+        result[0] === result[1] ||
+        result[1] === result[2] ||
+        result[0] === result[2]
+    ){
+
+        win =
+            bet * 2;
+    }
+
+    const message =
+        document.getElementById("slotMessage");
+
+    if(win > 0){
+
+        balance += win;
+
+        updateBalance();
+
+        reels.forEach(reel=>{
+            reel.classList.add("win");
+        });
+
+        message.className =
+            "slot-message win";
+
+        message.textContent =
+            `🎉 ВИГРАШ +${win} YMY`;
+
+    }else{
+
+        message.className =
+            "slot-message lose";
+
+        message.textContent =
+            `Ставка ${bet} YMY. Спробуйте ще раз.`;
+    }
+
+    save();
+
+    spinning = false;
+
+    const button =
+        document.getElementById("spinBtn");
+
+    if(button)
+        button.disabled = false;
 }
 
 
-/* =========================
+/* ==========================================
    BONUS
-========================= */
+========================================== */
 
-function bonusPage() {
+function bonusPage(){
 
-    mainContent.innerHTML = `
+    content.innerHTML = `
 
-        <div class="page">
+        <h1 class="page-title">
+            🎁 Бонуси
+        </h1>
 
-            <h1 class="page-title">
-                🎁 Бонуси
-            </h1>
+        <p class="page-subtitle">
+            Доступні бонусні пропозиції
+        </p>
 
-            <p class="page-subtitle">
-                Спеціальні пропозиції
+        <div class="card">
+
+            <h2>🎁 Стартовий бонус</h2>
+
+            <p>
+                Отримайте 50 YMY до свого
+                демо-балансу.
             </p>
 
-            <div class="card">
-                <h3>🎁 Стартовий бонус</h3>
-                <p>
-                    Додаткові 50 YMY до ігрового балансу.
-                </p>
-                <button onclick="claimBonus(50)">
-                    Отримати
-                </button>
-            </div>
+            <button
+                class="card-action"
+                onclick="claimBonus(50,this)">
 
-            <div class="card">
-                <h3>🔥 Подвійний шанс</h3>
-                <p>
-                    Бонус для збільшення ігрового балансу.
-                </p>
-                <button onclick="claimBonus(100)">
-                    Отримати
-                </button>
-            </div>
+                ОТРИМАТИ 50 YMY
 
-            <div class="card">
-                <h3>👑 VIP старт</h3>
-                <p>
-                    Преміальна пропозиція для нового гравця.
-                </p>
-                <button onclick="claimBonus(250)">
-                    Отримати
-                </button>
-            </div>
+            </button>
 
         </div>
+
+        <div class="card">
+
+            <h2>🔥 Daily Bonus</h2>
+
+            <p>
+                Щоденна бонусна нагорода
+                буде доступна після запуску
+                повної системи акаунтів.
+            </p>
+
+        </div>
+
     `;
 }
 
 
-function claimBonus(amount) {
+/* ==========================================
+   BONUS CLAIM
+========================================== */
+
+function claimBonus(amount,button){
+
+    if(button.disabled)
+        return;
 
     balance += amount;
 
     updateBalance();
 
-    alert(
-        "🎁 Бонус отримано!\n\n+" +
-        amount +
-        " YMY"
-    );
+    button.disabled = true;
+    button.textContent =
+        "БОНУС ОТРИМАНО ✓";
+
+    save();
 }
 
 
-/* =========================
+/* ==========================================
    PROFILE
-========================= */
+========================================== */
 
-function profilePage() {
+function profilePage(){
 
     const name =
         userName || "Гість";
@@ -1245,745 +1524,102 @@ function profilePage() {
     const id =
         userId || "YMY-DEMO";
 
+    content.innerHTML = `
 
-    mainContent.innerHTML = `
+        <h1 class="page-title">
+            👤 Профіль
+        </h1>
 
-        <div class="page">
+        <p class="page-subtitle">
+            Ваш акаунт
+        </p>
 
-            <h1 class="page-title">
-                👤 Профіль
-            </h1>
+        <div class="card">
 
-            <p class="page-subtitle">
-                Ваш особистий кабінет
-            </p>
+            <div class="profile-avatar">
+                ${name.charAt(0).toUpperCase()}
+            </div>
 
-            <div class="card">
+            <div class="profile-name">
+                ${name}
+            </div>
 
-                <div style="
-                    width:70px;
-                    height:70px;
-                    border-radius:50%;
-                    background:linear-gradient(135deg,#7167ff,#b46cff);
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    font-size:30px;
-                    font-weight:900;
-                    margin-bottom:15px;
-                ">
-                    ${name.charAt(0).toUpperCase()}
+            <div class="profile-id">
+                ID: ${id}
+            </div>
+
+            <div class="info">
+
+                <div class="info-row">
+                    <span>Баланс</span>
+                    <strong>
+                        ${Math.floor(balance)} YMY
+                    </strong>
                 </div>
 
-                <h2>
-                    ${name}
-                </h2>
-
-                <p>
-                    ID: ${id}
-                </p>
-
-                <div style="margin-top:18px">
-
-                    <div class="info-row">
-                        <span class="muted">Баланс</span>
-                        <strong>💰 ${Math.floor(balance)} YMY</strong>
-                    </div>
-
-                    <div class="info-row">
-                        <span class="muted">Бонуси</span>
-                        <strong>🎁 0 YMY</strong>
-                    </div>
-
-                    <div class="info-row">
-                        <span class="muted">Реферальні бонуси</span>
-                        <strong>0 YMY</strong>
-                    </div>
-
+                <div class="info-row">
+                    <span>Статус</span>
+                    <strong>
+                        Demo Player
+                    </strong>
                 </div>
 
             </div>
-
-            <div class="card">
-
-                <h3>👥 Реферальна система</h3>
-
-                <p>
-                    Запрошуйте друзів та отримуйте
-                    додаткові бонуси.
-                </p>
-
-                <p>
-                    Ваш код:
-                    <strong>${id}</strong>
-                </p>
-
-            </div>
-
-            <div class="card">
-
-                <h3>💬 Чат гравців</h3>
-
-                <p>
-                    YMY_Admin: Вітаємо на платформі! 👋
-                </p>
-
-            </div>
-
-            <button
-                class="submit-btn"
-                onclick="logout()">
-
-                ВИЙТИ З АКАУНТА
-
-            </button>
 
         </div>
+
+        <button
+            class="card-action"
+            onclick="logout()">
+
+            ВИЙТИ
+
+        </button>
+
     `;
 }
 
 
-/* =========================
-   NAVIGATION
-========================= */
+/* ==========================================
+   PAGES
+========================================== */
 
-function showPage(page) {
+function showPage(page){
+
+    currentPage = page;
 
     document
         .querySelectorAll(".nav-btn")
-        .forEach(btn => {
+        .forEach(btn=>{
             btn.classList.remove("active");
+
+            if(btn.dataset.page === page)
+                btn.classList.add("active");
         });
 
-
-    const active =
-        document.querySelector(
-            `[data-page="${page}"]`
-        );
-
-    if (active) {
-        active.classList.add("active");
-    }
-
-
-    if (page === "games") {
+    if(page === "games")
         gamesPage();
-    }
 
-    if (page === "bonus") {
+    if(page === "bonus")
         bonusPage();
-    }
 
-    if (page === "profile") {
+    if(page === "profile")
         profilePage();
-    }
 }
 
 
-/* =========================
-   OPEN GAME
-========================= */
-
-function openGame(index) {
-
-    if (index === 0) {
-
-        open777();
-
-        return;
-    }
-
-    alert(
-        "🎮 " +
-        games[index][1] +
-        "\n\nЦя гра буде додана наступною."
-    );
-}
-
-
-/* =========================
-   777 GAME
-========================= */
-
-const symbols = [
-    "🍒",
-    "🍋",
-    "🔔",
-    "⭐",
-    "💎",
-    "7️⃣"
-];
-
-
-const payouts = {
-
-    "🍒": 3,
-    "🍋": 4,
-    "🔔": 7,
-    "⭐": 10,
-    "💎": 20,
-    "7️⃣": 50
-
-};
-
-
-let currentBet = 1;
-let spinning777 = false;
-
-
-function open777() {
-
-    mainContent.innerHTML = `
-
-        <div class="slot-page">
-
-            <div class="slot-top">
-
-                <button
-                    class="back-game"
-                    onclick="showPage('games')">
-                    ← Ігри
-                </button>
-
-                <strong>
-                    💰 <span id="gameBalance">
-                        ${Math.floor(balance)}
-                    </span>
-                    YMY
-                </strong>
-
-            </div>
-
-
-            <div class="slot-title">
-                777
-            </div>
-
-            <div class="slot-subtitle">
-                CLASSIC VIRTUAL SLOT
-            </div>
-
-
-            <div class="slot-machine" id="slotMachine">
-
-                <div class="machine-inner">
-
-
-                    <div class="paytable">
-
-                        <div class="pay-item">
-                            <div class="pay-symbol">🍒</div>
-                            <strong>x3</strong>
-                        </div>
-
-                        <div class="pay-item">
-                            <div class="pay-symbol">🍋</div>
-                            <strong>x4</strong>
-                        </div>
-
-                        <div class="pay-item">
-                            <div class="pay-symbol">🔔</div>
-                            <strong>x7</strong>
-                        </div>
-
-                        <div class="pay-item">
-                            <div class="pay-symbol">⭐</div>
-                            <strong>x10</strong>
-                        </div>
-
-                        <div class="pay-item">
-                            <div class="pay-symbol">💎</div>
-                            <strong>x20</strong>
-                        </div>
-
-                        <div class="pay-item">
-                            <div class="pay-symbol">7️⃣</div>
-                            <strong>x50</strong>
-                        </div>
-
-                    </div>
-
-
-                    <div class="reels-frame">
-
-                        <div class="payline"></div>
-
-                        <div class="payline-dot left"></div>
-                        <div class="payline-dot right"></div>
-
-                        <div class="reels">
-
-                            <div class="reel">
-                                <div
-                                    class="reel-strip"
-                                    id="reel1">
-                                </div>
-                            </div>
-
-                            <div class="reel">
-                                <div
-                                    class="reel-strip"
-                                    id="reel2">
-                                </div>
-                            </div>
-
-                            <div class="reel">
-                                <div
-                                    class="reel-strip"
-                                    id="reel3">
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div
-                        class="slot-status"
-                        id="slotStatus">
-
-                        Зробіть ставку та крутіть!
-
-                    </div>
-
-
-                    <div class="slot-controls">
-
-
-                        <div class="bet-box">
-
-                            <small>СТАВКА</small>
-
-                            <div class="bet-value">
-                                <span id="betValue">
-                                    1
-                                </span>
-                                YMY
-                            </div>
-
-                            <div class="bet-buttons">
-
-                                <button onclick="changeBet(-1)">
-                                    −
-                                </button>
-
-                                <button onclick="changeBet(1)">
-                                    +
-                                </button>
-
-                            </div>
-
-                        </div>
-
-
-                        <button
-                            class="spin777"
-                            id="spin777"
-                            onclick="spin777Game()">
-
-                            КРУТИТИ
-
-                        </button>
-
-
-                        <div class="bet-box">
-
-                            <small>БАЛАНС</small>
-
-                            <div
-                                class="bet-value"
-                                id="gameBalance2">
-
-                                ${Math.floor(balance)}
-
-                            </div>
-
-                            <small>YMY</small>
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-    `;
-
-
-    renderReel(
-        document.getElementById("reel1"),
-        "🍒"
-    );
-
-    renderReel(
-        document.getElementById("reel2"),
-        "🍋"
-    );
-
-    renderReel(
-        document.getElementById("reel3"),
-        "🔔"
-    );
-}
-
-
-/* =========================
-   REEL RENDER
-========================= */
-
-function renderReel(element, symbol) {
-
-    if (!element) return;
-
-    let html = "";
-
-    for (let i = 0; i < 12; i++) {
-
-        html += `
-            <div class="symbol">
-                ${symbol}
-            </div>
-        `;
-    }
-
-    element.innerHTML = html;
-}
-
-
-/* =========================
-   BET
-========================= */
-
-function changeBet(direction) {
-
-    if (spinning777) return;
-
-    currentBet += direction;
-
-    if (currentBet < 1) {
-        currentBet = 1;
-    }
-
-    if (currentBet > 20) {
-        currentBet = 20;
-    }
-
-    if (currentBet > balance) {
-        currentBet = Math.max(
-            1,
-            Math.floor(balance)
-        );
-    }
-
-    const betValue =
-        document.getElementById("betValue");
-
-    if (betValue) {
-        betValue.textContent =
-            currentBet;
-    }
-}
-
-
-/* =========================
-   SPIN 777
-========================= */
-
-function spin777Game() {
-
-    if (spinning777) return;
-
-
-    if (balance < currentBet) {
-
-        const status =
-            document.getElementById("slotStatus");
-
-        status.textContent =
-            "❌ Недостатньо YMY для ставки.";
-
-        return;
-    }
-
-
-    spinning777 = true;
-
-
-    const button =
-        document.getElementById("spin777");
-
-    button.disabled = true;
-    button.textContent = "ОБЕРТАННЯ…";
-
-
-    balance -= currentBet;
-
-    updateBalance();
-
-    updateGameBalance();
-
-
-    const result = [
-
-        randomSymbol(),
-        randomSymbol(),
-        randomSymbol()
-
-    ];
-
-
-    spinReel(
-        "reel1",
-        result[0],
-        1700
-    );
-
-    spinReel(
-        "reel2",
-        result[1],
-        2300
-    );
-
-    spinReel(
-        "reel3",
-        result[2],
-        2900
-    );
-
-
-    setTimeout(() => {
-
-        finish777(
-            result
-        );
-
-    }, 3050);
-}
-
-
-/* =========================
-   RANDOM SYMBOL
-========================= */
-
-function randomSymbol() {
-
-    const roll =
-        Math.random();
-
-    /*
-      777 зроблений рідшим,
-      ніж звичайні символи.
-    */
-
-    if (roll < .025) {
-        return "7️⃣";
-    }
-
-    if (roll < .10) {
-        return "💎";
-    }
-
-    if (roll < .22) {
-        return "⭐";
-    }
-
-    if (roll < .38) {
-        return "🔔";
-    }
-
-    if (roll < .60) {
-        return "🍋";
-    }
-
-    return "🍒";
-}
-
-
-/* =========================
-   REEL ANIMATION
-========================= */
-
-function spinReel(
-    id,
-    finalSymbol,
-    duration
-) {
-
-    const reel =
-        document.getElementById(id);
-
-    if (!reel) return;
-
-
-    const sequence = [];
-
-
-    for (let i = 0; i < 16; i++) {
-
-        sequence.push(
-            symbols[
-                Math.floor(
-                    Math.random() *
-                    symbols.length
-                )
-            ]
-        );
-
-    }
-
-
-    sequence.push(
-        finalSymbol
-    );
-
-
-    reel.innerHTML =
-        sequence
-        .map(symbol => `
-            <div class="symbol">
-                ${symbol}
-            </div>
-        `)
-        .join("");
-
-
-    const symbolHeight =
-        document
-            .querySelector(".symbol")
-            .offsetHeight;
-
-
-    reel.style.transition =
-        `transform ${duration}ms cubic-bezier(.12,.7,.18,1)`;
-
-
-    reel.style.transform =
-        `translateY(-${(sequence.length - 1) * symbolHeight}px)`;
-
-
-    setTimeout(() => {
-
-        reel.style.transition = "none";
-        reel.style.transform = "translateY(0)";
-
-        renderReel(
-            reel,
-            finalSymbol
-        );
-
-    }, duration + 50);
-}
-
-
-/* =========================
-   FINISH GAME
-========================= */
-
-function finish777(result) {
-
-    const status =
-        document.getElementById("slotStatus");
-
-    const machine =
-        document.getElementById("slotMachine");
-
-    const button =
-        document.getElementById("spin777");
-
-
-    const same =
-        result[0] === result[1] &&
-        result[1] === result[2];
-
-
-    if (same) {
-
-        const multiplier =
-            payouts[result[0]] || 3;
-
-        const win =
-            currentBet *
-            multiplier;
-
-
-        balance += win;
-
-        updateBalance();
-        updateGameBalance();
-
-
-        status.textContent =
-            result[0] === "7️⃣"
-            ? `🔥 JACKPOT 777! +${win} YMY`
-            : `🎉 ВИГРАШ! +${win} YMY`;
-
-
-        status.classList.add("win");
-
-
-        if (result[0] === "7️⃣") {
-            machine.classList.add("jackpot");
-        }
-
-    } else {
-
-        status.textContent =
-            `Комбінація ${result.join(" ")} — спробуйте ще раз`;
-
-        status.classList.remove("win");
-        machine.classList.remove("jackpot");
-    }
-
-
-    spinning777 = false;
-
-    button.disabled = false;
-    button.textContent = "КРУТИТИ";
-}
-
-
-/* =========================
-   UPDATE GAME BALANCE
-========================= */
-
-function updateGameBalance() {
-
-    const a =
-        document.getElementById("gameBalance");
-
-    const b =
-        document.getElementById("gameBalance2");
-
-
-    if (a) {
-        a.textContent =
-            Math.floor(balance);
-    }
-
-    if (b) {
-        b.textContent =
-            Math.floor(balance);
-    }
-}
-
-
-/* =========================
+/* ==========================================
    MODALS
-========================= */
+========================================== */
 
-function openModal(id) {
+function openModal(id){
 
     document
         .getElementById(id)
         .classList.add("active");
 }
 
-
-function closeModal(id) {
+function closeModal(id){
 
     document
         .getElementById(id)
@@ -1991,115 +1627,90 @@ function closeModal(id) {
 }
 
 
-/* =========================
+/* ==========================================
    AUTH BUTTONS
-========================= */
+========================================== */
 
 document
-    .getElementById("loginButton")
-    .addEventListener(
-        "click",
-        () => openModal("loginModal")
-    );
-
+    .getElementById("loginBtn")
+    .onclick =
+    ()=>openModal("loginModal");
 
 document
-    .getElementById("registerButton")
-    .addEventListener(
-        "click",
-        () => openModal("registerModal")
-    );
-
-
-document
-    .getElementById("switchToRegister")
-    .addEventListener(
-        "click",
-        () => {
-
-            closeModal("loginModal");
-            openModal("registerModal");
-
-        }
-    );
-
-
-document
-    .getElementById("switchToLogin")
-    .addEventListener(
-        "click",
-        () => {
-
-            closeModal("registerModal");
-            openModal("loginModal");
-
-        }
-    );
+    .getElementById("registerBtn")
+    .onclick =
+    ()=>openModal("registerModal");
 
 
 document
     .querySelectorAll("[data-close]")
-    .forEach(button => {
+    .forEach(btn=>{
 
-        button.addEventListener(
-            "click",
-            () => {
-
-                closeModal(
-                    button.dataset.close
-                );
-
-            }
-        );
+        btn.onclick = ()=>{
+            closeModal(
+                btn.dataset.close
+            );
+        };
 
     });
 
 
-/* =========================
+/* ==========================================
    REGISTER
-========================= */
+========================================== */
 
 document
     .getElementById("registerForm")
-    .addEventListener(
-        "submit",
-        event => {
+    .onsubmit =
+    function(e){
 
-            event.preventDefault();
+        e.preventDefault();
 
+        userName =
+            document
+                .getElementById("registerName")
+                .value
+                .trim();
 
-            const name =
-                document
-                    .getElementById("registerName")
-                    .value
-                    .trim();
+        userId =
+            "YMY-" +
+            Math.random()
+                .toString(36)
+                .substring(2,9)
+                .toUpperCase();
 
+        balance = 50;
 
-            const password =
-                document
-                    .getElementById("registerPassword")
-                    .value;
+        save();
 
+        closeModal("registerModal");
 
-            const password2 =
-                document
-                    .getElementById("registerPassword2")
-                    .value;
-
-
-            if (password !== password2) {
-
-                alert(
-                    "Паролі не співпадають."
-                );
-
-                return;
-            }
+        openApp();
+    };
 
 
-            userName = name;
+/* ==========================================
+   LOGIN
+========================================== */
 
+document
+    .getElementById("loginForm")
+    .onsubmit =
+    function(e){
 
+        e.preventDefault();
+
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim();
+
+        if(!userName)
+            userName =
+                email.split("@")[0];
+
+        if(!userId)
             userId =
                 "YMY-" +
                 Math.random()
@@ -2107,277 +1718,75 @@ document
                     .substring(2,9)
                     .toUpperCase();
 
+        save();
 
-            /*
-              Стартова віртуальна валюта.
-            */
+        closeModal("loginModal");
 
-            balance =
-                50;
-
-
-            saveData();
+        openApp();
+    };
 
 
-            closeModal("registerModal");
-
-            openApp();
-
-
-            alert(
-                "Вітаємо, " +
-                name +
-                "! 🎉\n\n" +
-                "Вам нараховано 50 YMY."
-            );
-
-        }
-    );
-
-
-/* =========================
-   LOGIN
-========================= */
-
-document
-    .getElementById("loginForm")
-    .addEventListener(
-        "submit",
-        event => {
-
-            event.preventDefault();
-
-
-            const email =
-                document
-                    .getElementById("loginEmail")
-                    .value
-                    .trim();
-
-
-            if (!userName) {
-
-                userName =
-                    email.split("@")[0];
-
-
-                userId =
-                    "YMY-" +
-                    Math.random()
-                        .toString(36)
-                        .substring(2,9)
-                        .toUpperCase();
-
-
-                saveData();
-            }
-
-
-            closeModal("loginModal");
-
-            openApp();
-
-
-            alert(
-                "Вітаємо, " +
-                userName +
-                "! 👋"
-            );
-
-        }
-    );
-
-
-/* =========================
+/* ==========================================
    NAVIGATION
-========================= */
+========================================== */
 
 document
     .querySelectorAll("[data-page]")
-    .forEach(button => {
+    .forEach(btn=>{
 
-        button.addEventListener(
+        btn.addEventListener(
             "click",
-            () => {
-
+            ()=>{
                 showPage(
-                    button.dataset.page
+                    btn.dataset.page
                 );
-
             }
         );
 
     });
 
 
-/* =========================
-   WHEEL
-========================= */
-
-let wheelSpinning = false;
-let wheelRotation = 0;
-
-
-document
-    .getElementById("wheelButton")
-    .addEventListener(
-        "click",
-        () => openModal("wheelModal")
-    );
-
-
-document
-    .getElementById("spinButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            if (wheelSpinning) return;
-
-            wheelSpinning = true;
-
-
-            const wheel =
-                document.getElementById("wheel");
-
-
-            wheelRotation +=
-                1440 +
-                Math.floor(
-                    Math.random() * 1440
-                );
-
-
-            wheel.style.transform =
-                `rotate(${wheelRotation}deg)`;
-
-
-            setTimeout(() => {
-
-                const prizes = [
-                    5,10,15,25,50,75,100,0
-                ];
-
-
-                const prize =
-                    prizes[
-                        Math.floor(
-                            Math.random() *
-                            prizes.length
-                        )
-                    ];
-
-
-                balance += prize;
-
-                updateBalance();
-
-
-                document
-                    .getElementById("wheelResult")
-                    .textContent =
-                    prize > 0
-                    ? `🎉 Ви виграли ${prize} YMY!`
-                    : "😅 Цього разу без виграшу.";
-
-
-                wheelSpinning = false;
-
-            },4000);
-
-        }
-    );
-
-
-/* =========================
+/* ==========================================
    SUPPORT
-========================= */
+========================================== */
 
 document
-    .getElementById("supportButton")
-    .addEventListener(
-        "click",
-        () => {
+    .getElementById("supportBtn")
+    .onclick = ()=>{
 
-            const modal =
-                document.createElement("div");
+        alert(
+            "Підтримка YesMoneY\n\n" +
+            "Розділ підтримки буде " +
+            "підключено на наступному етапі."
+        );
 
-            modal.className =
-                "modal active";
-
-
-            modal.innerHTML = `
-
-                <div class="modal-box"
-                     style="text-align:center">
-
-                    <button
-                        class="close"
-                        onclick="this.closest('.modal').remove()">
-                        ×
-                    </button>
-
-                    <div style="
-                        font-size:55px;
-                        margin:20px 0">
-                        🆘
-                    </div>
-
-                    <h2>
-                        Підтримка
-                    </h2>
-
-                    <p class="muted"
-                       style="line-height:1.6;margin:15px 0 20px">
-
-                        Якщо у Вас виникли питання,
-                        наша команда підтримки допоможе
-                        Вам розібратися.
-
-                    </p>
-
-                    <button
-                        class="submit-btn"
-                        onclick="alert('Розділ підтримки буде підключено на наступному етапі.')">
-
-                        Звернутися до підтримки
-
-                    </button>
-
-                </div>
-            `;
+    };
 
 
-            document.body.appendChild(modal);
-
-        }
-    );
-
-
-/* =========================
+/* ==========================================
    LOGOUT
-========================= */
+========================================== */
 
-function logout() {
+function logout(){
 
     localStorage.removeItem("ymyName");
     localStorage.removeItem("ymyId");
-    localStorage.removeItem("ymyBalance");
 
     userName = null;
     userId = null;
-    balance = 50;
 
+    welcome.classList.remove("hidden");
     app.classList.add("hidden");
-    welcomeScreen.classList.remove("hidden");
 }
 
 
-/* =========================
-   AUTO LOGIN
-========================= */
+/* ==========================================
+   START
+========================================== */
 
-if (userName) {
+updateBalance();
+
+if(userName){
     openApp();
 }
 
@@ -2385,3 +1794,4 @@ if (userName) {
 
 </body>
 </html>
+```
