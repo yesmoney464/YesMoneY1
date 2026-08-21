@@ -2,1147 +2,2832 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>YesMoneY</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
 :root{
- --bg:#070707;
- --panel:#11100d;
- --panel2:#17140e;
- --gold:#ffd45a;
- --gold2:#ff9d18;
- --text:#fff;
- --muted:#918b7d;
- --green:#35e08b;
- --red:#ff4f5e;
+    --gold:#f5c451;
+    --gold2:#ffdf7b;
+    --dark:#070707;
+    --panel:#111111;
+    --panel2:#181818;
+    --text:#fff;
+    --muted:#9d9d9d;
+    --green:#19c878;
+    --red:#ff4d5e;
 }
+
 body{
- font-family:Arial,sans-serif;
- background:
- radial-gradient(circle at 50% -10%,#4b3711 0,#171208 25%,#070707 65%);
- color:var(--text);
- min-height:100vh;
- overflow-x:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 50% -10%,#473514 0%,#16120b 28%,#070707 65%);
+    color:white;
+    min-height:100vh;
+    overflow-x:hidden;
 }
-button{font-family:inherit;cursor:pointer}
-.hidden{display:none!important}
 
-/* WELCOME */
-#welcome{
- min-height:100vh;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
- padding:25px;
- text-align:center;
+button{
+    font-family:inherit;
+    cursor:pointer;
 }
+
+.hidden{
+    display:none!important;
+}
+
+/* =========================
+   WELCOME
+========================= */
+
+#welcomeScreen{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:35px 20px 40px;
+}
+
 .logo{
- font-size:43px;
- font-weight:1000;
- letter-spacing:2px;
- color:#fff;
- text-shadow:0 0 20px rgba(255,190,45,.5);
-}
-.logo b{color:var(--gold)}
-.welcome-title{
- font-size:26px;
- margin:22px 0 10px;
-}
-.welcome-text{
- color:var(--muted);
- max-width:420px;
- line-height:1.6;
-}
-.welcome-btn{
- margin-top:25px;
- padding:15px 35px;
- border:0;
- border-radius:15px;
- color:#171006;
- font-weight:900;
- background:linear-gradient(135deg,#ffe58a,#ffad24);
- box-shadow:0 0 30px rgba(255,190,45,.35);
+    text-align:center;
+    font-size:40px;
+    font-weight:900;
+    letter-spacing:2px;
+    color:var(--gold);
+    text-shadow:
+        0 0 8px rgba(245,196,81,.8),
+        0 0 30px rgba(245,196,81,.25);
 }
 
-/* APP */
-#app{padding-bottom:90px}
+.logo span{
+    color:white;
+    opacity:.75;
+}
+
+.auth-buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:25px;
+}
+
+.auth-btn{
+    padding:13px 20px;
+    border-radius:14px;
+    color:white;
+    border:1px solid rgba(255,255,255,.15);
+    background:#171717;
+    font-weight:800;
+}
+
+.auth-btn.primary{
+    border:0;
+    color:#080808;
+    background:linear-gradient(135deg,var(--gold),var(--gold2));
+    box-shadow:0 0 25px rgba(245,196,81,.25);
+}
+
+.welcome-content{
+    text-align:center;
+    max-width:500px;
+    margin:auto;
+}
+
+.welcome-icon{
+    font-size:70px;
+    margin-bottom:20px;
+    animation:float 2.8s ease-in-out infinite;
+}
+
+@keyframes float{
+    50%{transform:translateY(-10px)}
+}
+
+.welcome-content h1{
+    font-size:29px;
+    margin-bottom:12px;
+}
+
+.welcome-content p{
+    color:#999;
+    line-height:1.6;
+}
+
+.welcome-bottom{
+    text-align:center;
+    color:#555;
+    font-size:12px;
+}
+
+/* =========================
+   APP
+========================= */
+
+#app{
+    min-height:100vh;
+    padding-bottom:82px;
+}
+
 .topbar{
- position:sticky;
- top:0;
- z-index:20;
- padding:15px 16px;
- display:flex;
- justify-content:space-between;
- align-items:center;
- background:rgba(7,7,7,.9);
- backdrop-filter:blur(15px);
- border-bottom:1px solid rgba(255,210,70,.12);
+    position:sticky;
+    top:0;
+    z-index:30;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 16px 13px;
+    background:rgba(5,5,5,.9);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid rgba(245,196,81,.12);
 }
-.top-logo{font-size:23px;font-weight:1000}
-.top-logo span{color:var(--gold)}
+
+.top-logo{
+    font-size:24px;
+    font-weight:900;
+    color:var(--gold);
+    text-shadow:0 0 15px rgba(245,196,81,.35);
+}
+
 .balance{
- padding:9px 13px;
- border-radius:13px;
- background:linear-gradient(135deg,#211b0c,#11100c);
- border:1px solid rgba(255,210,70,.2);
- color:var(--gold);
- font-weight:900;
-}
-.content{max-width:760px;margin:auto;padding:15px}
-.page-title{font-size:29px;margin:12px 0 5px}
-.page-sub{color:var(--muted);margin-bottom:20px}
-
-/* HOME */
-.hero{
- position:relative;
- min-height:190px;
- padding:25px;
- border-radius:25px;
- overflow:hidden;
- background:
- radial-gradient(circle at 80% 20%,rgba(255,205,70,.35),transparent 30%),
- linear-gradient(135deg,#30240c,#100e09 65%);
- border:1px solid rgba(255,210,70,.2);
- box-shadow:0 0 35px rgba(255,190,40,.1);
-}
-.hero:after{
- content:"";
- position:absolute;
- width:180px;height:180px;
- right:-55px;bottom:-90px;
- border-radius:50%;
- border:30px solid rgba(255,210,70,.08);
-}
-.hero h1{font-size:30px}
-.hero p{color:#b9ad91;margin-top:10px;line-height:1.5}
-.hero .shine{
- position:absolute;
- width:100px;height:300px;
- background:rgba(255,255,255,.06);
- transform:rotate(30deg);
- top:-100px;left:-130px;
- animation:shine 5s infinite;
-}
-@keyframes shine{
- 0%{left:-130px}
- 40%,100%{left:110%}
-}
-.games{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:13px;
- margin-top:18px;
-}
-.game{
- min-height:175px;
- border-radius:21px;
- overflow:hidden;
- position:relative;
- border:1px solid rgba(255,210,70,.15);
- background:#100f0c;
- box-shadow:0 8px 25px rgba(0,0,0,.3);
- transition:.2s;
-}
-.game:active{transform:scale(.97)}
-.cover{
- height:112px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:55px;
- position:relative;
- overflow:hidden;
-}
-.cover:after{
- content:"";
- position:absolute;
- inset:0;
- background:linear-gradient(transparent,rgba(0,0,0,.65));
-}
-.cover777{background:radial-gradient(circle,#8c6813,#2a1c04 70%)}
-.coverCrash{background:radial-gradient(circle at 50% 80%,#ffb329,#211605 60%)}
-.coverLines{background:radial-gradient(circle,#245f45,#07150f 70%)}
-.coverCards{background:radial-gradient(circle,#8d2020,#200707 70%)}
-.game-info{padding:10px 12px}
-.game-info strong{font-size:15px}
-.game-info small{display:block;color:#817b6e;margin-top:4px}
-.game-badge{
- position:absolute;
- top:9px;left:9px;
- z-index:2;
- padding:5px 8px;
- border-radius:8px;
- background:rgba(0,0,0,.65);
- color:var(--gold);
- font-size:10px;
- font-weight:900;
+    padding:9px 13px;
+    border-radius:13px;
+    background:#151515;
+    border:1px solid rgba(245,196,81,.2);
+    font-weight:900;
 }
 
-/* NAV */
+.balance small{
+    color:#888;
+}
+
+.content{
+    max-width:720px;
+    margin:auto;
+    padding:15px 14px 25px;
+}
+
+/* =========================
+   COMMON
+========================= */
+
+.page{
+    animation:pageIn .3s ease;
+}
+
+@keyframes pageIn{
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.page-title{
+    font-size:29px;
+    margin:8px 0 5px;
+}
+
+.page-subtitle{
+    color:#888;
+    margin-bottom:20px;
+}
+
+.gold{
+    color:var(--gold);
+}
+
+/* =========================
+   GAME CARDS
+========================= */
+
+.games-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.game-card{
+    min-height:180px;
+    position:relative;
+    overflow:hidden;
+    border-radius:20px;
+    background:
+        linear-gradient(145deg,#222,#0d0d0d);
+    border:1px solid rgba(245,196,81,.16);
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+    transition:.2s;
+}
+
+.game-card:active{
+    transform:scale(.96);
+}
+
+.game-cover{
+    height:105px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.game-cover::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0,0,0,.75)
+    );
+}
+
+.cover-777{
+    background:
+        radial-gradient(circle,#ffdb62 0,#9a5012 28%,#171009 70%);
+}
+
+.cover-duel{
+    background:
+        radial-gradient(circle at 50% 30%,#315c42,#0a2115 65%,#050805);
+}
+
+.cover-aviator{
+    background:
+        radial-gradient(circle at 70% 20%,#7e291c,#220a08 55%,#060606);
+}
+
+.cover-gems{
+    background:
+        radial-gradient(circle,#3c79ff,#091735 60%,#050505);
+}
+
+.cover-icon{
+    position:relative;
+    z-index:2;
+    font-size:55px;
+    filter:drop-shadow(0 5px 12px rgba(0,0,0,.8));
+}
+
+.game-info{
+    padding:11px 13px;
+}
+
+.game-info h3{
+    font-size:16px;
+    margin-bottom:4px;
+}
+
+.game-info p{
+    color:#777;
+    font-size:12px;
+}
+
+.game-status{
+    position:absolute;
+    right:8px;
+    top:8px;
+    z-index:5;
+    padding:5px 8px;
+    border-radius:8px;
+    background:rgba(0,0,0,.7);
+    color:var(--gold);
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
 .bottom-nav{
- position:fixed;
- bottom:0;left:0;right:0;
- height:76px;
- z-index:50;
- display:grid;
- grid-template-columns:repeat(4,1fr);
- background:rgba(8,8,8,.96);
- border-top:1px solid rgba(255,210,70,.14);
- backdrop-filter:blur(18px);
+    position:fixed;
+    z-index:50;
+    left:0;
+    right:0;
+    bottom:0;
+    height:76px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:rgba(8,8,8,.96);
+    backdrop-filter:blur(18px);
+    border-top:1px solid rgba(245,196,81,.15);
 }
+
 .nav-btn{
- border:0;background:none;color:#686359;
- display:flex;flex-direction:column;
- align-items:center;justify-content:center;gap:5px;
+    border:0;
+    background:none;
+    color:#666;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
 }
-.nav-btn .ico{font-size:23px}
-.nav-btn.active{color:var(--gold)}
-.nav-btn.active .ico{filter:drop-shadow(0 0 10px #ffbd27)}
 
-/* GAME SCREEN */
+.nav-icon{
+    font-size:23px;
+}
+
+.nav-btn span:last-child{
+    font-size:10px;
+}
+
+.nav-btn.active{
+    color:var(--gold);
+    text-shadow:0 0 12px rgba(245,196,81,.5);
+}
+
+/* =========================
+   SUPPORT
+========================= */
+
+.support-btn{
+    position:fixed;
+    z-index:60;
+    left:13px;
+    bottom:88px;
+    width:48px;
+    height:48px;
+    border:1px solid rgba(245,196,81,.2);
+    border-radius:50%;
+    background:#171717;
+    color:var(--gold);
+    font-size:21px;
+    box-shadow:0 8px 25px rgba(0,0,0,.45);
+}
+
+/* =========================
+   GAME SCREEN
+========================= */
+
 .game-screen{
- background:linear-gradient(180deg,#12100b,#080808);
- border:1px solid rgba(255,210,70,.15);
- border-radius:25px;
- padding:15px;
-}
-.back{
- border:0;background:none;color:#aaa;
- font-size:14px;margin-bottom:15px;
-}
-.game-head{
- display:flex;justify-content:space-between;align-items:center;
- margin-bottom:15px;
-}
-.game-head h2{color:var(--gold)}
-.play-btn{
- border:0;border-radius:13px;
- padding:13px 20px;
- font-weight:900;
- color:#130e04;
- background:linear-gradient(135deg,#ffe68a,#ff9f1d);
- box-shadow:0 0 20px rgba(255,180,30,.25);
-}
-.play-btn:disabled{opacity:.4}
-
-/* CRASH */
-.crash{
- height:320px;
- position:relative;
- overflow:hidden;
- border-radius:20px;
- background:
- linear-gradient(180deg,rgba(255,196,50,.08),transparent),
- #090a0d;
- border:1px solid rgba(255,255,255,.07);
-}
-.gridbg{
- position:absolute;inset:0;
- background-image:
- linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
- linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
- background-size:45px 45px;
-}
-.mult{
- position:absolute;
- inset:70px 0 auto;
- text-align:center;
- font-size:52px;
- font-weight:1000;
- color:var(--gold);
- text-shadow:0 0 25px #ff9e16;
-}
-.plane{
- position:absolute;
- left:35px;
- bottom:35px;
- font-size:40px;
- transition:.08s linear;
- filter:drop-shadow(0 0 12px #ffb42b);
-}
-.crash-line{
- position:absolute;
- left:30px;bottom:35px;
- height:4px;width:0;
- background:linear-gradient(90deg,#ffad20,#ffe27a);
- box-shadow:0 0 12px #ffad20;
- transform-origin:left;
- transform:rotate(-25deg);
-}
-.crash-controls{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;margin-top:12px;
-}
-.bet{
- background:#12110d;
- border:1px solid #302b20;
- color:white;
- padding:13px;border-radius:12px;
-}
-.cash{
- width:100%;
- margin-top:10px;
- border:0;border-radius:14px;
- padding:15px;
- background:linear-gradient(135deg,#35e08b,#15a967);
- color:#04170e;
- font-weight:1000;
-}
-.history{
- display:flex;gap:7px;overflow:auto;margin-top:12px;
-}
-.history span{
- padding:7px 9px;border-radius:8px;
- background:#17140e;color:#aaa;font-size:11px;
+    position:fixed;
+    z-index:200;
+    inset:0;
+    overflow:auto;
+    background:
+        radial-gradient(circle at 50% 0%,#382a10,#090909 48%,#030303);
+    animation:gameIn .3s ease;
 }
 
-/* 777 */
-.machine{
- background:linear-gradient(145deg,#2b2008,#0e0c08);
- border:2px solid #6d5015;
- border-radius:25px;
- padding:18px;
- box-shadow:0 0 40px rgba(255,174,24,.13);
+@keyframes gameIn{
+    from{
+        opacity:0;
+        transform:scale(.98);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
 }
-.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+
+.game-top{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px;
+    background:rgba(5,5,5,.92);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(245,196,81,.15);
+}
+
+.back-btn{
+    border:1px solid #333;
+    background:#151515;
+    color:white;
+    border-radius:11px;
+    padding:9px 12px;
+}
+
+.game-name{
+    font-weight:900;
+    color:var(--gold);
+}
+
+.game-balance{
+    font-size:13px;
+    color:#aaa;
+}
+
+.game-body{
+    max-width:650px;
+    margin:auto;
+    padding:20px 14px 50px;
+}
+
+/* =========================
+   777
+========================= */
+
+.slot-machine{
+    padding:18px;
+    border-radius:25px;
+    background:
+        linear-gradient(145deg,#2b1c08,#100d08);
+    border:1px solid rgba(245,196,81,.35);
+    box-shadow:
+        0 0 35px rgba(245,196,81,.1),
+        inset 0 0 40px rgba(0,0,0,.5);
+}
+
+.slot-logo{
+    text-align:center;
+    font-size:35px;
+    font-weight:1000;
+    letter-spacing:4px;
+    color:var(--gold);
+    text-shadow:
+        0 0 8px #fff0a0,
+        0 0 25px rgba(245,196,81,.8);
+    margin-bottom:18px;
+}
+
+.slot-reels{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
 .reel{
- height:115px;
- border-radius:14px;
- background:#070707;
- border:2px solid #9b721d;
- display:flex;align-items:center;justify-content:center;
- font-size:52px;
- box-shadow:inset 0 0 25px #000;
+    height:125px;
+    border-radius:16px;
+    background:
+        linear-gradient(#262626,#0c0c0c);
+    border:2px solid #4a3a1a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:58px;
+    box-shadow:inset 0 0 20px #000;
 }
-.reel.spin{animation:reelSpin .13s linear infinite}
+
+.reel.spin{
+    animation:reelSpin .13s linear infinite;
+}
+
 @keyframes reelSpin{
- 0%{transform:translateY(-6px)}
- 50%{transform:translateY(6px)}
- 100%{transform:translateY(-6px)}
-}
-.win777{
- min-height:28px;text-align:center;
- margin:14px 0;color:var(--gold);
- font-weight:1000;
-}
-.bigwin{animation:bigwin .5s infinite alternate}
-@keyframes bigwin{
- from{transform:scale(1);text-shadow:0 0 5px #ffb000}
- to{transform:scale(1.15);text-shadow:0 0 35px #ffe58a}
+    0%{transform:translateY(-5px)}
+    50%{transform:translateY(5px)}
+    100%{transform:translateY(-5px)}
 }
 
-/* LINES */
-.line-board{
- display:grid;
- grid-template-columns:repeat(5,1fr);
- gap:6px;
- padding:10px;
- border-radius:18px;
- background:#07110d;
- border:1px solid #245b42;
-}
-.cell{
- aspect-ratio:1;
- display:flex;align-items:center;justify-content:center;
- border-radius:11px;
- background:#0d2018;
- font-size:31px;
- border:1px solid rgba(255,255,255,.05);
-}
-.cell.win{
- animation:cellWin .45s infinite alternate;
-}
-@keyframes cellWin{
- from{box-shadow:0 0 5px #32e083}
- to{box-shadow:0 0 25px #32e083;transform:scale(1.05)}
-}
-.line-message{
- text-align:center;
- min-height:30px;
- margin:12px;color:var(--green);
- font-weight:900;
+.reel.win{
+    animation:reelWin .45s ease infinite alternate;
 }
 
-/* CARDS */
-.card-table{
- background:radial-gradient(circle,#146338,#052416);
- border-radius:25px;
- padding:15px;
- border:2px solid #7c5818;
- min-height:400px;
+@keyframes reelWin{
+    from{
+        box-shadow:0 0 10px rgba(245,196,81,.2);
+        transform:scale(1);
+    }
+    to{
+        box-shadow:
+            0 0 30px rgba(245,196,81,.95),
+            inset 0 0 20px rgba(245,196,81,.25);
+        transform:scale(1.04);
+    }
 }
-.table-info{text-align:center;color:#b8d8c2;margin-bottom:12px}
-.hand{display:flex;justify-content:center;flex-wrap:wrap;gap:7px}
+
+.slot-controls{
+    margin-top:18px;
+}
+
+.bet-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#151515;
+    border-radius:13px;
+    padding:10px 12px;
+    margin-bottom:10px;
+}
+
+.bet-buttons{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.bet-buttons button{
+    width:32px;
+    height:32px;
+    border:0;
+    border-radius:8px;
+    background:#272727;
+    color:white;
+    font-size:19px;
+}
+
+.spin-main{
+    width:100%;
+    padding:16px;
+    border:0;
+    border-radius:15px;
+    background:linear-gradient(135deg,#e7af32,#ffe58b);
+    color:#100d06;
+    font-weight:1000;
+    font-size:17px;
+    box-shadow:0 7px 25px rgba(245,196,81,.18);
+}
+
+.spin-main:disabled{
+    opacity:.5;
+}
+
+.slot-message{
+    text-align:center;
+    min-height:30px;
+    margin-top:15px;
+    font-weight:900;
+}
+
+.win-big{
+    animation:winText .5s ease infinite alternate;
+}
+
+@keyframes winText{
+    from{transform:scale(1)}
+    to{
+        transform:scale(1.12);
+        color:#ffe88b;
+        text-shadow:0 0 20px rgba(245,196,81,.8);
+    }
+}
+
+/* =========================
+   DU RAK
+========================= */
+
+.durak{
+    min-height:650px;
+    border-radius:25px;
+    padding:14px;
+    background:
+        radial-gradient(circle at center,#16572e,#0b2d1a 60%,#06160c);
+    border:5px solid #332513;
+    box-shadow:
+        inset 0 0 50px rgba(0,0,0,.5),
+        0 15px 40px rgba(0,0,0,.5);
+}
+
+.durak-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.status{
+    padding:7px 10px;
+    border-radius:9px;
+    background:rgba(0,0,0,.3);
+    color:#ddd;
+    font-size:12px;
+}
+
+.trump{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin:10px 0 18px;
+}
+
+.trump-card{
+    width:55px;
+    height:76px;
+    border-radius:8px;
+    background:white;
+    color:#111;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    font-size:25px;
+    font-weight:900;
+    box-shadow:0 5px 12px rgba(0,0,0,.5);
+}
+
+.trump-label{
+    color:#d5d5d5;
+    font-size:12px;
+}
+
+.bot-area{
+    min-height:100px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.hand{
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    min-height:105px;
+    position:relative;
+    margin:5px 0;
+}
+
 .card{
- width:52px;height:75px;
- border:0;border-radius:9px;
- background:#fff;color:#151515;
- font-size:23px;
- box-shadow:0 4px 8px #0005;
- transition:.2s;
-}
-.card.red{color:#d21f2b}
-.card.selected{transform:translateY(-12px);box-shadow:0 0 18px #ffe06b}
-.card.backcard{
- background:repeating-linear-gradient(45deg,#16234c 0,#16234c 5px,#263d78 5px,#263d78 10px);
- color:transparent;
-}
-.card-actions{
- display:flex;justify-content:center;gap:10px;margin-top:20px;
-}
-.small-btn{
- border:1px solid #705116;
- background:#171208;
- color:var(--gold);
- padding:11px 16px;border-radius:11px;
+    width:58px;
+    height:86px;
+    margin-left:-13px;
+    border-radius:8px;
+    background:#fff;
+    color:#111;
+    border:1px solid #bbb;
+    box-shadow:0 5px 12px rgba(0,0,0,.45);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:6px;
+    font-weight:900;
+    user-select:none;
+    transition:.18s;
+    position:relative;
 }
 
-/* MODAL */
+.card:first-child{
+    margin-left:0;
+}
+
+.card.red{
+    color:#d9273e;
+}
+
+.card.playable{
+    cursor:pointer;
+}
+
+.card.playable:hover,
+.card.playable:active{
+    transform:translateY(-15px);
+}
+
+.card.back{
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #7b141c 0,
+            #7b141c 5px,
+            #b52b36 5px,
+            #b52b36 10px
+        );
+    border:3px solid white;
+}
+
+.card-center{
+    font-size:25px;
+    text-align:center;
+}
+
+.table{
+    min-height:190px;
+    margin:10px 0;
+    border-radius:18px;
+    background:rgba(0,0,0,.12);
+    border:1px solid rgba(255,255,255,.08);
+    padding:18px;
+}
+
+.attack-row{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    min-height:90px;
+}
+
+.play-card{
+    width:58px;
+    height:86px;
+    border-radius:8px;
+    background:white;
+    color:#111;
+    padding:5px;
+    font-weight:900;
+    box-shadow:0 6px 15px rgba(0,0,0,.5);
+    animation:cardPlay .25s ease;
+}
+
+@keyframes cardPlay{
+    from{
+        opacity:0;
+        transform:translateY(-30px) rotate(-5deg);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.durak-actions{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+}
+
+.action{
+    flex:1;
+    border:0;
+    border-radius:12px;
+    padding:13px 8px;
+    font-weight:900;
+    color:white;
+    background:#252525;
+}
+
+.action.gold{
+    background:linear-gradient(135deg,#c08a21,#f0c95b);
+    color:#171007;
+}
+
+.action.red{
+    background:#751d27;
+}
+
+.action:disabled{
+    opacity:.4;
+}
+
+/* =========================
+   PROFILE / BONUS
+========================= */
+
+.panel{
+    background:#111;
+    border:1px solid #252525;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:13px;
+}
+
+.panel h3{
+    margin-bottom:8px;
+}
+
+.panel p{
+    color:#888;
+    line-height:1.5;
+}
+
+.bonus-btn{
+    width:100%;
+    margin-top:14px;
+    padding:13px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(135deg,#c99425,#f7d66c);
+    font-weight:900;
+}
+
+.info-row{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #242424;
+}
+
+.info-row:last-child{
+    border-bottom:0;
+}
+
+/* =========================
+   MODAL
+========================= */
+
 .modal{
- position:fixed;inset:0;z-index:100;
- background:rgba(0,0,0,.78);
- backdrop-filter:blur(8px);
- display:flex;align-items:center;justify-content:center;
- padding:18px;
-}
-.modal-box{
- width:100%;max-width:430px;
- background:#15130e;
- border:1px solid rgba(255,210,70,.2);
- border-radius:24px;padding:22px;
-}
-.modal-box h2{color:var(--gold);margin-bottom:8px}
-.modal-box p{color:#999;line-height:1.5}
-.close{
- float:right;border:0;background:#272218;
- color:#fff;border-radius:50%;
- width:32px;height:32px;font-size:20px;
-}
-.notice{
- margin-top:18px;
- padding:14px;border-radius:13px;
- background:#201b0e;color:#c9b57e;
+    position:fixed;
+    z-index:500;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.8);
+    backdrop-filter:blur(8px);
 }
 
-/* PROFILE/BONUS */
-.cardbox{
- padding:18px;border-radius:20px;
- background:linear-gradient(145deg,#17130a,#0d0d0d);
- border:1px solid rgba(255,210,70,.15);
- margin-bottom:12px;
+.modal.active{
+    display:flex;
 }
-.gold{color:var(--gold)}
-.row{
- display:flex;justify-content:space-between;
- padding:14px 0;border-bottom:1px solid #29251c;
+
+.modal-box{
+    width:100%;
+    max-width:420px;
+    background:#151515;
+    border:1px solid rgba(245,196,81,.2);
+    border-radius:22px;
+    padding:22px;
+    position:relative;
 }
-.row:last-child{border:0}
-.full{width:100%;margin-top:10px}
+
+.close{
+    position:absolute;
+    right:12px;
+    top:12px;
+    width:34px;
+    height:34px;
+    border:0;
+    border-radius:50%;
+    background:#292929;
+    color:white;
+    font-size:21px;
+}
+
+.input-group{
+    margin-bottom:14px;
+}
+
+.input-group label{
+    display:block;
+    color:#aaa;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.input-group input{
+    width:100%;
+    padding:13px;
+    border-radius:11px;
+    border:1px solid #333;
+    background:#0e0e0e;
+    color:white;
+    outline:0;
+}
+
+.submit-btn{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:12px;
+    background:linear-gradient(135deg,#d39b29,#ffe082);
+    font-weight:900;
+}
+
+.switch{
+    margin-top:15px;
+    text-align:center;
+    color:#777;
+    font-size:13px;
+}
+
+.switch button{
+    border:0;
+    background:none;
+    color:var(--gold);
+    font-weight:900;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:430px){
+    .games-grid{
+        gap:9px;
+    }
+
+    .game-card{
+        min-height:170px;
+    }
+
+    .card,
+    .play-card{
+        width:52px;
+        height:78px;
+    }
+
+    .reel{
+        height:110px;
+        font-size:48px;
+    }
+}
 
 @media(min-width:700px){
- .games{grid-template-columns:repeat(3,1fr)}
+    .games-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
 }
 </style>
 </head>
 
 <body>
 
-<section id="welcome">
- <div class="logo">Yes<b>MoneY</b></div>
- <div class="welcome-title">Твоя ігрова зона</div>
- <p class="welcome-text">
-  Обирай гру, випробовуй удачу та відкривай нові режими.
-  Усі YMY у цій версії є віртуальними.
- </p>
- <button class="welcome-btn" onclick="enter()">ПОЧАТИ ГРУ</button>
+<section id="welcomeScreen">
+
+    <div>
+        <div class="logo">
+            Yes<span>MoneY</span>
+        </div>
+
+        <div class="auth-buttons">
+            <button class="auth-btn" id="loginButton">Увійти</button>
+            <button class="auth-btn primary" id="registerButton">Реєстрація</button>
+        </div>
+    </div>
+
+    <div class="welcome-content">
+        <div class="welcome-icon">👑</div>
+
+        <h1>Ласкаво просимо</h1>
+
+        <p>
+            Розважальна ігрова платформа
+            YesMoneY з віртуальними YMY.
+        </p>
+    </div>
+
+    <div class="welcome-bottom">
+        YesMoneY • Ігри • Бонуси • Розваги
+    </div>
+
 </section>
+
 
 <section id="app" class="hidden">
 
-<header class="topbar">
- <div class="top-logo">Yes<span>MoneY</span></div>
- <div class="balance">💰 <span id="balance">50</span> YMY</div>
-</header>
+    <header class="topbar">
+        <div class="top-logo">YesMoneY</div>
 
-<main class="content" id="content"></main>
+        <div class="balance">
+            💰 <span id="balanceValue">50</span>
+            <small>YMY</small>
+        </div>
+    </header>
 
-<nav class="bottom-nav">
- <button class="nav-btn active" data-page="home">
-  <span class="ico">🏠</span><small>Головна</small>
- </button>
- <button class="nav-btn" data-page="bonus">
-  <span class="ico">🎁</span><small>Бонус</small>
- </button>
- <button class="nav-btn" id="wheelNav">
-  <span class="ico">🎰</span><small>Барабан</small>
- </button>
- <button class="nav-btn" data-page="profile">
-  <span class="ico">👤</span><small>Профіль</small>
- </button>
-</nav>
+    <main class="content" id="mainContent"></main>
+
+    <button class="support-btn" id="supportButton">?</button>
+
+    <nav class="bottom-nav">
+
+        <button class="nav-btn active" data-page="games">
+            <span class="nav-icon">🎮</span>
+            <span>Ігри</span>
+        </button>
+
+        <button class="nav-btn" data-page="bonus">
+            <span class="nav-icon">🎁</span>
+            <span>Бонус</span>
+        </button>
+
+        <button class="nav-btn" data-page="games2">
+            <span class="nav-icon">🃏</span>
+            <span>Карти</span>
+        </button>
+
+        <button class="nav-btn" data-page="profile">
+            <span class="nav-icon">👤</span>
+            <span>Профіль</span>
+        </button>
+
+    </nav>
 </section>
 
-<div id="modalRoot"></div>
+
+<!-- LOGIN -->
+
+<div class="modal" id="loginModal">
+
+    <div class="modal-box">
+
+        <button class="close" data-close="loginModal">×</button>
+
+        <h2>Вхід</h2>
+        <p style="color:#777;margin:8px 0 18px">
+            Увійдіть до свого акаунта
+        </p>
+
+        <form id="loginForm">
+
+            <div class="input-group">
+                <label>Email</label>
+                <input id="loginEmail" type="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Пароль</label>
+                <input id="loginPassword" type="password" required>
+            </div>
+
+            <button class="submit-btn">
+                УВІЙТИ
+            </button>
+
+        </form>
+
+        <div class="switch">
+            Немає акаунта?
+            <button id="switchToRegister">
+                Реєстрація
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- REGISTER -->
+
+<div class="modal" id="registerModal">
+
+    <div class="modal-box">
+
+        <button class="close" data-close="registerModal">×</button>
+
+        <h2>Реєстрація</h2>
+
+        <p style="color:#777;margin:8px 0 18px">
+            Створіть акаунт YesMoneY
+        </p>
+
+        <form id="registerForm">
+
+            <div class="input-group">
+                <label>Ім'я</label>
+                <input id="registerName" minlength="3" required>
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input id="registerEmail" type="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Пароль</label>
+                <input id="registerPassword" type="password" minlength="6" required>
+            </div>
+
+            <div class="input-group">
+                <label>Повторіть пароль</label>
+                <input id="registerPassword2" type="password" minlength="6" required>
+            </div>
+
+            <button class="submit-btn">
+                СТВОРИТИ АКАУНТ
+            </button>
+
+        </form>
+
+        <div class="switch">
+            Вже маєте акаунт?
+            <button id="switchToLogin">
+                Увійти
+            </button>
+        </div>
+
+    </div>
+</div>
+
 
 <script>
-/* =========================
+
+/* =====================================================
    DATA
-========================= */
-let balance=Number(localStorage.getItem("ymyBalance"))||50;
-let user=localStorage.getItem("ymyName")||"Гравець";
-let lastDaily=Number(localStorage.getItem("ymyDaily")||0);
+===================================================== */
 
-const content=document.getElementById("content");
-const balanceEl=document.getElementById("balance");
+let balance =
+    Number(localStorage.getItem("ymyBalance")) || 50;
 
-function money(){
- balanceEl.textContent=Math.floor(balance);
- localStorage.setItem("ymyBalance",balance);
+let userName =
+    localStorage.getItem("ymyName") || null;
+
+let userId =
+    localStorage.getItem("ymyId") || null;
+
+let freeBonusTaken =
+    localStorage.getItem("ymyFreeBonus") === "1";
+
+
+const welcomeScreen =
+    document.getElementById("welcomeScreen");
+
+const app =
+    document.getElementById("app");
+
+const mainContent =
+    document.getElementById("mainContent");
+
+const balanceValue =
+    document.getElementById("balanceValue");
+
+
+function save(){
+    localStorage.setItem("ymyBalance",balance);
+    localStorage.setItem("ymyName",userName || "");
+    localStorage.setItem("ymyId",userId || "");
 }
 
-function enter(){
- document.getElementById("welcome").classList.add("hidden");
- document.getElementById("app").classList.remove("hidden");
- home();
- money();
+
+function updateBalance(){
+    balanceValue.textContent =
+        Math.floor(balance);
+
+    localStorage.setItem(
+        "ymyBalance",
+        balance
+    );
 }
 
-function nav(page){
- document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));
- const btn=document.querySelector(`[data-page="${page}"]`);
- if(btn)btn.classList.add("active");
 
- if(page==="home")home();
- if(page==="bonus")bonus();
- if(page==="profile")profile();
+function openApp(){
+    welcomeScreen.classList.add("hidden");
+    app.classList.remove("hidden");
+    updateBalance();
+    showPage("games");
 }
 
-/* =========================
- HOME
-========================= */
-function home(){
- content.innerHTML=`
- <div class="page-title">Головна</div>
- <div class="page-sub">Обирай гру та грай у демо-режимі</div>
 
- <div class="hero">
-  <div class="shine"></div>
-  <h1>🔥 Ігрова зона</h1>
-  <p>Нові режими, яскраві ефекти та оновлення вже всередині.</p>
- </div>
+/* =====================================================
+   GAMES MENU
+===================================================== */
 
- <div class="games">
+function gamesPage(){
 
-  <div class="game" onclick="crashGame()">
-   <div class="game-badge">LIVE</div>
-   <div class="cover coverCrash">✈️</div>
-   <div class="game-info">
-    <strong>Sky Crash</strong>
-    <small>Забери виграш до падіння</small>
-   </div>
-  </div>
+    mainContent.innerHTML = `
 
-  <div class="game" onclick="slotsGame()">
-   <div class="game-badge">777</div>
-   <div class="cover cover777">7️⃣7️⃣7️⃣</div>
-   <div class="game-info">
-    <strong>777 Gold</strong>
-    <small>Класичні лінії та комбінації</small>
-   </div>
-  </div>
+    <div class="page">
 
-  <div class="game" onclick="linesGame()">
-   <div class="game-badge">NEW</div>
-   <div class="cover coverLines">💎</div>
-   <div class="game-info">
-    <strong>Diamond Lines</strong>
-    <small>Комбінації на ігровому полі</small>
-   </div>
-  </div>
+        <h1 class="page-title">
+            🎮 Ігри
+        </h1>
 
-  <div class="game" onclick="durakGame()">
-   <div class="game-badge">BETA</div>
-   <div class="cover coverCards">🃏</div>
-   <div class="game-info">
-    <strong>Дурак</strong>
-    <small>36 карт • гра проти бота</small>
-   </div>
-  </div>
+        <p class="page-subtitle">
+            Обирайте гру та грайте за віртуальні YMY
+        </p>
 
- </div>
- `;
+        <div class="games-grid">
+
+            <div class="game-card" onclick="open777()">
+
+                <div class="game-status">
+                    ГОТОВО
+                </div>
+
+                <div class="game-cover cover-777">
+                    <div class="cover-icon">7️⃣7️⃣7️⃣</div>
+                </div>
+
+                <div class="game-info">
+                    <h3>777</h3>
+                    <p>Класичний слот</p>
+                </div>
+
+            </div>
+
+
+            <div class="game-card" onclick="openAviator()">
+
+                <div class="game-status">
+                    ГОТОВО
+                </div>
+
+                <div class="game-cover cover-aviator">
+                    <div class="cover-icon">✈️</div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Aviator</h3>
+                    <p>Зловіть свій множник</p>
+                </div>
+
+            </div>
+
+
+            <div class="game-card" onclick="openDurak()">
+
+                <div class="game-status">
+                    ГОТОВО
+                </div>
+
+                <div class="game-cover cover-duel">
+                    <div class="cover-icon">🃏</div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Дурак</h3>
+                    <p>36 карт • проти бота</p>
+                </div>
+
+            </div>
+
+
+            <div class="game-card">
+
+                <div class="game-cover cover-gems">
+                    <div class="cover-icon">💎</div>
+                </div>
+
+                <div class="game-info">
+                    <h3>Diamond</h3>
+                    <p>Буде доступно після оновлення</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    `;
 }
 
-/* =========================
- CRASH
-========================= */
-let crashTimer=null;
-let crashRunning=false;
-let crashX=1;
-let crashBet=5;
 
-function crashGame(){
- content.innerHTML=`
- <button class="back" onclick="home()">← Назад</button>
- <div class="game-screen">
-  <div class="game-head">
-   <h2>✈️ Sky Crash</h2>
-   <span class="gold">YMY</span>
-  </div>
+/* =====================================================
+   BONUS
+===================================================== */
 
-  <div class="crash">
-   <div class="gridbg"></div>
-   <div class="mult" id="crashMult">1.00x</div>
-   <div class="crash-line" id="crashLine"></div>
-   <div class="plane" id="plane">✈️</div>
-  </div>
+function bonusPage(){
 
-  <div class="crash-controls">
-   <input class="bet" id="crashBet" type="number" min="1" value="5">
-   <button class="play-btn" id="crashStart" onclick="startCrash()">ПОЧАТИ</button>
-  </div>
+    mainContent.innerHTML = `
 
-  <button class="cash" id="cashBtn" onclick="cashCrash()" disabled>
-   ЗАБРАТИ 0 YMY
-  </button>
+    <div class="page">
 
-  <div class="history" id="crashHistory"></div>
- </div>
- `;
+        <h1 class="page-title">🎁 Бонус</h1>
+
+        <p class="page-subtitle">
+            Бонусні можливості акаунта
+        </p>
+
+        <div class="panel">
+
+            <h3>🎁 Стартовий бонус</h3>
+
+            <p>
+                Новий користувач може отримати
+                стартові 50 YMY один раз.
+            </p>
+
+            <button
+                class="bonus-btn"
+                onclick="takeFreeBonus()"
+                ${freeBonusTaken ? "disabled":""}
+            >
+                ${
+                    freeBonusTaken
+                    ? "Бонус уже отримано"
+                    : "ОТРИМАТИ 50 YMY"
+                }
+            </button>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>⭐ Бонуси</h3>
+
+            <p>
+                Наступним етапом сюди можна
+                додати систему бонусів та рівнів.
+            </p>
+
+        </div>
+
+    </div>
+
+    `;
 }
 
-/* виртуальная crash-игра */
-function startCrash(){
- if(crashRunning)return;
 
- const input=Number(document.getElementById("crashBet").value)||1;
- if(input>balance){
-  notice("Недостатньо YMY для цієї ставки.");
-  return;
- }
+function takeFreeBonus(){
 
- crashBet=input;
- balance-=crashBet;
- money();
+    if(freeBonusTaken){
+        alert("Ви вже отримували стартовий бонус.");
+        return;
+    }
 
- crashRunning=true;
- crashX=1;
+    balance += 50;
 
- const mult=document.getElementById("crashMult");
- const plane=document.getElementById("plane");
- const line=document.getElementById("crashLine");
- const cash=document.getElementById("cashBtn");
- const start=document.getElementById("crashStart");
+    freeBonusTaken = true;
 
- start.disabled=true;
- cash.disabled=false;
+    localStorage.setItem(
+        "ymyFreeBonus",
+        "1"
+    );
 
- const crashPoint=+(1.15+Math.random()*7).toFixed(2);
+    updateBalance();
 
- crashTimer=setInterval(()=>{
-  crashX+=0.025;
-  mult.textContent=crashX.toFixed(2)+"x";
-  cash.textContent="ЗАБРАТИ "+Math.floor(crashBet*crashX)+" YMY";
+    alert("🎁 Ви отримали 50 YMY!");
 
-  const px=Math.min(80,crashX*9);
-  plane.style.left=35+px+"%";
-  plane.style.bottom=35+Math.min(70,crashX*6)+"px";
-  line.style.width=Math.min(90,crashX*9)+"%";
-
-  if(crashX>=crashPoint){
-   clearInterval(crashTimer);
-   crashRunning=false;
-   cash.disabled=true;
-   cash.textContent="РАЗБИВСЯ 💥";
-   mult.textContent=crashPoint.toFixed(2)+"x 💥";
-   start.disabled=false;
-   addHistory(crashPoint);
-  }
- },80);
+    bonusPage();
 }
 
-function cashCrash(){
- if(!crashRunning)return;
 
- clearInterval(crashTimer);
- crashRunning=false;
+/* =====================================================
+   CARDS MENU
+===================================================== */
 
- const win=Math.floor(crashBet*crashX);
- balance+=win;
- money();
+function cardsPage(){
 
- document.getElementById("cashBtn").disabled=true;
- document.getElementById("cashBtn").textContent="ЗАБРАНО ✓";
- document.getElementById("crashStart").disabled=false;
+    mainContent.innerHTML = `
 
- document.getElementById("crashMult").textContent=crashX.toFixed(2)+"x 🎉";
- document.getElementById("crashMult").style.color="#35e08b";
- addHistory(crashX);
+    <div class="page">
+
+        <h1 class="page-title">
+            🃏 Карткові ігри
+        </h1>
+
+        <p class="page-subtitle">
+            Класичні карткові ігри
+        </p>
+
+        <div class="panel">
+
+            <h3>🃏 Дурак</h3>
+
+            <p>
+                Підкидний Дурак на 36 карт.
+                Гра проти бота.
+            </p>
+
+            <button
+                class="bonus-btn"
+                onclick="openDurak()">
+
+                ГРАТИ
+
+            </button>
+
+        </div>
+
+        <div class="panel">
+
+            <h3>♠️ Інші режими</h3>
+
+            <p>
+                Переводний режим, 24 та 52 карти
+                будуть додані окремо.
+            </p>
+
+        </div>
+
+    </div>
+
+    `;
 }
 
-function addHistory(x){
- const h=document.getElementById("crashHistory");
- if(!h)return;
- h.innerHTML=`<span>${x.toFixed(2)}x</span>`+h.innerHTML;
+
+/* =====================================================
+   PROFILE
+===================================================== */
+
+function profilePage(){
+
+    mainContent.innerHTML = `
+
+    <div class="page">
+
+        <h1 class="page-title">
+            👤 Профіль
+        </h1>
+
+        <p class="page-subtitle">
+            Ваш акаунт
+        </p>
+
+        <div class="panel">
+
+            <h3>${userName || "Гість"}</h3>
+
+            <p>
+                ID: ${userId || "YMY-DEMO"}
+            </p>
+
+            <div style="margin-top:15px">
+
+                <div class="info-row">
+                    <span>Баланс</span>
+                    <strong>${Math.floor(balance)} YMY</strong>
+                </div>
+
+                <div class="info-row">
+                    <span>Стартовий бонус</span>
+                    <strong>${freeBonusTaken ? "Отримано":"Доступний"}</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <button
+            class="bonus-btn"
+            onclick="logout()">
+
+            ВИЙТИ
+
+        </button>
+
+    </div>
+
+    `;
 }
 
-/* =========================
- 777
-========================= */
-const symbols=["🍒","🍋","💎","⭐","🔔","7️⃣"];
 
-function slotsGame(){
- content.innerHTML=`
- <button class="back" onclick="home()">← Назад</button>
- <div class="game-screen">
-  <div class="game-head">
-   <h2>7️⃣ 777 Gold</h2>
-   <span class="gold">3 ЛІНІЇ</span>
-  </div>
+/* =====================================================
+   NAVIGATION
+===================================================== */
 
-  <div class="machine">
-   <div class="reels">
-    <div class="reel" id="r1">7️⃣</div>
-    <div class="reel" id="r2">7️⃣</div>
-    <div class="reel" id="r3">7️⃣</div>
-   </div>
+function showPage(page){
 
-   <div class="win777" id="slotResult">
-    Обери ставку та крути
-   </div>
+    document
+        .querySelectorAll(".nav-btn")
+        .forEach(b => b.classList.remove("active"));
 
-   <div class="crash-controls">
-    <input class="bet" id="slotBet" type="number" min="1" value="5">
-    <button class="play-btn" onclick="spin777()">КРУТИТИ</button>
-   </div>
-  </div>
- </div>
- `;
+    const active =
+        document.querySelector(
+            `[data-page="${page}"]`
+        );
+
+    if(active)
+        active.classList.add("active");
+
+    if(page==="games")
+        gamesPage();
+
+    if(page==="bonus")
+        bonusPage();
+
+    if(page==="games2")
+        cardsPage();
+
+    if(page==="profile")
+        profilePage();
 }
+
+
+document
+    .querySelectorAll("[data-page]")
+    .forEach(btn => {
+
+        btn.addEventListener(
+            "click",
+            () => showPage(btn.dataset.page)
+        );
+
+    });
+
+
+/* =====================================================
+   777 GAME
+===================================================== */
+
+const symbols = [
+    "🍒",
+    "🍋",
+    "🍊",
+    "⭐",
+    "💎",
+    "🔔",
+    "7️⃣"
+];
+
+let slotSpinning = false;
+let slotBet = 1;
+
+
+function open777(){
+
+    const screen =
+        document.createElement("div");
+
+    screen.className="game-screen";
+
+    screen.id="slotScreen";
+
+    screen.innerHTML=`
+
+        <div class="game-top">
+
+            <button
+                class="back-btn"
+                onclick="closeGameScreen('slotScreen')">
+
+                ← Назад
+
+            </button>
+
+            <div class="game-name">
+                777
+            </div>
+
+            <div class="game-balance">
+                💰 <span id="slotBalance">${Math.floor(balance)}</span>
+            </div>
+
+        </div>
+
+
+        <div class="game-body">
+
+            <div class="slot-machine">
+
+                <div class="slot-logo">
+                    777
+                </div>
+
+                <div class="slot-reels">
+
+                    <div class="reel" id="reel1">7️⃣</div>
+                    <div class="reel" id="reel2">⭐</div>
+                    <div class="reel" id="reel3">💎</div>
+
+                </div>
+
+
+                <div class="slot-controls">
+
+                    <div class="bet-row">
+
+                        <span>Ставка</span>
+
+                        <div class="bet-buttons">
+
+                            <button onclick="changeBet(-1)">−</button>
+
+                            <strong id="slotBet">
+                                1 YMY
+                            </strong>
+
+                            <button onclick="changeBet(1)">+</button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        id="slotSpin"
+                        class="spin-main"
+                        onclick="spin777()">
+
+                        КРУТИТИ
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="slotMessage"
+                    class="slot-message">
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(screen);
+}
+
+
+function changeBet(direction){
+
+    slotBet += direction;
+
+    if(slotBet<1)
+        slotBet=1;
+
+    if(slotBet>20)
+        slotBet=20;
+
+    document.getElementById("slotBet").textContent =
+        slotBet + " YMY";
+}
+
 
 function spin777(){
- const bet=Number(document.getElementById("slotBet").value)||1;
- if(bet>balance){
-  notice("Недостатньо YMY.");
-  return;
- }
 
- balance-=bet;
- money();
+    if(slotSpinning)
+        return;
 
- const reels=[
-  document.getElementById("r1"),
-  document.getElementById("r2"),
-  document.getElementById("r3")
- ];
- const result=document.getElementById("slotResult");
+    if(balance<slotBet){
 
- reels.forEach(r=>r.classList.add("spin"));
- result.textContent="КРУТІННЯ...";
+        document.getElementById("slotMessage").textContent =
+            "Недостатньо YMY.";
 
- setTimeout(()=>{
-  const a=symbols[Math.floor(Math.random()*symbols.length)];
-  const b=symbols[Math.floor(Math.random()*symbols.length)];
-  const c=symbols[Math.floor(Math.random()*symbols.length)];
+        return;
+    }
 
-  reels[0].textContent=a;
-  reels[1].textContent=b;
-  reels[2].textContent=c;
-  reels.forEach(r=>r.classList.remove("spin"));
+    slotSpinning=true;
 
-  let win=0;
+    balance-=slotBet;
 
-  if(a===b&&b===c){
-   win= a==="7️⃣" ? bet*20 : bet*8;
-  }else if(a===b||b===c||a===c){
-   win=bet*2;
-  }
+    updateBalance();
 
-  if(win){
-   balance+=win;
-   money();
-   result.textContent="🎉 ВИГРАШ "+win+" YMY!";
-   result.classList.add("bigwin");
-   setTimeout(()=>result.classList.remove("bigwin"),1800);
-  }else{
-   result.textContent="Спробуй ще раз";
-  }
- },1200);
+    document.getElementById("slotBalance").textContent =
+        Math.floor(balance);
+
+    const button =
+        document.getElementById("slotSpin");
+
+    button.disabled=true;
+
+    const reels=[
+        document.getElementById("reel1"),
+        document.getElementById("reel2"),
+        document.getElementById("reel3")
+    ];
+
+    reels.forEach(r=>{
+        r.classList.remove("win");
+        r.classList.add("spin");
+    });
+
+    document.getElementById("slotMessage").textContent =
+        "Обертання...";
+
+    const result=[
+        symbols[Math.floor(Math.random()*symbols.length)],
+        symbols[Math.floor(Math.random()*symbols.length)],
+        symbols[Math.floor(Math.random()*symbols.length)]
+    ];
+
+    reels.forEach((reel,index)=>{
+
+        setTimeout(()=>{
+
+            reel.classList.remove("spin");
+            reel.textContent=result[index];
+
+        },1000 + index*550);
+
+    });
+
+
+    setTimeout(()=>{
+
+        let win=0;
+
+        if(
+            result[0] === result[1] &&
+            result[1] === result[2]
+        ){
+
+            if(result[0]==="7️⃣")
+                win=slotBet*25;
+            else if(result[0]==="💎")
+                win=slotBet*15;
+            else if(result[0]==="⭐")
+                win=slotBet*10;
+            else
+                win=slotBet*7;
+
+        }else if(
+            result[0]===result[1] ||
+            result[1]===result[2] ||
+            result[0]===result[2]
+        ){
+
+            win=slotBet*2;
+
+        }
+
+
+        if(win>0){
+
+            balance+=win;
+
+            updateBalance();
+
+            document.getElementById("slotBalance").textContent =
+                Math.floor(balance);
+
+            reels.forEach(r=>r.classList.add("win"));
+
+            document.getElementById("slotMessage").innerHTML =
+                `<span class="win-big">🎉 ВИГРАШ ${win} YMY!</span>`;
+
+        }else{
+
+            document.getElementById("slotMessage").textContent =
+                "Цього разу без виграшу.";
+
+        }
+
+        button.disabled=false;
+        slotSpinning=false;
+
+    },2800);
 }
 
-/* =========================
- DIAMOND LINES
-========================= */
-const gems=["💎","🔷","🟢","🟣","⭐","🍀"];
 
-function linesGame(){
- content.innerHTML=`
- <button class="back" onclick="home()">← Назад</button>
- <div class="game-screen">
-  <div class="game-head">
-   <h2>💎 Diamond Lines</h2>
-   <span class="gold">ЛІНІЇ</span>
-  </div>
+/* =====================================================
+   AVIATOR
+===================================================== */
 
-  <div class="line-board" id="lineBoard"></div>
-  <div class="line-message" id="lineMsg">Знайди комбінацію</div>
+function openAviator(){
 
-  <div class="crash-controls">
-   <input class="bet" id="lineBet" type="number" min="1" value="5">
-   <button class="play-btn" onclick="playLines()">ГРАТИ</button>
-  </div>
- </div>
- `;
+    const screen =
+        document.createElement("div");
 
- renderLines();
+    screen.className="game-screen";
+
+    screen.id="aviatorScreen";
+
+    screen.innerHTML=`
+
+    <div class="game-top">
+
+        <button
+            class="back-btn"
+            onclick="closeGameScreen('aviatorScreen')">
+            ← Назад
+        </button>
+
+        <div class="game-name">
+            AVIATOR
+        </div>
+
+        <div class="game-balance">
+            💰 <span id="aviatorBalance">${Math.floor(balance)}</span>
+        </div>
+
+    </div>
+
+    <div class="game-body">
+
+        <div class="panel"
+             style="
+                min-height:390px;
+                text-align:center;
+                background:
+                radial-gradient(circle at 70% 20%,#5a1712,#150806 55%,#050505);
+             ">
+
+            <div
+                id="aviatorMultiplier"
+                style="
+                    font-size:58px;
+                    font-weight:1000;
+                    color:#ffcc62;
+                    margin-top:65px;
+                    text-shadow:0 0 25px rgba(255,170,50,.5);
+                ">
+                1.00x
+            </div>
+
+            <div
+                id="aviatorPlane"
+                style="
+                    font-size:60px;
+                    margin-top:30px;
+                    transition:.1s;
+                ">
+                ✈️
+            </div>
+
+            <p
+                id="aviatorMessage"
+                style="
+                    color:#aaa;
+                    margin-top:30px;
+                ">
+                Натисніть «Старт»
+            </p>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="bet-row">
+
+                <span>Ставка</span>
+
+                <strong>
+                    1 YMY
+                </strong>
+
+            </div>
+
+            <button
+                id="aviatorButton"
+                class="bonus-btn"
+                onclick="startAviator()">
+
+                СТАРТ
+
+            </button>
+
+        </div>
+
+    </div>
+    `;
+
+    document.body.appendChild(screen);
 }
 
-function renderLines(){
- const board=document.getElementById("lineBoard");
- if(!board)return;
- board.innerHTML="";
- for(let i=0;i<25;i++){
-  const d=document.createElement("div");
-  d.className="cell";
-  d.textContent=gems[Math.floor(Math.random()*gems.length)];
-  board.appendChild(d);
- }
+
+let aviatorRunning=false;
+let aviatorTimer=null;
+
+
+function startAviator(){
+
+    if(aviatorRunning)
+        return;
+
+    if(balance<1){
+
+        alert("Недостатньо YMY.");
+
+        return;
+    }
+
+    aviatorRunning=true;
+
+    balance--;
+
+    updateBalance();
+
+    const mult=
+        document.getElementById("aviatorMultiplier");
+
+    const plane=
+        document.getElementById("aviatorPlane");
+
+    const message=
+        document.getElementById("aviatorMessage");
+
+    const button=
+        document.getElementById("aviatorButton");
+
+    button.disabled=true;
+
+    let value=1;
+
+    mult.textContent="1.00x";
+
+    message.textContent="Літак набирає висоту...";
+
+    plane.style.transform="translate(0,0)";
+
+    aviatorTimer=setInterval(()=>{
+
+        value += 0.03 + Math.random()*0.05;
+
+        mult.textContent =
+            value.toFixed(2)+"x";
+
+        plane.style.transform =
+            `translate(${Math.min(value*8,230)}px,${-Math.min(value*2,170)}px)`;
+
+        if(value>=2.5){
+
+            clearInterval(aviatorTimer);
+
+            const win =
+                Math.floor(value);
+
+            balance += win;
+
+            updateBalance();
+
+            message.innerHTML =
+                `🎉 Ви забрали <b>${win} YMY</b>`;
+
+            button.disabled=false;
+
+            aviatorRunning=false;
+
+        }
+
+    },100);
+
 }
 
-function playLines(){
- const bet=Number(document.getElementById("lineBet").value)||1;
- if(bet>balance){
-  notice("Недостатньо YMY.");
-  return;
- }
 
- balance-=bet;
- money();
+/* =====================================================
+   DURAK
+===================================================== */
 
- const cells=[...document.querySelectorAll(".cell")];
- renderLines();
+const suits=[
+    {symbol:"♠",red:false},
+    {symbol:"♥",red:true},
+    {symbol:"♦",red:true},
+    {symbol:"♣",red:false}
+];
 
- setTimeout(()=>{
-  const msg=document.getElementById("lineMsg");
-  const win=Math.random()<.38;
+const ranks=[
+    {name:"6",value:6},
+    {name:"7",value:7},
+    {name:"8",value:8},
+    {name:"9",value:9},
+    {name:"10",value:10},
+    {name:"J",value:11},
+    {name:"Q",value:12},
+    {name:"K",value:13},
+    {name:"A",value:14}
+];
 
-  if(win){
-   const amount=bet*(2+Math.floor(Math.random()*5));
-   balance+=amount;
-   money();
+let durakGame=null;
 
-   cells.slice(0,3).forEach(x=>x.classList.add("win"));
-   msg.textContent="💎 ЛІНІЯ! +"+amount+" YMY";
-  }else{
-   msg.textContent="Комбінації не знайдено";
-  }
- },250);
+
+function createDeck(){
+
+    const deck=[];
+
+    suits.forEach(suit=>{
+
+        ranks.forEach(rank=>{
+
+            deck.push({
+                suit:suit.symbol,
+                red:suit.red,
+                name:rank.name,
+                value:rank.value
+            });
+
+        });
+
+    });
+
+    return deck;
 }
 
-/* =========================
- DURAK DEMO
-========================= */
-const suits=["♠","♥","♦","♣"];
-const ranks=["6","7","8","9","10","J","Q","K","A"];
 
-function makeDeck(){
- let d=[];
- for(const s of suits)
-  for(const r of ranks)
-   d.push({s,r});
- return d.sort(()=>Math.random()-.5);
+function shuffle(array){
+
+    for(let i=array.length-1;i>0;i--){
+
+        const j=
+            Math.floor(Math.random()*(i+1));
+
+        [array[i],array[j]]=
+        [array[j],array[i]];
+
+    }
+
+    return array;
 }
 
-let playerHand=[];
-let botHand=[];
 
-function durakGame(){
- const deck=makeDeck();
- playerHand=deck.splice(0,6);
- botHand=deck.splice(0,6);
+function openDurak(){
 
- content.innerHTML=`
- <button class="back" onclick="home()">← Назад</button>
- <div class="game-screen">
-  <div class="game-head">
-   <h2>🃏 Дурак</h2>
-   <span class="gold">36 КАРТ</span>
-  </div>
+    const screen=
+        document.createElement("div");
 
-  <div class="card-table">
-   <div class="table-info">
-    Бот: <span id="botCount">${botHand.length}</span> карт
-   </div>
+    screen.className="game-screen";
 
-   <div class="hand" id="botHand"></div>
+    screen.id="durakScreen";
 
-   <div style="height:65px"></div>
+    screen.innerHTML=`
 
-   <div class="table-info">Твої карти</div>
-   <div class="hand" id="playerHand"></div>
+    <div class="game-top">
 
-   <div class="card-actions">
-    <button class="small-btn" onclick="drawCard()">Взяти карту</button>
-    <button class="small-btn" onclick="durakAttack()">Хід</button>
-   </div>
+        <button
+            class="back-btn"
+            onclick="closeGameScreen('durakScreen')">
 
-   <div id="durakMsg" class="notice">
-    Обери карту для ходу.
-   </div>
-  </div>
- </div>
- `;
+            ← Назад
 
- renderCards();
+        </button>
+
+        <div class="game-name">
+            ДУРАК
+        </div>
+
+        <div class="game-balance">
+            🃏 36 карт
+        </div>
+
+    </div>
+
+    <div class="game-body">
+
+        <div class="durak">
+
+            <div class="durak-header">
+
+                <strong>Підкидний</strong>
+
+                <div
+                    id="durakStatus"
+                    class="status">
+                    Роздача карт...
+                </div>
+
+            </div>
+
+            <div class="trump">
+
+                <div id="trumpCard"
+                     class="trump-card">
+                </div>
+
+                <div class="trump-label">
+                    КОЗИР
+                </div>
+
+            </div>
+
+            <div
+                id="botHand"
+                class="hand">
+            </div>
+
+            <div
+                id="durakTable"
+                class="table">
+
+                <div
+                    id="attackRow"
+                    class="attack-row">
+                </div>
+
+            </div>
+
+            <div
+                id="playerHand"
+                class="hand">
+            </div>
+
+            <div class="durak-actions">
+
+                <button
+                    id="takeBtn"
+                    class="action red"
+                    onclick="durakTake()">
+
+                    Взяти
+
+                </button>
+
+                <button
+                    id="passBtn"
+                    class="action gold"
+                    onclick="durakPass()">
+
+                    Бито / Пас
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    `;
+
+    document.body.appendChild(screen);
+
+    startDurak();
 }
 
-function cardText(c){
- return c.r+c.s;
+
+function startDurak(){
+
+    const deck=
+        shuffle(createDeck());
+
+    durakGame={
+        deck:deck,
+        player:[],
+        bot:[],
+        table:[],
+        trump:null,
+        trumpSuit:null,
+        playerTurn:true,
+        attackingCard:null,
+        finished:false
+    };
+
+
+    for(let i=0;i<6;i++){
+
+        durakGame.player.push(deck.pop());
+        durakGame.bot.push(deck.pop());
+
+    }
+
+
+    durakGame.trump=
+        deck[deck.length-1];
+
+    durakGame.trumpSuit=
+        durakGame.trump.suit;
+
+    renderDurak();
+
+    setDurakStatus("Ваш хід — оберіть карту.");
+
 }
 
-function renderCards(){
- const bot=document.getElementById("botHand");
- const player=document.getElementById("playerHand");
- if(!bot||!player)return;
 
- bot.innerHTML=botHand.map(()=>`<button class="card backcard">?</button>`).join("");
+function cardHTML(card){
 
- player.innerHTML=playerHand.map((c,i)=>{
-  const red=(c.s==="♥"||c.s==="♦")?"red":"";
-  return `<button class="card ${red}" onclick="selectCard(${i})">${cardText(c)}</button>`;
- }).join("");
+    return `
 
- const bc=document.getElementById("botCount");
- if(bc)bc.textContent=botHand.length;
+        <div class="card ${card.red ? "red":""}">
+
+            <div>
+                ${card.name}
+            </div>
+
+            <div class="card-center">
+                ${card.suit}
+            </div>
+
+            <div>
+                ${card.name}
+            </div>
+
+        </div>
+    `;
 }
 
-let selected=-1;
 
-function selectCard(i){
- selected=i;
- document.querySelectorAll("#playerHand .card").forEach((x,n)=>{
-  x.classList.toggle("selected",n===i);
- });
+function playCardHTML(card){
+
+    return `
+
+        <div class="play-card ${card.red ? "red":""}">
+
+            <div>${card.name}</div>
+
+            <div style="
+                text-align:center;
+                font-size:25px;
+                margin-top:10px;
+            ">
+                ${card.suit}
+            </div>
+
+        </div>
+    `;
 }
 
-function durakAttack(){
- if(selected<0){
-  document.getElementById("durakMsg").textContent="Спочатку вибери карту.";
-  return;
- }
 
- const card=playerHand.splice(selected,1)[0];
- selected=-1;
+function renderDurak(){
 
- document.getElementById("durakMsg").textContent=
-  "Ти походив картою "+cardText(card)+".";
+    const trump=
+        document.getElementById("trumpCard");
 
- if(botHand.length){
-  const reply=botHand.splice(Math.floor(Math.random()*botHand.length),1)[0];
-  document.getElementById("durakMsg").textContent+=
-   " Бот відповів картою "+cardText(reply)+".";
- }
+    trump.innerHTML=
+        cardHTML(durakGame.trump);
 
- renderCards();
+    const bot=
+        document.getElementById("botHand");
+
+    bot.innerHTML="";
+
+    durakGame.bot.forEach(()=>{
+
+        bot.innerHTML +=
+            `<div class="card back"></div>`;
+
+    });
+
+
+    const player=
+        document.getElementById("playerHand");
+
+    player.innerHTML="";
+
+
+    durakGame.player.forEach((card,index)=>{
+
+        const wrapper=
+            document.createElement("div");
+
+        wrapper.innerHTML=
+            cardHTML(card);
+
+        const element=
+            wrapper.firstElementChild;
+
+        element.classList.add("playable");
+
+        element.onclick=
+            ()=>playerAttack(index);
+
+        player.appendChild(element);
+
+    });
+
+
+    const table=
+        document.getElementById("attackRow");
+
+    table.innerHTML="";
+
+    durakGame.table.forEach(pair=>{
+
+        table.innerHTML +=
+            playCardHTML(pair.attack);
+
+        if(pair.defense){
+
+            table.innerHTML +=
+                playCardHTML(pair.defense);
+
+        }
+
+    });
+
+
+    document.getElementById("takeBtn").disabled =
+        durakGame.playerTurn===false;
+
 }
 
-function drawCard(){
- const deck=makeDeck();
- if(playerHand.length<6){
-  playerHand.push(deck[0]);
-  renderCards();
-  document.getElementById("durakMsg").textContent="Карту взято.";
- }else{
-  document.getElementById("durakMsg").textContent="У тебе вже достатньо карт.";
- }
+
+function setDurakStatus(text){
+
+    const element=
+        document.getElementById("durakStatus");
+
+    if(element)
+        element.textContent=text;
 }
 
-/* =========================
- BONUS
-========================= */
-function bonus(){
- const used=localStorage.getItem("ymyWelcomeBonus");
 
- content.innerHTML=`
- <div class="page-title">🎁 Бонуси</div>
- <div class="page-sub">Спеціальні пропозиції</div>
+function playerAttack(index){
 
- <div class="cardbox">
-  <h3 class="gold">🎁 Стартовий бонус</h3>
-  <p style="color:#999;margin-top:8px">
-   50 YMY доступні лише один раз для нового акаунта.
-  </p>
-  <button class="play-btn full"
-   ${used?"disabled":""}
-   onclick="welcomeBonus()">
-   ${used?"БОНУС ВЖЕ ОТРИМАНО":"ОТРИМАТИ 50 YMY"}
-  </button>
- </div>
+    if(!durakGame.playerTurn)
+        return;
 
- <div class="cardbox">
-  <h3 class="gold">🔥 Бонусне поповнення</h3>
-  <p style="color:#999;margin-top:8px">
-   У майбутній серверній версії тут можна буде
-   підключити бонуси до поповнення.
-  </p>
-  <button class="play-btn full" onclick="notReady()">
-   ДОСТУПНО ПІСЛЯ ОНОВЛЕННЯ
-  </button>
- </div>
- `;
+    if(durakGame.finished)
+        return;
+
+    const card=
+        durakGame.player[index];
+
+    if(durakGame.table.length>0){
+
+        const allowed=
+            durakGame.table.some(pair=>
+                pair.attack.value===card.value ||
+                (pair.defense &&
+                 pair.defense.value===card.value)
+            );
+
+        if(!allowed){
+
+            setDurakStatus(
+                "Можна підкинути тільки карту такого самого номіналу."
+            );
+
+            return;
+        }
+
+    }
+
+    durakGame.player.splice(index,1);
+
+    durakGame.table.push({
+        attack:card,
+        defense:null
+    });
+
+    durakGame.playerTurn=false;
+
+    renderDurak();
+
+    setDurakStatus("Бот думає...");
+
+    setTimeout(botDefend,900);
 }
 
-function welcomeBonus(){
- if(localStorage.getItem("ymyWelcomeBonus")){
-  notice("Стартовий бонус уже використаний.");
-  return;
- }
 
- balance+=50;
- localStorage.setItem("ymyWelcomeBonus","1");
- money();
- bonus();
- notice("🎁 Тобі нараховано 50 YMY!");
+function canBeat(attack,defense){
+
+    if(
+        defense.suit===attack.suit &&
+        defense.value>attack.value
+    )
+        return true;
+
+    if(
+        defense.suit===durakGame.trumpSuit &&
+        attack.suit!==durakGame.trumpSuit
+    )
+        return true;
+
+    return false;
 }
 
-/* =========================
- PROFILE
-========================= */
-function profile(){
- content.innerHTML=`
- <div class="page-title">👤 Профіль</div>
- <div class="page-sub">Твій ігровий кабінет</div>
 
- <div class="cardbox">
-  <h2>${escapeHTML(user)}</h2>
-  <div class="row"><span>Баланс</span><b class="gold">${Math.floor(balance)} YMY</b></div>
-  <div class="row"><span>ID</span><span>YMY-${randomId()}</span></div>
-  <div class="row"><span>Статус</span><b class="gold">Гравець</b></div>
- </div>
+function botDefend(){
 
- <div class="cardbox">
-  <h3>⚙️ Налаштування</h3>
-  <button class="small-btn full" onclick="notReady()">Сповіщення</button>
-  <button class="small-btn full" onclick="notReady()">Історія операцій</button>
-  <button class="small-btn full" onclick="notReady()">Підтримка</button>
- </div>
- `;
+    if(durakGame.finished)
+        return;
+
+    const pair=
+        durakGame.table[
+            durakGame.table.length-1
+        ];
+
+    if(!pair || pair.defense){
+
+        durakGame.playerTurn=true;
+
+        renderDurak();
+
+        setDurakStatus(
+            "Ваш хід."
+        );
+
+        return;
+    }
+
+
+    const candidates=
+        durakGame.bot.filter(
+            card=>canBeat(pair.attack,card)
+        );
+
+
+    if(candidates.length===0){
+
+        durakTakeBot();
+
+        return;
+    }
+
+
+    candidates.sort((a,b)=>{
+
+        const at=
+            a.suit===durakGame.trumpSuit;
+
+        const bt=
+            b.suit===durakGame.trumpSuit;
+
+        if(at!==bt)
+            return at-bt;
+
+        return a.value-b.value;
+
+    });
+
+
+    const chosen=
+        candidates[0];
+
+    const index=
+        durakGame.bot.indexOf(chosen);
+
+    durakGame.bot.splice(index,1);
+
+    pair.defense=chosen;
+
+    renderDurak();
+
+    setDurakStatus(
+        "Бот відбився. Ваш хід."
+    );
+
+    setTimeout(()=>{
+
+        durakGame.playerTurn=true;
+
+        renderDurak();
+
+    },500);
+
 }
 
-/* =========================
- DAILY WHEEL
-========================= */
-document.getElementById("wheelNav").onclick=wheel;
 
-function wheel(){
- const now=Date.now();
- const ready=now-lastDaily>=86400000;
+function durakTake(){
 
- showModal(`
-  <button class="close" onclick="closeModal()">×</button>
-  <h2>🎰 Щоденний барабан</h2>
-  <p>Один безкоштовний оберт кожні 24 години.</p>
+    if(!durakGame.table.length)
+        return;
 
-  <div style="font-size:70px;text-align:center;margin:25px">🎰</div>
+    const cards=[];
 
-  <button class="play-btn full"
-   ${ready?"":"disabled"}
-   onclick="spinDaily()">
-   ${ready?"КРУТИТИ":"ЩЕ НЕ ДОСТУПНО"}
-  </button>
+    durakGame.table.forEach(pair=>{
 
-  <div class="notice">
-   ${ready?"Оберт доступний зараз.":"Наступний оберт буде доступний через 24 години."}
-  </div>
- `);
+        cards.push(pair.attack);
+
+        if(pair.defense)
+            cards.push(pair.defense);
+
+    });
+
+    durakGame.player.push(...cards);
+
+    durakGame.table=[];
+
+    durakGame.playerTurn=false;
+
+    renderDurak();
+
+    setDurakStatus(
+        "Ви взяли карти. Хід бота..."
+    );
+
+    setTimeout(()=>{
+
+        botAttack();
+
+    },800);
+
 }
 
-function spinDaily(){
- const prizes=[5,10,15,25,50,75,100];
- const prize=prizes[Math.floor(Math.random()*prizes.length)];
 
- balance+=prize;
- lastDaily=Date.now();
+function durakTakeBot(){
 
- localStorage.setItem("ymyDaily",lastDaily);
- money();
+    const cards=[];
 
- showModal(`
-  <button class="close" onclick="closeModal()">×</button>
-  <h2>🎉 Вітаємо!</h2>
-  <p>Твій щоденний результат:</p>
-  <div style="text-align:center;font-size:45px;color:#ffd45a;margin:25px 0">
-   +${prize} YMY
-  </div>
-  <button class="play-btn full" onclick="closeModal()">ЗАБРАТИ</button>
- `);
+    durakGame.table.forEach(pair=>{
+
+        cards.push(pair.attack);
+
+        if(pair.defense)
+            cards.push(pair.defense);
+
+    });
+
+    durakGame.bot.push(...cards);
+
+    durakGame.table=[];
+
+    durakGame.playerTurn=true;
+
+    renderDurak();
+
+    setDurakStatus(
+        "Бот взяв карти. Ваш хід."
+    );
+
 }
 
-/* =========================
- MODAL
-========================= */
-function showModal(html){
- document.getElementById("modalRoot").innerHTML=
- `<div class="modal"><div class="modal-box">${html}</div></div>`;
+
+function durakPass(){
+
+    if(
+        !durakGame.table.length ||
+        durakGame.table.some(pair=>!pair.defense)
+    ){
+
+        setDurakStatus(
+            "Спочатку потрібно завершити відбій."
+        );
+
+        return;
+    }
+
+    durakGame.table=[];
+
+    drawCards();
+
+    if(checkDurakEnd())
+        return;
+
+    durakGame.playerTurn=true;
+
+    renderDurak();
+
+    setDurakStatus(
+        "Раунд завершено. Ваш хід."
+    );
 }
 
-function closeModal(){
- document.getElementById("modalRoot").innerHTML="";
+
+function botAttack(){
+
+    if(durakGame.finished)
+        return;
+
+    if(durakGame.bot.length===0){
+
+        finishDurak("🎉 Бот закінчив карти. Ваш хід!");
+
+        return;
+    }
+
+    const card=
+        durakGame.bot[0];
+
+    durakGame.bot.splice(0,1);
+
+    durakGame.table.push({
+        attack:card,
+        defense:null
+    });
+
+    durakGame.playerTurn=true;
+
+    renderDurak();
+
+    setDurakStatus(
+        "Бот походив. Виберіть карту для відбою."
+    );
 }
 
-function notice(text){
- showModal(`
-  <button class="close" onclick="closeModal()">×</button>
-  <h2>ℹ️ Повідомлення</h2>
-  <div class="notice">${text}</div>
-  <button class="play-btn full" onclick="closeModal()">ЗРОЗУМІЛО</button>
- `);
+
+function drawCards(){
+
+    while(
+        durakGame.player.length<6 &&
+        durakGame.deck.length>0
+    ){
+        durakGame.player.push(
+            durakGame.deck.pop()
+        );
+    }
+
+    while(
+        durakGame.bot.length<6 &&
+        durakGame.deck.length>0
+    ){
+        durakGame.bot.push(
+            durakGame.deck.pop()
+        );
+    }
 }
 
-function notReady(){
- notice("Ця функція буде доступна після оновлення адміністративної системи.");
+
+function checkDurakEnd(){
+
+    if(
+        durakGame.player.length===0 &&
+        durakGame.deck.length===0
+    ){
+
+        finishDurak("🏆 Ви перемогли!");
+
+        return true;
+    }
+
+    if(
+        durakGame.bot.length===0 &&
+        durakGame.deck.length===0
+    ){
+
+        finishDurak("🤖 Бот переміг.");
+
+        return true;
+    }
+
+    return false;
 }
 
-/* =========================
- NAV
-========================= */
-document.querySelectorAll(".nav-btn[data-page]").forEach(btn=>{
- btn.onclick=()=>nav(btn.dataset.page);
-});
 
-/* =========================
- HELPERS
-========================= */
-function randomId(){
- return Math.random().toString(36).slice(2,7).toUpperCase();
+function finishDurak(message){
+
+    durakGame.finished=true;
+
+    setDurakStatus(message);
+
+    setTimeout(()=>{
+
+        alert(message);
+
+    },200);
+
 }
 
-function escapeHTML(str){
- return String(str).replace(/[&<>"']/g,m=>({
-  "&":"&amp;",
-  "<":"&lt;",
-  ">":"&gt;",
-  '"':"&quot;",
-  "'":"&#039;"
- }[m]));
+
+/* =====================================================
+   GAME SCREEN CLOSE
+===================================================== */
+
+function closeGameScreen(id){
+
+    const screen=
+        document.getElementById(id);
+
+    if(screen)
+        screen.remove();
+
+    if(aviatorTimer){
+        clearInterval(aviatorTimer);
+        aviatorTimer=null;
+        aviatorRunning=false;
+    }
+
 }
 
-/* START */
-money();
 
-if(localStorage.getItem("ymyEntered")==="1"){
- enter();
+/* =====================================================
+   AUTH
+===================================================== */
+
+document
+    .getElementById("loginButton")
+    .onclick=()=>{
+        document
+            .getElementById("loginModal")
+            .classList.add("active");
+    };
+
+
+document
+    .getElementById("registerButton")
+    .onclick=()=>{
+        document
+            .getElementById("registerModal")
+            .classList.add("active");
+    };
+
+
+document
+    .querySelectorAll("[data-close]")
+    .forEach(button=>{
+
+        button.onclick=()=>{
+
+            document
+                .getElementById(button.dataset.close)
+                .classList.remove("active");
+
+        };
+
+    });
+
+
+document
+    .getElementById("switchToRegister")
+    .onclick=()=>{
+
+        document
+            .getElementById("loginModal")
+            .classList.remove("active");
+
+        document
+            .getElementById("registerModal")
+            .classList.add("active");
+
+    };
+
+
+document
+    .getElementById("switchToLogin")
+    .onclick=()=>{
+
+        document
+            .getElementById("registerModal")
+            .classList.remove("active");
+
+        document
+            .getElementById("loginModal")
+            .classList.add("active");
+
+    };
+
+
+document
+    .getElementById("registerForm")
+    .onsubmit=(event)=>{
+
+        event.preventDefault();
+
+        const name=
+            document.getElementById("registerName").value.trim();
+
+        const password=
+            document.getElementById("registerPassword").value;
+
+        const password2=
+            document.getElementById("registerPassword2").value;
+
+        if(password!==password2){
+
+            alert("Паролі не співпадають.");
+
+            return;
+        }
+
+        userName=name;
+
+        userId=
+            "YMY-"+
+            Math.random()
+            .toString(36)
+            .substring(2,9)
+            .toUpperCase();
+
+        balance=50;
+
+        freeBonusTaken=false;
+
+        localStorage.removeItem("ymyFreeBonus");
+
+        save();
+
+        document
+            .getElementById("registerModal")
+            .classList.remove("active");
+
+        openApp();
+
+        alert(
+            "Вітаємо, "+
+            userName+
+            "! 🎉\n\n"+
+            "Вам нараховано 50 YMY."
+        );
+
+    };
+
+
+document
+    .getElementById("loginForm")
+    .onsubmit=(event)=>{
+
+        event.preventDefault();
+
+        const email=
+            document.getElementById("loginEmail")
+            .value.trim();
+
+        if(!email)
+            return;
+
+        if(!userName){
+
+            userName=
+                email.split("@")[0];
+
+            userId=
+                "YMY-"+
+                Math.random()
+                .toString(36)
+                .substring(2,9)
+                .toUpperCase();
+
+            save();
+
+        }
+
+        document
+            .getElementById("loginModal")
+            .classList.remove("active");
+
+        openApp();
+
+    };
+
+
+/* =====================================================
+   SUPPORT
+===================================================== */
+
+document
+    .getElementById("supportButton")
+    .onclick=()=>{
+
+        alert(
+            "🆘 Підтримка\n\n"+
+            "Розділ підтримки буде підключений "+
+            "на наступному етапі."
+        );
+
+    };
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+function logout(){
+
+    localStorage.removeItem("ymyName");
+    localStorage.removeItem("ymyId");
+    localStorage.removeItem("ymyBalance");
+    localStorage.removeItem("ymyFreeBonus");
+
+    userName=null;
+    userId=null;
+    balance=50;
+    freeBonusTaken=false;
+
+    app.classList.add("hidden");
+    welcomeScreen.classList.remove("hidden");
+}
+
+
+/* =====================================================
+   AUTO LOGIN
+===================================================== */
+
+if(userName){
+
+    openApp();
+
 }else{
- document.getElementById("welcome").classList.remove("hidden");
+
+    welcomeScreen.classList.remove("hidden");
+    app.classList.add("hidden");
+
 }
 
-document.querySelector(".welcome-btn").addEventListener("click",()=>{
- localStorage.setItem("ymyEntered","1");
-});
 </script>
 
 </body>
