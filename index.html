@@ -1,1494 +1,1162 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
-<title>YesMoneY Casino</title>
+<!-- ЗАМЕНИ ЭТИМ БЛОКОМ СТАРУЮ СЕКЦИЮ ИГР -->
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color:transparent;
+/* =====================================================
+   CASINO GAME CARDS
+===================================================== */
+
+.casino-games {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
 
-:root{
-    --bg:#050609;
-    --panel:#0d1018;
-    --panel2:#131722;
-    --gold:#ffd447;
-    --gold2:#ff9f1a;
-    --purple:#8d5cff;
-    --pink:#ff3cac;
-    --text:#fff;
-    --muted:#858b9b;
-}
-
-html,body{
-    min-height:100%;
-    background:#050609;
-    color:white;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-body{
-    overflow-x:hidden;
-}
-
-button{
-    font-family:inherit;
+.casino-card {
+    position:relative;
+    height:185px;
+    border-radius:22px;
+    overflow:hidden;
     cursor:pointer;
+    border:1px solid rgba(255,255,255,.12);
+    background:#111;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.35),
+        inset 0 0 30px rgba(255,255,255,.04);
+    transition:.25s;
 }
 
-.hidden{
-    display:none!important;
+.casino-card:active {
+    transform:scale(.96);
 }
 
-/* BACKGROUND */
-
-body:before{
-    content:"";
-    position:fixed;
+.casino-art {
+    position:absolute;
     inset:0;
-    z-index:-3;
+    width:100%;
+    height:100%;
+}
+
+.casino-overlay {
+    position:absolute;
+    inset:0;
     background:
-        radial-gradient(circle at 20% 0%,rgba(141,92,255,.25),transparent 30%),
-        radial-gradient(circle at 90% 20%,rgba(255,60,172,.16),transparent 28%),
-        radial-gradient(circle at 50% 100%,rgba(255,180,0,.08),transparent 30%),
-        #050609;
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.9),
+            rgba(0,0,0,.05) 65%
+        );
 }
 
-body:after{
-    content:"";
+.casino-title {
+    position:absolute;
+    left:14px;
+    right:14px;
+    bottom:12px;
+    z-index:3;
+}
+
+.casino-title strong {
+    display:block;
+    font-size:18px;
+    font-weight:900;
+    text-shadow:0 3px 10px #000;
+}
+
+.casino-title span {
+    font-size:11px;
+    color:rgba(255,255,255,.7);
+}
+
+.casino-badge {
+    position:absolute;
+    top:10px;
+    right:10px;
+    z-index:4;
+    padding:6px 9px;
+    border-radius:9px;
+    background:rgba(0,0,0,.55);
+    border:1px solid rgba(255,255,255,.12);
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =====================================================
+   GAME MODAL
+===================================================== */
+
+.slot-game-modal {
     position:fixed;
     inset:0;
-    z-index:-2;
-    opacity:.15;
-    background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
-    background-size:35px 35px;
+    z-index:500;
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(100,70,255,.18),
+            transparent 45%
+        ),
+        #070912;
+    display:none;
+    overflow:auto;
 }
 
-/* APP */
-
-.app{
-    min-height:100vh;
-    padding-bottom:90px;
+.slot-game-modal.active {
+    display:block;
+    animation:casinoFade .25s ease;
 }
 
-/* HEADER */
+@keyframes casinoFade {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
 
-.header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    height:70px;
+.slot-top {
+    height:65px;
     display:flex;
     align-items:center;
     justify-content:space-between;
     padding:0 15px;
-    background:rgba(5,6,9,.88);
-    backdrop-filter:blur(20px);
-    border-bottom:1px solid rgba(255,255,255,.07);
+    border-bottom:1px solid rgba(255,255,255,.08);
+    background:rgba(8,10,20,.9);
 }
 
-.logo{
-    font-size:22px;
-    font-weight:1000;
-    letter-spacing:-1px;
-}
-
-.logo span{
-    color:var(--gold);
-    text-shadow:
-        0 0 8px rgba(255,212,71,.8),
-        0 0 22px rgba(255,159,26,.5);
-}
-
-.balance{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding:9px 12px;
-    border-radius:14px;
-    background:linear-gradient(
-        135deg,
-        rgba(255,255,255,.10),
-        rgba(255,255,255,.04)
-    );
-    border:1px solid rgba(255,255,255,.1);
-}
-
-.balance-icon{
-    font-size:18px;
-}
-
-.balance strong{
-    color:var(--gold);
-}
-
-/* CONTENT */
-
-.content{
-    width:100%;
-    max-width:760px;
-    margin:auto;
-    padding:16px 14px 30px;
-}
-
-/* HERO */
-
-.hero{
-    position:relative;
-    overflow:hidden;
-    min-height:210px;
-    border-radius:25px;
-    padding:24px;
-    margin-bottom:18px;
-    background:
-        radial-gradient(circle at 80% 20%,rgba(255,211,67,.2),transparent 30%),
-        linear-gradient(135deg,#181328,#0c0e17 65%,#17100b);
-    border:1px solid rgba(255,255,255,.1);
-    box-shadow:
-        0 15px 50px rgba(0,0,0,.45),
-        inset 0 0 50px rgba(141,92,255,.08);
-}
-
-.hero:before{
-    content:"777";
-    position:absolute;
-    right:-15px;
-    bottom:-45px;
-    font-size:150px;
-    font-weight:1000;
-    color:rgba(255,210,60,.06);
-    transform:rotate(-8deg);
-}
-
-.hero-badge{
-    display:inline-flex;
-    padding:7px 11px;
-    border-radius:30px;
-    background:rgba(255,212,71,.12);
-    border:1px solid rgba(255,212,71,.25);
-    color:var(--gold);
-    font-size:11px;
-    font-weight:900;
-    letter-spacing:.7px;
-    margin-bottom:13px;
-}
-
-.hero h1{
-    font-size:31px;
-    line-height:1;
-    margin-bottom:10px;
-}
-
-.hero p{
-    color:#9297a7;
-    max-width:400px;
-    font-size:13px;
-    line-height:1.5;
-}
-
-.hero-button{
-    margin-top:18px;
-    position:relative;
-    z-index:2;
+.slot-back {
     border:0;
-    border-radius:13px;
-    padding:13px 20px;
-    background:linear-gradient(135deg,#ffd447,#ff9d18);
-    color:#171000;
-    font-weight:1000;
-    box-shadow:
-        0 5px 25px rgba(255,174,35,.3),
-        0 0 25px rgba(255,212,71,.12);
-    transition:.2s;
-}
-
-.hero-button:active{
-    transform:scale(.95);
-}
-
-/* SECTION */
-
-.section-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin:24px 2px 12px;
-}
-
-.section-title{
-    font-size:19px;
-    font-weight:900;
-}
-
-.section-more{
-    color:#777d8c;
-    font-size:12px;
-}
-
-/* GAMES */
-
-.games{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:11px;
-}
-
-.game{
-    position:relative;
-    min-height:150px;
-    overflow:hidden;
-    border-radius:20px;
-    padding:15px;
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.08),
-            rgba(255,255,255,.025)
-        );
-    border:1px solid rgba(255,255,255,.08);
-    box-shadow:0 10px 25px rgba(0,0,0,.2);
-    transition:.25s;
-}
-
-.game:before{
-    content:"";
-    position:absolute;
-    width:90px;
-    height:90px;
-    right:-35px;
-    top:-35px;
-    border-radius:50%;
-    background:var(--game-color,#8d5cff);
-    opacity:.13;
-    filter:blur(10px);
-}
-
-.game:active{
-    transform:scale(.96);
-    border-color:rgba(255,212,71,.35);
-}
-
-.game-icon{
-    position:relative;
-    z-index:1;
-    width:53px;
-    height:53px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:16px;
-    font-size:30px;
-    background:rgba(255,255,255,.07);
-    margin-bottom:16px;
-    box-shadow:inset 0 0 20px rgba(255,255,255,.04);
-}
-
-.game h3{
-    position:relative;
-    z-index:1;
-    font-size:15px;
-    margin-bottom:5px;
-}
-
-.game p{
-    position:relative;
-    z-index:1;
-    color:#747a8a;
-    font-size:11px;
-}
-
-.game.hot{
-    border-color:rgba(255,159,26,.25);
-    box-shadow:
-        0 0 25px rgba(255,159,26,.08),
-        0 10px 25px rgba(0,0,0,.2);
-}
-
-.hot-label{
-    position:absolute;
-    top:11px;
-    right:10px;
-    padding:4px 7px;
-    border-radius:7px;
-    background:#ff4d35;
-    color:white;
-    font-size:8px;
-    font-weight:1000;
-}
-
-/* BOTTOM */
-
-.bottom{
-    position:fixed;
-    z-index:200;
-    bottom:0;
-    left:0;
-    right:0;
-    height:76px;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    background:rgba(7,8,12,.94);
-    backdrop-filter:blur(20px);
-    border-top:1px solid rgba(255,255,255,.08);
-}
-
-.nav{
-    border:0;
-    background:none;
-    color:#666c7b;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:5px;
-    transition:.2s;
-}
-
-.nav-icon{
-    font-size:22px;
-}
-
-.nav span:last-child{
-    font-size:10px;
-    font-weight:700;
-}
-
-.nav.active{
-    color:white;
-}
-
-.nav.active .nav-icon{
-    filter:
-        drop-shadow(0 0 7px rgba(255,212,71,.8));
-}
-
-.nav.active span:last-child{
-    color:var(--gold);
-}
-
-/* MODAL */
-
-.modal{
-    position:fixed;
-    inset:0;
-    z-index:500;
-    display:none;
-    align-items:flex-end;
-    justify-content:center;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(10px);
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:100%;
-    max-width:650px;
-    max-height:94vh;
-    overflow:auto;
-    padding:18px 15px 30px;
-    border-radius:28px 28px 0 0;
-    background:
-        radial-gradient(circle at top,rgba(141,92,255,.13),transparent 40%),
-        #0c0f17;
-    border-top:1px solid rgba(255,255,255,.1);
-    animation:slideUp .3s ease;
-}
-
-@keyframes slideUp{
-    from{
-        transform:translateY(100%);
-        opacity:0;
-    }
-    to{
-        transform:translateY(0);
-        opacity:1;
-    }
-}
-
-.modal-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:18px;
-}
-
-.modal-title{
-    font-size:22px;
-    font-weight:1000;
-}
-
-.close{
-    width:38px;
-    height:38px;
-    border:0;
-    border-radius:50%;
     background:rgba(255,255,255,.08);
     color:white;
-    font-size:22px;
-}
-
-/* SLOT */
-
-.slot-machine{
-    padding:16px;
-    border-radius:25px;
-    background:
-        linear-gradient(145deg,#171a25,#080a0f);
-    border:2px solid rgba(255,212,71,.18);
-    box-shadow:
-        0 0 40px rgba(255,159,26,.07),
-        inset 0 0 40px rgba(0,0,0,.7);
-}
-
-.slot-brand{
-    text-align:center;
-    margin-bottom:15px;
-}
-
-.slot-brand strong{
-    font-size:29px;
-    color:var(--gold);
-    font-style:italic;
-    text-shadow:
-        0 0 8px rgba(255,212,71,.8),
-        0 0 30px rgba(255,159,26,.35);
-}
-
-.slot-brand small{
-    display:block;
-    color:#6d7280;
-    margin-top:3px;
-    font-size:9px;
-    letter-spacing:2px;
-}
-
-.reels{
-    position:relative;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:7px;
-    padding:9px;
-    border-radius:18px;
-    background:#030407;
-    border:1px solid rgba(255,255,255,.08);
-    box-shadow:inset 0 0 30px #000;
-}
-
-.reel{
-    height:115px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
+    width:42px;
+    height:42px;
     border-radius:13px;
-    background:
-        linear-gradient(
-            180deg,
-            #161923,
-            #090a0f 50%,
-            #161923
-        );
-    border:1px solid rgba(255,255,255,.08);
-    font-size:55px;
-    transition:.15s;
-}
-
-.reels:after{
-    content:"";
-    position:absolute;
-    left:8px;
-    right:8px;
-    top:50%;
-    height:2px;
-    background:rgba(255,212,71,.55);
-    box-shadow:0 0 10px rgba(255,212,71,.5);
-    pointer-events:none;
-}
-
-.reel.spinning{
-    animation:reelShake .08s infinite;
-}
-
-@keyframes reelShake{
-    0%{transform:translateY(-3px)}
-    50%{transform:translateY(3px)}
-    100%{transform:translateY(-3px)}
-}
-
-.controls{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    margin-top:15px;
-}
-
-.bet{
-    flex:1;
-    padding:12px;
-    text-align:center;
-    border-radius:13px;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.07);
-}
-
-.bet small{
-    display:block;
-    color:#6d7280;
-    font-size:9px;
-    margin-bottom:4px;
-}
-
-.bet strong{
-    color:var(--gold);
-}
-
-.minus,
-.plus{
-    width:34px;
-    height:34px;
-    border:0;
-    border-radius:10px;
-    color:white;
-    background:rgba(255,255,255,.08);
     font-size:20px;
 }
 
-.spin{
-    width:100%;
-    margin-top:12px;
-    padding:16px;
-    border:0;
-    border-radius:15px;
-    background:linear-gradient(135deg,#ffd447,#ff9917);
-    color:#171000;
-    font-size:17px;
+.slot-logo {
+    font-size:20px;
     font-weight:1000;
-    box-shadow:
-        0 7px 25px rgba(255,170,25,.25),
-        0 0 25px rgba(255,212,71,.12);
+    letter-spacing:1px;
 }
 
-.spin:active{
-    transform:scale(.98);
-}
-
-.result{
-    min-height:28px;
-    margin-top:13px;
-    text-align:center;
+.slot-balance {
+    background:rgba(255,255,255,.08);
+    padding:9px 12px;
+    border-radius:12px;
     font-weight:900;
-    color:#8f95a5;
 }
 
-.result.win{
-    color:var(--gold);
-    animation:winPulse .6s infinite alternate;
+/* =====================================================
+   SLOT MACHINE
+===================================================== */
+
+.slot-main {
+    width:100%;
+    max-width:520px;
+    margin:auto;
+    padding:18px 14px 30px;
 }
 
-@keyframes winPulse{
-    from{
-        transform:scale(1);
-        text-shadow:0 0 5px rgba(255,212,71,.4);
-    }
-    to{
-        transform:scale(1.08);
-        text-shadow:
-            0 0 10px rgba(255,212,71,.9),
-            0 0 30px rgba(255,159,26,.7);
-    }
+.slot-heading {
+    text-align:center;
+    margin-bottom:16px;
 }
 
-/* WIN OVERLAY */
+.slot-heading h1 {
+    font-size:29px;
+    font-weight:1000;
+    margin-bottom:5px;
+}
 
-.win-overlay{
-    position:fixed;
-    inset:0;
-    z-index:1000;
-    display:none;
+.slot-heading p {
+    color:rgba(255,255,255,.48);
+    font-size:13px;
+}
+
+.slot-machine {
+    position:relative;
+    padding:12px;
+    border-radius:25px;
+    background:
+        linear-gradient(
+            145deg,
+            #241452,
+            #10152b 55%,
+            #32124c
+        );
+    border:2px solid rgba(170,120,255,.45);
+    box-shadow:
+        0 0 35px rgba(120,70,255,.22),
+        inset 0 0 35px rgba(0,0,0,.6);
+}
+
+.slot-machine:before {
+    content:"";
+    position:absolute;
+    inset:5px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.1);
+    pointer-events:none;
+}
+
+.slot-reels {
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:5px;
+    padding:9px;
+    border-radius:18px;
+    background:#080b17;
+    overflow:hidden;
+}
+
+.slot-reel {
+    height:82px;
+    border-radius:12px;
+    background:
+        linear-gradient(
+            180deg,
+            #20243b,
+            #101321
+        );
+    border:1px solid rgba(255,255,255,.08);
+    display:flex;
     align-items:center;
     justify-content:center;
-    padding:20px;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(12px);
-}
-
-.win-overlay.show{
-    display:flex;
-}
-
-.win-box{
-    width:100%;
-    max-width:390px;
-    text-align:center;
-    padding:35px 25px;
-    border-radius:28px;
-    background:
-        radial-gradient(circle at top,rgba(255,212,71,.2),transparent 50%),
-        #11141d;
-    border:1px solid rgba(255,212,71,.35);
+    font-size:35px;
     box-shadow:
-        0 0 50px rgba(255,159,26,.2);
-    animation:winIn .45s ease;
+        inset 0 0 18px rgba(0,0,0,.7);
+    position:relative;
+    overflow:hidden;
 }
 
-@keyframes winIn{
-    0%{
-        opacity:0;
-        transform:scale(.6) rotate(-5deg);
-    }
-    70%{
-        transform:scale(1.05) rotate(1deg);
-    }
-    100%{
-        opacity:1;
+.slot-reel.win {
+    animation:
+        reelWin .5s ease-in-out infinite alternate;
+}
+
+@keyframes reelWin {
+    from {
+        box-shadow:
+            0 0 5px rgba(255,220,80,.2),
+            inset 0 0 15px rgba(0,0,0,.6);
         transform:scale(1);
     }
+    to {
+        box-shadow:
+            0 0 25px rgba(255,220,80,.95),
+            inset 0 0 15px rgba(0,0,0,.5);
+        transform:scale(1.05);
+    }
 }
 
-.win-icon{
-    font-size:65px;
-    animation:float 1s infinite alternate;
+.slot-line {
+    position:absolute;
+    left:0;
+    right:0;
+    top:50%;
+    height:3px;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #ffe86b,
+            #fff,
+            #ffe86b,
+            transparent
+        );
+    box-shadow:
+        0 0 12px #ffd83d;
+    z-index:5;
+    pointer-events:none;
 }
 
-@keyframes float{
-    to{transform:translateY(-8px)}
+/* =====================================================
+   SLOT CONTROLS
+===================================================== */
+
+.slot-controls {
+    margin-top:15px;
+    display:grid;
+    grid-template-columns:1fr 1.5fr 1fr;
+    gap:9px;
 }
 
-.win-box h2{
-    margin-top:12px;
-    font-size:30px;
-    color:var(--gold);
-}
-
-.win-amount{
-    margin:10px 0 22px;
-    font-size:42px;
-    font-weight:1000;
-    color:white;
-    text-shadow:0 0 20px rgba(255,212,71,.7);
-}
-
-.win-close{
+.slot-control {
     border:0;
     border-radius:13px;
-    padding:13px 28px;
-    background:linear-gradient(135deg,#ffd447,#ff9917);
-    font-weight:1000;
-}
-
-/* PROFILE */
-
-.profile{
-    padding:5px;
-}
-
-.profile-card{
-    padding:22px;
-    border-radius:22px;
-    background:linear-gradient(145deg,#151824,#0c0f16);
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.avatar{
-    width:65px;
-    height:65px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:20px;
-    background:linear-gradient(135deg,#8d5cff,#ff3cac);
-    font-size:28px;
-    font-weight:1000;
-    box-shadow:0 0 30px rgba(141,92,255,.3);
-    margin-bottom:14px;
-}
-
-.profile-name{
-    font-size:23px;
-    font-weight:1000;
-}
-
-.profile-id{
-    color:#696f7d;
-    font-size:12px;
-    margin-top:5px;
-}
-
-.stat{
-    display:flex;
-    justify-content:space-between;
-    padding:15px 0;
-    border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.stat:last-child{
-    border-bottom:0;
-}
-
-/* BONUS */
-
-.bonus{
-    display:grid;
-    gap:12px;
-}
-
-.bonus-card{
-    padding:20px;
-    border-radius:20px;
-    background:linear-gradient(135deg,#151824,#0b0d13);
-    border:1px solid rgba(255,255,255,.08);
-}
-
-.bonus-card h3{
-    margin:9px 0 6px;
-}
-
-.bonus-card p{
-    color:#747a88;
-    font-size:13px;
-    line-height:1.5;
-}
-
-.bonus-btn{
-    margin-top:14px;
-    width:100%;
-    padding:12px;
-    border:0;
-    border-radius:12px;
-    background:linear-gradient(135deg,#8d5cff,#c04cff);
+    padding:12px 5px;
+    background:rgba(255,255,255,.08);
     color:white;
     font-weight:900;
 }
 
-/* DESKTOP */
+.slot-control small {
+    display:block;
+    color:rgba(255,255,255,.45);
+    font-size:9px;
+    margin-bottom:3px;
+}
 
-@media(min-width:700px){
-    .games{
+.slot-spin {
+    border:0;
+    border-radius:15px;
+    color:white;
+    font-weight:1000;
+    font-size:17px;
+    background:
+        linear-gradient(
+            135deg,
+            #ffb300,
+            #ff5a00
+        );
+    box-shadow:
+        0 7px 25px rgba(255,100,0,.25);
+    transition:.2s;
+}
+
+.slot-spin:active {
+    transform:scale(.94);
+}
+
+.slot-spin:disabled {
+    opacity:.5;
+}
+
+/* =====================================================
+   WIN PANEL
+===================================================== */
+
+.slot-result {
+    min-height:48px;
+    margin-top:15px;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:17px;
+    font-weight:1000;
+}
+
+.slot-result.win {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,190,0,.18),
+            rgba(255,80,0,.12)
+        );
+    border:1px solid rgba(255,190,0,.3);
+    color:#ffe56c;
+    animation:
+        bigWin .55s ease-in-out infinite alternate;
+}
+
+@keyframes bigWin {
+    from {
+        transform:scale(1);
+        box-shadow:0 0 5px rgba(255,190,0,.1);
+    }
+    to {
+        transform:scale(1.025);
+        box-shadow:0 0 25px rgba(255,190,0,.35);
+    }
+}
+
+/* =====================================================
+   CANDY ART
+===================================================== */
+
+.candy-bg {
+    background:
+        radial-gradient(circle at 20% 25%, #ff77c8 0 7%, transparent 8%),
+        radial-gradient(circle at 75% 20%, #70eaff 0 8%, transparent 9%),
+        radial-gradient(circle at 50% 70%, #ffd75e 0 9%, transparent 10%),
+        linear-gradient(135deg,#7b24c7,#ef3f91,#ff8b32);
+}
+
+.candy-title {
+    color:#fff;
+    text-shadow:
+        0 0 8px #ff4bb7,
+        0 3px 5px #7b1470;
+}
+
+.seven-bg {
+    background:
+        radial-gradient(circle at 50% 30%,#ffec74 0 5%,transparent 6%),
+        radial-gradient(circle at 20% 80%,#ff3939 0 12%,transparent 13%),
+        linear-gradient(135deg,#450000,#a80000,#280000);
+}
+
+.gem-bg {
+    background:
+        radial-gradient(circle at 30% 30%,#55eaff 0 9%,transparent 10%),
+        radial-gradient(circle at 70% 65%,#8c65ff 0 13%,transparent 14%),
+        linear-gradient(135deg,#061b42,#073d72,#12083f);
+}
+
+.fruit-bg {
+    background:
+        radial-gradient(circle at 25% 35%,#ff4c4c 0 10%,transparent 11%),
+        radial-gradient(circle at 75% 25%,#ffe04e 0 10%,transparent 11%),
+        radial-gradient(circle at 55% 75%,#5ee66a 0 12%,transparent 13%),
+        linear-gradient(135deg,#075a2c,#16a34a,#8bcf38);
+}
+
+.pharaoh-bg {
+    background:
+        radial-gradient(circle at 50% 30%,#ffd65c 0 12%,transparent 13%),
+        linear-gradient(135deg,#201000,#8a5200,#271000);
+}
+
+.art-center {
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:70px;
+    filter:
+        drop-shadow(0 8px 12px rgba(0,0,0,.5));
+}
+
+.art-text {
+    position:absolute;
+    width:100%;
+    text-align:center;
+    top:18px;
+    font-size:24px;
+    font-weight:1000;
+    transform:rotate(-5deg);
+}
+
+/* =====================================================
+   DESKTOP
+===================================================== */
+
+@media(min-width:700px) {
+
+    .casino-games {
         grid-template-columns:repeat(3,1fr);
     }
 
-    .modal{
-        align-items:center;
+    .casino-card {
+        height:205px;
     }
 
-    .modal-box{
-        border-radius:28px;
-        border:1px solid rgba(255,255,255,.1);
+    .slot-reel {
+        height:95px;
+        font-size:42px;
     }
 }
 </style>
-</head>
-
-<body>
-
-<div class="app">
-
-<header class="header">
-
-    <div class="logo">
-        Yes<span>MoneY</span>
-    </div>
-
-    <div class="balance">
-        <span class="balance-icon">💰</span>
-        <strong id="balance">1000</strong>
-        <small>YMY</small>
-    </div>
-
-</header>
-
-<main class="content" id="content"></main>
-
-<nav class="bottom">
-
-    <button class="nav active" data-page="home">
-        <span class="nav-icon">🏠</span>
-        <span>Главная</span>
-    </button>
-
-    <button class="nav" data-page="games">
-        <span class="nav-icon">🎮</span>
-        <span>Игры</span>
-    </button>
-
-    <button class="nav" data-page="bonus">
-        <span class="nav-icon">🎁</span>
-        <span>Бонусы</span>
-    </button>
-
-    <button class="nav" data-page="profile">
-        <span class="nav-icon">👤</span>
-        <span>Профиль</span>
-    </button>
-
-</nav>
-
-</div>
-
-
-<!-- SLOT MODAL -->
-
-<div class="modal" id="slotModal">
-
-    <div class="modal-box">
-
-        <div class="modal-top">
-
-            <div class="modal-title">
-                🎰 Игровой зал
-            </div>
-
-            <button class="close" onclick="closeSlot()">
-                ×
-            </button>
-
-        </div>
-
-        <div class="slot-machine">
-
-            <div class="slot-brand">
-                <strong>777</strong>
-                <small>LUCKY SEVEN</small>
-            </div>
-
-            <div class="reels">
-
-                <div class="reel" id="reel1">7️⃣</div>
-                <div class="reel" id="reel2">🍒</div>
-                <div class="reel" id="reel3">7️⃣</div>
-
-            </div>
-
-            <div class="controls">
-
-                <button class="minus" onclick="changeBet(-10)">
-                    −
-                </button>
-
-                <div class="bet">
-                    <small>СТАВКА</small>
-                    <strong id="betValue">10 YMY</strong>
-                </div>
-
-                <button class="plus" onclick="changeBet(10)">
-                    +
-                </button>
-
-            </div>
-
-            <button class="spin" id="spinButton" onclick="spin777()">
-                🎰 КРУТИТЬ
-            </button>
-
-            <div class="result" id="result"></div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- WIN -->
-
-<div class="win-overlay" id="winOverlay">
-
-    <div class="win-box">
-
-        <div class="win-icon">
-            🏆
-        </div>
-
-        <h2>БОЛЬШОЙ ВЫИГРЫШ!</h2>
-
-        <div class="win-amount" id="winAmount">
-            +100 YMY
-        </div>
-
-        <button class="win-close" onclick="closeWin()">
-            ЗАБРАТЬ
-        </button>
-
-    </div>
-
-</div>
 
 
 <script>
 
-let balance =
-    Number(localStorage.getItem("ymyCasinoBalance")) || 1000;
-
-let bet = 10;
-
-const symbols = [
-    "7️⃣",
-    "🍒",
-    "🍋",
-    "💎",
-    "⭐",
-    "🍀"
-];
-
-const content =
-    document.getElementById("content");
-
-const balanceElement =
-    document.getElementById("balance");
-
-
-function saveBalance(){
-
-    localStorage.setItem(
-        "ymyCasinoBalance",
-        balance
-    );
-
-}
-
-
-function updateBalance(){
-
-    balanceElement.textContent =
-        Math.floor(balance);
-
-    saveBalance();
-
-}
-
-
-/* HOME */
-
-function homePage(){
-
-    content.innerHTML = `
-
-        <section class="hero">
-
-            <div class="hero-badge">
-                🔥 ГЛАВНАЯ ИГРА
-            </div>
-
-            <h1>
-                777
-            </h1>
-
-            <p>
-                Испытай удачу в нашем фирменном
-                слоте с яркой неоновой графикой
-                и виртуальными YMY.
-            </p>
-
-            <button
-                class="hero-button"
-                onclick="openSlot()">
-
-                🎰 ИГРАТЬ СЕЙЧАС
-
-            </button>
-
-        </section>
-
-
-        <div class="section-head">
-
-            <div class="section-title">
-                Популярные игры
-            </div>
-
-            <div class="section-more">
-                Все игры
-            </div>
-
-        </div>
-
-
-        <div class="games">
-
-            ${gameCard("🎰","777","Lucky Seven",true)}
-            ${gameCard("💎","Diamond","Diamond Spin")}
-            ${gameCard("🔥","Fire","Fire Spin")}
-            ${gameCard("🍀","Lucky","Lucky Clover")}
-            ${gameCard("👑","Royal","Royal Fortune")}
-            ${gameCard("🚀","Rocket","Rocket Demo")}
-
-        </div>
-
-    `;
-
-}
-
-
-/* GAME CARD */
-
-function gameCard(icon,name,desc,hot=false){
-
-    return `
-
-        <div
-            class="game ${hot ? "hot":""}"
-            onclick="${name==="777" ? "openSlot()" : "demoGame()"}">
-
-            ${hot ? `<div class="hot-label">HOT</div>` : ""}
-
-            <div class="game-icon">
-                ${icon}
-            </div>
-
-            <h3>${name}</h3>
-
-            <p>${desc}</p>
-
-        </div>
-
-    `;
-
-}
-
-
-/* GAMES PAGE */
-
-function gamesPage(){
-
-    content.innerHTML = `
-
-        <div class="section-head">
-            <div class="section-title">
-                🎮 Все игры
-            </div>
-        </div>
-
-        <div class="games">
-
-            ${gameCard("🎰","777","Lucky Seven",true)}
-            ${gameCard("💎","Diamond","Diamond Spin")}
-            ${gameCard("🔥","Fire","Fire Spin")}
-            ${gameCard("🍀","Lucky","Lucky Clover")}
-            ${gameCard("👑","Royal","Royal Fortune")}
-            ${gameCard("🚀","Rocket","Rocket Demo")}
-            ${gameCard("🌙","Moon","Moon Night")}
-            ${gameCard("⚡","Lightning","Lightning")}
-            ${gameCard("🎯","Target","Lucky Target")}
-
-        </div>
-
-    `;
-
-}
-
-
-/* BONUS */
-
-function bonusPage(){
-
-    content.innerHTML = `
-
-        <div class="section-head">
-            <div class="section-title">
-                🎁 Бонусный центр
-            </div>
-        </div>
-
-        <div class="bonus">
-
-            <div class="bonus-card">
-
-                <div style="font-size:35px">
-                    🎁
-                </div>
-
-                <h3>
-                    Ежедневный бонус
-                </h3>
-
-                <p>
-                    Получи виртуальные YMY
-                    для игры.
-                </p>
-
-                <button
-                    class="bonus-btn"
-                    onclick="claimBonus(100)">
-
-                    ПОЛУЧИТЬ +100 YMY
-
-                </button>
-
-            </div>
-
-
-            <div class="bonus-card">
-
-                <div style="font-size:35px">
-                    🔥
-                </div>
-
-                <h3>
-                    Lucky Bonus
-                </h3>
-
-                <p>
-                    Дополнительный виртуальный
-                    бонус для твоего игрового баланса.
-                </p>
-
-                <button
-                    class="bonus-btn"
-                    onclick="claimBonus(250)">
-
-                    ПОЛУЧИТЬ +250 YMY
-
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* PROFILE */
-
-function profilePage(){
-
-    const name =
-        localStorage.getItem("ymyName") || "Игрок";
-
-    const id =
-        localStorage.getItem("ymyId") || "YMY-PLAYER";
-
-    content.innerHTML = `
-
-        <div class="profile">
-
-            <div class="section-head">
-                <div class="section-title">
-                    👤 Профиль
-                </div>
-            </div>
-
-            <div class="profile-card">
-
-                <div class="avatar">
-                    ${name.charAt(0).toUpperCase()}
-                </div>
-
-                <div class="profile-name">
-                    ${name}
-                </div>
-
-                <div class="profile-id">
-                    ID: ${id}
-                </div>
-
-                <div style="margin-top:20px">
-
-                    <div class="stat">
-                        <span>Баланс</span>
-                        <strong>${Math.floor(balance)} YMY</strong>
-                    </div>
-
-                    <div class="stat">
-                        <span>Валюта</span>
-                        <strong>YMY</strong>
-                    </div>
-
-                    <div class="stat">
-                        <span>Статус</span>
-                        <strong>PLAYER</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
-
-}
-
-
-/* NAVIGATION */
-
-document
-.querySelectorAll(".nav")
-.forEach(button => {
-
-    button.addEventListener("click",()=>{
-
-        document
-        .querySelectorAll(".nav")
-        .forEach(x =>
-            x.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        const page =
-            button.dataset.page;
-
-        if(page==="home")
-            homePage();
-
-        if(page==="games")
-            gamesPage();
-
-        if(page==="bonus")
-            bonusPage();
-
-        if(page==="profile")
-            profilePage();
-
-    });
-
-});
-
-
-/* SLOT */
-
-function openSlot(){
-
-    document
-    .getElementById("slotModal")
-    .classList.add("show");
-
-}
-
-
-function closeSlot(){
-
-    document
-    .getElementById("slotModal")
-    .classList.remove("show");
-
-}
-
-
-function changeBet(amount){
-
-    bet += amount;
-
-    if(bet < 10)
-        bet = 10;
-
-    if(bet > 100)
-        bet = 100;
-
-    document
-    .getElementById("betValue")
-    .textContent =
-        bet + " YMY";
-
-}
-
-
-let spinning = false;
-
-
-function spin777(){
-
-    if(spinning)
-        return;
-
-    if(balance < bet){
-
-        document
-        .getElementById("result")
-        .textContent =
-            "Недостаточно YMY";
-
-        return;
-
+/* =====================================================
+   ИГРЫ
+===================================================== */
+
+const casinoGames = [
+
+    {
+        name:"Sweet Candy",
+        subtitle:"Candy Slot",
+        badge:"HOT",
+        bg:"candy-bg",
+        icon:"🍭",
+        title:"SWEET",
+        game:"candy"
+    },
+
+    {
+        name:"777 Royal",
+        subtitle:"Classic Slot",
+        badge:"777",
+        bg:"seven-bg",
+        icon:"7️⃣",
+        title:"ROYAL 777",
+        game:"777"
+    },
+
+    {
+        name:"Diamond Rush",
+        subtitle:"Gem Slot",
+        badge:"NEW",
+        bg:"gem-bg",
+        icon:"💎",
+        title:"DIAMOND",
+        game:"gems"
+    },
+
+    {
+        name:"Fruit Party",
+        subtitle:"Fruit Slot",
+        badge:"HOT",
+        bg:"fruit-bg",
+        icon:"🍉",
+        title:"FRUIT",
+        game:"fruit"
+    },
+
+    {
+        name:"Golden Pharaoh",
+        subtitle:"Gold Slot",
+        badge:"VIP",
+        bg:"pharaoh-bg",
+        icon:"👑",
+        title:"PHARAOH",
+        game:"pharaoh"
+    },
+
+    {
+        name:"Lucky 7",
+        subtitle:"Classic Casino",
+        badge:"NEW",
+        bg:"seven-bg",
+        icon:"🎰",
+        title:"LUCKY 7",
+        game:"lucky"
     }
 
-    spinning = true;
+];
 
-    balance -= bet;
+
+/* =====================================================
+   КАРТОЧКИ
+===================================================== */
+
+function renderCasinoGames(container) {
+
+    container.innerHTML = `
+        <div class="casino-games">
+
+            ${casinoGames.map((game,index)=>`
+
+                <div
+                    class="casino-card"
+                    onclick="openCasinoGame(${index})">
+
+                    <div class="casino-art ${game.bg}">
+
+                        <div class="art-text">
+                            ${game.title}
+                        </div>
+
+                        <div class="art-center">
+                            ${game.icon}
+                        </div>
+
+                    </div>
+
+                    <div class="casino-overlay"></div>
+
+                    <div class="casino-badge">
+                        ${game.badge}
+                    </div>
+
+                    <div class="casino-title">
+
+                        <strong>
+                            ${game.name}
+                        </strong>
+
+                        <span>
+                            ${game.subtitle}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =====================================================
+   ОТКРЫТИЕ СЛОТА
+===================================================== */
+
+function openCasinoGame(index) {
+
+    const game = casinoGames[index];
+
+    let modal = document.getElementById("casinoSlotModal");
+
+    if (!modal) {
+
+        modal = document.createElement("div");
+
+        modal.id = "casinoSlotModal";
+        modal.className = "slot-game-modal";
+
+        document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+
+        <div class="slot-top">
+
+            <button
+                class="slot-back"
+                onclick="closeCasinoGame()">
+                ←
+            </button>
+
+            <div class="slot-logo">
+                ${game.name}
+            </div>
+
+            <div class="slot-balance">
+                💰 <span id="slotBalance">
+                    ${balance}
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="slot-main">
+
+            <div class="slot-heading">
+
+                <h1>
+                    ${game.icon} ${game.name}
+                </h1>
+
+                <p>
+                    ${game.subtitle} • YMY
+                </p>
+
+            </div>
+
+
+            <div class="slot-machine">
+
+                <div class="slot-reels">
+
+                    <div class="slot-line"></div>
+
+                    <div class="slot-reel" id="reel0">🍒</div>
+                    <div class="slot-reel" id="reel1">🍋</div>
+                    <div class="slot-reel" id="reel2">7️⃣</div>
+                    <div class="slot-reel" id="reel3">💎</div>
+                    <div class="slot-reel" id="reel4">🍉</div>
+                    <div class="slot-reel" id="reel5">⭐</div>
+
+                </div>
+
+
+                <div class="slot-controls">
+
+                    <button
+                        class="slot-control"
+                        onclick="changeBet(-5)">
+
+                        <small>СТАВКА</small>
+                        −
+
+                    </button>
+
+
+                    <button
+                        class="slot-spin"
+                        id="casinoSpinButton"
+                        onclick="spinCasino()">
+
+                        SPIN
+
+                    </button>
+
+
+                    <button
+                        class="slot-control"
+                        onclick="changeBet(5)">
+
+                        <small>СТАВКА</small>
+                        +
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    style="
+                    text-align:center;
+                    margin-top:10px;
+                    color:rgba(255,255,255,.55);
+                    font-size:12px;
+                    ">
+
+                    Ставка:
+                    <strong id="slotBetValue">
+                        5
+                    </strong>
+                    YMY
+
+                </div>
+
+
+                <div
+                    class="slot-result"
+                    id="slotResult">
+
+                    Зробіть оберт
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    modal.classList.add("active");
+
+    window.currentSlotGame = game.game;
+}
+
+
+/* =====================================================
+   ЗАКРЫТИЕ
+===================================================== */
+
+function closeCasinoGame() {
+
+    const modal =
+        document.getElementById("casinoSlotModal");
+
+    if (modal) {
+        modal.classList.remove("active");
+    }
+}
+
+
+/* =====================================================
+   СТАВКА
+===================================================== */
+
+let casinoBet = 5;
+
+function changeBet(value) {
+
+    casinoBet += value;
+
+    if (casinoBet < 5)
+        casinoBet = 5;
+
+    if (casinoBet > 50)
+        casinoBet = 50;
+
+    const balance =
+        Number(window.balance || 0);
+
+    if (casinoBet > balance && balance > 0) {
+        casinoBet = balance;
+    }
+
+    const el =
+        document.getElementById("slotBetValue");
+
+    if (el)
+        el.textContent = casinoBet;
+}
+
+
+/* =====================================================
+   СИМВОЛЫ
+===================================================== */
+
+const slotSymbols = [
+    "🍒",
+    "🍋",
+    "🍉",
+    "🍇",
+    "🍓",
+    "⭐",
+    "💎",
+    "7️⃣"
+];
+
+
+/* =====================================================
+   SPIN
+===================================================== */
+
+let casinoSpinning = false;
+
+function spinCasino() {
+
+    if (casinoSpinning)
+        return;
+
+    if (typeof balance === "undefined")
+        return;
+
+    if (balance < casinoBet) {
+
+        alert(
+            "Недостатньо YMY для оберту."
+        );
+
+        return;
+    }
+
+
+    casinoSpinning = true;
+
+    balance -= casinoBet;
 
     updateBalance();
 
-    const reels = [
-        document.getElementById("reel1"),
-        document.getElementById("reel2"),
-        document.getElementById("reel3")
-    ];
+
+    const spinButton =
+        document.getElementById(
+            "casinoSpinButton"
+        );
+
+    if (spinButton) {
+
+        spinButton.disabled = true;
+
+        spinButton.textContent =
+            "SPINNING...";
+    }
+
 
     const result =
-        document.getElementById("result");
+        document.getElementById(
+            "slotResult"
+        );
 
-    result.className="result";
+    if (result) {
 
-    result.textContent="Крутим...";
+        result.className =
+            "slot-result";
 
-    reels.forEach(r =>
-        r.classList.add("spinning")
-    );
+        result.textContent =
+            "Обертання...";
+    }
 
-    let ticks=0;
+
+    const reels = [];
+
+    for (let i=0;i<6;i++) {
+
+        reels.push(
+            document.getElementById(
+                "reel"+i
+            )
+        );
+    }
+
+
+    reels.forEach(reel => {
+
+        if (reel) {
+
+            reel.classList.remove("win");
+
+            reel.classList.add(
+                "slot-spinning"
+            );
+        }
+
+    });
+
+
+    let ticks = 0;
 
     const animation =
-        setInterval(()=>{
+        setInterval(() => {
 
-            reels.forEach(reel=>{
+            reels.forEach(reel => {
 
-                reel.textContent =
-                    symbols[
-                        Math.floor(
-                            Math.random()*symbols.length
-                        )
-                    ];
+                if (reel) {
+
+                    reel.textContent =
+                        slotSymbols[
+                            Math.floor(
+                                Math.random() *
+                                slotSymbols.length
+                            )
+                        ];
+                }
 
             });
 
             ticks++;
 
-            if(ticks>22){
+            if (ticks >= 18) {
 
                 clearInterval(animation);
 
-                reels.forEach(r =>
-                    r.classList.remove("spinning")
+                finishCasinoSpin(
+                    reels
                 );
-
-                finishSpin(reels);
-
             }
 
-        },100);
-
+        },90);
 }
 
 
-function finishSpin(reels){
+/* =====================================================
+   РЕЗУЛЬТАТ
+===================================================== */
 
-    const a =
-        symbols[
-            Math.floor(Math.random()*symbols.length)
-        ];
+function finishCasinoSpin(reels) {
 
-    const b =
-        symbols[
-            Math.floor(Math.random()*symbols.length)
-        ];
+    const resultSymbols =
+        [];
 
-    const c =
-        symbols[
-            Math.floor(Math.random()*symbols.length)
-        ];
+    for (let i=0;i<6;i++) {
 
-    reels[0].textContent=a;
-    reels[1].textContent=b;
-    reels[2].textContent=c;
+        const symbol =
+            slotSymbols[
+                Math.floor(
+                    Math.random() *
+                    slotSymbols.length
+                )
+            ];
 
-    let win=0;
+        resultSymbols.push(symbol);
 
-    if(a==="7️⃣" && b==="7️⃣" && c==="7️⃣")
-        win=bet*20;
+        if (reels[i]) {
 
-    else if(a===b && b===c)
-        win=bet*8;
+            reels[i].textContent =
+                symbol;
 
-    else if(a===b || b===c || a===c)
-        win=bet*2;
+            reels[i].classList.remove(
+                "slot-spinning"
+            );
+        }
+    }
 
-    if(win>0){
+
+    let win = 0;
+
+
+    /*
+       ТРИ ОДИНАКОВЫХ
+    */
+
+    const counts = {};
+
+    resultSymbols.forEach(symbol => {
+
+        counts[symbol] =
+            (counts[symbol] || 0) + 1;
+
+    });
+
+
+    Object.keys(counts)
+        .forEach(symbol => {
+
+            const count =
+                counts[symbol];
+
+            if (count >= 3) {
+
+                win =
+                    casinoBet *
+                    (count === 6 ? 25 :
+                     count === 5 ? 15 :
+                     count === 4 ? 8 :
+                     4);
+
+            }
+
+        });
+
+
+    /*
+       ОСОБЫЙ 777
+    */
+
+    if (
+        resultSymbols.filter(
+            x => x === "7️⃣"
+        ).length >= 3
+    ) {
+
+        win =
+            casinoBet * 15;
+    }
+
+
+    /*
+       ДЖЕКПОТ
+    */
+
+    if (
+        resultSymbols.every(
+            x => x === "💎"
+        )
+    ) {
+
+        win =
+            casinoBet * 50;
+    }
+
+
+    if (win > 0) {
 
         balance += win;
 
         updateBalance();
 
-        document
-        .getElementById("result")
-        .textContent =
-            "🎉 Выигрыш +" + win + " YMY";
 
-        document
-        .getElementById("result")
-        .classList.add("win");
+        reels.forEach(reel => {
 
-        document
-        .getElementById("winAmount")
-        .textContent =
-            "+" + win + " YMY";
+            if (reel)
+                reel.classList.add("win");
 
-        document
-        .getElementById("winOverlay")
-        .classList.add("show");
+        });
 
-    }else{
 
-        document
-        .getElementById("result")
-        .textContent =
-            "Попробуй ещё раз";
+        const result =
+            document.getElementById(
+                "slotResult"
+            );
 
+        if (result) {
+
+            result.className =
+                "slot-result win";
+
+            result.innerHTML =
+                `🎉 WIN! +${win} YMY 🎉`;
+        }
+
+    } else {
+
+        const result =
+            document.getElementById(
+                "slotResult"
+            );
+
+        if (result) {
+
+            result.className =
+                "slot-result";
+
+            result.textContent =
+                "Спробуйте ще раз 🍀";
+        }
     }
 
-    spinning=false;
 
+    const spinButton =
+        document.getElementById(
+            "casinoSpinButton"
+        );
+
+    if (spinButton) {
+
+        spinButton.disabled =
+            false;
+
+        spinButton.textContent =
+            "SPIN";
+    }
+
+
+    const slotBalance =
+        document.getElementById(
+            "slotBalance"
+        );
+
+    if (slotBalance) {
+
+        slotBalance.textContent =
+            balance;
+    }
+
+
+    casinoSpinning = false;
 }
 
 
-function closeWin(){
+/* =====================================================
+   ПОДКЛЮЧЕНИЕ К ГЛАВНОМУ МЕНЮ
+===================================================== */
 
-    document
-    .getElementById("winOverlay")
-    .classList.remove("show");
+/*
+   ВАЖНО:
 
-}
+   Если у тебя уже есть gamesPage(),
+   найди старую функцию gamesPage
+   и замени ЕЁ целиком на эту.
+*/
 
+function gamesPage() {
 
-/* BONUS */
+    mainContent.innerHTML = `
 
-function claimBonus(amount){
+        <div class="page">
 
-    balance += amount;
+            <h1 class="page-title">
+                🎰 Казино
+            </h1>
 
-    updateBalance();
+            <p class="page-subtitle">
+                Оберіть гру та випробуйте удачу
+            </p>
 
-    alert(
-        "🎁 Бонус получен!\n\n+" +
-        amount +
-        " YMY"
+            <div id="casinoGamesContainer"></div>
+
+        </div>
+
+    `;
+
+    renderCasinoGames(
+        document.getElementById(
+            "casinoGamesContainer"
+        )
     );
-
 }
 
 
-/* OTHER GAMES */
+/* =====================================================
+   ОБНОВЛЕНИЕ БАЛАНСА В ИГРЕ
+===================================================== */
 
-function demoGame(){
+const oldUpdateBalance =
+    window.updateBalance;
 
-    alert(
-        "🎮 Эта игра находится в разработке.\n\n" +
-        "Сейчас доступен слот 777."
-    );
+window.updateBalance =
+    function() {
 
-}
+        if (typeof balanceValue !== "undefined") {
+
+            balanceValue.textContent =
+                Number(balance).toFixed(0);
+        }
 
 
-/* START */
+        localStorage.setItem(
+            "ymyBalance",
+            balance
+        );
 
-updateBalance();
 
-homePage();
+        const slotBalance =
+            document.getElementById(
+                "slotBalance"
+            );
+
+        if (slotBalance) {
+
+            slotBalance.textContent =
+                Number(balance).toFixed(0);
+        }
+
+    };
 
 </script>
-
-</body>
-</html>
