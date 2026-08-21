@@ -1,1530 +1,1672 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>YesMoneY — Ігри</title>
+
 <style>
-/* =========================================================
-   YESMONEY — НОВЕ КАЗИНО-ЛОББІ
-========================================================= */
-
-.casino-lobby {
-    width:100%;
-    max-width:1100px;
-    margin:0 auto;
-    padding-bottom:35px;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
 }
 
-/* =========================================================
-   ВЕРХНІЙ ПРОМО-БАНЕР
-========================================================= */
-
-.casino-hero {
-    position:relative;
-    min-height:205px;
-    border-radius:24px;
-    overflow:hidden;
-    margin-bottom:18px;
-    background:
-        radial-gradient(circle at 80% 20%,
-        rgba(255,216,60,.32),
-        transparent 30%),
-        radial-gradient(circle at 25% 80%,
-        rgba(255,125,0,.25),
-        transparent 35%),
-        linear-gradient(120deg,
-        #141414,
-        #242000 45%,
-        #111);
-    border:1px solid rgba(255,210,50,.2);
-    box-shadow:
-        0 15px 45px rgba(0,0,0,.4),
-        inset 0 0 60px rgba(255,190,0,.06);
+:root{
+    --bg:#070912;
+    --panel:#101322;
+    --panel2:#15192b;
+    --line:rgba(255,255,255,.08);
+    --text:#fff;
+    --muted:#8c92a8;
+    --purple:#805cff;
+    --violet:#b05cff;
+    --pink:#ff4fa3;
+    --cyan:#25d9ff;
+    --green:#25e28a;
+    --gold:#ffc94a;
 }
 
-.casino-hero:before {
+html,body{
+    min-height:100%;
+    background:var(--bg);
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+/* =========================
+   ФОН
+========================= */
+
+body:before{
     content:"";
-    position:absolute;
-    width:220px;
-    height:220px;
-    right:-55px;
-    top:-70px;
-    border-radius:50%;
+    position:fixed;
+    inset:0;
+    pointer-events:none;
     background:
-        radial-gradient(circle,
-        rgba(255,220,70,.9) 0%,
-        rgba(255,140,0,.35) 35%,
-        transparent 70%);
-    filter:blur(8px);
+        radial-gradient(circle at 15% 0%,rgba(128,92,255,.24),transparent 30%),
+        radial-gradient(circle at 90% 10%,rgba(255,79,163,.14),transparent 28%),
+        radial-gradient(circle at 50% 80%,rgba(37,217,255,.07),transparent 35%);
+    z-index:-2;
 }
 
-.hero-content {
-    position:relative;
-    z-index:2;
-    padding:28px 23px;
-    max-width:650px;
+body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:35px 35px;
+    mask-image:linear-gradient(to bottom,black,transparent 80%);
+    z-index:-1;
 }
 
-.hero-label {
-    display:inline-flex;
+/* =========================
+   WELCOME
+========================= */
+
+#welcome{
+    min-height:100vh;
+    display:flex;
     align-items:center;
-    gap:6px;
+    justify-content:center;
+    padding:25px;
+}
+
+.welcome-box{
+    width:100%;
+    max-width:430px;
+    text-align:center;
+}
+
+.logo-big{
+    font-size:48px;
+    font-weight:1000;
+    letter-spacing:-2px;
+    text-shadow:
+        0 0 15px rgba(128,92,255,.8),
+        0 0 45px rgba(176,92,255,.45);
+}
+
+.logo-big span{
+    color:var(--purple);
+}
+
+.welcome-sub{
+    color:var(--muted);
+    margin-top:10px;
+    line-height:1.5;
+}
+
+.welcome-button{
+    margin-top:30px;
+    width:100%;
+    padding:17px;
+    border:0;
+    border-radius:16px;
+    color:#fff;
+    font-weight:900;
+    font-size:16px;
+    background:linear-gradient(135deg,#7655ff,#b457ff);
+    box-shadow:
+        0 0 25px rgba(128,92,255,.35),
+        0 12px 30px rgba(0,0,0,.35);
+}
+
+/* =========================
+   APP
+========================= */
+
+#app{
+    display:none;
+    min-height:100vh;
+    padding-bottom:100px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    position:sticky;
+    top:0;
+    z-index:30;
+    padding:15px 16px;
+    background:rgba(7,9,18,.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--line);
+}
+
+.header-inner{
+    max-width:900px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:1000;
+    letter-spacing:-1px;
+}
+
+.logo span{
+    color:var(--purple);
+}
+
+.balance{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:9px 13px;
+    border-radius:13px;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--line);
+    box-shadow:0 0 20px rgba(128,92,255,.08);
+}
+
+.balance b{
+    color:#fff;
+}
+
+.balance small{
+    color:var(--muted);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+    max-width:900px;
+    margin:auto;
+    padding:20px 15px 30px;
+}
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:24px;
+    padding:24px 20px;
+    margin-bottom:22px;
+    background:
+        linear-gradient(135deg,
+        rgba(128,92,255,.30),
+        rgba(176,92,255,.12) 50%,
+        rgba(37,217,255,.08));
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.25),
+        0 0 40px rgba(128,92,255,.10);
+}
+
+.hero:after{
+    content:"777";
+    position:absolute;
+    right:-20px;
+    bottom:-35px;
+    font-size:120px;
+    font-weight:1000;
+    font-style:italic;
+    color:rgba(255,255,255,.035);
+    transform:rotate(-8deg);
+}
+
+.hero-label{
+    display:inline-flex;
     padding:6px 10px;
     border-radius:8px;
-    background:rgba(255,196,0,.15);
-    border:1px solid rgba(255,205,50,.3);
-    color:#ffd84d;
+    background:rgba(255,255,255,.09);
+    color:#c8bcff;
     font-size:11px;
-    font-weight:900;
+    font-weight:800;
     text-transform:uppercase;
 }
 
-.hero-content h2 {
+.hero h1{
     margin-top:12px;
-    font-size:32px;
-    font-weight:1000;
+    font-size:30px;
     line-height:1.05;
 }
 
-.hero-content p {
+.hero p{
+    color:#a5a9bc;
     margin-top:9px;
-    color:rgba(255,255,255,.58);
-    font-size:14px;
+    max-width:500px;
+    line-height:1.45;
 }
 
-.hero-button {
-    margin-top:18px;
-    border:0;
-    border-radius:12px;
-    padding:12px 22px;
-    background:
-        linear-gradient(135deg,#ffd52e,#ff9d00);
-    color:#171300;
-    font-weight:1000;
-    box-shadow:
-        0 8px 25px rgba(255,170,0,.25);
-}
+/* =========================
+   CATEGORIES
+========================= */
 
-/* =========================================================
-   КАТЕГОРІЇ
-========================================================= */
-
-.casino-categories {
+.categories{
     display:flex;
-    gap:8px;
+    gap:9px;
     overflow-x:auto;
-    padding:2px 1px 14px;
+    padding-bottom:6px;
+    margin-bottom:20px;
     scrollbar-width:none;
 }
 
-.casino-categories::-webkit-scrollbar {
+.categories::-webkit-scrollbar{
     display:none;
 }
 
-.casino-category {
+.category{
     flex:0 0 auto;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(255,255,255,.055);
-    color:rgba(255,255,255,.65);
-    border-radius:11px;
     padding:10px 14px;
-    font-size:12px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:rgba(255,255,255,.045);
+    color:#989db0;
     font-weight:800;
-    white-space:nowrap;
+    font-size:13px;
 }
 
-.casino-category.active {
-    background:
-        linear-gradient(135deg,
-        #ffd52e,
-        #ff9c00);
-    color:#161300;
-    border-color:transparent;
-    box-shadow:
-        0 5px 20px rgba(255,170,0,.2);
+.category.active{
+    color:white;
+    border-color:rgba(128,92,255,.55);
+    background:linear-gradient(135deg,#7655ff,#9e57ff);
+    box-shadow:0 0 18px rgba(128,92,255,.28);
 }
 
-/* =========================================================
-   ЗАГОЛОВКИ СЕКЦІЙ
-========================================================= */
+/* =========================
+   TITLE
+========================= */
 
-.casino-section {
-    margin-top:23px;
-}
-
-.casino-section-head {
+.section-title{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom:12px;
+    margin:22px 0 13px;
 }
 
-.casino-section-head h3 {
+.section-title h2{
+    font-size:21px;
+}
+
+.section-title span{
+    color:#777d92;
+    font-size:12px;
+}
+
+/* =========================
+   GAMES
+========================= */
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.game{
+    position:relative;
+    overflow:hidden;
+    min-height:205px;
+    border-radius:19px;
+    border:1px solid var(--line);
+    background:#101321;
+    transition:.25s;
+    cursor:pointer;
+}
+
+.game:active{
+    transform:scale(.965);
+}
+
+.game:hover{
+    border-color:rgba(128,92,255,.45);
+    transform:translateY(-2px);
+}
+
+.game-art{
+    position:relative;
+    height:137px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.game-art:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top,#101321 0%,transparent 65%);
+}
+
+.art-777{
+    background:
+        radial-gradient(circle at 50% 40%,rgba(255,62,62,.45),transparent 30%),
+        linear-gradient(135deg,#210707,#650e15 50%,#150509);
+}
+
+.art-sweet{
+    background:
+        radial-gradient(circle at 30% 25%,#ff77c8,transparent 22%),
+        radial-gradient(circle at 75% 65%,#5c55ff,transparent 30%),
+        linear-gradient(135deg,#24104c,#15112d);
+}
+
+.art-diamond{
+    background:
+        radial-gradient(circle,#64f3ff,transparent 20%),
+        linear-gradient(135deg,#061d35,#123d66,#090d22);
+}
+
+.art-fire{
+    background:
+        radial-gradient(circle at 50% 60%,#ffdd45,transparent 12%),
+        radial-gradient(circle at 50% 80%,#ff3d1f,transparent 40%),
+        linear-gradient(135deg,#310807,#8d1609,#180505);
+}
+
+.art-royal{
+    background:
+        radial-gradient(circle,#ffd96a,transparent 15%),
+        linear-gradient(135deg,#1c1138,#462178,#120b25);
+}
+
+.art-moon{
+    background:
+        radial-gradient(circle at 50% 35%,#fff8ba,transparent 10%),
+        radial-gradient(circle at 50% 35%,#5969ff,transparent 28%),
+        linear-gradient(135deg,#080c27,#101b50,#050713);
+}
+
+.art-rocket{
+    background:
+        radial-gradient(circle at 50% 70%,#ffbf52,transparent 10%),
+        linear-gradient(135deg,#071b36,#123d70,#050914);
+}
+
+.art-lucky{
+    background:
+        radial-gradient(circle at 50% 40%,#42ff8c,transparent 20%),
+        linear-gradient(135deg,#06281b,#0b6b3d,#04130e);
+}
+
+.art-symbol{
+    position:relative;
+    z-index:2;
+    font-size:65px;
+    font-weight:1000;
+    font-style:italic;
+    text-shadow:0 4px 0 rgba(0,0,0,.35),0 0 25px rgba(255,255,255,.35);
+}
+
+.art-symbol.gold{
+    color:#ffd84d;
+}
+
+.art-symbol.pink{
+    color:#ff7ac9;
+}
+
+.art-symbol.cyan{
+    color:#5eeeff;
+}
+
+.art-symbol.red{
+    color:#ff4e42;
+}
+
+.art-symbol.white{
+    color:#fff;
+}
+
+.game-info{
+    position:relative;
+    z-index:4;
+    padding:0 13px 13px;
+    margin-top:-3px;
+}
+
+.game-name{
+    font-weight:900;
+    font-size:15px;
+}
+
+.game-desc{
+    margin-top:4px;
+    color:#777d91;
+    font-size:11px;
+}
+
+.play-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:9px;
+}
+
+.play{
+    padding:7px 11px;
+    border-radius:9px;
+    border:0;
+    color:white;
+    font-size:11px;
+    font-weight:900;
+    background:linear-gradient(135deg,#7054ff,#a555ff);
+}
+
+.hot{
+    color:#ff5d8f;
+    font-size:10px;
+    font-weight:900;
+}
+
+/* =========================
+   GAME MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(9px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.game-modal{
+    width:100%;
+    max-width:620px;
+    max-height:94vh;
+    overflow:auto;
+    border-radius:27px 27px 0 0;
+    padding:18px;
+    background:#0d101d;
+    border:1px solid var(--line);
+    box-shadow:0 -20px 70px rgba(0,0,0,.5);
+    animation:up .3s ease;
+}
+
+@keyframes up{
+    from{
+        transform:translateY(100%);
+        opacity:.5;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+.modal-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.modal-title{
     font-size:20px;
     font-weight:1000;
 }
 
-.casino-section-head span {
-    color:#ffd43d;
-    font-size:12px;
-    font-weight:800;
-}
-
-/* =========================================================
-   КАРТКИ ІГОР
-========================================================= */
-
-.casino-games-row {
-    display:grid;
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-    gap:11px;
-}
-
-.casino-game {
-    position:relative;
-    height:190px;
-    border-radius:18px;
-    overflow:hidden;
-    cursor:pointer;
-    background:#141414;
-    border:1px solid rgba(255,255,255,.08);
-    box-shadow:
-        0 8px 22px rgba(0,0,0,.25);
-    transition:
-        transform .2s,
-        box-shadow .2s;
-}
-
-.casino-game:active {
-    transform:scale(.965);
-}
-
-.game-cover {
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-.game-cover:after {
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,.05),
-            rgba(0,0,0,.82)
-        );
-}
-
-.game-cover-icon {
-    font-size:70px;
-    filter:
-        drop-shadow(0 10px 15px rgba(0,0,0,.55));
-    transform:translateY(-7px);
-}
-
-.game-cover-name {
-    position:absolute;
-    z-index:2;
-    bottom:13px;
-    left:12px;
-    right:12px;
-}
-
-.game-cover-name strong {
-    display:block;
-    font-size:16px;
-    font-weight:1000;
-}
-
-.game-cover-name small {
-    display:block;
-    margin-top:3px;
-    color:rgba(255,255,255,.55);
-    font-size:10px;
-}
-
-.game-tag {
-    position:absolute;
-    z-index:4;
-    left:9px;
-    top:9px;
-    padding:5px 7px;
-    border-radius:7px;
-    background:#ffd52e;
-    color:#171300;
-    font-size:9px;
-    font-weight:1000;
-}
-
-.game-fav {
-    position:absolute;
-    z-index:4;
-    right:9px;
-    top:8px;
-    width:30px;
-    height:30px;
+.close{
+    width:36px;
+    height:36px;
     border:0;
     border-radius:50%;
-    background:rgba(0,0,0,.4);
     color:white;
-    font-size:15px;
+    background:rgba(255,255,255,.08);
+    font-size:20px;
 }
 
-/* =========================================================
-   КОЛЬОРИ ОБКЛАДИНОК
-========================================================= */
+/* =========================
+   SLOT
+========================= */
 
-.cover-sweet {
+.slot-machine{
+    border-radius:22px;
+    padding:17px;
     background:
-        radial-gradient(circle at 25% 25%,
-        #ff6bbd 0 8%,transparent 9%),
-        radial-gradient(circle at 75% 35%,
-        #55eaff 0 10%,transparent 11%),
-        radial-gradient(circle at 50% 75%,
-        #ffe16b 0 12%,transparent 13%),
-        linear-gradient(135deg,#6c18b8,#ef3e87,#ff7c27);
+        linear-gradient(145deg,#21143e,#100f20 55%,#1c0d28);
+    border:1px solid rgba(176,92,255,.25);
+    box-shadow:
+        0 0 35px rgba(128,92,255,.15),
+        inset 0 0 30px rgba(0,0,0,.4);
 }
 
-.cover-777 {
-    background:
-        radial-gradient(circle at 50% 35%,
-        rgba(255,220,70,.8),
-        transparent 30%),
-        linear-gradient(135deg,
-        #320000,#b30000,#350000);
+.slot-logo{
+    text-align:center;
+    font-size:38px;
+    font-weight:1000;
+    font-style:italic;
+    color:#ffd84d;
+    text-shadow:
+        0 0 10px rgba(255,216,77,.6),
+        0 4px 0 #9b5000;
+    margin-bottom:15px;
 }
 
-.cover-diamond {
-    background:
-        radial-gradient(circle at 50% 35%,
-        #63f3ff,
-        transparent 30%),
-        linear-gradient(135deg,
-        #041a42,#07548b,#160b45);
-}
-
-.cover-fruit {
-    background:
-        radial-gradient(circle at 25% 35%,
-        #ff4949 0 9%,transparent 10%),
-        radial-gradient(circle at 70% 30%,
-        #ffe04b 0 9%,transparent 10%),
-        radial-gradient(circle at 50% 75%,
-        #55e66d 0 12%,transparent 13%),
-        linear-gradient(135deg,
-        #07562d,#19a74c,#7fbf38);
-}
-
-.cover-pharaoh {
-    background:
-        radial-gradient(circle at 50% 30%,
-        rgba(255,215,70,.85),
-        transparent 30%),
-        linear-gradient(135deg,
-        #211000,#925600,#211000);
-}
-
-.cover-fire {
-    background:
-        radial-gradient(circle at 50% 45%,
-        #ffde45,
-        transparent 20%),
-        linear-gradient(135deg,
-        #320000,#d12c00,#520000);
-}
-
-/* =========================================================
-   ВЕЛИКА КАРТКА — ШВИДКІ ІГРИ
-========================================================= */
-
-.quick-grid {
+.reels{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.quick-card {
-    min-height:105px;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    padding:9px;
     border-radius:16px;
-    padding:15px;
-    position:relative;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,.08);
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.08),
-            rgba(255,255,255,.025)
-        );
+    background:#070812;
+    border:2px solid rgba(255,255,255,.08);
 }
 
-.quick-card .icon {
-    font-size:35px;
-}
-
-.quick-card strong {
-    display:block;
-    margin-top:7px;
-    font-size:14px;
-}
-
-.quick-card small {
-    display:block;
-    margin-top:3px;
-    color:rgba(255,255,255,.45);
-}
-
-/* =========================================================
-   ВИГРАШІ
-========================================================= */
-
-.winners-box {
-    border-radius:18px;
-    padding:14px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,207,42,.09),
-            rgba(255,255,255,.025)
-        );
-    border:1px solid rgba(255,210,50,.13);
-}
-
-.winner-row {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:11px 2px;
-    border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.winner-row:last-child {
-    border-bottom:0;
-}
-
-.winner-left {
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.winner-avatar {
-    width:35px;
-    height:35px;
-    border-radius:50%;
+.reel{
+    height:105px;
+    border-radius:11px;
+    background:linear-gradient(#f7f7fa,#d9d9df);
     display:flex;
     align-items:center;
     justify-content:center;
-    background:
-        linear-gradient(135deg,
-        #ffd52e,#ff8b00);
+    color:#15151d;
+    font-size:47px;
+    font-weight:1000;
+    box-shadow:inset 0 0 15px rgba(0,0,0,.25);
 }
 
-.winner-name {
-    font-size:12px;
+.reel.spin{
+    animation:reel .12s linear infinite;
+}
+
+@keyframes reel{
+    0%{transform:translateY(-4px)}
+    50%{transform:translateY(4px)}
+    100%{transform:translateY(-4px)}
+}
+
+.slot-controls{
+    display:flex;
+    gap:9px;
+    margin-top:13px;
+}
+
+.bet{
+    flex:1;
+    padding:12px;
+    border-radius:12px;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--line);
+    color:white;
+    text-align:center;
+}
+
+.spin{
+    flex:2;
+    border:0;
+    border-radius:12px;
+    color:white;
+    font-weight:1000;
+    font-size:16px;
+    background:linear-gradient(135deg,#7655ff,#bd54ff);
+    box-shadow:0 0 25px rgba(128,92,255,.3);
+}
+
+.result{
+    min-height:28px;
+    text-align:center;
+    margin-top:13px;
+    font-weight:900;
+}
+
+.win{
+    animation:win .6s ease infinite alternate;
+}
+
+@keyframes win{
+    from{
+        text-shadow:0 0 5px #ffd84d;
+        transform:scale(1);
+    }
+    to{
+        text-shadow:
+            0 0 10px #ffd84d,
+            0 0 30px #ff7b3d;
+        transform:scale(1.07);
+    }
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.nav{
+    position:fixed;
+    z-index:50;
+    left:0;
+    right:0;
+    bottom:0;
+    height:76px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    background:rgba(8,10,19,.94);
+    backdrop-filter:blur(20px);
+    border-top:1px solid var(--line);
+}
+
+.nav button{
+    border:0;
+    background:none;
+    color:#676d81;
+    font-size:11px;
     font-weight:800;
 }
 
-.winner-game {
-    margin-top:2px;
-    color:rgba(255,255,255,.4);
-    font-size:10px;
+.nav-icon{
+    display:block;
+    font-size:22px;
+    margin-bottom:4px;
 }
 
-.winner-amount {
-    color:#ffd83e;
+.nav button.active{
+    color:#fff;
+}
+
+.nav button.active .nav-icon{
+    filter:drop-shadow(0 0 9px #9c70ff);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    z-index:200;
+    left:50%;
+    bottom:90px;
+    transform:translateX(-50%) translateY(20px);
+    opacity:0;
+    pointer-events:none;
+    padding:13px 18px;
+    border-radius:14px;
+    background:#191d30;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 10px 35px rgba(0,0,0,.4);
     font-size:13px;
-    font-weight:1000;
+    font-weight:800;
+    transition:.3s;
+    white-space:nowrap;
 }
 
-/* =========================================================
-   ПОШУК
-========================================================= */
-
-.casino-search {
-    display:flex;
-    align-items:center;
-    gap:9px;
-    margin-bottom:13px;
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
 }
 
-.casino-search input {
-    flex:1;
-    min-width:0;
-    border:1px solid rgba(255,255,255,.08);
-    outline:none;
-    border-radius:12px;
-    padding:12px 14px;
-    background:rgba(255,255,255,.055);
-    color:white;
-    font-size:13px;
-}
+/* =========================
+   DESKTOP
+========================= */
 
-.casino-search input::placeholder {
-    color:rgba(255,255,255,.35);
-}
+@media(min-width:700px){
 
-/* =========================================================
-   АДАПТАЦІЯ
-========================================================= */
-
-@media(min-width:600px) {
-
-    .casino-games-row {
-        grid-template-columns:
-            repeat(3,minmax(0,1fr));
+    .games{
+        grid-template-columns:repeat(4,1fr);
     }
 
-    .casino-game {
-        height:220px;
+    .game{
+        min-height:220px;
     }
 
-    .quick-grid {
-        grid-template-columns:
-            repeat(4,1fr);
-    }
-}
-
-@media(min-width:900px) {
-
-    .casino-games-row {
-        grid-template-columns:
-            repeat(5,minmax(0,1fr));
+    .game-art{
+        height:150px;
     }
 
-    .casino-game {
-        height:245px;
+    .modal{
+        align-items:center;
     }
 
-    .casino-hero {
-        min-height:240px;
-    }
-
-    .hero-content h2 {
-        font-size:40px;
+    .game-modal{
+        border-radius:27px;
+        max-height:90vh;
     }
 }
 </style>
+</head>
+
+<body>
+
+<!-- =========================
+     WELCOME
+========================= -->
+
+<section id="welcome">
+
+    <div class="welcome-box">
+
+        <div class="logo-big">
+            Yes<span>MoneY</span>
+        </div>
+
+        <p class="welcome-sub">
+            Сучасна ігрова платформа з яскравими
+            демо-іграми та віртуальними YMY.
+        </p>
+
+        <button class="welcome-button" onclick="enterSite()">
+            🎮 ПОЧАТИ ГРАТИ
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<div id="app">
+
+<header class="header">
+
+    <div class="header-inner">
+
+        <div class="logo">
+            Yes<span>MoneY</span>
+        </div>
+
+        <div class="balance">
+            💰
+            <b id="balance">50</b>
+            <small>YMY</small>
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="content">
+
+    <section class="hero">
+
+        <div class="hero-label">
+            🔥 Популярне
+        </div>
+
+        <h1>
+            Випробуй свою удачу
+        </h1>
+
+        <p>
+            Обирай гру, запускай обертання
+            та грай у демо-режимі.
+        </p>
+
+    </section>
+
+
+    <div class="categories">
+
+        <button class="category active">
+            🔥 Популярні
+        </button>
+
+        <button class="category">
+            🎰 Слоти
+        </button>
+
+        <button class="category">
+            💎 Новинки
+        </button>
+
+        <button class="category">
+            👑 VIP
+        </button>
+
+    </div>
+
+
+    <div class="section-title">
+
+        <h2>🎰 Ігри</h2>
+
+        <span>10 ігор</span>
+
+    </div>
+
+
+    <div class="games">
+
+
+        <!-- 777 -->
+
+        <article class="game" onclick="openSlot('777')">
+
+            <div class="game-art art-777">
+
+                <div class="art-symbol gold">
+                    777
+                </div>
+
+            </div>
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    777 GOLD
+                </div>
+
+                <div class="game-desc">
+                    Класичний слот
+                </div>
+
+                <div class="play-row">
+
+                    <span class="hot">
+                        🔥 HOT
+                    </span>
+
+                    <button class="play">
+                        ГРАТИ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- SWEET -->
+
+        <article class="game" onclick="openSlot('sweet')">
+
+            <div class="game-art art-sweet">
+
+                <div class="art-symbol pink">
+                    SWEET
+                </div>
+
+            </div>
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    Sweet Dreams
+                </div>
+
+                <div class="game-desc">
+                    Солодкий слот
+                </div>
+
+                <div class="play-row">
+
+                    <span class="hot">
+                        ✨ NEW
+                    </span>
+
+                    <button class="play">
+                        ГРАТИ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- DIAMOND -->
+
+        <article class="game" onclick="openSlot('diamond')">
+
+            <div class="game-art art-diamond">
+
+                <div class="art-symbol cyan">
+                    ♦
+                </div>
+
+            </div>
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    Diamond Rich
+                </div>
+
+                <div class="game-desc">
+                    Алмазний слот
+                </div>
+
+                <div class="play-row">
+
+                    <span class="hot">
+                        💎 VIP
+                    </span>
+
+                    <button class="play">
+                        ГРАТИ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- FIRE -->
+
+        <article class="game" onclick="openSlot('fire')">
+
+            <div class="game-art art-fire">
+
+                <div class="art-symbol red">
+                    FIRE
+                </div>
+
+            </div>
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    Fire Spin
+                </div>
+
+                <div class="game-desc">
+                    Гарячий оберт
+                </div>
+
+                <div class="play-row">
+
+                    <span class="hot">
+                        🔥 HOT
+                    </span>
+
+                    <button class="play">
+                        ГРАТИ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- ROYAL -->
+
+        <article class="game" onclick="openSlot('royal')">
+
+            <div class="game-art art-royal">
+
+                <div class="art-symbol gold">
+                    ♛
+                </div>
+
+            </div>
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    Royal Crown
+                </div>
+
+                <div class="game-desc">
+                    Королівська гра
+                </div>
+
+                <div class="play-row">
+
+                    <span class="hot">
+                        👑 VIP
+                    </span>
+
+                    <button class="play">
+                        ГРАТИ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- MOON -->
+
+        <article class="game" onclick="openSlot('moon')">
+
+            <div class="game-art art-moon">
+
+                <div class="art-symbol white">
+                    ☾
+                </div>
+
+            </div>
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    Moon Night
+                </div>
+
+                <div class="game-desc">
+                    Нічний слот
+                </div>
+
+                <div class="play-row">
+
+                    <span class="hot">
+                        🌙 NEW
+                    </span>
+
+                    <button class="play">
+                        ГРАТИ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- ROCKET -->
+
+        <article class="game" onclick="openSlot('rocket')">
+
+            <div class="game-art art-rocket">
+
+                <div class="art-symbol white">
+                    🚀
+                </div>
+
+            </div>
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    Rocket
+                </div>
+
+                <div class="game-desc">
+                    Політ до виграшу
+                </div>
+
+                <div class="play-row">
+
+                    <span class="hot">
+                        🚀 NEW
+                    </span>
+
+                    <button class="play">
+                        ГРАТИ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- LUCKY -->
+
+        <article class="game" onclick="openSlot('lucky')">
+
+            <div class="game-art art-lucky">
+
+                <div class="art-symbol white">
+                    🍀
+                </div>
+
+            </div>
+
+            <div class="game-info">
+
+                <div class="game-name">
+                    Lucky Clover
+                </div>
+
+                <div class="game-desc">
+                    Щаслива конюшина
+                </div>
+
+                <div class="play-row">
+
+                    <span class="hot">
+                        🍀
+                    </span>
+
+                    <button class="play">
+                        ГРАТИ
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</main>
+
+
+<!-- =========================
+     NAV
+========================= -->
+
+<nav class="nav">
+
+    <button class="active">
+        <span class="nav-icon">🎰</span>
+        Ігри
+    </button>
+
+    <button onclick="showToast('Бонусний розділ буде додано далі 🎁')">
+        <span class="nav-icon">🎁</span>
+        Бонус
+    </button>
+
+    <button onclick="showToast('Рейтинг буде додано далі 🏆')">
+        <span class="nav-icon">🏆</span>
+        Рейтинг
+    </button>
+
+    <button onclick="showToast('Профіль буде додано далі 👤')">
+        <span class="nav-icon">👤</span>
+        Профіль
+    </button>
+
+</nav>
+
+</div>
+
+
+<!-- =========================
+     SLOT MODAL
+========================= -->
+
+<div class="modal" id="slotModal">
+
+    <div class="game-modal">
+
+        <div class="modal-top">
+
+            <div class="modal-title" id="modalTitle">
+                777 GOLD
+            </div>
+
+            <button class="close" onclick="closeSlot()">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="slot-machine">
+
+            <div class="slot-logo" id="slotLogo">
+                777
+            </div>
+
+
+            <div class="reels">
+
+                <div class="reel" id="r1">
+                    7
+                </div>
+
+                <div class="reel" id="r2">
+                    7
+                </div>
+
+                <div class="reel" id="r3">
+                    7
+                </div>
+
+            </div>
+
+
+            <div class="slot-controls">
+
+                <div class="bet">
+                    Ставка:
+                    <b id="betValue">5</b>
+                    YMY
+                </div>
+
+                <button
+                    class="spin"
+                    id="spinButton"
+                    onclick="spinSlot()">
+
+                    КРУТИТИ
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="result"
+                id="result">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
 
 
 <script>
-/* =========================================================
-   YESMONEY КАЗИНО — ІГРИ
-========================================================= */
 
-const yesMoneyGames = [
+/* =========================
+   ДАНІ
+========================= */
 
-    {
-        name:"Sweet Candy",
-        desc:"Яскравий candy-слот",
-        icon:"🍭",
-        cover:"cover-sweet",
-        tag:"HOT"
-    },
+let balance =
+    Number(localStorage.getItem("ymyBalance")) || 50;
 
-    {
-        name:"777 Royal",
-        desc:"Класичні сімки",
-        icon:"7️⃣",
-        cover:"cover-777",
-        tag:"ТОП"
-    },
+let currentGame = "777";
 
-    {
-        name:"Diamond Rush",
-        desc:"Світ дорогоцінних каменів",
-        icon:"💎",
-        cover:"cover-diamond",
-        tag:"NEW"
-    },
+let spinning = false;
 
-    {
-        name:"Fruit Party",
-        desc:"Фруктова класика",
-        icon:"🍉",
-        cover:"cover-fruit",
-        tag:"HOT"
-    },
 
-    {
-        name:"Golden Pharaoh",
-        desc:"Скарби стародавнього Єгипту",
-        icon:"👑",
-        cover:"cover-pharaoh",
-        tag:"VIP"
-    },
+/* =========================
+   ELEMENTS
+========================= */
 
-    {
-        name:"Fire Joker",
-        desc:"Вогняний слот",
-        icon:"🔥",
-        cover:"cover-fire",
-        tag:"NEW"
-    },
+const balanceEl =
+    document.getElementById("balance");
 
-    {
-        name:"Lucky 7",
-        desc:"Класичний автомат",
-        icon:"🎰",
-        cover:"cover-777",
-        tag:"ТОП"
-    },
+const modal =
+    document.getElementById("slotModal");
 
-    {
-        name:"Royal Gems",
-        desc:"Королівські коштовності",
-        icon:"💠",
-        cover:"cover-diamond",
-        tag:"NEW"
-    },
+const result =
+    document.getElementById("result");
 
-    {
-        name:"Sweet Fruits",
-        desc:"Солодкі фрукти",
-        icon:"🍓",
-        cover:"cover-fruit",
-        tag:"HOT"
-    },
+const r1 =
+    document.getElementById("r1");
 
-    {
-        name:"Golden Spin",
-        desc:"Золота удача",
-        icon:"🪙",
-        cover:"cover-pharaoh",
-        tag:"ТОП"
-    }
-];
+const r2 =
+    document.getElementById("r2");
 
+const r3 =
+    document.getElementById("r3");
 
-/* =========================================================
-   ГОЛОВНА СТОРІНКА ІГОР
-========================================================= */
+const spinButton =
+    document.getElementById("spinButton");
 
-function gamesPage() {
 
-    mainContent.innerHTML = `
+/* =========================
+   BALANCE
+========================= */
 
-        <div class="casino-lobby">
+function updateBalance(){
 
-            <!-- HERO -->
+    balanceEl.textContent =
+        Math.max(0,balance).toFixed(0);
 
-            <section class="casino-hero">
-
-                <div class="hero-content">
-
-                    <span class="hero-label">
-                        🔥 ГАРЯЧА ПРОПОЗИЦІЯ
-                    </span>
-
-                    <h2>
-                        Світ YesMoneY
-                    </h2>
-
-                    <p>
-                        Відкривайте нові ігри,
-                        обертайте барабани
-                        та випробовуйте удачу.
-                    </p>
-
-                    <button
-                        class="hero-button"
-                        onclick="scrollToCasinoGames()">
-
-                        🎰 Обрати гру
-
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <!-- КАТЕГОРІЇ -->
-
-            <div class="casino-categories">
-
-                <button
-                    class="casino-category active"
-                    onclick="casinoFilter('all',this)">
-                    🎰 Усі ігри
-                </button>
-
-                <button
-                    class="casino-category"
-                    onclick="casinoFilter('popular',this)">
-                    🔥 Популярні
-                </button>
-
-                <button
-                    class="casino-category"
-                    onclick="casinoFilter('new',this)">
-                    🆕 Новинки
-                </button>
-
-                <button
-                    class="casino-category"
-                    onclick="casinoFilter('slots',this)">
-                    🎰 Слоти
-                </button>
-
-                <button
-                    class="casino-category"
-                    onclick="casinoFilter('fast',this)">
-                    ⚡ Швидкі ігри
-                </button>
-
-                <button
-                    class="casino-category"
-                    onclick="casinoFilter('favorites',this)">
-                    ❤️ Обране
-                </button>
-
-            </div>
-
-
-            <!-- ПОШУК -->
-
-            <div class="casino-search">
-
-                <input
-                    id="casinoSearch"
-                    type="text"
-                    placeholder="🔎 Пошук гри..."
-                    oninput="searchCasinoGames(this.value)">
-
-            </div>
-
-
-            <!-- ПОПУЛЯРНІ -->
-
-            <section
-                class="casino-section"
-                id="popularSection">
-
-                <div class="casino-section-head">
-
-                    <h3>
-                        🔥 Популярні ігри
-                    </h3>
-
-                    <span>
-                        Дивитися всі
-                    </span>
-
-                </div>
-
-                <div
-                    class="casino-games-row"
-                    id="popularGames">
-                </div>
-
-            </section>
-
-
-            <!-- НОВИНКИ -->
-
-            <section
-                class="casino-section">
-
-                <div class="casino-section-head">
-
-                    <h3>
-                        🆕 Новинки
-                    </h3>
-
-                    <span>
-                        Нові
-                    </span>
-
-                </div>
-
-                <div
-                    class="casino-games-row"
-                    id="newGames">
-                </div>
-
-            </section>
-
-
-            <!-- ШВИДКІ -->
-
-            <section
-                class="casino-section">
-
-                <div class="casino-section-head">
-
-                    <h3>
-                        ⚡ Швидкі ігри
-                    </h3>
-
-                </div>
-
-                <div class="quick-grid">
-
-                    <div class="quick-card"
-                         onclick="openCasinoDemo('🎯','Lucky Target')">
-
-                        <div class="icon">
-                            🎯
-                        </div>
-
-                        <strong>
-                            Lucky Target
-                        </strong>
-
-                        <small>
-                            Швидкий раунд
-                        </small>
-
-                    </div>
-
-
-                    <div class="quick-card"
-                         onclick="openCasinoDemo('💣','Mines')">
-
-                        <div class="icon">
-                            💣
-                        </div>
-
-                        <strong>
-                            Mines
-                        </strong>
-
-                        <small>
-                            Обери безпечне поле
-                        </small>
-
-                    </div>
-
-
-                    <div class="quick-card"
-                         onclick="openCasinoDemo('🚀','Rocket')">
-
-                        <div class="icon">
-                            🚀
-                        </div>
-
-                        <strong>
-                            Rocket
-                        </strong>
-
-                        <small>
-                            Швидкий старт
-                        </small>
-
-                    </div>
-
-
-                    <div class="quick-card"
-                         onclick="openCasinoDemo('🎲','Dice')">
-
-                        <div class="icon">
-                            🎲
-                        </div>
-
-                        <strong>
-                            Dice
-                        </strong>
-
-                        <small>
-                            Кинь кубики
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- ПЕРЕМОЖЦІ -->
-
-            <section class="casino-section">
-
-                <div class="casino-section-head">
-
-                    <h3>
-                        🏆 Останні виграші
-                    </h3>
-
-                </div>
-
-                <div class="winners-box">
-
-                    <div class="winner-row">
-
-                        <div class="winner-left">
-
-                            <div class="winner-avatar">
-                                A
-                            </div>
-
-                            <div>
-
-                                <div class="winner-name">
-                                    Alex***92
-                                </div>
-
-                                <div class="winner-game">
-                                    Sweet Candy
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="winner-amount">
-                            +850 YMY
-                        </div>
-
-                    </div>
-
-
-                    <div class="winner-row">
-
-                        <div class="winner-left">
-
-                            <div class="winner-avatar">
-                                M
-                            </div>
-
-                            <div>
-
-                                <div class="winner-name">
-                                    Max***18
-                                </div>
-
-                                <div class="winner-game">
-                                    777 Royal
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="winner-amount">
-                            +620 YMY
-                        </div>
-
-                    </div>
-
-
-                    <div class="winner-row">
-
-                        <div class="winner-left">
-
-                            <div class="winner-avatar">
-                                D
-                            </div>
-
-                            <div>
-
-                                <div class="winner-name">
-                                    Dima***77
-                                </div>
-
-                                <div class="winner-game">
-                                    Diamond Rush
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="winner-amount">
-                            +1 250 YMY
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </div>
-    `;
-
-
-    renderYesMoneyGames();
-}
-
-
-/* =========================================================
-   РЕНДЕР ІГОР
-========================================================= */
-
-function renderYesMoneyGames(
-    list = yesMoneyGames
-) {
-
-    const popular =
-        document.getElementById(
-            "popularGames"
-        );
-
-    const newest =
-        document.getElementById(
-            "newGames"
-        );
-
-    if (!popular || !newest)
-        return;
-
-
-    const createCards =
-        games => {
-
-            return games.map(
-                (game,index) => `
-
-                <div
-                    class="casino-game"
-                    onclick="openRealDemo(${index})">
-
-                    <div
-                        class="game-cover
-                        ${game.cover}">
-
-                        <div
-                            class="game-cover-icon">
-
-                            ${game.icon}
-
-                        </div>
-
-                    </div>
-
-
-                    <span class="game-tag">
-                        ${game.tag}
-                    </span>
-
-
-                    <button
-                        class="game-fav"
-                        onclick="event.stopPropagation();toggleFavorite(this)">
-                        ♡
-                    </button>
-
-
-                    <div class="game-cover-name">
-
-                        <strong>
-                            ${game.name}
-                        </strong>
-
-                        <small>
-                            ${game.desc}
-                        </small>
-
-                    </div>
-
-                </div>
-            `
-            ).join("");
-        };
-
-
-    popular.innerHTML =
-        createCards(
-            list.slice(0,6)
-        );
-
-
-    newest.innerHTML =
-        createCards(
-            list.slice(4,10)
-        );
-}
-
-
-/* =========================================================
-   ПОШУК
-========================================================= */
-
-function searchCasinoGames(value) {
-
-    const query =
-        value.toLowerCase().trim();
-
-
-    const filtered =
-        yesMoneyGames.filter(game =>
-            game.name
-                .toLowerCase()
-                .includes(query)
-        );
-
-
-    renderYesMoneyGames(
-        query
-        ? filtered
-        : yesMoneyGames
+    localStorage.setItem(
+        "ymyBalance",
+        balance
     );
 }
 
 
-/* =========================================================
-   ФІЛЬТРИ
-========================================================= */
+/* =========================
+   ENTER
+========================= */
 
-function casinoFilter(
-    type,
-    button
-) {
+function enterSite(){
 
-    document
-        .querySelectorAll(
-            ".casino-category"
-        )
-        .forEach(
-            el =>
-            el.classList.remove(
-                "active"
-            )
-        );
+    document.getElementById("welcome").style.display =
+        "none";
 
+    document.getElementById("app").style.display =
+        "block";
 
-    button.classList.add(
-        "active"
-    );
-
-
-    let list =
-        yesMoneyGames;
-
-
-    if (type === "popular") {
-
-        list =
-            yesMoneyGames.slice(0,6);
-    }
-
-
-    if (type === "new") {
-
-        list =
-            yesMoneyGames.filter(
-                game =>
-                    game.tag === "NEW"
-            );
-    }
-
-
-    if (type === "slots") {
-
-        list =
-            yesMoneyGames;
-    }
-
-
-    if (type === "fast") {
-
-        openCasinoDemo(
-            "⚡",
-            "Швидкі ігри"
-        );
-
-        return;
-    }
-
-
-    if (type === "favorites") {
-
-        openCasinoDemo(
-            "❤️",
-            "Обрані ігри"
-        );
-
-        return;
-    }
-
-
-    renderYesMoneyGames(list);
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+    updateBalance();
 }
 
 
-/* =========================================================
-   ОБРАНЕ
-========================================================= */
+/* =========================
+   OPEN GAME
+========================= */
 
-function toggleFavorite(button) {
+function openSlot(game){
 
-    if (
-        button.textContent === "♡"
-    ) {
+    currentGame = game;
 
-        button.textContent = "♥";
+    const names = {
 
-        button.style.color =
-            "#ffd52e";
+        "777":"777 GOLD",
+        "sweet":"SWEET DREAMS",
+        "diamond":"DIAMOND RICH",
+        "fire":"FIRE SPIN",
+        "royal":"ROYAL CROWN",
+        "moon":"MOON NIGHT",
+        "rocket":"ROCKET",
+        "lucky":"LUCKY CLOVER"
 
-    } else {
+    };
 
-        button.textContent = "♡";
+    document.getElementById("modalTitle").textContent =
+        names[game] || "SLOT";
 
-        button.style.color =
-            "white";
-    }
+    document.getElementById("slotLogo").textContent =
+        game === "777"
+        ? "777"
+        : game.toUpperCase();
+
+    result.textContent = "";
+
+    modal.classList.add("show");
+
 }
 
 
-/* =========================================================
-   ДЕМО-ГРА
-========================================================= */
+/* =========================
+   CLOSE
+========================= */
 
-function openRealDemo(index) {
+function closeSlot(){
 
-    const game =
-        yesMoneyGames[index];
+    modal.classList.remove("show");
 
-
-    let modal =
-        document.getElementById(
-            "yesMoneyGameModal"
-        );
-
-
-    if (!modal) {
-
-        modal =
-            document.createElement(
-                "div"
-            );
-
-        modal.id =
-            "yesMoneyGameModal";
-
-        modal.style.cssText = `
-            position:fixed;
-            inset:0;
-            z-index:999;
-            background:#08090e;
-            display:flex;
-            flex-direction:column;
-            color:white;
-        `;
-
-        document.body.appendChild(
-            modal
-        );
-    }
-
-
-    modal.innerHTML = `
-
-        <div style="
-            height:64px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            padding:0 14px;
-            background:#11131b;
-            border-bottom:1px solid rgba(255,255,255,.08);
-        ">
-
-            <button
-                onclick="closeYesMoneyGame()"
-                style="
-                    width:40px;
-                    height:40px;
-                    border:0;
-                    border-radius:12px;
-                    background:rgba(255,255,255,.08);
-                    color:white;
-                    font-size:20px;
-                ">
-                ←
-            </button>
-
-
-            <strong>
-                ${game.icon}
-                ${game.name}
-            </strong>
-
-
-            <div style="
-                padding:8px 11px;
-                border-radius:10px;
-                background:rgba(255,255,255,.07);
-                font-weight:900;
-            ">
-
-                💰
-                <span id="demoGameBalance">
-                    ${balance}
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div style="
-            flex:1;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:15px;
-            overflow:auto;
-        ">
-
-            <div style="
-                width:100%;
-                max-width:520px;
-                text-align:center;
-            ">
-
-                <div class="
-                    ${game.cover}"
-                    style="
-                        position:relative;
-                        height:230px;
-                        border-radius:25px;
-                        overflow:hidden;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        box-shadow:
-                            0 0 50px rgba(255,180,0,.15);
-                    ">
-
-                    <div style="
-                        font-size:100px;
-                        filter:
-                        drop-shadow(
-                            0 12px 15px
-                            rgba(0,0,0,.5)
-                        );
-                    ">
-
-                        ${game.icon}
-
-                    </div>
-
-                </div>
-
-
-                <h1 style="
-                    margin-top:22px;
-                    font-size:28px;
-                ">
-
-                    ${game.name}
-
-                </h1>
-
-
-                <p style="
-                    margin-top:6px;
-                    color:rgba(255,255,255,.45);
-                ">
-
-                    Демо-режим
-                    • Віртуальні YMY
-
-                </p>
-
-
-                <button
-                    onclick="demoSpin()"
-                    style="
-                        width:100%;
-                        margin-top:25px;
-                        padding:17px;
-                        border:0;
-                        border-radius:15px;
-                        background:
-                        linear-gradient(
-                            135deg,
-                            #ffd52e,
-                            #ff9500
-                        );
-                        color:#171300;
-                        font-size:18px;
-                        font-weight:1000;
-                    ">
-
-                    🎰 КРУТИТИ
-
-                </button>
-
-
-                <div
-                    id="demoResult"
-                    style="
-                        min-height:50px;
-                        margin-top:16px;
-                        display:flex;
-                        align-items:center;
-                        justify-content:center;
-                        font-weight:1000;
-                        font-size:18px;
-                    ">
-
-                    Готові до оберту?
-
-                </div>
-
-            </div>
-
-        </div>
-    `;
-
-
-    modal.style.display =
-        "flex";
 }
 
 
-/* =========================================================
-   SPIN ДЕМО
-========================================================= */
+/* =========================
+   SPIN
+========================= */
 
-function demoSpin() {
+function spinSlot(){
 
-    const cost = 5;
+    if(spinning) return;
 
 
-    if (balance < cost) {
+    const bet = 5;
 
-        document
-            .getElementById(
-                "demoResult"
-            )
-            .textContent =
-            "Недостатньо YMY.";
+
+    if(balance < bet){
+
+        result.textContent =
+            "❌ Недостатньо YMY";
 
         return;
+
     }
 
 
-    balance -= cost;
+    balance -= bet;
 
     updateBalance();
 
 
-    const result =
-        document.getElementById(
-            "demoResult"
-        );
+    spinning = true;
 
+    spinButton.disabled = true;
 
     result.textContent =
         "🎰 Обертання...";
 
 
-    setTimeout(() => {
+    [r1,r2,r3].forEach(el=>{
 
-        const win =
-            Math.random() < .35;
+        el.classList.add("spin");
 
-
-        if (win) {
-
-            const prize =
-                Math.floor(
-                    Math.random()*150
-                ) + 10;
+    });
 
 
-            balance += prize;
-
-            updateBalance();
+    let ticks = 0;
 
 
-            document
-                .getElementById(
-                    "demoGameBalance"
-                )
-                .textContent =
-                balance;
+    const symbols = {
+
+        "777":["7","7","7","⭐","💎","🍒","BAR"],
+        "sweet":["🍬","🍭","🍓","🍬","⭐","🍭","💎"],
+        "diamond":["♦","💎","7","⭐","💎","♦","7"],
+        "fire":["🔥","7","⭐","🔥","🍒","7","💎"],
+        "royal":["👑","7","💎","👑","⭐","7","💎"],
+        "moon":["🌙","⭐","7","🌙","💎","⭐","7"],
+        "rocket":["🚀","⭐","7","🚀","💎","⭐","7"],
+        "lucky":["🍀","7","⭐","🍀","💎","7","🍀"]
+
+    };
 
 
-            result.innerHTML =
-                `🎉 ВИГРАШ +${prize} YMY!`;
-
-        } else {
-
-            document
-                .getElementById(
-                    "demoGameBalance"
-                )
-                .textContent =
-                balance;
+    const pool =
+        symbols[currentGame] ||
+        symbols["777"];
 
 
-            result.textContent =
-                "Спробуйте ще раз 🍀";
+    const interval =
+        setInterval(()=>{
+
+            r1.textContent =
+                pool[Math.floor(Math.random()*pool.length)];
+
+            r2.textContent =
+                pool[Math.floor(Math.random()*pool.length)];
+
+            r3.textContent =
+                pool[Math.floor(Math.random()*pool.length)];
+
+            ticks++;
+
+            if(ticks >= 30){
+
+                clearInterval(interval);
+
+                finishSpin(pool);
+
+            }
+
+        },100);
+
+}
+
+
+/* =========================
+   FINISH
+========================= */
+
+function finishSpin(pool){
+
+    [r1,r2,r3].forEach(el=>{
+
+        el.classList.remove("spin");
+
+    });
+
+
+    let a =
+        pool[Math.floor(Math.random()*pool.length)];
+
+    let b =
+        pool[Math.floor(Math.random()*pool.length)];
+
+    let c =
+        pool[Math.floor(Math.random()*pool.length)];
+
+
+    /*
+       Невелика демо-логіка:
+       інколи створюємо комбінацію,
+       щоб виграш гарантовано було видно.
+    */
+
+    const lucky =
+        Math.random() < .27;
+
+
+    if(lucky){
+
+        a = pool[Math.floor(Math.random()*pool.length)];
+
+        b = a;
+
+        c = a;
+
+    }
+
+
+    r1.textContent = a;
+    r2.textContent = b;
+    r3.textContent = c;
+
+
+    let win = 0;
+
+
+    if(a === b && b === c){
+
+        win = 50;
+
+    }
+    else if(a === b || b === c || a === c){
+
+        win = 10;
+
+    }
+
+
+    if(win > 0){
+
+        balance += win;
+
+        updateBalance();
+
+        result.textContent =
+            "🎉 ВИГРАШ +" + win + " YMY!";
+
+        result.classList.add("win");
+
+        showToast(
+            "🎉 Вітаємо! +" +
+            win +
+            " YMY"
+        );
+
+
+        setTimeout(()=>{
+
+            result.classList.remove("win");
+
+        },2500);
+
+    }
+    else{
+
+        result.textContent =
+            "Спробуй ще раз 🍀";
+
+    }
+
+
+    spinning = false;
+
+    spinButton.disabled = false;
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+
+function showToast(text){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = text;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(()=>{
+
+            toast.classList.remove("show");
+
+        },2500);
+
+}
+
+
+/* =========================
+   MODAL OUTSIDE
+========================= */
+
+modal.addEventListener(
+    "click",
+    function(e){
+
+        if(e.target === modal){
+
+            closeSlot();
+
         }
 
-    },1000);
-}
-
-
-/* =========================================================
-   ЗАКРИТТЯ
-========================================================= */
-
-function closeYesMoneyGame() {
-
-    const modal =
-        document.getElementById(
-            "yesMoneyGameModal"
-        );
-
-
-    if (modal) {
-
-        modal.remove();
     }
+);
+
+
+/* =========================
+   START
+========================= */
+
+updateBalance();
+
+
+if(localStorage.getItem("ymyStarted")){
+
+    document.getElementById("welcome").style.display =
+        "none";
+
+    document.getElementById("app").style.display =
+        "block";
+
 }
 
 
-/* =========================================================
-   ШВИДКІ ІГРИ
-========================================================= */
+document.querySelector(".welcome-button")
+.addEventListener("click",()=>{
 
-function openCasinoDemo(
-    icon,
-    title
-) {
-
-    alert(
-        icon +
-        " " +
-        title +
-        "\n\n" +
-        "Цей розділ буде доданий далі."
+    localStorage.setItem(
+        "ymyStarted",
+        "1"
     );
-}
 
+});
 
-/* =========================================================
-   ПРОКРУТКА
-========================================================= */
-
-function scrollToCasinoGames() {
-
-    const element =
-        document.getElementById(
-            "popularSection"
-        );
-
-
-    if (element) {
-
-        element.scrollIntoView({
-            behavior:"smooth"
-        });
-    }
-}
 
 </script>
+
+</body>
+</html>
