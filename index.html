@@ -37,10 +37,6 @@ button{
     display:none!important;
 }
 
-/* =========================================================
-   GLOBAL
-========================================================= */
-
 :root{
     --gold:#ffd86a;
     --gold2:#f3b72f;
@@ -52,6 +48,8 @@ button{
     --muted:#777;
     --green:#2bd17e;
     --red:#ed5260;
+    --jungle:#65a832;
+    --jungle-dark:#091408;
 }
 
 .glow{
@@ -223,8 +221,6 @@ button{
         #070808;
 }
 
-/* HEADER */
-
 .header{
     position:fixed;
     top:0;
@@ -267,8 +263,6 @@ button{
     background:#101212;
     color:#ddd;
 }
-
-/* CONTENT */
 
 .content{
     padding-top:64px;
@@ -588,7 +582,7 @@ button{
 }
 
 /* =========================================================
-   VIN 777 — PREMIUM SLOT
+   VIN 777
 ========================================================= */
 
 .slot-machine{
@@ -616,13 +610,8 @@ button{
     box-shadow:0 0 12px rgba(255,210,90,.25);
 }
 
-.slot-machine:before{
-    left:8px;
-}
-
-.slot-machine:after{
-    right:8px;
-}
+.slot-machine:before{left:8px}
+.slot-machine:after{right:8px}
 
 .slot-title{
     text-align:center;
@@ -650,9 +639,7 @@ button{
     border-radius:18px;
     background:#030303;
     border:1px solid #403318;
-    box-shadow:
-        inset 0 0 30px #000,
-        0 0 30px rgba(0,0,0,.5);
+    box-shadow:inset 0 0 30px #000;
 }
 
 .reel{
@@ -669,24 +656,19 @@ button{
     font-size:45px;
     font-weight:1000;
     text-shadow:0 2px 0 #fff;
-    box-shadow:
-        inset 0 0 20px rgba(0,0,0,.35),
-        0 0 10px rgba(255,255,255,.08);
 }
 
 .spin-animation{
-    animation:
-        reelShake .08s infinite,
-        reelGlow .5s infinite alternate;
+    animation:reelShake .08s infinite,reelGlow .5s infinite alternate;
 }
 
 @keyframes reelShake{
-    50%{transform:translateY(5px);}
+    50%{transform:translateY(5px)}
 }
 
 @keyframes reelGlow{
-    from{box-shadow:inset 0 0 20px rgba(0,0,0,.35);}
-    to{box-shadow:inset 0 0 30px rgba(255,210,90,.3);}
+    from{box-shadow:inset 0 0 20px rgba(0,0,0,.35)}
+    to{box-shadow:inset 0 0 30px rgba(255,210,90,.3)}
 }
 
 .paytable{
@@ -719,7 +701,7 @@ button{
 }
 
 /* =========================================================
-   AVIATOR — PREMIUM
+   AVIATOR
 ========================================================= */
 
 .flight{
@@ -731,7 +713,6 @@ button{
     background:
         radial-gradient(circle at 70% 20%,rgba(255,255,255,.15),transparent 12%),
         linear-gradient(180deg,#15496b 0,#0a2438 52%,#05080b 100%);
-    box-shadow:0 20px 70px rgba(0,0,0,.45);
 }
 
 .flight:after{
@@ -820,96 +801,182 @@ button{
 }
 
 /* =========================================================
-   GORILA KING — CARTOON CASINO
+   GORILA KING — NEW PREMIUM GAME
 ========================================================= */
 
 .gorila-game{
     position:relative;
+    min-height:720px;
     overflow:hidden;
-    min-height:650px;
-    padding:18px;
-    border:2px solid #665021;
-    border-radius:28px;
+    border:2px solid #735523;
+    border-radius:30px;
     background:
-        radial-gradient(circle at 50% 25%,rgba(153,213,74,.23),transparent 25%),
-        radial-gradient(circle at 20% 80%,rgba(35,110,28,.3),transparent 35%),
-        linear-gradient(145deg,#183314,#071006 70%);
+        radial-gradient(circle at 50% 12%,rgba(158,220,75,.25),transparent 20%),
+        radial-gradient(circle at 15% 65%,rgba(54,126,32,.28),transparent 35%),
+        radial-gradient(circle at 90% 75%,rgba(40,108,27,.22),transparent 32%),
+        linear-gradient(180deg,#172c13 0%,#0b1909 48%,#050905 100%);
     box-shadow:
-        0 20px 80px rgba(0,0,0,.55),
-        inset 0 0 70px rgba(95,170,50,.06);
+        0 25px 90px rgba(0,0,0,.7),
+        inset 0 0 80px rgba(102,166,44,.08);
 }
 
-.jungle-vine{
+/* Jungle atmosphere */
+
+.jungle-bg{
     position:absolute;
-    width:170px;
-    height:280px;
-    border-left:8px solid #315c21;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+}
+
+.jungle-bg:before,
+.jungle-bg:after{
+    content:"";
+    position:absolute;
+    width:260px;
+    height:500px;
     border-radius:50%;
-    opacity:.65;
+    border-left:18px solid rgba(44,91,28,.7);
+    border-right:8px solid rgba(22,58,20,.7);
 }
 
-.vine-left{
-    left:-80px;
-    top:-30px;
-    transform:rotate(-20deg);
+.jungle-bg:before{
+    left:-160px;
+    top:-100px;
+    transform:rotate(-18deg);
 }
 
-.vine-right{
-    right:-90px;
-    top:-40px;
-    transform:rotate(20deg);
+.jungle-bg:after{
+    right:-160px;
+    top:-100px;
+    transform:rotate(18deg);
 }
 
-.leaf{
+.jungle-leaf{
     position:absolute;
-    font-size:40px;
-    opacity:.65;
+    color:#4f8e32;
+    font-size:44px;
+    opacity:.55;
+    filter:drop-shadow(0 5px 5px rgba(0,0,0,.4));
 }
 
-.leaf1{left:5%;top:8%}
-.leaf2{right:4%;top:10%}
-.leaf3{left:8%;bottom:15%}
-.leaf4{right:8%;bottom:12%}
+.jl1{top:3%;left:2%;transform:rotate(-25deg)}
+.jl2{top:7%;right:3%;transform:rotate(30deg)}
+.jl3{top:27%;left:1%;font-size:35px}
+.jl4{top:30%;right:2%;font-size:36px}
+.jl5{bottom:4%;left:3%;font-size:50px}
+.jl6{bottom:7%;right:2%;font-size:48px}
 
-.gorila-logo{
+.jungle-light{
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(185,237,91,.09);
+    filter:blur(25px);
+    left:50%;
+    top:25%;
+    transform:translateX(-50%);
+}
+
+/* Game header */
+
+.gorila-top{
     position:relative;
-    z-index:3;
+    z-index:10;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:10px;
+    padding:14px;
+}
+
+.gorila-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    width:max-content;
+    padding:8px 11px;
+    border:1px solid rgba(255,215,91,.3);
+    border-radius:10px;
+    background:rgba(0,0,0,.35);
+    color:#e6c766;
+    font-size:10px;
+    font-weight:1000;
+    letter-spacing:1px;
+}
+
+.gorila-title{
     text-align:center;
-    color:#ffe071;
-    font-size:31px;
+    color:#ffe184;
+    font-size:28px;
     font-weight:1000;
     letter-spacing:2px;
     text-shadow:
-        0 3px #543b0b,
-        0 0 25px rgba(255,210,70,.3);
+        0 3px #4a310b,
+        0 0 25px rgba(255,210,70,.4);
 }
 
-.gorila-tag{
-    text-align:center;
-    color:#8eaf73;
-    font-size:11px;
-    letter-spacing:3px;
-    margin-top:4px;
+.gorila-round{
+    justify-self:end;
+    padding:8px 11px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:10px;
+    background:rgba(0,0,0,.35);
+    color:#8ea184;
+    font-size:10px;
+}
+
+/* Gorilla */
+
+.gorilla-stage{
+    position:relative;
+    z-index:4;
+    height:180px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+}
+
+.gorilla-aura{
+    position:absolute;
+    width:165px;
+    height:165px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(180,233,91,.17),transparent 65%);
+    filter:blur(5px);
 }
 
 .gorilla-character{
     position:relative;
     z-index:3;
-    width:180px;
-    height:180px;
-    margin:10px auto 0;
+    width:155px;
+    height:155px;
     display:flex;
     align-items:center;
     justify-content:center;
     border-radius:50%;
+    border:6px solid #725125;
     background:
-        radial-gradient(circle at 35% 30%,#98795d,#4b3020 55%,#1e120c);
-    border:6px solid #7d5b25;
+        radial-gradient(circle at 35% 28%,#aa8665,#5b3c27 52%,#21130d);
     box-shadow:
-        0 15px 40px rgba(0,0,0,.55),
-        inset 0 0 25px rgba(255,255,255,.08);
-    font-size:100px;
-    animation:gorillaIdle 2s ease-in-out infinite;
+        0 18px 40px rgba(0,0,0,.65),
+        inset 0 0 28px rgba(255,255,255,.08),
+        0 0 40px rgba(115,177,52,.08);
+    font-size:88px;
+    animation:gorillaIdle 2.2s ease-in-out infinite;
+}
+
+.gorilla-character:after{
+    content:"";
+    position:absolute;
+    bottom:-16px;
+    width:180px;
+    height:30px;
+    border-radius:50%;
+    background:rgba(0,0,0,.45);
+    filter:blur(8px);
+    z-index:-1;
 }
 
 @keyframes gorillaIdle{
@@ -923,51 +990,94 @@ button{
 
 @keyframes gorillaRoar{
     0%{transform:scale(1)}
-    35%{transform:scale(1.15) rotate(-3deg)}
-    70%{transform:scale(1.12) rotate(3deg)}
+    35%{transform:scale(1.18) rotate(-4deg)}
+    70%{transform:scale(1.12) rotate(4deg)}
     100%{transform:scale(1)}
 }
 
-.fruit-machine{
+/* Machine */
+
+.gorila-machine{
     position:relative;
-    z-index:5;
-    margin-top:10px;
-    padding:9px;
-    border:5px solid #704e16;
-    border-radius:19px;
-    background:#060806;
+    z-index:8;
+    margin:0 12px;
+    padding:8px;
+    border:2px solid #8a6423;
+    border-radius:22px;
+    background:
+        linear-gradient(135deg,#4c3510,#161108 35%,#38270d);
     box-shadow:
-        inset 0 0 30px #000,
-        0 10px 35px rgba(0,0,0,.5);
+        0 15px 40px rgba(0,0,0,.65),
+        inset 0 0 25px rgba(255,213,87,.12);
 }
 
-.fruit-grid{
+.gorila-machine-inner{
+    padding:8px;
+    border-radius:15px;
+    background:#030403;
+    border:1px solid #3e351f;
+    box-shadow:inset 0 0 35px #000;
+}
+
+.reel-header{
     display:grid;
     grid-template-columns:repeat(5,1fr);
     gap:5px;
-    padding:7px;
-    border-radius:12px;
-    background:#020202;
+    margin-bottom:5px;
+}
+
+.reel-header span{
+    text-align:center;
+    color:#806d45;
+    font-size:8px;
+    font-weight:900;
+}
+
+.fruit-grid{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:5px;
 }
 
 .fruit{
+    position:relative;
     aspect-ratio:1;
     display:flex;
     align-items:center;
     justify-content:center;
-    border-radius:9px;
     border:1px solid #30372b;
+    border-radius:10px;
     background:
-        radial-gradient(circle at 35% 25%,#414941,#171b17);
-    font-size:30px;
-    transition:.1s;
+        radial-gradient(circle at 35% 25%,#4c5548,#171c16 60%,#0b0d0a);
+    font-size:31px;
+    box-shadow:
+        inset 0 3px 7px rgba(255,255,255,.05),
+        0 3px 5px rgba(0,0,0,.4);
+    transition:.12s;
+}
+
+.fruit:after{
+    content:"";
+    position:absolute;
+    inset:3px;
+    border-radius:7px;
+    border:1px solid rgba(255,255,255,.035);
+    pointer-events:none;
+}
+
+.fruit.spinning{
+    filter:blur(2px);
+    transform:translateY(3px);
 }
 
 .fruit-win{
+    border-color:#ffe47d!important;
     box-shadow:
-        0 0 0 3px #ffe083,
-        0 0 20px #ffe083;
-    animation:winFruit .5s infinite alternate;
+        0 0 0 2px #ffe083,
+        0 0 20px rgba(255,224,131,.8),
+        inset 0 0 15px rgba(255,224,131,.2);
+    animation:winFruit .45s infinite alternate;
 }
 
 @keyframes winFruit{
@@ -975,18 +1085,140 @@ button{
     to{transform:scale(1.08)}
 }
 
-.gorila-bottom{
+/* Win line */
+
+.payline{
+    position:absolute;
+    left:0;
+    right:0;
+    top:50%;
+    height:3px;
+    z-index:20;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #ffe77f 12%,
+        #fff4b7 50%,
+        #ffe77f 88%,
+        transparent
+    );
+    box-shadow:
+        0 0 8px #ffe77f,
+        0 0 20px rgba(255,215,90,.6);
+    transform:translateY(-50%);
+    opacity:0;
+    pointer-events:none;
+}
+
+.payline.show{
+    opacity:1;
+    animation:lineFlash .7s infinite alternate;
+}
+
+@keyframes lineFlash{
+    from{opacity:.55}
+    to{opacity:1}
+}
+
+/* Bottom controls */
+
+.gorila-result{
     position:relative;
-    z-index:5;
+    z-index:10;
+    min-height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:7px 15px 0;
+    color:#ffe083;
+    font-size:14px;
+    font-weight:1000;
+    text-align:center;
+}
+
+.gorila-controls{
+    position:relative;
+    z-index:10;
+    display:grid;
+    grid-template-columns:1fr 1.35fr 1fr;
+    gap:8px;
+    margin:4px 15px 0;
+}
+
+.bet-control{
+    min-height:52px;
+    border:1px solid #403820;
+    border-radius:12px;
+    background:linear-gradient(#161813,#090b08);
+    color:#bdbb9e;
+}
+
+.bet-control small{
+    display:block;
+    color:#6f765f;
+    font-size:8px;
+    margin-bottom:3px;
+}
+
+.bet-control b{
+    color:#f4d46f;
+    font-size:14px;
+}
+
+.gorila-spin{
+    min-height:58px;
+    border:2px solid #ffe083;
+    border-radius:15px;
+    background:
+        radial-gradient(circle at 50% 0,#fff4b0,transparent 35%),
+        linear-gradient(180deg,#e6ad28,#8b570c);
+    color:#160e02;
+    font-size:17px;
+    font-weight:1000;
+    box-shadow:
+        0 7px 25px rgba(255,190,50,.2),
+        inset 0 1px 0 rgba(255,255,255,.65);
+}
+
+.gorila-spin:active{
+    transform:scale(.96);
+}
+
+.gorila-info{
+    position:relative;
+    z-index:10;
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    margin-top:12px;
-    padding:10px;
+    margin:10px 15px 0;
+    padding:10px 12px;
+    border:1px solid rgba(255,255,255,.07);
     border-radius:11px;
-    background:rgba(0,0,0,.4);
-    color:#9aaa91;
-    font-size:12px;
+    background:rgba(0,0,0,.28);
+    color:#6f7c69;
+    font-size:9px;
+}
+
+.gorila-info b{
+    color:#a8b895;
+}
+
+.gorila-jackpot{
+    position:relative;
+    z-index:10;
+    margin:10px 15px 0;
+    padding:10px;
+    text-align:center;
+    border:1px solid rgba(255,213,87,.15);
+    border-radius:10px;
+    background:rgba(255,208,76,.035);
+    color:#776c4a;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+.gorila-jackpot strong{
+    color:#ffe083;
+    font-size:14px;
 }
 
 /* =========================================================
@@ -1021,8 +1253,14 @@ button{
 }
 
 @keyframes winPop{
-    from{transform:translate(-50%,-50%) scale(.5);opacity:0}
-    to{transform:translate(-50%,-50%) scale(1);opacity:1}
+    from{
+        transform:translate(-50%,-50%) scale(.5);
+        opacity:0;
+    }
+    to{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:1;
+    }
 }
 
 .coin{
@@ -1077,7 +1315,6 @@ button{
     .banners{
         grid-template-columns:1fr;
     }
-
 }
 
 @media(max-width:520px){
@@ -1117,24 +1354,94 @@ button{
     }
 
     .gorila-game{
-        min-height:620px;
-        padding:12px;
+        min-height:690px;
+        border-radius:24px;
+    }
+
+    .gorila-top{
+        grid-template-columns:1fr auto;
+    }
+
+    .gorila-round{
+        display:none;
+    }
+
+    .gorila-title{
+        font-size:23px;
+    }
+
+    .gorila-badge{
+        font-size:8px;
+        padding:7px 8px;
+    }
+
+    .gorilla-stage{
+        height:160px;
     }
 
     .gorilla-character{
-        width:145px;
-        height:145px;
-        font-size:80px;
+        width:130px;
+        height:130px;
+        font-size:73px;
+    }
+
+    .gorila-machine{
+        margin:0 8px;
     }
 
     .fruit{
         font-size:24px;
+        border-radius:8px;
+    }
+
+    .gorila-controls{
+        grid-template-columns:.85fr 1.4fr .85fr;
+        margin-left:9px;
+        margin-right:9px;
+    }
+
+    .bet-control{
+        min-height:48px;
+    }
+
+    .gorila-spin{
+        font-size:15px;
+    }
+
+    .gorila-info,
+    .gorila-jackpot{
+        margin-left:9px;
+        margin-right:9px;
     }
 
     .paytable{
         grid-template-columns:1fr 1fr 1fr;
     }
+}
 
+@media(max-width:360px){
+
+    .gorila-title{
+        font-size:20px;
+    }
+
+    .gorilla-stage{
+        height:145px;
+    }
+
+    .gorilla-character{
+        width:115px;
+        height:115px;
+        font-size:64px;
+    }
+
+    .fruit{
+        font-size:21px;
+    }
+
+    .gorila-controls{
+        gap:5px;
+    }
 }
 </style>
 </head>
@@ -1159,13 +1466,11 @@ button{
 
         <div class="welcome-buttons">
 
-            <button class="btn-gold"
-                    onclick="openAuth('login')">
+            <button class="btn-gold" onclick="openAuth('login')">
                 ВХІД
             </button>
 
-            <button class="btn-dark"
-                    onclick="openAuth('register')">
+            <button class="btn-dark" onclick="openAuth('register')">
                 РЕЄСТРАЦІЯ
             </button>
 
@@ -1205,13 +1510,11 @@ button{
                type="password"
                placeholder="Пароль">
 
-        <button class="btn-gold"
-                onclick="submitAuth()">
+        <button class="btn-gold" onclick="submitAuth()">
             ПРОДОВЖИТИ
         </button>
 
-        <button class="btn-dark auth-close"
-                onclick="closeAuth()">
+        <button class="btn-dark auth-close" onclick="closeAuth()">
             НАЗАД
         </button>
 
@@ -1253,8 +1556,7 @@ button{
 
         <!-- HOME -->
 
-        <section id="page-home"
-                 class="page active">
+        <section id="page-home" class="page active">
 
             <div class="hero">
 
@@ -1279,7 +1581,6 @@ button{
                 </button>
 
             </div>
-
 
             <div class="banners">
 
@@ -1317,8 +1618,7 @@ button{
 
         <!-- GAMES -->
 
-        <section id="page-games"
-                 class="page">
+        <section id="page-games" class="page">
 
             <div class="title">
                 Ігри
@@ -1402,8 +1702,7 @@ button{
 
         <!-- LIVE -->
 
-        <section id="page-live"
-                 class="page">
+        <section id="page-live" class="page">
 
             <div class="title">
                 Live
@@ -1413,8 +1712,7 @@ button{
                 Розділ готується
             </div>
 
-            <div class="banner"
-                 style="margin-top:18px">
+            <div class="banner" style="margin-top:18px">
 
                 <div class="banner-icon">
                     🎥
@@ -1434,8 +1732,7 @@ button{
 
         <!-- PROFILE -->
 
-        <section id="page-profile"
-                 class="page">
+        <section id="page-profile" class="page">
 
             <div class="title">
                 Особистий кабінет
@@ -1448,9 +1745,7 @@ button{
             <div class="profile-box">
 
                 <div class="avatar">
-                    <span id="avatar-letter">
-                        Y
-                    </span>
+                    <span id="avatar-letter">Y</span>
                 </div>
 
                 <h2 id="profile-name">
@@ -1462,37 +1757,25 @@ button{
                     @demo
                 </div>
 
-                <div class="stat"
-                     style="margin-top:15px">
-
+                <div class="stat" style="margin-top:15px">
                     <span>ID</span>
-
-                    <b id="profile-id">
-                        000000
-                    </b>
-
+                    <b id="profile-id">000000</b>
                 </div>
 
                 <div class="stat">
-
                     <span>Баланс</span>
 
                     <b>
-                        $ <span id="profile-balance">
-                            100
-                        </span>
+                        $ <span id="profile-balance">100</span>
                     </b>
-
                 </div>
 
                 <div class="stat">
-
                     <span>Статус</span>
 
                     <b style="color:#ffe083">
                         DEMO
                     </b>
-
                 </div>
 
             </div>
@@ -1547,8 +1830,7 @@ button{
 
     <header class="game-header">
 
-        <button class="back"
-                onclick="closeGame()">
+        <button class="back" onclick="closeGame()">
             ← Назад
         </button>
 
@@ -1562,15 +1844,12 @@ button{
 
     </header>
 
-    <div id="game-content"
-         class="game-area">
-    </div>
+    <div id="game-content" class="game-area"></div>
 
 </div>
 
 
 <div id="effects"></div>
-
 <div id="toast"></div>
 
 
@@ -1604,11 +1883,9 @@ function initAudio(){
     try{
 
         if(!audioCtx){
-
             audioCtx=
                 new (window.AudioContext ||
                 window.webkitAudioContext)();
-
         }
 
         if(audioCtx.state==="suspended"){
@@ -1616,7 +1893,6 @@ function initAudio(){
         }
 
     }catch(e){}
-
 }
 
 
@@ -1641,8 +1917,7 @@ function soundTone(
 
     oscillator.type=type||"sine";
 
-    oscillator.frequency.value=
-        frequency;
+    oscillator.frequency.value=frequency;
 
     gain.gain.setValueAtTime(
         volume||.04,
@@ -1651,8 +1926,7 @@ function soundTone(
 
     gain.gain.exponentialRampToValueAtTime(
         .001,
-        audioCtx.currentTime+
-        duration
+        audioCtx.currentTime+duration
     );
 
     oscillator.connect(gain);
@@ -1661,20 +1935,18 @@ function soundTone(
     oscillator.start();
 
     oscillator.stop(
-        audioCtx.currentTime+
-        duration
+        audioCtx.currentTime+duration
     );
-
 }
 
 
 function spinSound(){
 
     soundTone(110,.08,"square",.025);
+
     setTimeout(function(){
         soundTone(150,.08,"square",.02);
     },80);
-
 }
 
 
@@ -1689,21 +1961,16 @@ function winSound(){
     setTimeout(function(){
         soundTone(784,.3,"sine",.06);
     },260);
-
 }
 
 
 function crashSound(){
-
     soundTone(100,.35,"sawtooth",.07);
-
 }
 
 
 function clickSound(){
-
     soundTone(260,.04,"square",.025);
-
 }
 
 
@@ -1720,7 +1987,6 @@ function toggleSound(){
         initAudio();
         soundTone(440,.08);
     }
-
 }
 
 
@@ -1750,9 +2016,7 @@ function loadUser(){
             id:"",
             balance:100
         };
-
     }
-
 }
 
 
@@ -1766,12 +2030,10 @@ function saveUser(){
         );
 
     }catch(e){}
-
 }
 
 
 loadUser();
-
 
 if(user.logged){
     showApp();
@@ -1783,7 +2045,6 @@ if(user.logged){
 ========================================================= */
 
 var authMode="register";
-
 
 function openAuth(mode){
 
@@ -1814,9 +2075,7 @@ function openAuth(mode){
         document.getElementById(
             "register-fields"
         ).style.display="none";
-
     }
-
 }
 
 
@@ -1825,7 +2084,6 @@ function closeAuth(){
     document.getElementById(
         "auth"
     ).style.display="none";
-
 }
 
 
@@ -1842,7 +2100,6 @@ function submitAuth(){
 
         toast("Введіть пароль");
         return;
-
     }
 
     if(authMode==="register"){
@@ -1869,11 +2126,7 @@ function submitAuth(){
         user.logged=true;
         user.name=name;
         user.nick=nick;
-
-        user.id=
-            String(Date.now())
-            .slice(-8);
-
+        user.id=String(Date.now()).slice(-8);
         user.balance=100;
 
         saveUser();
@@ -1906,9 +2159,7 @@ function submitAuth(){
         toast(
             "Вхід виконано"
         );
-
     }
-
 }
 
 
@@ -1928,7 +2179,6 @@ function showApp(){
 
     updateProfile();
     showPage("home");
-
 }
 
 
@@ -1941,20 +2191,10 @@ function showPage(page){
     clickSound();
 
     var pages=
-        document.querySelectorAll(
-            ".page"
-        );
+        document.querySelectorAll(".page");
 
-    for(
-        var i=0;
-        i<pages.length;
-        i++
-    ){
-
-        pages[i].classList.remove(
-            "active"
-        );
-
+    for(var i=0;i<pages.length;i++){
+        pages[i].classList.remove("active");
     }
 
     var target=
@@ -1967,36 +2207,22 @@ function showPage(page){
     }
 
     var nav=
-        document.querySelectorAll(
-            ".nav-btn"
-        );
+        document.querySelectorAll(".nav-btn");
 
-    for(
-        var j=0;
-        j<nav.length;
-        j++
-    ){
+    for(var j=0;j<nav.length;j++){
 
-        nav[j].classList.remove(
-            "active"
-        );
+        nav[j].classList.remove("active");
 
         if(
             nav[j].getAttribute(
                 "data-page"
             )===page
         ){
-
-            nav[j].classList.add(
-                "active"
-            );
-
+            nav[j].classList.add("active");
         }
-
     }
 
     window.scrollTo(0,0);
-
 }
 
 
@@ -2048,7 +2274,6 @@ function updateProfile(){
             ? user.name.charAt(0)
             : "Y"
         ).toUpperCase();
-
 }
 
 
@@ -2059,20 +2284,15 @@ function updateProfile(){
 function toast(message){
 
     var t=
-        document.getElementById(
-            "toast"
-        );
+        document.getElementById("toast");
 
     t.textContent=message;
 
     t.classList.add("show");
 
     setTimeout(function(){
-
         t.classList.remove("show");
-
     },2000);
-
 }
 
 
@@ -2088,18 +2308,9 @@ function openGame(type){
         "game-screen"
     ).style.display="block";
 
-    if(type==="vin"){
-        openVin();
-    }
-
-    if(type==="aviator"){
-        openAviator();
-    }
-
-    if(type==="gorila"){
-        openGorila();
-    }
-
+    if(type==="vin") openVin();
+    if(type==="aviator") openAviator();
+    if(type==="gorila") openGorila();
 }
 
 
@@ -2107,10 +2318,11 @@ function closeGame(){
 
     clearInterval(aviatorTimer);
 
+    gorilaBusy=false;
+
     document.getElementById(
         "game-screen"
     ).style.display="none";
-
 }
 
 
@@ -2119,7 +2331,6 @@ function closeGame(){
 ========================================================= */
 
 var vinSpinning=false;
-
 
 function openVin(){
 
@@ -2140,11 +2351,9 @@ function openVin(){
         '</div>'+
 
         '<div class="reels">'+
-
             '<div class="reel" id="vin1">7</div>'+
             '<div class="reel" id="vin2">7</div>'+
             '<div class="reel" id="vin3">7</div>'+
-
         '</div>'+
 
         '<div class="paytable">'+
@@ -2163,7 +2372,6 @@ function openVin(){
         '</button>'+
 
     '</div>';
-
 }
 
 
@@ -2201,36 +2409,22 @@ function spinVin(){
         "7","7","BAR","♦","★","7"
     ];
 
-    for(
-        var i=0;
-        i<reels.length;
-        i++
-    ){
-
-        reels[i].classList.add(
-            "spin-animation"
-        );
-
+    for(var i=0;i<reels.length;i++){
+        reels[i].classList.add("spin-animation");
     }
 
     var count=0;
 
     var timer=setInterval(function(){
 
-        for(
-            var j=0;
-            j<reels.length;
-            j++
-        ){
+        for(var j=0;j<reels.length;j++){
 
             reels[j].textContent=
                 symbols[
                     Math.floor(
-                        Math.random()*
-                        symbols.length
+                        Math.random()*symbols.length
                     )
                 ];
-
         }
 
         spinSound();
@@ -2240,28 +2434,17 @@ function spinVin(){
         if(count>=25){
 
             clearInterval(timer);
-
             finishVin(reels);
-
         }
 
     },80);
-
 }
 
 
 function finishVin(reels){
 
-    for(
-        var i=0;
-        i<reels.length;
-        i++
-    ){
-
-        reels[i].classList.remove(
-            "spin-animation"
-        );
-
+    for(var i=0;i<reels.length;i++){
+        reels[i].classList.remove("spin-animation");
     }
 
     var win=false;
@@ -2280,7 +2463,6 @@ function finishVin(reels){
             reels[0].textContent==="7"
             ?100
             :50;
-
     }
 
     if(win){
@@ -2306,14 +2488,12 @@ function finishVin(reels){
             "vin-result"
         ).textContent=
             "ЦЬОГО РАЗУ БЕЗ ВИГРАШУ";
-
     }
 
     saveUser();
     updateProfile();
 
     vinSpinning=false;
-
 }
 
 
@@ -2325,7 +2505,6 @@ var aviatorTimer=null;
 var aviatorRunning=false;
 var aviatorBet=false;
 var aviatorX=1;
-
 
 function openAviator(){
 
@@ -2348,7 +2527,6 @@ function openAviator(){
         '<div class="cloud cloud1"></div>'+
         '<div class="cloud cloud2"></div>'+
         '<div class="cloud cloud3"></div>'+
-
         '<div class="flight-grid"></div>'+
 
         '<div class="multiplier" id="aviator-x">'+
@@ -2379,7 +2557,6 @@ function openAviator(){
         '</button>'+
 
     '</div>';
-
 }
 
 
@@ -2387,10 +2564,7 @@ function startAviator(){
 
     if(aviatorRunning){
 
-        toast(
-            "Раунд вже триває"
-        );
-
+        toast("Раунд вже триває");
         return;
     }
 
@@ -2444,10 +2618,8 @@ function startAviator(){
             );
 
         if(x){
-
             x.textContent=
                 aviatorX.toFixed(2)+"x";
-
         }
 
         if(plane){
@@ -2463,20 +2635,13 @@ function startAviator(){
                     75,
                     18+aviatorX*2
                 )+"%";
-
         }
 
-        if(
-            aviatorX>=
-            crashPoint
-        ){
-
+        if(aviatorX>=crashPoint){
             crashAviator();
-
         }
 
     },100);
-
 }
 
 
@@ -2495,9 +2660,7 @@ function cashoutAviator(){
     }
 
     var prize=
-        Math.floor(
-            10*aviatorX
-        );
+        Math.floor(10*aviatorX);
 
     user.balance+=prize;
 
@@ -2516,7 +2679,6 @@ function cashoutAviator(){
     toast(
         "Ви забрали $"+prize
     );
-
 }
 
 
@@ -2548,11 +2710,8 @@ function crashAviator(){
     }
 
     setTimeout(function(){
-
         openAviator();
-
     },1400);
-
 }
 
 
@@ -2562,8 +2721,23 @@ function crashAviator(){
 
 var gorilaBusy=false;
 
+var gorilaSymbols=[
+    "🍌",
+    "🍉",
+    "🍇",
+    "🍒",
+    "🥭",
+    "🍊",
+    "💎",
+    "⭐"
+];
+
+var gorilaBet=10;
+
 
 function openGorila(){
+
+    gorilaBusy=false;
 
     document.getElementById(
         "game-title"
@@ -2575,92 +2749,165 @@ function openGorila(){
 
     '<div class="gorila-game">'+
 
-        '<div class="jungle-vine vine-left"></div>'+
-        '<div class="jungle-vine vine-right"></div>'+
-
-        '<div class="leaf leaf1">🌿</div>'+
-        '<div class="leaf leaf2">🍃</div>'+
-        '<div class="leaf leaf3">🌿</div>'+
-        '<div class="leaf leaf4">🍃</div>'+
-
-        '<div class="gorila-logo">'+
-            '🦍 GORILA KING'+
+        '<div class="jungle-bg">'+
+            '<div class="jungle-light"></div>'+
+            '<div class="jungle-leaf jl1">🌿</div>'+
+            '<div class="jungle-leaf jl2">🍃</div>'+
+            '<div class="jungle-leaf jl3">🌿</div>'+
+            '<div class="jungle-leaf jl4">🍃</div>'+
+            '<div class="jungle-leaf jl5">🌴</div>'+
+            '<div class="jungle-leaf jl6">🌴</div>'+
         '</div>'+
 
-        '<div class="gorila-tag">'+
-            'JUNGLE FRUIT ADVENTURE'+
-        '</div>'+
+        '<div class="gorila-top">'+
 
-        '<div class="gorilla-character" '+
-            'id="gorilla-character">'+
-            '🦍'+
-        '</div>'+
+            '<div class="gorila-badge">'+
+                '🦍 KING MODE'+
+            '</div>'+
 
-        '<div class="fruit-machine">'+
+            '<div class="gorila-title">'+
+                'GORILA KING'+
+            '</div>'+
 
-            '<div class="fruit-grid" id="fruit-grid">'+
+            '<div class="gorila-round">'+
+                'JUNGLE #'+
+                Math.floor(Math.random()*900+100)+
             '</div>'+
 
         '</div>'+
 
-        '<div id="gorila-result" class="result">'+
-            'ГОТОВІ ДО ДЖУНГЛІВ?'+
+        '<div class="gorilla-stage">'+
+
+            '<div class="gorilla-aura"></div>'+
+
+            '<div class="gorilla-character" '+
+                'id="gorilla-character">'+
+                '🦍'+
+            '</div>'+
+
         '</div>'+
 
-        '<button class="btn-gold" '+
-            'onclick="spinGorila()">'+
-            'КРУТИТИ • $10'+
-        '</button>'+
+        '<div class="gorila-machine">'+
 
-        '<div class="gorila-bottom">'+
-            '<span>🦍 KING MODE</span>'+
-            '<span>🍌 5 × 5</span>'+
+            '<div class="gorila-machine-inner">'+
+
+                '<div class="reel-header">'+
+                    '<span>REEL 1</span>'+
+                    '<span>REEL 2</span>'+
+                    '<span>REEL 3</span>'+
+                    '<span>REEL 4</span>'+
+                    '<span>REEL 5</span>'+
+                '</div>'+
+
+                '<div class="fruit-grid" id="fruit-grid">'+
+                    '<div class="payline" id="gorila-line"></div>'+
+                '</div>'+
+
+            '</div>'+
+
+        '</div>'+
+
+        '<div id="gorila-result" class="gorila-result">'+
+            'ВИБЕРИ СТАВКУ ТА КРУТИ БАРАБАНИ'+
+        '</div>'+
+
+        '<div class="gorila-controls">'+
+
+            '<button class="bet-control" '+
+                'onclick="changeGorilaBet(-5)">'+
+                '<small>СТАВКА</small>'+
+                '− $5'+
+            '</button>'+
+
+            '<button class="gorila-spin" '+
+                'onclick="spinGorila()">'+
+                '🦍 SPIN'+
+            '</button>'+
+
+            '<button class="bet-control" '+
+                'onclick="changeGorilaBet(5)">'+
+                '<small>СТАВКА</small>'+
+                '+ $5'+
+            '</button>'+
+
+        '</div>'+
+
+        '<div class="gorila-info">'+
+            '<span>BET <b id="gorila-bet-label">$10</b></span>'+
+            '<span>LINES <b>1</b></span>'+
+            '<span>WIN <b id="gorila-last-win">$0</b></span>'+
+        '</div>'+
+
+        '<div class="gorila-jackpot">'+
+            '🦍 GORILA JACKPOT &nbsp; '+
+            '<strong>$500</strong>'+
         '</div>'+
 
     '</div>';
 
     createFruits();
+}
 
+
+function changeGorilaBet(amount){
+
+    if(gorilaBusy) return;
+
+    gorilaBet+=amount;
+
+    if(gorilaBet<5){
+        gorilaBet=5;
+    }
+
+    if(gorilaBet>50){
+        gorilaBet=50;
+    }
+
+    var label=
+        document.getElementById(
+            "gorila-bet-label"
+        );
+
+    if(label){
+        label.textContent="$"+gorilaBet;
+    }
+
+    clickSound();
 }
 
 
 function createFruits(){
 
-    var symbols=[
-        "🍌",
-        "🍉",
-        "🍇",
-        "🍒",
-        "💎",
-        "♦",
-        "🍊",
-        "🍋"
-    ];
+    var grid=
+        document.getElementById(
+            "fruit-grid"
+        );
 
-    var html="";
+    if(!grid) return;
 
-    for(
-        var i=0;
-        i<25;
-        i++
-    ){
+    var html=
+        '<div class="payline" id="gorila-line"></div>';
+
+    for(var i=0;i<15;i++){
 
         html+=
             '<div class="fruit" id="fruit-'+i+'">'+
-            symbols[
-                Math.floor(
-                    Math.random()*
-                    symbols.length
-                )
-            ]+
+                randomGorilaSymbol()+
             '</div>';
-
     }
 
-    document.getElementById(
-        "fruit-grid"
-    ).innerHTML=html;
+    grid.innerHTML=html;
+}
 
+
+function randomGorilaSymbol(){
+
+    return gorilaSymbols[
+        Math.floor(
+            Math.random()*
+            gorilaSymbols.length
+        )
+    ];
 }
 
 
@@ -2668,7 +2915,7 @@ function spinGorila(){
 
     if(gorilaBusy) return;
 
-    if(user.balance<10){
+    if(user.balance<gorilaBet){
 
         toast(
             "Недостатньо віртуальних $"
@@ -2681,12 +2928,10 @@ function spinGorila(){
 
     gorilaBusy=true;
 
-    user.balance-=10;
+    user.balance-=gorilaBet;
 
     saveUser();
     updateProfile();
-
-    spinSound();
 
     var gorilla=
         document.getElementById(
@@ -2704,7 +2949,6 @@ function spinGorila(){
             );
 
         },500);
-
     }
 
     var cells=
@@ -2712,97 +2956,174 @@ function spinGorila(){
             ".fruit"
         );
 
-    var symbols=[
-        "🍌",
-        "🍉",
-        "🍇",
-        "🍒",
-        "💎",
-        "♦",
-        "🍊",
-        "🍋"
-    ];
+    var line=
+        document.getElementById(
+            "gorila-line"
+        );
+
+    if(line){
+        line.classList.remove("show");
+    }
+
+    for(var c=0;c<cells.length;c++){
+        cells[c].classList.remove(
+            "fruit-win"
+        );
+        cells[c].classList.add(
+            "spinning"
+        );
+    }
+
+    var result=
+        document.getElementById(
+            "gorila-result"
+        );
+
+    if(result){
+        result.textContent="🦍 GORILA КРУТИТЬ...";
+    }
+
+    spinSound();
 
     var count=0;
 
     var timer=setInterval(function(){
 
-        for(
-            var i=0;
-            i<cells.length;
-            i++
-        ){
+        for(var i=0;i<cells.length;i++){
 
             cells[i].textContent=
-                symbols[
-                    Math.floor(
-                        Math.random()*
-                        symbols.length
-                    )
-                ];
-
-            cells[i].classList.remove(
-                "fruit-win"
-            );
-
+                randomGorilaSymbol();
         }
+
+        spinSound();
 
         count++;
 
-        if(count>=20){
+        if(count>=22){
 
             clearInterval(timer);
 
-            finishGorila(cells);
+            for(var x=0;x<cells.length;x++){
+                cells[x].classList.remove(
+                    "spinning"
+                );
+            }
 
+            finishGorila(cells);
         }
 
-    },90);
-
+    },85);
 }
 
 
 function finishGorila(cells){
 
-    var winningLine=[
-        0,
-        6,
-        12,
-        18,
-        24
+    /*
+       Центральна горизонтальна лінія:
+       5 символів у другому рядку.
+       Індекс:
+       5 6 7 8 9
+    */
+
+    var lineIndices=[
+        5,6,7,8,9
     ];
 
-    for(
-        var i=0;
-        i<winningLine.length;
-        i++
-    ){
+    var first=
+        cells[lineIndices[0]].textContent;
 
-        cells[
-            winningLine[i]
-        ].classList.add(
-            "fruit-win"
-        );
+    var sameCount=1;
+
+    for(var i=1;i<lineIndices.length;i++){
+
+        if(
+            cells[lineIndices[i]].textContent===
+            first
+        ){
+            sameCount++;
+        }else{
+            break;
+        }
+    }
+
+    /*
+       Невелика ймовірність великого
+       бонусного збігу.
+    */
+
+    var allSame=
+        sameCount===5;
+
+    var win=0;
+
+    if(allSame){
+
+        win=gorilaBet*20;
+
+    }else if(sameCount===4){
+
+        win=gorilaBet*8;
+
+    }else if(sameCount===3){
+
+        win=gorilaBet*3;
 
     }
 
-    var same=
-        cells[0].textContent===
-        cells[6].textContent;
+    /*
+       Для демонстраційної гри інколи
+       додаємо красивий бонус.
+    */
 
-    if(same){
+    if(
+        !win &&
+        Math.random()<0.08
+    ){
 
-        user.balance+=100;
+        win=gorilaBet*2;
+        sameCount=3;
+    }
+
+    if(win>0){
+
+        for(var j=0;j<sameCount;j++){
+
+            cells[
+                lineIndices[j]
+            ].classList.add(
+                "fruit-win"
+            );
+        }
+
+        var line=
+            document.getElementById(
+                "gorila-line"
+            );
+
+        if(line){
+            line.classList.add("show");
+        }
+
+        user.balance+=win;
 
         document.getElementById(
             "gorila-result"
         ).textContent=
-            "🦍 GORILA KING! +$100";
+            allSame
+            ? "🦍 GORILA JACKPOT! +$"+win
+            : "🔥 WIN! +$"+win;
+
+        document.getElementById(
+            "gorila-last-win"
+        ).textContent=
+            "$"+win;
 
         winSound();
 
         winEffect(
-            "GORILA JACKPOT"
+            allSame
+            ? "GORILA JACKPOT"
+            : "JUNGLE WIN"
         );
 
     }else{
@@ -2810,8 +3131,12 @@ function finishGorila(cells){
         document.getElementById(
             "gorila-result"
         ).textContent=
-            "ЛІНІЯ НЕ СКЛАЛАСЯ";
+            "🌿 ДЖУНГЛІ НЕ ДАЛИ ВИГРАШ ЦЬОГО РАЗУ";
 
+        document.getElementById(
+            "gorila-last-win"
+        ).textContent=
+            "$0";
     }
 
     saveUser();
@@ -2821,8 +3146,7 @@ function finishGorila(cells){
 
         gorilaBusy=false;
 
-    },1200);
-
+    },900);
 }
 
 
@@ -2844,11 +3168,7 @@ function winEffect(title){
 
     fx.style.display="block";
 
-    for(
-        var i=0;
-        i<45;
-        i++
-    ){
+    for(var i=0;i<45;i++){
 
         var coin=
             document.createElement(
@@ -2870,7 +3190,6 @@ function winEffect(title){
             )+"s";
 
         fx.appendChild(coin);
-
     }
 
     setTimeout(function(){
@@ -2879,7 +3198,6 @@ function winEffect(title){
         fx.innerHTML="";
 
     },2800);
-
 }
 
 
