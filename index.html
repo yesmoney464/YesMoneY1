@@ -1,1792 +1,952 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>VELORA</title>
+    <meta charset="UTF-8">
 
-<style>
-:root{
-  --bg:#060807;
-  --bg2:#0b100d;
-  --panel:#101611;
-  --panel2:#151d17;
-  --gold:#f4c95d;
-  --gold2:#ffe99b;
-  --green:#8cff62;
-  --green2:#38df83;
-  --white:#f8faf6;
-  --muted:#89958d;
-  --border:rgba(244,201,93,.16);
-  --shadow:0 25px 80px rgba(0,0,0,.45);
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    <meta name="theme-color" content="#070907">
 
-html{
-  scroll-behavior:smooth;
-}
+    <title>VELORA</title>
 
-body{
-  background:
-    radial-gradient(circle at 80% 0%,rgba(140,255,98,.08),transparent 30%),
-    radial-gradient(circle at 15% 25%,rgba(244,201,93,.06),transparent 28%),
-    var(--bg);
-  color:var(--white);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-button{
-  font-family:inherit;
-  cursor:pointer;
-}
-
-button,input{
-  outline:none;
-}
-
-.app{
-  min-height:100vh;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-  height:78px;
-  padding:0 5vw;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(6,8,7,.82);
-  backdrop-filter:blur(22px);
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.logo{
-  font-size:25px;
-  font-weight:1000;
-  letter-spacing:.18em;
-}
-
-.logo span{
-  color:var(--gold);
-  text-shadow:0 0 25px rgba(244,201,93,.35);
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.balance{
-  display:none;
-  padding:10px 15px;
-  border-radius:13px;
-  border:1px solid rgba(140,255,98,.2);
-  background:rgba(140,255,98,.05);
-  color:var(--green);
-  font-weight:900;
-  font-size:13px;
-}
-
-.btn{
-  border:1px solid var(--border);
-  background:#111712;
-  color:var(--white);
-  padding:12px 17px;
-  border-radius:13px;
-  font-weight:800;
-  transition:.2s;
-}
-
-.btn:hover{
-  transform:translateY(-2px);
-}
-
-.btn.gold{
-  color:#18140a;
-  border:0;
-  background:linear-gradient(135deg,#ffe99b,#e2b83f);
-  box-shadow:0 8px 28px rgba(244,201,93,.18);
-}
-
-/* ================= MAIN ================= */
-
-.container{
-  width:min(1450px,92vw);
-  margin:auto;
-  padding:30px 0 110px;
-}
-
-/* ================= HERO ================= */
-
-.hero{
-  position:relative;
-  min-height:500px;
-  overflow:hidden;
-  border-radius:32px;
-  border:1px solid var(--border);
-  background:
-    linear-gradient(90deg,
-      rgba(5,8,6,.98) 0%,
-      rgba(5,8,6,.91) 42%,
-      rgba(5,8,6,.30) 100%),
-    radial-gradient(circle at 75% 50%,rgba(140,255,98,.14),transparent 28%),
-    #111812;
-  display:flex;
-  align-items:center;
-  padding:60px;
-  box-shadow:var(--shadow);
-}
-
-.hero-content{
-  width:min(620px,100%);
-  position:relative;
-  z-index:3;
-}
-
-.hero-label{
-  color:var(--green);
-  font-size:12px;
-  font-weight:1000;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-  margin-bottom:16px;
-}
-
-.hero h1{
-  font-size:clamp(48px,7vw,88px);
-  line-height:.91;
-  letter-spacing:-.045em;
-  margin-bottom:22px;
-}
-
-.hero h1 span{
-  color:var(--gold);
-}
-
-.hero p{
-  color:#b4beb7;
-  line-height:1.7;
-  font-size:17px;
-  max-width:540px;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:12px;
-  margin-top:30px;
-  flex-wrap:wrap;
-}
-
-/* HERO ART */
-
-.hero-art{
-  position:absolute;
-  right:3%;
-  bottom:-30px;
-  width:48%;
-  height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.hero-orb{
-  width:350px;
-  height:350px;
-  border-radius:48% 52% 55% 45%;
-  background:
-    radial-gradient(circle at 35% 30%,#fff2a3 0 5%,transparent 6%),
-    linear-gradient(145deg,#f8d76b,#7fd65b 70%,#285c38);
-  box-shadow:
-    0 0 100px rgba(140,255,98,.18),
-    inset -30px -30px 70px rgba(0,0,0,.2);
-  transform:rotate(-13deg);
-  animation:heroFloat 5s ease-in-out infinite;
-}
-
-.hero-ring{
-  position:absolute;
-  width:450px;
-  height:450px;
-  border:1px solid rgba(244,201,93,.22);
-  border-radius:50%;
-  animation:ring 14s linear infinite;
-}
-
-/* ================= SECTION ================= */
-
-.section{
-  margin-top:48px;
-}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  margin-bottom:18px;
-}
-
-.section-head h2{
-  font-size:29px;
-  letter-spacing:-.03em;
-}
-
-.section-head p{
-  color:var(--muted);
-  font-size:13px;
-}
-
-/* ================= GAMES ================= */
-
-.games{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.game-card{
-  position:relative;
-  min-height:390px;
-  overflow:hidden;
-  border-radius:26px;
-  border:1px solid rgba(255,255,255,.07);
-  background:#101611;
-  box-shadow:0 18px 50px rgba(0,0,0,.25);
-  transition:.3s;
-}
-
-.game-card:hover{
-  transform:translateY(-7px);
-  border-color:rgba(244,201,93,.3);
-}
-
-.game-art{
-  height:245px;
-  position:relative;
-  overflow:hidden;
-}
-
-.game-info{
-  padding:19px;
-  position:relative;
-}
-
-.game-info h3{
-  font-size:22px;
-  margin-bottom:6px;
-}
-
-.game-info p{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.play-btn{
-  position:absolute;
-  right:18px;
-  bottom:18px;
-  border:0;
-  padding:11px 17px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#ffe99b,#ddaF36);
-  color:#16120a;
-  font-weight:1000;
-}
-
-/* ================= GORILA ================= */
-
-.gorila-art{
-  background:
-    radial-gradient(circle at 72% 25%,rgba(244,201,93,.25),transparent 12%),
-    linear-gradient(145deg,#153c25,#08110b);
-}
-
-.gorila-moon{
-  position:absolute;
-  width:100px;
-  height:100px;
-  right:45px;
-  top:28px;
-  border-radius:50%;
-  background:#f4d56f;
-  box-shadow:0 0 60px rgba(244,201,93,.35);
-}
-
-.gorila-body{
-  position:absolute;
-  width:180px;
-  height:175px;
-  left:50%;
-  top:48px;
-  transform:translateX(-50%);
-  border-radius:48% 52% 42% 58%;
-  background:linear-gradient(145deg,#4b9856,#173d24);
-  box-shadow:
-    inset -22px -20px 0 rgba(0,0,0,.2),
-    0 25px 55px rgba(0,0,0,.4);
-  animation:gorilaMove 2.8s ease-in-out infinite;
-}
-
-.gorila-face{
-  position:absolute;
-  width:110px;
-  height:70px;
-  left:35px;
-  top:92px;
-  border-radius:50%;
-  background:#ad7c46;
-}
-
-.gorila-eye{
-  position:absolute;
-  width:15px;
-  height:15px;
-  border-radius:50%;
-  background:#111;
-  top:82px;
-  box-shadow:0 0 0 4px #e6d48b;
-}
-
-.gorila-eye.left{left:52px}
-.gorila-eye.right{right:52px}
-
-.gorila-crown{
-  position:absolute;
-  top:32px;
-  left:50%;
-  transform:translateX(-50%);
-  width:100px;
-  height:32px;
-  background:linear-gradient(90deg,#d6a72f,#ffe98d,#d6a72f);
-  clip-path:polygon(0 100%,10% 15%,30% 65%,50% 0,70% 65%,90% 15%,100% 100%);
-}
-
-/* ================= CANDY ================= */
-
-.candy-art{
-  background:
-    radial-gradient(circle at 20% 25%,#ff6f9e 0 4%,transparent 5%),
-    radial-gradient(circle at 75% 20%,#73e9ff 0 5%,transparent 6%),
-    linear-gradient(145deg,#32113d,#111d38);
-}
-
-.candy-cloud{
-  position:absolute;
-  width:190px;
-  height:60px;
-  left:50%;
-  bottom:35px;
-  transform:translateX(-50%);
-  border-radius:50%;
-  background:rgba(255,255,255,.13);
-  filter:blur(1px);
-}
-
-.candy-hero{
-  position:absolute;
-  left:50%;
-  top:38px;
-  transform:translateX(-50%);
-  width:135px;
-  height:135px;
-  border-radius:50%;
-  background:
-    radial-gradient(circle at 35% 30%,#fff6b2 0 4%,transparent 5%),
-    linear-gradient(135deg,#ff68a0,#ffcb5c);
-  box-shadow:0 0 70px rgba(255,104,160,.35);
-  animation:candyFloat 3s ease-in-out infinite;
-}
-
-.candy-eye{
-  position:absolute;
-  width:14px;
-  height:20px;
-  border-radius:50%;
-  background:#25142b;
-  top:55px;
-}
-
-.candy-eye.left{left:42px}
-.candy-eye.right{right:42px}
-
-.candy-smile{
-  position:absolute;
-  width:38px;
-  height:18px;
-  border-bottom:4px solid #30162d;
-  border-radius:50%;
-  left:49px;
-  top:80px;
-}
-
-/* ================= PIRATE ================= */
-
-.pirate-art{
-  background:
-    radial-gradient(circle at 70% 25%,rgba(244,201,93,.3),transparent 17%),
-    linear-gradient(145deg,#092f39,#071217);
-}
-
-.pirate-ship{
-  position:absolute;
-  bottom:18px;
-  left:50%;
-  transform:translateX(-50%);
-  width:230px;
-  height:75px;
-  background:#372416;
-  border-radius:15px 15px 60px 60px;
-  border-bottom:9px solid #17100b;
-}
-
-.pirate-sail{
-  position:absolute;
-  left:50%;
-  top:35px;
-  width:100px;
-  height:125px;
-  transform:translateX(-50%);
-  background:#e8dcb0;
-  clip-path:polygon(50% 0,100% 100%,0 100%);
-  box-shadow:0 0 30px rgba(244,201,93,.1);
-}
-
-.pirate-skull{
-  position:absolute;
-  left:50%;
-  top:87px;
-  transform:translateX(-50%);
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:#17120d;
-}
-
-.pirate-gold{
-  position:absolute;
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  right:60px;
-  top:48px;
-  background:linear-gradient(145deg,#fff0a1,#d99e24);
-  box-shadow:0 0 45px rgba(244,201,93,.35);
-  animation:coinFloat 2.5s ease-in-out infinite;
-}
-
-/* ================= FEATURES ================= */
-
-.features{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-}
-
-.feature{
-  padding:24px;
-  border-radius:20px;
-  border:1px solid rgba(255,255,255,.06);
-  background:linear-gradient(145deg,#111711,#0a0e0b);
-}
-
-.feature-line{
-  width:38px;
-  height:3px;
-  border-radius:5px;
-  background:var(--gold);
-  margin-bottom:18px;
-}
-
-.feature h3{
-  margin-bottom:7px;
-}
-
-.feature p{
-  color:var(--muted);
-  line-height:1.55;
-  font-size:13px;
-}
-
-/* ================= SUPPORT ================= */
-
-.support{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  z-index:90;
-  padding:13px 17px;
-  border-radius:14px;
-  border:1px solid rgba(140,255,98,.25);
-  background:#101711;
-  color:var(--green);
-  font-weight:900;
-  box-shadow:0 10px 35px rgba(0,0,0,.4);
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:rgba(0,0,0,.76);
-  backdrop-filter:blur(14px);
-  z-index:200;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:min(450px,100%);
-  background:#101611;
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:25px;
-  box-shadow:0 35px 100px rgba(0,0,0,.65);
-}
-
-.close{
-  float:right;
-  width:34px;
-  height:34px;
-  border:0;
-  border-radius:10px;
-  background:#1b241d;
-  color:white;
-  font-size:20px;
-}
-
-.modal-box h2{
-  font-size:28px;
-  margin-bottom:8px;
-}
-
-.modal-box .sub{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:18px;
-}
-
-.input{
-  width:100%;
-  padding:14px;
-  margin-bottom:10px;
-  background:#080c09;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  color:white;
-}
-
-.modal-actions{
-  display:flex;
-  gap:10px;
-  margin-top:8px;
-}
-
-.modal-actions button{
-  flex:1;
-}
-
-/* ================= GAME SCREEN ================= */
-
-.game-modal .modal-box{
-  width:min(1050px,100%);
-  padding:12px;
-  background:#060907;
-}
-
-.game-screen{
-  position:relative;
-  width:100%;
-  height:min(720px,78vh);
-  overflow:hidden;
-  border-radius:20px;
-  background:#08110b;
-}
-
-.game-background{
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 50% 35%,rgba(244,201,93,.32),transparent 16%),
-    linear-gradient(160deg,#174c2b,#071009 70%);
-}
-
-.game-title{
-  position:absolute;
-  left:22px;
-  top:20px;
-  padding:10px 14px;
-  border-radius:12px;
-  background:rgba(3,7,4,.7);
-  border:1px solid rgba(244,201,93,.2);
-  font-weight:1000;
-}
-
-.game-balance{
-  position:absolute;
-  right:22px;
-  top:20px;
-  padding:10px 14px;
-  border-radius:12px;
-  background:rgba(3,7,4,.7);
-  border:1px solid rgba(140,255,98,.2);
-  color:var(--green);
-  font-weight:900;
-}
-
-.big-gorila{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-52%);
-  width:270px;
-  height:270px;
-  border-radius:48% 52% 43% 57%;
-  background:linear-gradient(145deg,#5aa860,#163b22);
-  box-shadow:
-    inset -30px -25px rgba(0,0,0,.22),
-    0 35px 80px rgba(0,0,0,.5);
-  animation:gameGorila 2s ease-in-out infinite;
-}
-
-.big-gorila:before{
-  content:"";
-  position:absolute;
-  width:155px;
-  height:95px;
-  left:58px;
-  top:145px;
-  border-radius:50%;
-  background:#b7834a;
-}
-
-.big-eye{
-  position:absolute;
-  top:115px;
-  width:22px;
-  height:22px;
-  background:#111;
-  border-radius:50%;
-  border:5px solid #eadb9a;
-}
-
-.big-eye.one{left:73px}
-.big-eye.two{right:73px}
-
-.game-controls{
-  position:absolute;
-  left:50%;
-  bottom:25px;
-  transform:translateX(-50%);
-  display:flex;
-  gap:10px;
-}
-
-.game-action{
-  min-width:170px;
-  padding:16px 25px;
-  border:0;
-  border-radius:15px;
-  background:linear-gradient(135deg,#ffe99b,#dfaF36);
-  color:#151109;
-  font-weight:1000;
-  font-size:15px;
-}
-
-.game-message{
-  position:absolute;
-  left:50%;
-  top:20%;
-  transform:translateX(-50%);
-  opacity:0;
-  padding:12px 20px;
-  border-radius:12px;
-  background:#101a12;
-  border:1px solid rgba(140,255,98,.3);
-  color:var(--green);
-  font-weight:1000;
-  transition:.3s;
-}
-
-.game-message.active{
-  opacity:1;
-  top:16%;
-}
-
-/* ================= FOOTER ================= */
-
-.footer{
-  padding:30px 5vw;
-  border-top:1px solid rgba(255,255,255,.05);
-  color:var(--muted);
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  font-size:12px;
-}
-
-/* ================= ANIMATION ================= */
-
-@keyframes heroFloat{
-  0%,100%{transform:translateY(0) rotate(-13deg)}
-  50%{transform:translateY(-18px) rotate(-8deg)}
-}
-
-@keyframes ring{
-  from{transform:rotate(0)}
-  to{transform:rotate(360deg)}
-}
-
-@keyframes gorilaMove{
-  0%,100%{transform:translateX(-50%) translateY(0) rotate(-2deg)}
-  50%{transform:translateX(-50%) translateY(-9px) rotate(2deg)}
-}
-
-@keyframes candyFloat{
-  0%,100%{transform:translateX(-50%) translateY(0) rotate(-3deg)}
-  50%{transform:translateX(-50%) translateY(-14px) rotate(4deg)}
-}
-
-@keyframes coinFloat{
-  0%,100%{transform:translateY(0) rotate(0)}
-  50%{transform:translateY(-14px) rotate(12deg)}
-}
-
-@keyframes gameGorila{
-  0%,100%{transform:translate(-50%,-52%) scale(1)}
-  50%{transform:translate(-50%,-55%) scale(1.035)}
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:900px){
-
-  .games{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .features{
-    grid-template-columns:1fr;
-  }
-
-  .hero{
-    min-height:560px;
-    padding:35px;
-  }
-
-  .hero-art{
-    right:-18%;
-    opacity:.48;
-    width:75%;
-  }
-}
-
-@media(max-width:620px){
-
-  .header{
-    height:68px;
-    padding:0 4vw;
-  }
-
-  .logo{
-    font-size:19px;
-  }
-
-  .header-actions{
-    gap:6px;
-  }
-
-  .header-actions .btn{
-    padding:9px 10px;
-    font-size:11px;
-  }
-
-  .balance{
-    display:none!important;
-  }
-
-  .container{
-    width:94vw;
-    padding-top:18px;
-  }
-
-  .hero{
-    min-height:570px;
-    border-radius:24px;
-    padding:28px;
-  }
-
-  .hero h1{
-    font-size:48px;
-  }
-
-  .hero p{
-    font-size:14px;
-  }
-
-  .hero-art{
-    width:100%;
-    right:-38%;
-    bottom:-5%;
-    opacity:.32;
-  }
-
-  .hero-orb{
-    width:280px;
-    height:280px;
-  }
-
-  .games{
-    grid-template-columns:1fr;
-  }
-
-  .game-card{
-    min-height:380px;
-  }
-
-  .game-art{
-    height:245px;
-  }
-
-  .section-head{
-    display:block;
-  }
-
-  .section-head p{
-    margin-top:6px;
-  }
-
-  .support{
-    right:15px;
-    bottom:15px;
-  }
-
-  .game-screen{
-    height:76vh;
-  }
-
-  .big-gorila{
-    width:210px;
-    height:210px;
-  }
-
-  .game-controls{
-    width:90%;
-  }
-
-  .game-action{
-    width:100%;
-  }
-
-  .footer{
-    display:block;
-    line-height:2;
-  }
-}
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="app">
+<div id="app">
 
-<header class="header">
+    <!-- ================= HEADER ================= -->
 
-  <div class="logo">
-    VE<span>L</span>ORA
-  </div>
+    <header class="topbar">
 
-  <div class="header-actions">
+        <button class="brand" id="brandButton">
+            <span class="brand-main">VELORA</span>
+            <span class="brand-dot"></span>
+        </button>
 
-    <div id="balance" class="balance">
-      Баланс: 10 000
-    </div>
+        <nav class="desktop-nav">
 
-    <button class="btn" onclick="openAuth('login')">
-      Вхід
-    </button>
+            <button class="nav-link active" data-page="home">
+                Головна
+            </button>
 
-    <button class="btn gold" onclick="openAuth('register')">
-      Реєстрація
-    </button>
+            <button class="nav-link" data-page="games">
+                Ігри
+            </button>
 
-  </div>
+            <button class="nav-link" data-page="bonuses">
+                Бонуси
+            </button>
 
-</header>
+            <button class="nav-link" data-page="support">
+                Підтримка
+            </button>
 
+        </nav>
 
-<main class="container">
+        <div class="top-actions">
 
-<section class="hero">
+            <div class="balance-box" id="balanceBox">
+                <span class="balance-label">Баланс</span>
+                <strong id="balanceValue">10 000</strong>
+            </div>
 
-  <div class="hero-content">
+            <button class="header-button login-button" id="loginButton">
+                Вхід
+            </button>
 
-    <div class="hero-label">
-      VELORA PREMIUM
-    </div>
+            <button class="header-button register-button" id="registerButton">
+                Реєстрація
+            </button>
 
-    <h1>
-      Грай.<br>
-      Відчуй.<br>
-      <span>Перемагай.</span>
-    </h1>
-
-    <p>
-      Авторські ігрові світи, мультяшні персонажі,
-      анімація та атмосфера сучасного мобільного ігрового
-      застосунку.
-    </p>
-
-    <div class="hero-buttons">
-
-      <button class="btn gold"
-              onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
-        Переглянути ігри
-      </button>
-
-      <button class="btn"
-              onclick="openAuth('register')">
-        Створити акаунт
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="hero-art">
-
-    <div class="hero-ring"></div>
-
-    <div class="hero-orb"></div>
-
-  </div>
-
-</section>
-
-
-<section class="section" id="games">
-
-  <div class="section-head">
-
-    <h2>
-      Ігри VELORA
-    </h2>
-
-    <p>
-      Авторські персонажі • анімація • мобільний формат
-    </p>
-
-  </div>
-
-
-  <div class="games">
-
-
-    <!-- GORILA -->
-
-    <article class="game-card">
-
-      <div class="game-art gorila-art">
-
-        <div class="gorila-moon"></div>
-
-        <div class="gorila-body">
-
-          <div class="gorila-face"></div>
-
-          <div class="gorila-eye left"></div>
-          <div class="gorila-eye right"></div>
+            <button
+                class="profile-button hidden"
+                id="profileButton"
+                aria-label="Профіль"
+            >
+                <span></span>
+            </button>
 
         </div>
 
-        <div class="gorila-crown"></div>
-
-      </div>
+    </header>
 
 
-      <div class="game-info">
+    <!-- ================= MAIN ================= -->
 
-        <h3>
-          Gorila King
-        </h3>
+    <main id="mainContent">
 
-        <p>
-          Король джунглів
-        </p>
 
-        <button class="play-btn"
-                onclick="openGame()">
-          Грати
+        <!-- ================= HOME ================= -->
+
+        <section
+            class="page page-home active"
+            id="page-home"
+        >
+
+            <!-- HERO -->
+
+            <section class="hero">
+
+                <div class="hero-content">
+
+                    <div class="hero-eyebrow">
+                        VELORA ORIGINALS
+                    </div>
+
+                    <h1 class="hero-title">
+                        Грай у світи,
+                        <span>створені для тебе.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Авторські ігри VELORA, яскраві персонажі,
+                        анімація та атмосфера сучасного мобільного
+                        ігрового застосунку.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <button
+                            class="primary-button"
+                            id="heroGamesButton"
+                        >
+                            Переглянути ігри
+                        </button>
+
+                        <button
+                            class="secondary-button"
+                            id="heroRegisterButton"
+                        >
+                            Створити акаунт
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Графічна область HERO.
+                     Тут пізніше буде справжня ілюстрація. -->
+
+                <div class="hero-art" aria-hidden="true">
+
+                    <div class="hero-glow hero-glow-one"></div>
+                    <div class="hero-glow hero-glow-two"></div>
+
+                    <div class="hero-orbit hero-orbit-one"></div>
+                    <div class="hero-orbit hero-orbit-two"></div>
+
+                    <div class="hero-core">
+
+                        <div class="hero-core-shine"></div>
+
+                        <div class="hero-core-ring"></div>
+
+                        <div class="hero-core-symbol">
+                            V
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FEATURED GAMES -->
+
+            <section class="content-section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="section-kicker">
+                            VELORA ORIGINALS
+                        </span>
+
+                        <h2>
+                            Популярні ігри
+                        </h2>
+                    </div>
+
+                    <button
+                        class="text-button"
+                        data-page-target="games"
+                    >
+                        Усі ігри
+                    </button>
+
+                </div>
+
+
+                <div class="game-grid">
+
+
+                    <!-- GORILA KING -->
+
+                    <article
+                        class="game-card game-card-gorila"
+                        data-game="gorila"
+                    >
+
+                        <div class="game-card-art">
+
+                            <div class="art-light art-light-one"></div>
+                            <div class="art-light art-light-two"></div>
+
+                            <div class="gorila-character">
+
+                                <div class="gorila-head">
+
+                                    <div class="gorila-ear left"></div>
+                                    <div class="gorila-ear right"></div>
+
+                                    <div class="gorila-eye left"></div>
+                                    <div class="gorila-eye right"></div>
+
+                                    <div class="gorila-face"></div>
+
+                                </div>
+
+                                <div class="gorila-body"></div>
+
+                                <div class="gorila-arm left"></div>
+                                <div class="gorila-arm right"></div>
+
+                                <div class="gorila-crown">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                            </div>
+
+                            <div class="game-card-badge">
+                                ORIGINAL
+                            </div>
+
+                        </div>
+
+
+                        <div class="game-card-content">
+
+                            <div>
+
+                                <h3>
+                                    Gorila King
+                                </h3>
+
+                                <p>
+                                    Король джунглів
+                                </p>
+
+                            </div>
+
+                            <button class="game-play-button">
+                                Грати
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- CANDY RUSH -->
+
+                    <article
+                        class="game-card game-card-candy"
+                        data-game="candy"
+                    >
+
+                        <div class="game-card-art">
+
+                            <div class="candy-stars">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                            <div class="candy-character">
+
+                                <div class="candy-eye left"></div>
+                                <div class="candy-eye right"></div>
+
+                                <div class="candy-mouth"></div>
+
+                                <div class="candy-cheek left"></div>
+                                <div class="candy-cheek right"></div>
+
+                            </div>
+
+                            <div class="candy-lollipop"></div>
+
+                            <div class="game-card-badge">
+                                ORIGINAL
+                            </div>
+
+                        </div>
+
+
+                        <div class="game-card-content">
+
+                            <div>
+
+                                <h3>
+                                    Candy Rush
+                                </h3>
+
+                                <p>
+                                    Солодкий світ
+                                </p>
+
+                            </div>
+
+                            <button class="game-play-button">
+                                Грати
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- GOLDEN PIRATE -->
+
+                    <article
+                        class="game-card game-card-pirate"
+                        data-game="pirate"
+                    >
+
+                        <div class="game-card-art">
+
+                            <div class="pirate-moon"></div>
+
+                            <div class="pirate-cloud cloud-one"></div>
+                            <div class="pirate-cloud cloud-two"></div>
+
+                            <div class="pirate-ship">
+
+                                <div class="ship-body"></div>
+
+                                <div class="ship-mast"></div>
+
+                                <div class="ship-sail"></div>
+
+                            </div>
+
+                            <div class="pirate-coin"></div>
+
+                            <div class="game-card-badge">
+                                ORIGINAL
+                            </div>
+
+                        </div>
+
+
+                        <div class="game-card-content">
+
+                            <div>
+
+                                <h3>
+                                    Golden Pirate
+                                </h3>
+
+                                <p>
+                                    Полювання за скарбом
+                                </p>
+
+                            </div>
+
+                            <button class="game-play-button">
+                                Грати
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- VELORA FEATURES -->
+
+            <section class="content-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            WHY VELORA
+                        </span>
+
+                        <h2>
+                            Інший рівень гри
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature-grid">
+
+                    <article class="feature-card">
+
+                        <div class="feature-number">
+                            01
+                        </div>
+
+                        <h3>
+                            Авторські світи
+                        </h3>
+
+                        <p>
+                            Кожна гра матиме власного персонажа,
+                            атмосферу та окремий стиль.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Mobile First
+                        </h3>
+
+                        <p>
+                            Інтерфейс створюється насамперед
+                            для телефона та керування пальцем.
+                        </p>
+
+                    </article>
+
+
+                    <article class="feature-card">
+
+                        <div class="feature-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Плавна анімація
+                        </h3>
+
+                        <p>
+                            Переходи, рух персонажів та ефекти
+                            повинні відчуватися як у справжній грі.
+                        </p>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- ================= GAMES PAGE ================= -->
+
+        <section
+            class="page"
+            id="page-games"
+        >
+
+            <div class="page-header">
+
+                <span class="section-kicker">
+                    VELORA GAMES
+                </span>
+
+                <h1>
+                    Ігри
+                </h1>
+
+                <p>
+                    Обирай свій світ.
+                </p>
+
+            </div>
+
+            <div
+                class="game-grid game-grid-full"
+                id="allGamesGrid"
+            >
+
+                <!-- Ігри будуть підключені через JS -->
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= BONUSES PAGE ================= -->
+
+        <section
+            class="page"
+            id="page-bonuses"
+        >
+
+            <div class="page-header">
+
+                <span class="section-kicker">
+                    VELORA REWARDS
+                </span>
+
+                <h1>
+                    Бонуси
+                </h1>
+
+                <p>
+                    Спеціальні пропозиції VELORA.
+                </p>
+
+            </div>
+
+
+            <div class="bonus-grid">
+
+                <article class="bonus-card">
+
+                    <span class="bonus-tag">
+                        NEW PLAYER
+                    </span>
+
+                    <h2>
+                        Welcome Bonus
+                    </h2>
+
+                    <p>
+                        Стартовий бонус для нових гравців.
+                    </p>
+
+                    <button class="primary-button">
+                        Детальніше
+                    </button>
+
+                </article>
+
+
+                <article class="bonus-card">
+
+                    <span class="bonus-tag">
+                        VELORA
+                    </span>
+
+                    <h2>
+                        Golden Hour
+                    </h2>
+
+                    <p>
+                        Спеціальні нагороди протягом акції.
+                    </p>
+
+                    <button class="primary-button">
+                        Детальніше
+                    </button>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SUPPORT PAGE ================= -->
+
+        <section
+            class="page"
+            id="page-support"
+        >
+
+            <div class="page-header">
+
+                <span class="section-kicker">
+                    VELORA SUPPORT
+                </span>
+
+                <h1>
+                    Підтримка
+                </h1>
+
+                <p>
+                    Ми допоможемо вирішити проблему з акаунтом.
+                </p>
+
+            </div>
+
+
+            <div class="support-layout">
+
+                <div class="support-info">
+
+                    <h2>
+                        Не можеш увійти?
+                    </h2>
+
+                    <p>
+                        Залиш повідомлення, і служба підтримки
+                        зможе зв'язатися з тобою.
+                    </p>
+
+                    <div class="support-status">
+                        Підтримка VELORA
+                    </div>
+
+                </div>
+
+
+                <form
+                    class="support-form"
+                    id="supportForm"
+                >
+
+                    <label>
+                        Email
+
+                        <input
+                            type="email"
+                            id="supportEmail"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+                        Тема
+
+                        <input
+                            type="text"
+                            id="supportSubject"
+                            placeholder="Проблема зі входом"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+                        Повідомлення
+
+                        <textarea
+                            id="supportMessage"
+                            placeholder="Опишіть проблему..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <button
+                        class="primary-button"
+                        type="submit"
+                    >
+                        Відправити звернення
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROFILE ================= -->
+
+        <section
+            class="page"
+            id="page-profile"
+        >
+
+            <div class="page-header">
+
+                <span class="section-kicker">
+                    MY VELORA
+                </span>
+
+                <h1>
+                    Профіль
+                </h1>
+
+            </div>
+
+
+            <div class="profile-panel">
+
+                <div class="profile-avatar">
+                    V
+                </div>
+
+                <div>
+
+                    <span class="profile-label">
+                        Гравець
+                    </span>
+
+                    <h2 id="profileName">
+                        Гість VELORA
+                    </h2>
+
+                    <p id="profileEmail">
+                        Увійди або зареєструйся
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= MOBILE NAV ================= -->
+
+    <nav class="mobile-nav">
+
+        <button
+            class="mobile-nav-item active"
+            data-page="home"
+        >
+            <span class="nav-icon"></span>
+            <span>Головна</span>
         </button>
 
-      </div>
+        <button
+            class="mobile-nav-item"
+            data-page="games"
+        >
+            <span class="nav-icon"></span>
+            <span>Ігри</span>
+        </button>
 
-    </article>
+        <button
+            class="mobile-nav-item"
+            data-page="bonuses"
+        >
+            <span class="nav-icon"></span>
+            <span>Бонуси</span>
+        </button>
+
+        <button
+            class="mobile-nav-item"
+            data-page="profile"
+        >
+            <span class="nav-icon"></span>
+            <span>Профіль</span>
+        </button>
+
+    </nav>
 
 
-    <!-- CANDY -->
+    <!-- ================= AUTH MODAL ================= -->
 
-    <article class="game-card">
+    <div
+        class="modal"
+        id="authModal"
+        aria-hidden="true"
+    >
 
-      <div class="game-art candy-art">
+        <div class="modal-backdrop"></div>
 
-        <div class="candy-hero">
+        <div class="modal-card">
 
-          <div class="candy-eye left"></div>
-          <div class="candy-eye right"></div>
+            <button
+                class="modal-close"
+                data-close-modal="authModal"
+                aria-label="Закрити"
+            >
+                ×
+            </button>
 
-          <div class="candy-smile"></div>
+
+            <div class="modal-heading">
+
+                <span class="section-kicker">
+                    VELORA ACCOUNT
+                </span>
+
+                <h2 id="authTitle">
+                    Створити акаунт
+                </h2>
+
+                <p id="authDescription">
+                    Зареєструйся та відкрий свій профіль VELORA.
+                </p>
+
+            </div>
+
+
+            <form id="authForm">
+
+                <div
+                    class="form-field"
+                    id="nameField"
+                >
+
+                    <label for="authName">
+                        Ім'я або нікнейм
+                    </label>
+
+                    <input
+                        id="authName"
+                        type="text"
+                        placeholder="Ваш нікнейм"
+                    >
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="authEmail">
+                        Email
+                    </label>
+
+                    <input
+                        id="authEmail"
+                        type="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label for="authPassword">
+                        Пароль
+                    </label>
+
+                    <input
+                        id="authPassword"
+                        type="password"
+                        placeholder="Ваш пароль"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    class="primary-button full-width"
+                    type="submit"
+                >
+                    <span id="authSubmitText">
+                        Зареєструватися
+                    </span>
+                </button>
+
+            </form>
+
+
+            <button
+                class="modal-switch"
+                id="authSwitch"
+            >
+                Вже маєш акаунт? Увійти
+            </button>
 
         </div>
 
-        <div class="candy-cloud"></div>
-
-      </div>
-
-
-      <div class="game-info">
-
-        <h3>
-          Candy Rush
-        </h3>
-
-        <p>
-          Солодкий мультяшний світ
-        </p>
-
-        <button class="play-btn"
-                onclick="openCandy()">
-          Грати
-        </button>
-
-      </div>
-
-    </article>
-
-
-    <!-- PIRATE -->
-
-    <article class="game-card">
-
-      <div class="game-art pirate-art">
-
-        <div class="pirate-sail"></div>
-
-        <div class="pirate-skull"></div>
-
-        <div class="pirate-ship"></div>
-
-        <div class="pirate-gold"></div>
-
-      </div>
-
-
-      <div class="game-info">
-
-        <h3>
-          Golden Pirate
-        </h3>
-
-        <p>
-          Полювання за золотом
-        </p>
-
-        <button class="play-btn"
-                onclick="openPirate()">
-          Грати
-        </button>
-
-      </div>
-
-    </article>
-
-
-  </div>
-
-</section>
-
-
-<section class="section">
-
-  <div class="section-head">
-
-    <h2>
-      VELORA Experience
-    </h2>
-
-  </div>
-
-
-  <div class="features">
-
-    <div class="feature">
-
-      <div class="feature-line"></div>
-
-      <h3>
-        Авторська графіка
-      </h3>
-
-      <p>
-        Ігри створюються як окремі маленькі світи
-        зі своїми персонажами, фонами та анімаціями.
-      </p>
-
     </div>
 
 
-    <div class="feature">
+    <!-- ================= GAME MODAL ================= -->
 
-      <div class="feature-line"></div>
-
-      <h3>
-        Mobile First
-      </h3>
-
-      <p>
-        Інтерфейс розрахований насамперед на телефон:
-        великі кнопки, плавні переходи та повноекранні ігри.
-      </p>
-
-    </div>
-
-
-    <div class="feature">
-
-      <div class="feature-line"></div>
-
-      <h3>
-        Підтримка
-      </h3>
-
-      <p>
-        Окрема кнопка підтримки залишається доступною
-        навіть якщо користувач не може увійти до акаунта.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<footer class="footer">
-
-  <div>
-    VELORA © 2026
-  </div>
-
-  <div>
-    Підтримка • Правила • Конфіденційність
-  </div>
-
-</footer>
-
-
-<button class="support"
-        onclick="openSupport()">
-  Підтримка
-</button>
-
-
-<!-- AUTH -->
-
-<div class="modal"
-     id="authModal">
-
-  <div class="modal-box">
-
-    <button class="close"
-            onclick="closeModal('authModal')">
-      ×
-    </button>
-
-    <h2 id="authTitle">
-      Створити акаунт
-    </h2>
-
-    <p class="sub"
-       id="authSub">
-      Зареєструйся у VELORA.
-    </p>
-
-    <input
-      id="nameInput"
-      class="input"
-      placeholder="Ім'я або нікнейм"
+    <div
+        class="game-modal"
+        id="gameModal"
+        aria-hidden="true"
     >
 
-    <input
-      id="emailInput"
-      class="input"
-      type="email"
-      placeholder="Email"
-    >
-
-    <input
-      id="passwordInput"
-      class="input"
-      type="password"
-      placeholder="Пароль"
-    >
-
-    <div class="modal-actions">
-
-      <button class="btn"
-              onclick="switchAuth()"
-              id="switchButton">
-        Вже маю акаунт
-      </button>
-
-      <button class="btn gold"
-              onclick="submitAuth()">
-        Продовжити
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
+        <div class="game-modal-background"></div>
 
 
-<!-- GAME -->
+        <header class="game-header">
 
-<div class="modal game-modal"
-     id="gameModal">
+            <button
+                class="game-back"
+                id="gameBack"
+            >
+                Назад
+            </button>
 
-  <div class="modal-box">
+            <div class="game-header-title">
+                <span id="gameModalTitle">
+                    VELORA GAME
+                </span>
+            </div>
 
-    <button class="close"
-            onclick="closeModal('gameModal')">
-      ×
-    </button>
+            <div class="game-balance">
+                <span>Баланс</span>
+                <strong id="gameBalanceValue">
+                    10 000
+                </strong>
+            </div>
 
-    <div class="game-screen">
-
-      <div class="game-background"></div>
-
-      <div class="game-title">
-        GORILA KING
-      </div>
-
-      <div class="game-balance">
-        10 000
-      </div>
-
-
-      <div class="game-message"
-           id="gameMessage">
-        Раунд запущено
-      </div>
+        </header>
 
 
-      <div class="big-gorila">
+        <main
+            class="game-container"
+            id="gameContainer"
+        >
 
-        <div class="big-eye one"></div>
-        <div class="big-eye two"></div>
+            <!-- Конкретна гра буде відкриватися тут -->
 
-      </div>
-
-
-      <div class="game-controls">
-
-        <button class="game-action"
-                onclick="startRound()">
-          ПОЧАТИ ГРУ
-        </button>
-
-      </div>
+        </main>
 
     </div>
 
-  </div>
 
-</div>
+    <!-- ================= TOAST ================= -->
+
+    <div
+        class="toast"
+        id="toast"
+        aria-live="polite"
+    >
+        <span id="toastText"></span>
+    </div>
 
 
-<!-- CANDY GAME -->
+    <!-- ================= FOOTER ================= -->
 
-<div class="modal game-modal"
-     id="candyModal">
+    <footer class="site-footer">
 
-  <div class="modal-box">
-
-    <button class="close"
-            onclick="closeModal('candyModal')">
-      ×
-    </button>
-
-    <div class="game-screen"
-         style="background:#24112d">
-
-      <div
-        style="
-        position:absolute;
-        inset:0;
-        background:
-        radial-gradient(circle at 50% 35%,rgba(255,120,170,.35),transparent 20%),
-        linear-gradient(160deg,#4b174f,#10152d);
-        ">
-      </div>
-
-      <div class="game-title">
-        CANDY RUSH
-      </div>
-
-      <div
-        id="candyCharacter"
-        style="
-        position:absolute;
-        left:50%;
-        top:35%;
-        transform:translate(-50%,-50%);
-        width:190px;
-        height:190px;
-        border-radius:50%;
-        background:linear-gradient(135deg,#ff65a0,#ffc95b);
-        box-shadow:0 0 90px rgba(255,101,160,.35);
-        transition:.4s;
-        ">
-
-        <div
-          style="
-          position:absolute;
-          width:18px;
-          height:24px;
-          border-radius:50%;
-          background:#25142b;
-          top:76px;
-          left:57px;
-          ">
+        <div class="footer-brand">
+            VELORA
         </div>
 
-        <div
-          style="
-          position:absolute;
-          width:18px;
-          height:24px;
-          border-radius:50%;
-          background:#25142b;
-          top:76px;
-          right:57px;
-          ">
+        <div class="footer-copy">
+            Авторська ігрова платформа
         </div>
 
-      </div>
-
-      <div class="game-controls">
-
-        <button class="game-action"
-                onclick="candyPlay()">
-          ПОЧАТИ ГРУ
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
+    </footer>
 
 </div>
 
 
-<!-- PIRATE GAME -->
-
-<div class="modal game-modal"
-     id="pirateModal">
-
-  <div class="modal-box">
-
-    <button class="close"
-            onclick="closeModal('pirateModal')">
-      ×
-    </button>
-
-    <div class="game-screen"
-         style="background:#071c24">
-
-      <div
-        style="
-        position:absolute;
-        inset:0;
-        background:
-        radial-gradient(circle at 70% 20%,rgba(244,201,93,.35),transparent 18%),
-        linear-gradient(160deg,#0b4752,#061216);
-        ">
-      </div>
-
-      <div class="game-title">
-        GOLDEN PIRATE
-      </div>
-
-      <div
-        id="pirateCoin"
-        style="
-        position:absolute;
-        left:50%;
-        top:35%;
-        transform:translate(-50%,-50%);
-        width:145px;
-        height:145px;
-        border-radius:50%;
-        background:linear-gradient(145deg,#fff0a1,#d59b20);
-        box-shadow:0 0 80px rgba(244,201,93,.45);
-        transition:.5s;
-        ">
-      </div>
-
-      <div class="game-controls">
-
-        <button class="game-action"
-                onclick="piratePlay()">
-          ЗНАЙТИ СКАРБ
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- SUPPORT -->
-
-<div class="modal"
-     id="supportModal">
-
-  <div class="modal-box">
-
-    <button class="close"
-            onclick="closeModal('supportModal')">
-      ×
-    </button>
-
-    <h2>
-      Підтримка VELORA
-    </h2>
-
-    <p class="sub">
-      Якщо виникла проблема з акаунтом або входом,
-      залиш повідомлення.
-    </p>
-
-    <input
-      class="input"
-      placeholder="Ваш email"
-    >
-
-    <input
-      class="input"
-      placeholder="Тема звернення"
-    >
-
-    <textarea
-      class="input"
-      style="height:130px;resize:none"
-      placeholder="Опишіть проблему">
-    </textarea>
-
-    <button
-      class="btn gold"
-      style="width:100%"
-      onclick="sendSupport()">
-      Відправити звернення
-    </button>
-
-  </div>
-
-</div>
-
-
-<script>
-
-let authMode = "register";
-
-
-function openAuth(mode){
-
-  authMode = mode;
-
-  updateAuth();
-
-  document
-    .getElementById("authModal")
-    .classList.add("show");
-}
-
-
-function closeModal(id){
-
-  document
-    .getElementById(id)
-    .classList.remove("show");
-}
-
-
-function switchAuth(){
-
-  authMode =
-    authMode === "register"
-      ? "login"
-      : "register";
-
-  updateAuth();
-}
-
-
-function updateAuth(){
-
-  const title =
-    document.getElementById("authTitle");
-
-  const sub =
-    document.getElementById("authSub");
-
-  const name =
-    document.getElementById("nameInput");
-
-  const switchButton =
-    document.getElementById("switchButton");
-
-
-  if(authMode === "register"){
-
-    title.textContent =
-      "Створити акаунт";
-
-    sub.textContent =
-      "Зареєструйся у VELORA та відкрий свій ігровий кабінет.";
-
-    name.style.display =
-      "block";
-
-    switchButton.textContent =
-      "Вже маю акаунт";
-
-  }else{
-
-    title.textContent =
-      "Вхід до VELORA";
-
-    sub.textContent =
-      "Увійди до свого акаунта.";
-
-    name.style.display =
-      "none";
-
-    switchButton.textContent =
-      "Створити акаунт";
-  }
-}
-
-
-function submitAuth(){
-
-  const email =
-    document.getElementById("emailInput").value;
-
-  const password =
-    document.getElementById("passwordInput").value;
-
-
-  if(!email || !password){
-
-    alert(
-      "Заповни email та пароль."
-    );
-
-    return;
-  }
-
-
-  if(authMode === "register"){
-
-    localStorage.setItem(
-      "velora_logged",
-      "true"
-    );
-
-    closeModal("authModal");
-
-    /*
-      Имитируем красивый переход
-      после регистрации.
-    */
-
-    setTimeout(function(){
-
-      document
-        .getElementById("balance")
-        .style.display = "block";
-
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
-
-    },3500);
-
-  }else{
-
-    localStorage.setItem(
-      "velora_logged",
-      "true"
-    );
-
-    closeModal("authModal");
-
-    document
-      .getElementById("balance")
-      .style.display = "block";
-  }
-}
-
-
-function openGame(){
-
-  document
-    .getElementById("gameModal")
-    .classList.add("show");
-}
-
-
-function startRound(){
-
-  const message =
-    document.getElementById("gameMessage");
-
-  message.classList.add("active");
-
-  setTimeout(function(){
-
-    message.classList.remove("active");
-
-  },1800);
-}
-
-
-function openCandy(){
-
-  document
-    .getElementById("candyModal")
-    .classList.add("show");
-}
-
-
-function candyPlay(){
-
-  const character =
-    document.getElementById("candyCharacter");
-
-  character.style.transform =
-    "translate(-50%,-50%) scale(1.18) rotate(12deg)";
-
-  setTimeout(function(){
-
-    character.style.transform =
-      "translate(-50%,-50%) scale(1) rotate(0deg)";
-
-  },700);
-}
-
-
-function openPirate(){
-
-  document
-    .getElementById("pirateModal")
-    .classList.add("show");
-}
-
-
-function piratePlay(){
-
-  const coin =
-    document.getElementById("pirateCoin");
-
-  coin.style.transform =
-    "translate(-50%,-50%) rotateY(180deg) scale(1.18)";
-
-  setTimeout(function(){
-
-    coin.style.transform =
-      "translate(-50%,-50%) rotateY(360deg) scale(1)";
-
-  },800);
-}
-
-
-function openSupport(){
-
-  document
-    .getElementById("supportModal")
-    .classList.add("show");
-}
-
-
-function sendSupport(){
-
-  alert(
-    "Повідомлення підготовлено для служби підтримки."
-  );
-}
-
-
-if(
-  localStorage.getItem("velora_logged")
-  === "true"
-){
-
-  document
-    .getElementById("balance")
-    .style.display = "block";
-}
-
-
-/* Закриття модальних вікон по фону */
-
-document
-  .querySelectorAll(".modal")
-  .forEach(function(modal){
-
-    modal.addEventListener(
-      "click",
-      function(event){
-
-        if(event.target === modal){
-          modal.classList.remove("show");
-        }
-
-      }
-    );
-
-  });
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
