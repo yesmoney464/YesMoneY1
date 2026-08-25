@@ -2,1896 +2,1791 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#050706">
-<title>VELORA — Casino</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>VELORA</title>
 
 <style>
 :root{
-  --bg:#050706;
-  --bg2:#090d0b;
-  --panel:rgba(16,20,17,.88);
-  --panel2:rgba(22,27,23,.95);
+  --bg:#060807;
+  --bg2:#0b100d;
+  --panel:#101611;
+  --panel2:#151d17;
   --gold:#f4c95d;
-  --gold2:#ffe7a1;
-  --green:#53e89a;
-  --green2:#16a96b;
-  --text:#f5f2e9;
-  --muted:#8f968f;
-  --line:rgba(244,201,93,.16);
-  --danger:#ff6868;
-  --shadow:0 25px 80px rgba(0,0,0,.55);
+  --gold2:#ffe99b;
+  --green:#8cff62;
+  --green2:#38df83;
+  --white:#f8faf6;
+  --muted:#89958d;
+  --border:rgba(244,201,93,.16);
+  --shadow:0 25px 80px rgba(0,0,0,.45);
 }
 
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input{font:inherit}
-button{cursor:pointer}
-body{overflow-x:hidden}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-body:before{
-  content:"";
-  position:fixed;
-  inset:-20%;
-  pointer-events:none;
+html{
+  scroll-behavior:smooth;
+}
+
+body{
   background:
-    radial-gradient(circle at 80% 20%,rgba(83,232,154,.055),transparent 28%),
-    radial-gradient(circle at 15% 65%,rgba(244,201,93,.055),transparent 30%);
-  z-index:-1;
+    radial-gradient(circle at 80% 0%,rgba(140,255,98,.08),transparent 30%),
+    radial-gradient(circle at 15% 25%,rgba(244,201,93,.06),transparent 28%),
+    var(--bg);
+  color:var(--white);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-.hidden{display:none!important}
+button{
+  font-family:inherit;
+  cursor:pointer;
+}
 
-.splash{
-  position:fixed;
-  inset:0;
-  background:#030504;
+button,input{
+  outline:none;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+  height:78px;
+  padding:0 5vw;
   display:flex;
   align-items:center;
-  justify-content:center;
-  z-index:9999;
-  transition:opacity .7s,visibility .7s;
-}
-.splash.hide{opacity:0;visibility:hidden}
-.splash-inner{text-align:center}
-.logo{
-  font-weight:900;
-  letter-spacing:.22em;
-  color:var(--gold);
-  text-shadow:0 0 30px rgba(244,201,93,.18);
-}
-.logo.big{font-size:clamp(40px,12vw,86px)}
-.logo small{
-  display:block;
-  margin-top:12px;
-  font-size:10px;
-  letter-spacing:.5em;
-  color:#a9afa9;
-  font-weight:600;
-}
-.loader{
-  width:160px;
-  height:2px;
-  background:#171c18;
-  margin:34px auto 0;
-  overflow:hidden;
-}
-.loader i{
-  display:block;
-  width:45%;
-  height:100%;
-  background:linear-gradient(90deg,var(--gold),var(--green));
-  animation:load 1.8s ease-in-out infinite;
-}
-@keyframes load{
-  from{transform:translateX(-120%)}
-  to{transform:translateX(340%)}
-}
-
-.topbar{
+  justify-content:space-between;
   position:sticky;
   top:0;
   z-index:100;
-  height:76px;
-  display:flex;
-  align-items:center;
-  gap:28px;
-  padding:0 34px;
-  background:rgba(5,7,6,.84);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(255,255,255,.045);
+  background:rgba(6,8,7,.82);
+  backdrop-filter:blur(22px);
+  border-bottom:1px solid rgba(255,255,255,.05);
 }
-.brand{
-  border:0;
-  background:none;
+
+.logo{
+  font-size:25px;
+  font-weight:1000;
+  letter-spacing:.18em;
+}
+
+.logo span{
   color:var(--gold);
-  font-weight:900;
-  letter-spacing:.2em;
-  font-size:20px;
+  text-shadow:0 0 25px rgba(244,201,93,.35);
 }
-.nav{
-  display:flex;
-  gap:6px;
-  flex:1;
-}
-.nav button,.mobile-nav button{
-  border:0;
-  background:none;
-  color:#9da49d;
-  padding:11px 15px;
-  border-radius:12px;
-  transition:.2s;
-}
-.nav button:hover,.nav button.active{
-  color:var(--gold2);
-  background:rgba(244,201,93,.06);
-}
-.account{
+
+.header-actions{
   display:flex;
   align-items:center;
   gap:10px;
 }
+
 .balance{
-  padding:10px 14px;
-  border:1px solid var(--line);
-  border-radius:12px;
-  background:rgba(244,201,93,.045);
-  color:var(--gold2);
+  display:none;
+  padding:10px 15px;
+  border-radius:13px;
+  border:1px solid rgba(140,255,98,.2);
+  background:rgba(140,255,98,.05);
+  color:var(--green);
+  font-weight:900;
+  font-size:13px;
+}
+
+.btn{
+  border:1px solid var(--border);
+  background:#111712;
+  color:var(--white);
+  padding:12px 17px;
+  border-radius:13px;
   font-weight:800;
+  transition:.2s;
 }
-.user-btn,.support-btn{
-  border:1px solid rgba(83,232,154,.16);
-  background:rgba(83,232,154,.05);
-  color:#b9e9d0;
-  padding:10px 14px;
-  border-radius:12px;
+
+.btn:hover{
+  transform:translateY(-2px);
 }
+
+.btn.gold{
+  color:#18140a;
+  border:0;
+  background:linear-gradient(135deg,#ffe99b,#e2b83f);
+  box-shadow:0 8px 28px rgba(244,201,93,.18);
+}
+
+/* ================= MAIN ================= */
 
 .container{
-  width:min(1240px,calc(100% - 32px));
+  width:min(1450px,92vw);
   margin:auto;
+  padding:30px 0 110px;
 }
 
-.page{display:none;padding:28px 0 110px}
-.page.active{display:block}
+/* ================= HERO ================= */
 
 .hero{
-  min-height:470px;
-  border:1px solid var(--line);
-  border-radius:30px;
   position:relative;
+  min-height:500px;
   overflow:hidden;
+  border-radius:32px;
+  border:1px solid var(--border);
+  background:
+    linear-gradient(90deg,
+      rgba(5,8,6,.98) 0%,
+      rgba(5,8,6,.91) 42%,
+      rgba(5,8,6,.30) 100%),
+    radial-gradient(circle at 75% 50%,rgba(140,255,98,.14),transparent 28%),
+    #111812;
   display:flex;
   align-items:center;
-  padding:70px;
-  background:
-    radial-gradient(circle at 80% 45%,rgba(83,232,154,.1),transparent 25%),
-    radial-gradient(circle at 65% 40%,rgba(244,201,93,.12),transparent 35%),
-    linear-gradient(135deg,#080b09,#111611);
+  padding:60px;
   box-shadow:var(--shadow);
 }
-.hero:after{
-  content:"";
-  position:absolute;
-  width:460px;
-  height:460px;
-  right:-120px;
-  top:-100px;
-  border-radius:50%;
-  border:1px solid rgba(244,201,93,.1);
-  box-shadow:
-    0 0 0 45px rgba(244,201,93,.025),
-    0 0 0 90px rgba(83,232,154,.018);
+
+.hero-content{
+  width:min(620px,100%);
+  position:relative;
+  z-index:3;
 }
-.hero-copy{position:relative;z-index:2;max-width:620px}
-.eyebrow{
+
+.hero-label{
   color:var(--green);
   font-size:12px;
-  letter-spacing:.28em;
+  font-weight:1000;
+  letter-spacing:.2em;
   text-transform:uppercase;
-  margin-bottom:20px;
+  margin-bottom:16px;
 }
+
 .hero h1{
-  font-size:clamp(42px,6vw,76px);
-  line-height:.98;
-  margin:0 0 22px;
-  letter-spacing:-.04em;
+  font-size:clamp(48px,7vw,88px);
+  line-height:.91;
+  letter-spacing:-.045em;
+  margin-bottom:22px;
 }
+
 .hero h1 span{
   color:var(--gold);
 }
+
 .hero p{
-  color:#a8aea8;
-  max-width:540px;
+  color:#b4beb7;
   line-height:1.7;
+  font-size:17px;
+  max-width:540px;
 }
-.primary{
-  border:0;
-  color:#14110a;
-  font-weight:900;
-  padding:15px 24px;
-  border-radius:13px;
-  background:linear-gradient(135deg,var(--gold2),var(--gold));
-  box-shadow:0 8px 30px rgba(244,201,93,.15);
-  transition:.2s;
+
+.hero-buttons{
+  display:flex;
+  gap:12px;
+  margin-top:30px;
+  flex-wrap:wrap;
 }
-.primary:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(244,201,93,.25)}
-.secondary{
-  border:1px solid rgba(255,255,255,.1);
-  background:#101411;
-  color:#ddd;
-  padding:14px 22px;
-  border-radius:13px;
+
+/* HERO ART */
+
+.hero-art{
+  position:absolute;
+  right:3%;
+  bottom:-30px;
+  width:48%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
-.hero-actions{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+
+.hero-orb{
+  width:350px;
+  height:350px;
+  border-radius:48% 52% 55% 45%;
+  background:
+    radial-gradient(circle at 35% 30%,#fff2a3 0 5%,transparent 6%),
+    linear-gradient(145deg,#f8d76b,#7fd65b 70%,#285c38);
+  box-shadow:
+    0 0 100px rgba(140,255,98,.18),
+    inset -30px -30px 70px rgba(0,0,0,.2);
+  transform:rotate(-13deg);
+  animation:heroFloat 5s ease-in-out infinite;
+}
+
+.hero-ring{
+  position:absolute;
+  width:450px;
+  height:450px;
+  border:1px solid rgba(244,201,93,.22);
+  border-radius:50%;
+  animation:ring 14s linear infinite;
+}
+
+/* ================= SECTION ================= */
+
+.section{
+  margin-top:48px;
+}
 
 .section-head{
   display:flex;
   justify-content:space-between;
   align-items:end;
-  margin:44px 0 18px;
-}
-.section-head h2{margin:0;font-size:26px}
-.section-head p{margin:6px 0 0;color:var(--muted);font-size:14px}
-
-.categories{
-  display:flex;
-  gap:8px;
-  overflow:auto;
-  padding-bottom:4px;
-}
-.cat{
-  flex:0 0 auto;
-  border:1px solid rgba(255,255,255,.07);
-  background:#0c100d;
-  color:#9fa69f;
-  padding:11px 15px;
-  border-radius:999px;
-}
-.cat.active{border-color:rgba(244,201,93,.35);color:var(--gold2)}
-
-.game-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-.game-card{
-  border:1px solid rgba(255,255,255,.07);
-  background:#0a0d0b;
-  border-radius:20px;
-  overflow:hidden;
-  transition:.25s;
-  position:relative;
-}
-.game-card:hover{transform:translateY(-5px);border-color:rgba(244,201,93,.25)}
-.game-art{
-  height:190px;
-  position:relative;
-  overflow:hidden;
-}
-.game-art canvas{width:100%;height:100%;display:block}
-.game-info{padding:15px}
-.game-info strong{display:block;font-size:16px}
-.game-info span{font-size:12px;color:var(--muted)}
-.play-game{
-  width:100%;
-  margin-top:12px;
-  padding:11px;
-  border-radius:10px;
-  border:1px solid rgba(244,201,93,.18);
-  background:rgba(244,201,93,.055);
-  color:var(--gold2);
-  font-weight:800;
+  margin-bottom:18px;
 }
 
-.cards{
+.section-head h2{
+  font-size:29px;
+  letter-spacing:-.03em;
+}
+
+.section-head p{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* ================= GAMES ================= */
+
+.games{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
-.panel{
-  background:var(--panel);
-  border:1px solid rgba(255,255,255,.065);
-  border-radius:22px;
-  padding:24px;
-  box-shadow:var(--shadow);
-}
-.panel h3{margin:0 0 10px}
-.panel p{color:var(--muted);line-height:1.6}
-
-.profile-grid{
-  display:grid;
-  grid-template-columns:280px 1fr;
   gap:18px;
 }
-.avatar{
-  width:100px;height:100px;
-  border-radius:50%;
-  margin-bottom:20px;
-  display:grid;
-  place-items:center;
-  color:var(--gold);
-  font-size:34px;
-  font-weight:900;
-  background:radial-gradient(circle,#1d291f,#0a0d0b);
-  border:1px solid rgba(244,201,93,.3);
-}
-.stat{
-  padding:18px;
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:16px;
-  background:#0b0f0c;
-  margin-bottom:10px;
-}
-.stat small{color:var(--muted);display:block;margin-bottom:5px}
-.stat strong{font-size:22px;color:var(--gold2)}
 
-.support-fab{
+.game-card{
+  position:relative;
+  min-height:390px;
+  overflow:hidden;
+  border-radius:26px;
+  border:1px solid rgba(255,255,255,.07);
+  background:#101611;
+  box-shadow:0 18px 50px rgba(0,0,0,.25);
+  transition:.3s;
+}
+
+.game-card:hover{
+  transform:translateY(-7px);
+  border-color:rgba(244,201,93,.3);
+}
+
+.game-art{
+  height:245px;
+  position:relative;
+  overflow:hidden;
+}
+
+.game-info{
+  padding:19px;
+  position:relative;
+}
+
+.game-info h3{
+  font-size:22px;
+  margin-bottom:6px;
+}
+
+.game-info p{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.play-btn{
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  border:0;
+  padding:11px 17px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#ffe99b,#ddaF36);
+  color:#16120a;
+  font-weight:1000;
+}
+
+/* ================= GORILA ================= */
+
+.gorila-art{
+  background:
+    radial-gradient(circle at 72% 25%,rgba(244,201,93,.25),transparent 12%),
+    linear-gradient(145deg,#153c25,#08110b);
+}
+
+.gorila-moon{
+  position:absolute;
+  width:100px;
+  height:100px;
+  right:45px;
+  top:28px;
+  border-radius:50%;
+  background:#f4d56f;
+  box-shadow:0 0 60px rgba(244,201,93,.35);
+}
+
+.gorila-body{
+  position:absolute;
+  width:180px;
+  height:175px;
+  left:50%;
+  top:48px;
+  transform:translateX(-50%);
+  border-radius:48% 52% 42% 58%;
+  background:linear-gradient(145deg,#4b9856,#173d24);
+  box-shadow:
+    inset -22px -20px 0 rgba(0,0,0,.2),
+    0 25px 55px rgba(0,0,0,.4);
+  animation:gorilaMove 2.8s ease-in-out infinite;
+}
+
+.gorila-face{
+  position:absolute;
+  width:110px;
+  height:70px;
+  left:35px;
+  top:92px;
+  border-radius:50%;
+  background:#ad7c46;
+}
+
+.gorila-eye{
+  position:absolute;
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:#111;
+  top:82px;
+  box-shadow:0 0 0 4px #e6d48b;
+}
+
+.gorila-eye.left{left:52px}
+.gorila-eye.right{right:52px}
+
+.gorila-crown{
+  position:absolute;
+  top:32px;
+  left:50%;
+  transform:translateX(-50%);
+  width:100px;
+  height:32px;
+  background:linear-gradient(90deg,#d6a72f,#ffe98d,#d6a72f);
+  clip-path:polygon(0 100%,10% 15%,30% 65%,50% 0,70% 65%,90% 15%,100% 100%);
+}
+
+/* ================= CANDY ================= */
+
+.candy-art{
+  background:
+    radial-gradient(circle at 20% 25%,#ff6f9e 0 4%,transparent 5%),
+    radial-gradient(circle at 75% 20%,#73e9ff 0 5%,transparent 6%),
+    linear-gradient(145deg,#32113d,#111d38);
+}
+
+.candy-cloud{
+  position:absolute;
+  width:190px;
+  height:60px;
+  left:50%;
+  bottom:35px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:rgba(255,255,255,.13);
+  filter:blur(1px);
+}
+
+.candy-hero{
+  position:absolute;
+  left:50%;
+  top:38px;
+  transform:translateX(-50%);
+  width:135px;
+  height:135px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 35% 30%,#fff6b2 0 4%,transparent 5%),
+    linear-gradient(135deg,#ff68a0,#ffcb5c);
+  box-shadow:0 0 70px rgba(255,104,160,.35);
+  animation:candyFloat 3s ease-in-out infinite;
+}
+
+.candy-eye{
+  position:absolute;
+  width:14px;
+  height:20px;
+  border-radius:50%;
+  background:#25142b;
+  top:55px;
+}
+
+.candy-eye.left{left:42px}
+.candy-eye.right{right:42px}
+
+.candy-smile{
+  position:absolute;
+  width:38px;
+  height:18px;
+  border-bottom:4px solid #30162d;
+  border-radius:50%;
+  left:49px;
+  top:80px;
+}
+
+/* ================= PIRATE ================= */
+
+.pirate-art{
+  background:
+    radial-gradient(circle at 70% 25%,rgba(244,201,93,.3),transparent 17%),
+    linear-gradient(145deg,#092f39,#071217);
+}
+
+.pirate-ship{
+  position:absolute;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:230px;
+  height:75px;
+  background:#372416;
+  border-radius:15px 15px 60px 60px;
+  border-bottom:9px solid #17100b;
+}
+
+.pirate-sail{
+  position:absolute;
+  left:50%;
+  top:35px;
+  width:100px;
+  height:125px;
+  transform:translateX(-50%);
+  background:#e8dcb0;
+  clip-path:polygon(50% 0,100% 100%,0 100%);
+  box-shadow:0 0 30px rgba(244,201,93,.1);
+}
+
+.pirate-skull{
+  position:absolute;
+  left:50%;
+  top:87px;
+  transform:translateX(-50%);
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#17120d;
+}
+
+.pirate-gold{
+  position:absolute;
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  right:60px;
+  top:48px;
+  background:linear-gradient(145deg,#fff0a1,#d99e24);
+  box-shadow:0 0 45px rgba(244,201,93,.35);
+  animation:coinFloat 2.5s ease-in-out infinite;
+}
+
+/* ================= FEATURES ================= */
+
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.feature{
+  padding:24px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.06);
+  background:linear-gradient(145deg,#111711,#0a0e0b);
+}
+
+.feature-line{
+  width:38px;
+  height:3px;
+  border-radius:5px;
+  background:var(--gold);
+  margin-bottom:18px;
+}
+
+.feature h3{
+  margin-bottom:7px;
+}
+
+.feature p{
+  color:var(--muted);
+  line-height:1.55;
+  font-size:13px;
+}
+
+/* ================= SUPPORT ================= */
+
+.support{
   position:fixed;
-  right:22px;
-  bottom:90px;
-  z-index:150;
-  border:1px solid rgba(83,232,154,.3);
-  background:#0a1610;
-  color:#baf4d4;
+  right:20px;
+  bottom:20px;
+  z-index:90;
   padding:13px 17px;
-  border-radius:999px;
+  border-radius:14px;
+  border:1px solid rgba(140,255,98,.25);
+  background:#101711;
+  color:var(--green);
+  font-weight:900;
   box-shadow:0 10px 35px rgba(0,0,0,.4);
 }
 
-.mobile-nav{
-  display:none;
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  z-index:200;
-  height:70px;
-  background:rgba(5,7,6,.94);
-  backdrop-filter:blur(18px);
-  border-top:1px solid rgba(255,255,255,.07);
-  justify-content:space-around;
-  padding-bottom:env(safe-area-inset-bottom);
-}
-.mobile-nav button{font-size:11px}
-.mobile-nav button.active{color:var(--gold)}
+/* ================= MODAL ================= */
 
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.78);
-  backdrop-filter:blur(10px);
-  z-index:1000;
-  display:flex;
+  display:none;
   align-items:center;
   justify-content:center;
   padding:18px;
+  background:rgba(0,0,0,.76);
+  backdrop-filter:blur(14px);
+  z-index:200;
 }
+
+.modal.show{
+  display:flex;
+}
+
 .modal-box{
-  width:min(440px,100%);
-  background:#0c100d;
-  border:1px solid var(--line);
+  width:min(450px,100%);
+  background:#101611;
+  border:1px solid var(--border);
   border-radius:24px;
-  padding:26px;
-  box-shadow:0 30px 100px rgba(0,0,0,.7);
+  padding:25px;
+  box-shadow:0 35px 100px rgba(0,0,0,.65);
 }
-.modal-box h2{margin:0 0 8px}
-.modal-box p{color:var(--muted)}
-.field{margin-top:13px}
-.field label{display:block;color:#9da49d;font-size:12px;margin-bottom:7px}
-.field input,.field textarea{
-  width:100%;
-  border:1px solid rgba(255,255,255,.09);
-  background:#070a08;
-  color:#fff;
-  border-radius:11px;
-  padding:13px;
-  outline:none;
-}
-.field input:focus,.field textarea:focus{border-color:rgba(244,201,93,.4)}
-.form-actions{display:flex;gap:9px;margin-top:18px}
-.form-actions button{flex:1}
+
 .close{
   float:right;
-  border:0;background:none;color:#777;font-size:22px;
-}
-
-.transition{
-  position:fixed;
-  inset:0;
-  z-index:2000;
-  background:#030504;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-.transition .inner{animation:welcome 3s ease both}
-.transition .message{color:#9ba39b;margin-top:18px}
-@keyframes welcome{
-  0%{opacity:0;transform:scale(.94)}
-  20%{opacity:1;transform:scale(1)}
-  80%{opacity:1}
-  100%{opacity:0;transform:scale(1.03)}
-}
-
-.game-overlay{
-  position:fixed;
-  inset:0;
-  z-index:3000;
-  background:#030504;
-  display:none;
-  flex-direction:column;
-}
-.game-overlay.open{display:flex}
-.game-top{
-  height:66px;
-  flex:0 0 66px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
-  background:rgba(4,6,5,.88);
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-.game-top button{
-  border:1px solid rgba(255,255,255,.08);
-  background:#0b0f0c;
-  color:#ddd;
-  padding:9px 13px;
-  border-radius:10px;
-}
-.game-title{color:var(--gold2);font-weight:900;letter-spacing:.08em}
-.game-balance{color:#b8e9cd}
-.game-stage{
-  flex:1;
-  position:relative;
-  overflow:hidden;
-}
-.game-canvas{
-  width:100%;
-  height:100%;
-  display:block;
-}
-.game-controls{
-  min-height:86px;
-  flex:0 0 auto;
-  background:rgba(4,6,5,.94);
-  border-top:1px solid rgba(255,255,255,.06);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  padding:12px;
-}
-.control{
-  border:1px solid rgba(255,255,255,.09);
-  background:#0d120f;
-  color:#d8ddd8;
-  padding:11px 15px;
-  border-radius:11px;
-}
-.spin{
-  min-width:130px;
+  width:34px;
+  height:34px;
   border:0;
-  color:#15110a;
-  font-weight:900;
-  padding:15px 25px;
-  border-radius:13px;
-  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  border-radius:10px;
+  background:#1b241d;
+  color:white;
+  font-size:20px;
 }
-.win{
+
+.modal-box h2{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.modal-box .sub{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:18px;
+}
+
+.input{
+  width:100%;
+  padding:14px;
+  margin-bottom:10px;
+  background:#080c09;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  color:white;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:8px;
+}
+
+.modal-actions button{
+  flex:1;
+}
+
+/* ================= GAME SCREEN ================= */
+
+.game-modal .modal-box{
+  width:min(1050px,100%);
+  padding:12px;
+  background:#060907;
+}
+
+.game-screen{
+  position:relative;
+  width:100%;
+  height:min(720px,78vh);
+  overflow:hidden;
+  border-radius:20px;
+  background:#08110b;
+}
+
+.game-background{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(244,201,93,.32),transparent 16%),
+    linear-gradient(160deg,#174c2b,#071009 70%);
+}
+
+.game-title{
+  position:absolute;
+  left:22px;
+  top:20px;
+  padding:10px 14px;
+  border-radius:12px;
+  background:rgba(3,7,4,.7);
+  border:1px solid rgba(244,201,93,.2);
+  font-weight:1000;
+}
+
+.game-balance{
+  position:absolute;
+  right:22px;
+  top:20px;
+  padding:10px 14px;
+  border-radius:12px;
+  background:rgba(3,7,4,.7);
+  border:1px solid rgba(140,255,98,.2);
+  color:var(--green);
+  font-weight:900;
+}
+
+.big-gorila{
   position:absolute;
   left:50%;
   top:50%;
-  transform:translate(-50%,-50%) scale(.8);
-  opacity:0;
-  pointer-events:none;
-  color:var(--gold2);
-  font-size:clamp(28px,6vw,70px);
-  font-weight:1000;
-  text-shadow:0 0 35px rgba(244,201,93,.65);
-  transition:.3s;
+  transform:translate(-50%,-52%);
+  width:270px;
+  height:270px;
+  border-radius:48% 52% 43% 57%;
+  background:linear-gradient(145deg,#5aa860,#163b22);
+  box-shadow:
+    inset -30px -25px rgba(0,0,0,.22),
+    0 35px 80px rgba(0,0,0,.5);
+  animation:gameGorila 2s ease-in-out infinite;
 }
-.win.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
 
-.toast{
-  position:fixed;
+.big-gorila:before{
+  content:"";
+  position:absolute;
+  width:155px;
+  height:95px;
+  left:58px;
+  top:145px;
+  border-radius:50%;
+  background:#b7834a;
+}
+
+.big-eye{
+  position:absolute;
+  top:115px;
+  width:22px;
+  height:22px;
+  background:#111;
+  border-radius:50%;
+  border:5px solid #eadb9a;
+}
+
+.big-eye.one{left:73px}
+.big-eye.two{right:73px}
+
+.game-controls{
+  position:absolute;
   left:50%;
   bottom:25px;
-  transform:translateX(-50%) translateY(20px);
-  opacity:0;
-  z-index:5000;
-  background:#101511;
-  border:1px solid rgba(244,201,93,.2);
-  color:#eee;
-  padding:12px 17px;
-  border-radius:12px;
-  transition:.25s;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
 }
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.game-action{
+  min-width:170px;
+  padding:16px 25px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(135deg,#ffe99b,#dfaF36);
+  color:#151109;
+  font-weight:1000;
+  font-size:15px;
+}
+
+.game-message{
+  position:absolute;
+  left:50%;
+  top:20%;
+  transform:translateX(-50%);
+  opacity:0;
+  padding:12px 20px;
+  border-radius:12px;
+  background:#101a12;
+  border:1px solid rgba(140,255,98,.3);
+  color:var(--green);
+  font-weight:1000;
+  transition:.3s;
+}
+
+.game-message.active{
+  opacity:1;
+  top:16%;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+  padding:30px 5vw;
+  border-top:1px solid rgba(255,255,255,.05);
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font-size:12px;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes heroFloat{
+  0%,100%{transform:translateY(0) rotate(-13deg)}
+  50%{transform:translateY(-18px) rotate(-8deg)}
+}
+
+@keyframes ring{
+  from{transform:rotate(0)}
+  to{transform:rotate(360deg)}
+}
+
+@keyframes gorilaMove{
+  0%,100%{transform:translateX(-50%) translateY(0) rotate(-2deg)}
+  50%{transform:translateX(-50%) translateY(-9px) rotate(2deg)}
+}
+
+@keyframes candyFloat{
+  0%,100%{transform:translateX(-50%) translateY(0) rotate(-3deg)}
+  50%{transform:translateX(-50%) translateY(-14px) rotate(4deg)}
+}
+
+@keyframes coinFloat{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-14px) rotate(12deg)}
+}
+
+@keyframes gameGorila{
+  0%,100%{transform:translate(-50%,-52%) scale(1)}
+  50%{transform:translate(-50%,-55%) scale(1.035)}
+}
+
+/* ================= MOBILE ================= */
 
 @media(max-width:900px){
-  .topbar{padding:0 18px}
-  .nav{display:none}
-  .user-btn{display:none}
-  .mobile-nav{display:flex}
-  .game-grid{grid-template-columns:repeat(2,1fr)}
-  .cards{grid-template-columns:1fr}
-  .hero{padding:42px 28px;min-height:420px}
-  .profile-grid{grid-template-columns:1fr}
+
+  .games{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .features{
+    grid-template-columns:1fr;
+  }
+
+  .hero{
+    min-height:560px;
+    padding:35px;
+  }
+
+  .hero-art{
+    right:-18%;
+    opacity:.48;
+    width:75%;
+  }
 }
-@media(max-width:600px){
-  .container{width:min(100% - 20px,1240px)}
-  .topbar{height:66px}
-  .game-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .game-art{height:145px}
-  .hero{border-radius:22px}
-  .hero h1{font-size:44px}
-  .support-fab{right:14px;bottom:82px}
-  .game-controls{gap:6px}
-  .control{padding:10px}
-  .spin{min-width:105px;padding:13px 15px}
+
+@media(max-width:620px){
+
+  .header{
+    height:68px;
+    padding:0 4vw;
+  }
+
+  .logo{
+    font-size:19px;
+  }
+
+  .header-actions{
+    gap:6px;
+  }
+
+  .header-actions .btn{
+    padding:9px 10px;
+    font-size:11px;
+  }
+
+  .balance{
+    display:none!important;
+  }
+
+  .container{
+    width:94vw;
+    padding-top:18px;
+  }
+
+  .hero{
+    min-height:570px;
+    border-radius:24px;
+    padding:28px;
+  }
+
+  .hero h1{
+    font-size:48px;
+  }
+
+  .hero p{
+    font-size:14px;
+  }
+
+  .hero-art{
+    width:100%;
+    right:-38%;
+    bottom:-5%;
+    opacity:.32;
+  }
+
+  .hero-orb{
+    width:280px;
+    height:280px;
+  }
+
+  .games{
+    grid-template-columns:1fr;
+  }
+
+  .game-card{
+    min-height:380px;
+  }
+
+  .game-art{
+    height:245px;
+  }
+
+  .section-head{
+    display:block;
+  }
+
+  .section-head p{
+    margin-top:6px;
+  }
+
+  .support{
+    right:15px;
+    bottom:15px;
+  }
+
+  .game-screen{
+    height:76vh;
+  }
+
+  .big-gorila{
+    width:210px;
+    height:210px;
+  }
+
+  .game-controls{
+    width:90%;
+  }
+
+  .game-action{
+    width:100%;
+  }
+
+  .footer{
+    display:block;
+    line-height:2;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="splash" id="splash">
-  <div class="splash-inner">
-    <div class="logo big">VELORA<small>CASINO & GAMES</small></div>
-    <div class="loader"><i></i></div>
+<div class="app">
+
+<header class="header">
+
+  <div class="logo">
+    VE<span>L</span>ORA
   </div>
-</div>
 
-<header class="topbar">
-  <button class="brand" onclick="showPage('home')">VELORA</button>
+  <div class="header-actions">
 
-  <nav class="nav">
-    <button data-page="home" onclick="showPage('home')">Головна</button>
-    <button data-page="games" onclick="showPage('games')">Ігри</button>
-    <button data-page="bonus" onclick="showPage('bonus')">Бонуси</button>
-    <button data-page="tournaments" onclick="showPage('tournaments')">Турніри</button>
-    <button onclick="openSupport()">Підтримка</button>
-  </nav>
+    <div id="balance" class="balance">
+      Баланс: 10 000
+    </div>
 
-  <div class="account">
-    <div class="balance" id="balanceTop">0.00 VC</div>
-    <button class="user-btn" onclick="showPage('profile')">Профіль</button>
-    <button class="primary" id="authTop" onclick="openAuth('login')">Увійти</button>
+    <button class="btn" onclick="openAuth('login')">
+      Вхід
+    </button>
+
+    <button class="btn gold" onclick="openAuth('register')">
+      Реєстрація
+    </button>
+
   </div>
+
 </header>
 
-<main>
 
-<section class="page active" id="page-home">
-<div class="container">
+<main class="container">
 
-  <div class="hero">
-    <div class="hero-copy">
-      <div class="eyebrow">VELORA ROYAL EXPERIENCE</div>
-      <h1>Ваша гра<br><span>починається тут.</span></h1>
+<section class="hero">
+
+  <div class="hero-content">
+
+    <div class="hero-label">
+      VELORA PREMIUM
+    </div>
+
+    <h1>
+      Грай.<br>
+      Відчуй.<br>
+      <span>Перемагай.</span>
+    </h1>
+
+    <p>
+      Авторські ігрові світи, мультяшні персонажі,
+      анімація та атмосфера сучасного мобільного ігрового
+      застосунку.
+    </p>
+
+    <div class="hero-buttons">
+
+      <button class="btn gold"
+              onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})">
+        Переглянути ігри
+      </button>
+
+      <button class="btn"
+              onclick="openAuth('register')">
+        Створити акаунт
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="hero-art">
+
+    <div class="hero-ring"></div>
+
+    <div class="hero-orb"></div>
+
+  </div>
+
+</section>
+
+
+<section class="section" id="games">
+
+  <div class="section-head">
+
+    <h2>
+      Ігри VELORA
+    </h2>
+
+    <p>
+      Авторські персонажі • анімація • мобільний формат
+    </p>
+
+  </div>
+
+
+  <div class="games">
+
+
+    <!-- GORILA -->
+
+    <article class="game-card">
+
+      <div class="game-art gorila-art">
+
+        <div class="gorila-moon"></div>
+
+        <div class="gorila-body">
+
+          <div class="gorila-face"></div>
+
+          <div class="gorila-eye left"></div>
+          <div class="gorila-eye right"></div>
+
+        </div>
+
+        <div class="gorila-crown"></div>
+
+      </div>
+
+
+      <div class="game-info">
+
+        <h3>
+          Gorila King
+        </h3>
+
+        <p>
+          Король джунглів
+        </p>
+
+        <button class="play-btn"
+                onclick="openGame()">
+          Грати
+        </button>
+
+      </div>
+
+    </article>
+
+
+    <!-- CANDY -->
+
+    <article class="game-card">
+
+      <div class="game-art candy-art">
+
+        <div class="candy-hero">
+
+          <div class="candy-eye left"></div>
+          <div class="candy-eye right"></div>
+
+          <div class="candy-smile"></div>
+
+        </div>
+
+        <div class="candy-cloud"></div>
+
+      </div>
+
+
+      <div class="game-info">
+
+        <h3>
+          Candy Rush
+        </h3>
+
+        <p>
+          Солодкий мультяшний світ
+        </p>
+
+        <button class="play-btn"
+                onclick="openCandy()">
+          Грати
+        </button>
+
+      </div>
+
+    </article>
+
+
+    <!-- PIRATE -->
+
+    <article class="game-card">
+
+      <div class="game-art pirate-art">
+
+        <div class="pirate-sail"></div>
+
+        <div class="pirate-skull"></div>
+
+        <div class="pirate-ship"></div>
+
+        <div class="pirate-gold"></div>
+
+      </div>
+
+
+      <div class="game-info">
+
+        <h3>
+          Golden Pirate
+        </h3>
+
+        <p>
+          Полювання за золотом
+        </p>
+
+        <button class="play-btn"
+                onclick="openPirate()">
+          Грати
+        </button>
+
+      </div>
+
+    </article>
+
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-head">
+
+    <h2>
+      VELORA Experience
+    </h2>
+
+  </div>
+
+
+  <div class="features">
+
+    <div class="feature">
+
+      <div class="feature-line"></div>
+
+      <h3>
+        Авторська графіка
+      </h3>
+
       <p>
-        Відкрийте новий світ ігор VELORA. Унікальні ігрові світи,
-        анімації та атмосфера, створені спеціально для платформи.
+        Ігри створюються як окремі маленькі світи
+        зі своїми персонажами, фонами та анімаціями.
       </p>
-      <div class="hero-actions">
-        <button class="primary" onclick="showPage('games')">Переглянути ігри</button>
-        <button class="secondary" onclick="openAuth('register')">Створити акаунт</button>
-      </div>
+
     </div>
+
+
+    <div class="feature">
+
+      <div class="feature-line"></div>
+
+      <h3>
+        Mobile First
+      </h3>
+
+      <p>
+        Інтерфейс розрахований насамперед на телефон:
+        великі кнопки, плавні переходи та повноекранні ігри.
+      </p>
+
+    </div>
+
+
+    <div class="feature">
+
+      <div class="feature-line"></div>
+
+      <h3>
+        Підтримка
+      </h3>
+
+      <p>
+        Окрема кнопка підтримки залишається доступною
+        навіть якщо користувач не може увійти до акаунта.
+      </p>
+
+    </div>
+
   </div>
 
-  <div class="section-head">
-    <div>
-      <h2>Популярні ігри</h2>
-      <p>Різні світи. Різний характер. Єдиний стиль VELORA.</p>
-    </div>
-  </div>
-
-  <div class="game-grid" id="homeGames"></div>
-
-  <div class="section-head">
-    <div>
-      <h2>VELORA Experience</h2>
-      <p>Все необхідне в одному просторі.</p>
-    </div>
-  </div>
-
-  <div class="cards">
-    <div class="panel">
-      <h3>Бонуси</h3>
-      <p>Окремий простір для доступних винагород та активностей.</p>
-      <button class="secondary" onclick="showPage('bonus')">Переглянути</button>
-    </div>
-    <div class="panel">
-      <h3>Турніри</h3>
-      <p>Таблиці результатів та події платформи на основі віртуальних очок.</p>
-      <button class="secondary" onclick="showPage('tournaments')">Відкрити</button>
-    </div>
-    <div class="panel">
-      <h3>Підтримка</h3>
-      <p>Якщо виникли проблеми з акаунтом, зверніться до служби підтримки.</p>
-      <button class="secondary" onclick="openSupport()">Зв'язатися</button>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<section class="page" id="page-games">
-<div class="container">
-  <div class="section-head">
-    <div>
-      <h2>Ігри VELORA</h2>
-      <p>Кожна гра має власний світ і власну механіку.</p>
-    </div>
-  </div>
-
-  <div class="categories">
-    <button class="cat active" onclick="filterGames('all',this)">Усі</button>
-    <button class="cat" onclick="filterGames('adventure',this)">Пригоди</button>
-    <button class="cat" onclick="filterGames('space',this)">Космос</button>
-    <button class="cat" onclick="filterGames('classic',this)">Класика</button>
-    <button class="cat" onclick="filterGames('action',this)">Екшен</button>
-  </div>
-
-  <div class="game-grid" id="gamesGrid" style="margin-top:18px"></div>
-</div>
-</section>
-
-<section class="page" id="page-bonus">
-<div class="container">
-  <div class="section-head">
-    <div>
-      <h2>Бонуси</h2>
-      <p>Активності VELORA.</p>
-    </div>
-  </div>
-  <div class="cards">
-    <div class="panel">
-      <h3>Щоденна нагорода</h3>
-      <p>Відкрийте щоденну нагороду та отримайте віртуальні кредити.</p>
-      <button class="primary" onclick="dailyBonus()">Отримати</button>
-    </div>
-    <div class="panel">
-      <h3>Старт VELORA</h3>
-      <p>Новий акаунт отримує стартовий віртуальний баланс для тестування ігор.</p>
-    </div>
-    <div class="panel">
-      <h3>Майбутні події</h3>
-      <p>Тут будуть розміщуватися сезонні активності та спеціальні події.</p>
-    </div>
-  </div>
-</div>
-</section>
-
-<section class="page" id="page-tournaments">
-<div class="container">
-  <div class="section-head">
-    <div>
-      <h2>Турніри</h2>
-      <p>Змагання на основі віртуальних результатів.</p>
-    </div>
-  </div>
-
-  <div class="panel">
-    <h3>VELORA WEEKLY</h3>
-    <p>Поточна таблиця лідерів.</p>
-    <div id="leaderboard"></div>
-  </div>
-</div>
-</section>
-
-<section class="page" id="page-profile">
-<div class="container">
-  <div class="section-head">
-    <div>
-      <h2>Профіль</h2>
-      <p>Ваш простір VELORA.</p>
-    </div>
-  </div>
-
-  <div class="profile-grid">
-    <div class="panel">
-      <div class="avatar" id="avatarLetter">V</div>
-      <h2 id="profileName">Гість</h2>
-      <p id="profileEmail">Ви не авторизовані.</p>
-      <button class="secondary" onclick="logout()">Вийти</button>
-    </div>
-
-    <div class="panel">
-      <div class="stat">
-        <small>Баланс</small>
-        <strong id="profileBalance">0.00 VC</strong>
-      </div>
-      <div class="stat">
-        <small>Відіграно раундів</small>
-        <strong id="rounds">0</strong>
-      </div>
-      <div class="stat">
-        <small>Результат</small>
-        <strong id="wins">0</strong>
-      </div>
-    </div>
-  </div>
-</div>
 </section>
 
 </main>
 
-<div class="support-fab" onclick="openSupport()">Підтримка</div>
 
-<nav class="mobile-nav">
-  <button data-page="home" onclick="showPage('home')">Головна</button>
-  <button data-page="games" onclick="showPage('games')">Ігри</button>
-  <button data-page="bonus" onclick="showPage('bonus')">Бонуси</button>
-  <button data-page="tournaments" onclick="showPage('tournaments')">Турніри</button>
-  <button data-page="profile" onclick="showPage('profile')">Профіль</button>
-</nav>
+<footer class="footer">
 
-<div class="modal hidden" id="authModal">
+  <div>
+    VELORA © 2026
+  </div>
+
+  <div>
+    Підтримка • Правила • Конфіденційність
+  </div>
+
+</footer>
+
+
+<button class="support"
+        onclick="openSupport()">
+  Підтримка
+</button>
+
+
+<!-- AUTH -->
+
+<div class="modal"
+     id="authModal">
+
   <div class="modal-box">
-    <button class="close" onclick="closeModal('authModal')">×</button>
-    <h2 id="authTitle">Увійти до VELORA</h2>
-    <p id="authDescription">Введіть дані свого акаунта.</p>
 
-    <div class="field hidden" id="nameField">
-      <label>Нікнейм</label>
-      <input id="authName" autocomplete="nickname">
-    </div>
+    <button class="close"
+            onclick="closeModal('authModal')">
+      ×
+    </button>
 
-    <div class="field">
-      <label>Email</label>
-      <input id="authEmail" type="email" autocomplete="email">
-    </div>
+    <h2 id="authTitle">
+      Створити акаунт
+    </h2>
 
-    <div class="field">
-      <label>Пароль</label>
-      <input id="authPassword" type="password" autocomplete="current-password">
-    </div>
-
-    <div class="field hidden" id="confirmField">
-      <label>Підтвердження пароля</label>
-      <input id="authConfirm" type="password" autocomplete="new-password">
-    </div>
-
-    <div class="form-actions">
-      <button class="secondary" onclick="closeModal('authModal')">Скасувати</button>
-      <button class="primary" onclick="submitAuth()" id="authSubmit">Увійти</button>
-    </div>
-
-    <p style="margin-top:18px;text-align:center;font-size:13px">
-      <button style="background:none;border:0;color:var(--gold)" onclick="toggleAuthMode()" id="authSwitch">
-        Створити новий акаунт
-      </button>
+    <p class="sub"
+       id="authSub">
+      Зареєструйся у VELORA.
     </p>
+
+    <input
+      id="nameInput"
+      class="input"
+      placeholder="Ім'я або нікнейм"
+    >
+
+    <input
+      id="emailInput"
+      class="input"
+      type="email"
+      placeholder="Email"
+    >
+
+    <input
+      id="passwordInput"
+      class="input"
+      type="password"
+      placeholder="Пароль"
+    >
+
+    <div class="modal-actions">
+
+      <button class="btn"
+              onclick="switchAuth()"
+              id="switchButton">
+        Вже маю акаунт
+      </button>
+
+      <button class="btn gold"
+              onclick="submitAuth()">
+        Продовжити
+      </button>
+
+    </div>
+
   </div>
+
 </div>
 
-<div class="modal hidden" id="supportModal">
+
+<!-- GAME -->
+
+<div class="modal game-modal"
+     id="gameModal">
+
   <div class="modal-box">
-    <button class="close" onclick="closeModal('supportModal')">×</button>
-    <h2>Підтримка VELORA</h2>
-    <p>Опишіть проблему, і ми зможемо підготувати систему звернень для підключення до backend.</p>
 
-    <div class="field">
-      <label>Тема</label>
-      <input id="supportSubject" placeholder="Наприклад: не можу увійти">
+    <button class="close"
+            onclick="closeModal('gameModal')">
+      ×
+    </button>
+
+    <div class="game-screen">
+
+      <div class="game-background"></div>
+
+      <div class="game-title">
+        GORILA KING
+      </div>
+
+      <div class="game-balance">
+        10 000
+      </div>
+
+
+      <div class="game-message"
+           id="gameMessage">
+        Раунд запущено
+      </div>
+
+
+      <div class="big-gorila">
+
+        <div class="big-eye one"></div>
+        <div class="big-eye two"></div>
+
+      </div>
+
+
+      <div class="game-controls">
+
+        <button class="game-action"
+                onclick="startRound()">
+          ПОЧАТИ ГРУ
+        </button>
+
+      </div>
+
     </div>
 
-    <div class="field">
-      <label>Повідомлення</label>
-      <textarea id="supportMessage" rows="5" placeholder="Опишіть проблему"></textarea>
+  </div>
+
+</div>
+
+
+<!-- CANDY GAME -->
+
+<div class="modal game-modal"
+     id="candyModal">
+
+  <div class="modal-box">
+
+    <button class="close"
+            onclick="closeModal('candyModal')">
+      ×
+    </button>
+
+    <div class="game-screen"
+         style="background:#24112d">
+
+      <div
+        style="
+        position:absolute;
+        inset:0;
+        background:
+        radial-gradient(circle at 50% 35%,rgba(255,120,170,.35),transparent 20%),
+        linear-gradient(160deg,#4b174f,#10152d);
+        ">
+      </div>
+
+      <div class="game-title">
+        CANDY RUSH
+      </div>
+
+      <div
+        id="candyCharacter"
+        style="
+        position:absolute;
+        left:50%;
+        top:35%;
+        transform:translate(-50%,-50%);
+        width:190px;
+        height:190px;
+        border-radius:50%;
+        background:linear-gradient(135deg,#ff65a0,#ffc95b);
+        box-shadow:0 0 90px rgba(255,101,160,.35);
+        transition:.4s;
+        ">
+
+        <div
+          style="
+          position:absolute;
+          width:18px;
+          height:24px;
+          border-radius:50%;
+          background:#25142b;
+          top:76px;
+          left:57px;
+          ">
+        </div>
+
+        <div
+          style="
+          position:absolute;
+          width:18px;
+          height:24px;
+          border-radius:50%;
+          background:#25142b;
+          top:76px;
+          right:57px;
+          ">
+        </div>
+
+      </div>
+
+      <div class="game-controls">
+
+        <button class="game-action"
+                onclick="candyPlay()">
+          ПОЧАТИ ГРУ
+        </button>
+
+      </div>
+
     </div>
 
-    <div class="form-actions">
-      <button class="secondary" onclick="closeModal('supportModal')">Закрити</button>
-      <button class="primary" onclick="sendSupport()">Надіслати</button>
+  </div>
+
+</div>
+
+
+<!-- PIRATE GAME -->
+
+<div class="modal game-modal"
+     id="pirateModal">
+
+  <div class="modal-box">
+
+    <button class="close"
+            onclick="closeModal('pirateModal')">
+      ×
+    </button>
+
+    <div class="game-screen"
+         style="background:#071c24">
+
+      <div
+        style="
+        position:absolute;
+        inset:0;
+        background:
+        radial-gradient(circle at 70% 20%,rgba(244,201,93,.35),transparent 18%),
+        linear-gradient(160deg,#0b4752,#061216);
+        ">
+      </div>
+
+      <div class="game-title">
+        GOLDEN PIRATE
+      </div>
+
+      <div
+        id="pirateCoin"
+        style="
+        position:absolute;
+        left:50%;
+        top:35%;
+        transform:translate(-50%,-50%);
+        width:145px;
+        height:145px;
+        border-radius:50%;
+        background:linear-gradient(145deg,#fff0a1,#d59b20);
+        box-shadow:0 0 80px rgba(244,201,93,.45);
+        transition:.5s;
+        ">
+      </div>
+
+      <div class="game-controls">
+
+        <button class="game-action"
+                onclick="piratePlay()">
+          ЗНАЙТИ СКАРБ
+        </button>
+
+      </div>
+
     </div>
+
   </div>
+
 </div>
 
-<div class="transition hidden" id="welcomeTransition">
-  <div class="inner">
-    <div class="logo big" style="font-size:52px">VELORA</div>
-    <div class="message">Ваш акаунт створено. Підготовка особистого простору...</div>
+
+<!-- SUPPORT -->
+
+<div class="modal"
+     id="supportModal">
+
+  <div class="modal-box">
+
+    <button class="close"
+            onclick="closeModal('supportModal')">
+      ×
+    </button>
+
+    <h2>
+      Підтримка VELORA
+    </h2>
+
+    <p class="sub">
+      Якщо виникла проблема з акаунтом або входом,
+      залиш повідомлення.
+    </p>
+
+    <input
+      class="input"
+      placeholder="Ваш email"
+    >
+
+    <input
+      class="input"
+      placeholder="Тема звернення"
+    >
+
+    <textarea
+      class="input"
+      style="height:130px;resize:none"
+      placeholder="Опишіть проблему">
+    </textarea>
+
+    <button
+      class="btn gold"
+      style="width:100%"
+      onclick="sendSupport()">
+      Відправити звернення
+    </button>
+
   </div>
+
 </div>
 
-<div class="game-overlay" id="gameOverlay">
-  <div class="game-top">
-    <button onclick="closeGame()">← VELORA</button>
-    <div class="game-title" id="gameTitle">GAME</div>
-    <div class="game-balance" id="gameBalance">0.00 VC</div>
-  </div>
-
-  <div class="game-stage">
-    <canvas class="game-canvas" id="gameCanvas"></canvas>
-    <div class="win" id="winText"></div>
-  </div>
-
-  <div class="game-controls" id="gameControls"></div>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <script>
-/* ============================================================
-   VELORA
-   Front-end build
-   ============================================================ */
 
-const GAMES = [
-  {id:"forest",name:"Lucky Forest",genre:"adventure",desc:"Чарівний ліс і пошук скарбів."},
-  {id:"dragon",name:"Dragon Vault",genre:"adventure",desc:"Скарбниця стародавнього дракона."},
-  {id:"cosmo",name:"Cosmo Rush",genre:"space",desc:"Космічна експедиція крізь зоряне поле."},
-  {id:"pirate",name:"Pirate Treasure",genre:"adventure",desc:"Пошук легендарного скарбу."},
-  {id:"racer",name:"Neon Racers",genre:"action",desc:"Нічна гонка у неоновому місті."},
-  {id:"magic",name:"Magic Academy",genre:"classic",desc:"Магічна академія та стародавні артефакти."},
-  {id:"royal",name:"Royal Wheel",genre:"classic",desc:"Королівське колесо удачі."},
-  {id:"diamond",name:"Black Diamond",genre:"classic",desc:"Темний світ дорогоцінних каменів."}
-];
+let authMode = "register";
 
-let user = JSON.parse(localStorage.getItem("velora_user") || "null");
-let authMode="login";
-let currentGame=null;
-let gameAnimation=0;
-let gameLoop=null;
-let gameBusy=false;
-let gameState={};
-let audioCtx=null;
-
-/* --------------------------
-   INITIALIZATION
--------------------------- */
-
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    document.getElementById("splash").classList.add("hide");
-  },900);
-
-  renderGames();
-  renderLeaderboard();
-  updateUI();
-
-  if(!user){
-    document.getElementById("authTop").textContent="Увійти";
-  }
-});
-
-function saveUser(){
-  localStorage.setItem("velora_user",JSON.stringify(user));
-}
-
-function updateUI(){
-  const balance=user ? user.balance : 0;
-  document.getElementById("balanceTop").textContent=balance.toFixed(2)+" VC";
-  document.getElementById("gameBalance").textContent=balance.toFixed(2)+" VC";
-
-  document.getElementById("authTop").textContent=user ? "Профіль" : "Увійти";
-  document.getElementById("authTop").onclick=()=>{
-    user ? showPage("profile") : openAuth("login");
-  };
-
-  document.getElementById("profileName").textContent=user ? user.name : "Гість";
-  document.getElementById("profileEmail").textContent=user ? user.email : "Ви не авторизовані.";
-  document.getElementById("profileBalance").textContent=(user?user.balance:0).toFixed(2)+" VC";
-  document.getElementById("rounds").textContent=user ? user.rounds : 0;
-  document.getElementById("wins").textContent=user ? user.wins : 0;
-  document.getElementById("avatarLetter").textContent=user ? user.name.charAt(0).toUpperCase() : "V";
-}
-
-/* --------------------------
-   NAVIGATION
--------------------------- */
-
-function showPage(page){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  const target=document.getElementById("page-"+page);
-  if(target) target.classList.add("active");
-
-  document.querySelectorAll("[data-page]").forEach(b=>{
-    b.classList.toggle("active",b.dataset.page===page);
-  });
-
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-function renderGames(filter="all"){
-  const grids=[
-    document.getElementById("gamesGrid"),
-    document.getElementById("homeGames")
-  ];
-
-  grids.forEach((grid,index)=>{
-    if(!grid)return;
-    grid.innerHTML="";
-
-    const list=filter==="all"
-      ? GAMES
-      : GAMES.filter(g=>g.genre===filter);
-
-    const visible=index===1 ? list.slice(0,4) : list;
-
-    visible.forEach(game=>{
-      const card=document.createElement("article");
-      card.className="game-card";
-      card.innerHTML=`
-        <div class="game-art">
-          <canvas data-art="${game.id}"></canvas>
-        </div>
-        <div class="game-info">
-          <strong>${game.name}</strong>
-          <span>${game.desc}</span>
-          <button class="play-game" onclick="openGame('${game.id}')">Грати</button>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
-
-    setTimeout(drawCardArts,20);
-  });
-}
-
-function filterGames(filter,button){
-  document.querySelectorAll(".cat").forEach(x=>x.classList.remove("active"));
-  button.classList.add("active");
-  renderGames(filter);
-}
-
-/* --------------------------
-   AUTH
--------------------------- */
 
 function openAuth(mode){
-  authMode=mode;
-  document.getElementById("authModal").classList.remove("hidden");
-  updateAuthForm();
+
+  authMode = mode;
+
+  updateAuth();
+
+  document
+    .getElementById("authModal")
+    .classList.add("show");
 }
 
-function toggleAuthMode(){
-  authMode=authMode==="login"?"register":"login";
-  updateAuthForm();
-}
-
-function updateAuthForm(){
-  const register=authMode==="register";
-  document.getElementById("authTitle").textContent=register
-    ?"Створити акаунт VELORA"
-    :"Увійти до VELORA";
-
-  document.getElementById("authDescription").textContent=register
-    ?"Створіть особистий простір VELORA."
-    :"Введіть дані свого акаунта.";
-
-  document.getElementById("nameField").classList.toggle("hidden",!register);
-  document.getElementById("confirmField").classList.toggle("hidden",!register);
-
-  document.getElementById("authSubmit").textContent=register?"Зареєструватися":"Увійти";
-  document.getElementById("authSwitch").textContent=register
-    ?"У мене вже є акаунт"
-    :"Створити новий акаунт";
-}
-
-function submitAuth(){
-  const name=document.getElementById("authName").value.trim();
-  const email=document.getElementById("authEmail").value.trim();
-  const password=document.getElementById("authPassword").value;
-  const confirm=document.getElementById("authConfirm").value;
-
-  if(!email || !password){
-    toast("Заповніть email та пароль.");
-    return;
-  }
-
-  if(authMode==="register"){
-    if(name.length<2){
-      toast("Введіть нікнейм.");
-      return;
-    }
-    if(password.length<6){
-      toast("Пароль має містити щонайменше 6 символів.");
-      return;
-    }
-    if(password!==confirm){
-      toast("Паролі не співпадають.");
-      return;
-    }
-
-    user={
-      id:"V"+Date.now(),
-      name,
-      email,
-      /* У production пароль НЕ повинен зберігатися в localStorage.
-         Реальна авторизація буде перенесена на backend. */
-      password,
-      balance:1000,
-      rounds:0,
-      wins:0,
-      lastBonus:0,
-      createdAt:new Date().toISOString()
-    };
-
-    saveUser();
-    closeModal("authModal");
-
-    const transition=document.getElementById("welcomeTransition");
-    transition.classList.remove("hidden");
-
-    setTimeout(()=>{
-      transition.classList.add("hidden");
-      updateUI();
-      showPage("home");
-      toast("Ласкаво просимо до VELORA.");
-    },3000);
-
-  }else{
-    if(!user || user.email!==email || user.password!==password){
-      toast("Невірний email або пароль.");
-      return;
-    }
-
-    closeModal("authModal");
-    updateUI();
-    showPage("home");
-    toast("З поверненням до VELORA.");
-  }
-}
-
-function logout(){
-  user=null;
-  updateUI();
-  showPage("home");
-  toast("Ви вийшли з акаунта.");
-}
-
-/* --------------------------
-   BONUS
--------------------------- */
-
-function dailyBonus(){
-  if(!user){
-    openAuth("register");
-    toast("Спочатку створіть акаунт.");
-    return;
-  }
-
-  const now=Date.now();
-  const day=86400000;
-
-  if(user.lastBonus && now-user.lastBonus<day){
-    toast("Щоденну нагороду вже отримано.");
-    return;
-  }
-
-  user.balance+=250;
-  user.lastBonus=now;
-  saveUser();
-  updateUI();
-  toast("+250 VC отримано.");
-}
-
-/* --------------------------
-   SUPPORT
--------------------------- */
-
-function openSupport(){
-  document.getElementById("supportModal").classList.remove("hidden");
-}
-
-function sendSupport(){
-  const subject=document.getElementById("supportSubject").value.trim();
-  const message=document.getElementById("supportMessage").value.trim();
-
-  if(!subject || !message){
-    toast("Заповніть тему та повідомлення.");
-    return;
-  }
-
-  closeModal("supportModal");
-  toast("Звернення збережено для перевірки.");
-  document.getElementById("supportSubject").value="";
-  document.getElementById("supportMessage").value="";
-}
-
-/* --------------------------
-   MODALS
--------------------------- */
 
 function closeModal(id){
-  document.getElementById(id).classList.add("hidden");
+
+  document
+    .getElementById(id)
+    .classList.remove("show");
 }
 
-function toast(text){
-  const el=document.getElementById("toast");
-  el.textContent=text;
-  el.classList.add("show");
-  clearTimeout(window.toastTimer);
-  window.toastTimer=setTimeout(()=>el.classList.remove("show"),2600);
+
+function switchAuth(){
+
+  authMode =
+    authMode === "register"
+      ? "login"
+      : "register";
+
+  updateAuth();
 }
 
-/* --------------------------
-   LEADERBOARD
--------------------------- */
 
-function renderLeaderboard(){
-  const names=["VELORA_Player","RoyalFox","NightStar","GoldenKing","LuckySoul"];
-  const scores=[9820,7410,6350,5140,4210];
+function updateAuth(){
 
-  document.getElementById("leaderboard").innerHTML=names.map((n,i)=>`
-    <div class="stat" style="display:flex;justify-content:space-between">
-      <span>${i+1}. ${n}</span>
-      <strong style="font-size:16px">${scores[i].toLocaleString()} VC</strong>
-    </div>
-  `).join("");
-}
+  const title =
+    document.getElementById("authTitle");
 
-/* ============================================================
-   GAME SYSTEM
-   ============================================================ */
+  const sub =
+    document.getElementById("authSub");
 
-function openGame(id){
-  if(!user){
-    openAuth("register");
-    toast("Створіть акаунт, щоб відкрити гру.");
-    return;
-  }
+  const name =
+    document.getElementById("nameInput");
 
-  currentGame=GAMES.find(g=>g.id===id);
-  if(!currentGame)return;
+  const switchButton =
+    document.getElementById("switchButton");
 
-  document.getElementById("gameOverlay").classList.add("open");
-  document.getElementById("gameTitle").textContent=currentGame.name;
 
-  gameState={
-    id,
-    score:0,
-    running:true,
-    level:1,
-    angle:0,
-    speed:0,
-    result:null,
-    cells:[]
-  };
+  if(authMode === "register"){
 
-  setupGameControls(id);
-  resizeGameCanvas();
+    title.textContent =
+      "Створити акаунт";
 
-  if(gameLoop)cancelAnimationFrame(gameLoop);
-  gameAnimation=0;
-  animateGame();
-}
+    sub.textContent =
+      "Зареєструйся у VELORA та відкрий свій ігровий кабінет.";
 
-function closeGame(){
-  document.getElementById("gameOverlay").classList.remove("open");
-  if(gameLoop)cancelAnimationFrame(gameLoop);
-  currentGame=null;
-  updateUI();
-}
+    name.style.display =
+      "block";
 
-function resizeGameCanvas(){
-  const canvas=document.getElementById("gameCanvas");
-  const rect=canvas.getBoundingClientRect();
-  const dpr=Math.min(window.devicePixelRatio||1,2);
-  canvas.width=Math.floor(rect.width*dpr);
-  canvas.height=Math.floor(rect.height*dpr);
-  canvas.getContext("2d").setTransform(dpr,0,0,dpr,0,0);
-}
+    switchButton.textContent =
+      "Вже маю акаунт";
 
-window.addEventListener("resize",()=>{
-  if(currentGame)resizeGameCanvas();
-});
-
-function setupGameControls(id){
-  const c=document.getElementById("gameControls");
-
-  const common=`
-    <button class="control" onclick="gameSound()">Звук</button>
-    <button class="control" onclick="showGameHelp()">Правила</button>
-  `;
-
-  if(["royal","diamond","forest","dragon"].includes(id)){
-    c.innerHTML=`
-      <button class="control" onclick="changeBet(-10)">−</button>
-      <button class="control" id="betDisplay">Ставка 10</button>
-      <button class="control" onclick="changeBet(10)">+</button>
-      <button class="spin" onclick="playGameRound()">ГРАТИ</button>
-      ${common}
-    `;
   }else{
-    c.innerHTML=`
-      <button class="control" onclick="gameAction('left')">Ліворуч</button>
-      <button class="spin" onclick="playGameRound()">ПОЧАТИ</button>
-      <button class="control" onclick="gameAction('right')">Праворуч</button>
-      ${common}
-    `;
+
+    title.textContent =
+      "Вхід до VELORA";
+
+    sub.textContent =
+      "Увійди до свого акаунта.";
+
+    name.style.display =
+      "none";
+
+    switchButton.textContent =
+      "Створити акаунт";
   }
 }
 
-function showGameHelp(){
-  toast("Це ігрова механіка з віртуальними VC для поточної збірки.");
-}
 
-function gameSound(){
-  playTone(660,.07);
-  toast("Звук перемкнено.");
-}
+function submitAuth(){
 
-function changeBet(amount){
-  gameState.bet=Math.max(10,Math.min(100,((gameState.bet||10)+amount)));
-  const el=document.getElementById("betDisplay");
-  if(el)el.textContent="Ставка "+gameState.bet;
-}
+  const email =
+    document.getElementById("emailInput").value;
 
-function playGameRound(){
-  if(!currentGame || gameBusy)return;
+  const password =
+    document.getElementById("passwordInput").value;
 
-  if(!user){
-    closeGame();
-    openAuth("register");
+
+  if(!email || !password){
+
+    alert(
+      "Заповни email та пароль."
+    );
+
     return;
   }
 
-  const bet=gameState.bet||10;
 
-  if(user.balance<bet){
-    toast("Недостатньо VC.");
-    return;
+  if(authMode === "register"){
+
+    localStorage.setItem(
+      "velora_logged",
+      "true"
+    );
+
+    closeModal("authModal");
+
+    /*
+      Имитируем красивый переход
+      после регистрации.
+    */
+
+    setTimeout(function(){
+
+      document
+        .getElementById("balance")
+        .style.display = "block";
+
+      window.scrollTo({
+        top:0,
+        behavior:"smooth"
+      });
+
+    },3500);
+
+  }else{
+
+    localStorage.setItem(
+      "velora_logged",
+      "true"
+    );
+
+    closeModal("authModal");
+
+    document
+      .getElementById("balance")
+      .style.display = "block";
   }
-
-  gameBusy=true;
-  user.balance-=bet;
-  user.rounds++;
-  saveUser();
-  updateUI();
-
-  playTone(190,.08);
-
-  setTimeout(()=>{
-    const winChance=Math.random();
-    let multiplier=0;
-
-    if(winChance>.88) multiplier=5;
-    else if(winChance>.68) multiplier=2;
-    else if(winChance>.46) multiplier=1.2;
-
-    const reward=multiplier ? bet*multiplier : 0;
-
-    if(reward>0){
-      user.balance+=reward;
-      user.wins++;
-      showWin("+"+reward.toFixed(0)+" VC");
-      playTone(720,.1);
-      setTimeout(()=>playTone(920,.12),90);
-    }else{
-      showWin("СПРОБУЙТЕ ЩЕ");
-      playTone(120,.06);
-    }
-
-    saveUser();
-    updateUI();
-    gameBusy=false;
-  },850);
 }
 
-function gameAction(direction){
-  gameState.direction=direction;
-  gameState.speed=direction==="left"?-1:1;
-  playTone(direction==="left"?250:400,.05);
+
+function openGame(){
+
+  document
+    .getElementById("gameModal")
+    .classList.add("show");
 }
 
-/* --------------------------
-   GAME ANIMATION
--------------------------- */
 
-function animateGame(){
-  const canvas=document.getElementById("gameCanvas");
-  const ctx=canvas.getContext("2d");
-  const w=canvas.clientWidth;
-  const h=canvas.clientHeight;
+function startRound(){
 
-  ctx.clearRect(0,0,w,h);
+  const message =
+    document.getElementById("gameMessage");
 
-  if(currentGame){
-    drawGameWorld(ctx,w,h,currentGame.id);
-  }
+  message.classList.add("active");
 
-  gameAnimation++;
-  gameLoop=requestAnimationFrame(animateGame);
+  setTimeout(function(){
+
+    message.classList.remove("active");
+
+  },1800);
 }
 
-/* --------------------------
-   CARD ART
--------------------------- */
 
-function drawCardArts(){
-  document.querySelectorAll(".game-art canvas").forEach(canvas=>{
-    const rect=canvas.getBoundingClientRect();
-    const dpr=Math.min(devicePixelRatio||1,2);
-    canvas.width=rect.width*dpr;
-    canvas.height=rect.height*dpr;
-    const ctx=canvas.getContext("2d");
-    ctx.setTransform(dpr,0,0,dpr,0,0);
+function openCandy(){
 
-    drawGameWorld(ctx,rect.width,rect.height,canvas.dataset.art,true);
+  document
+    .getElementById("candyModal")
+    .classList.add("show");
+}
+
+
+function candyPlay(){
+
+  const character =
+    document.getElementById("candyCharacter");
+
+  character.style.transform =
+    "translate(-50%,-50%) scale(1.18) rotate(12deg)";
+
+  setTimeout(function(){
+
+    character.style.transform =
+      "translate(-50%,-50%) scale(1) rotate(0deg)";
+
+  },700);
+}
+
+
+function openPirate(){
+
+  document
+    .getElementById("pirateModal")
+    .classList.add("show");
+}
+
+
+function piratePlay(){
+
+  const coin =
+    document.getElementById("pirateCoin");
+
+  coin.style.transform =
+    "translate(-50%,-50%) rotateY(180deg) scale(1.18)";
+
+  setTimeout(function(){
+
+    coin.style.transform =
+      "translate(-50%,-50%) rotateY(360deg) scale(1)";
+
+  },800);
+}
+
+
+function openSupport(){
+
+  document
+    .getElementById("supportModal")
+    .classList.add("show");
+}
+
+
+function sendSupport(){
+
+  alert(
+    "Повідомлення підготовлено для служби підтримки."
+  );
+}
+
+
+if(
+  localStorage.getItem("velora_logged")
+  === "true"
+){
+
+  document
+    .getElementById("balance")
+    .style.display = "block";
+}
+
+
+/* Закриття модальних вікон по фону */
+
+document
+  .querySelectorAll(".modal")
+  .forEach(function(modal){
+
+    modal.addEventListener(
+      "click",
+      function(event){
+
+        if(event.target === modal){
+          modal.classList.remove("show");
+        }
+
+      }
+    );
+
   });
-}
-
-/* ============================================================
-   ORIGINAL CANVAS ART
-   ============================================================ */
-
-function drawGameWorld(ctx,w,h,id,card=false){
-  const t=gameAnimation*.025;
-
-  ctx.save();
-
-  if(id==="forest")drawForest(ctx,w,h,t,card);
-  else if(id==="dragon")drawDragon(ctx,w,h,t,card);
-  else if(id==="cosmo")drawCosmo(ctx,w,h,t,card);
-  else if(id==="pirate")drawPirate(ctx,w,h,t,card);
-  else if(id==="racer")drawRacer(ctx,w,h,t,card);
-  else if(id==="magic")drawMagic(ctx,w,h,t,card);
-  else if(id==="royal")drawRoyal(ctx,w,h,t,card);
-  else if(id==="diamond")drawDiamond(ctx,w,h,t,card);
-
-  ctx.restore();
-}
-
-/* FOREST */
-
-function drawForest(ctx,w,h,t,card){
-  const g=ctx.createLinearGradient(0,0,0,h);
-  g.addColorStop(0,"#09251c");
-  g.addColorStop(1,"#06110d");
-  ctx.fillStyle=g;
-  ctx.fillRect(0,0,w,h);
-
-  for(let i=0;i<22;i++){
-    const x=(i*83+w*.1)%w;
-    const y=(i*47+h*.12)%h;
-    ctx.fillStyle=i%2?"rgba(83,232,154,.08)":"rgba(244,201,93,.06)";
-    ctx.beginPath();
-    ctx.arc(x,y,3+Math.sin(t+i)*2,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  // trees
-  for(let i=0;i<7;i++){
-    const x=i*w/6-30;
-    const base=h*.85;
-    ctx.fillStyle="#0b1711";
-    ctx.fillRect(x,base-90,25,90);
-    ctx.fillStyle=i%2?"#123e2a":"#0f2d20";
-    ctx.beginPath();
-    ctx.arc(x+12,base-105,58,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  // path
-  ctx.fillStyle="#1b241b";
-  ctx.beginPath();
-  ctx.moveTo(w*.35,h);
-  ctx.lineTo(w*.48,h*.54);
-  ctx.lineTo(w*.56,h*.54);
-  ctx.lineTo(w*.72,h);
-  ctx.fill();
-
-  // fox-like original cartoon character
-  const cx=w*.5;
-  const cy=h*.56+Math.sin(t*2)*4;
-  ctx.fillStyle="#e78342";
-  ctx.beginPath();
-  ctx.arc(cx,cy,34,0,Math.PI*2);
-  ctx.fill();
-
-  // ears
-  ctx.beginPath();
-  ctx.moveTo(cx-25,cy-22);
-  ctx.lineTo(cx-35,cy-57);
-  ctx.lineTo(cx-8,cy-36);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(cx+25,cy-22);
-  ctx.lineTo(cx+35,cy-57);
-  ctx.lineTo(cx+8,cy-36);
-  ctx.fill();
-
-  ctx.fillStyle="#f5d1a5";
-  ctx.beginPath();
-  ctx.arc(cx,cy+7,20,0,Math.PI*2);
-  ctx.fill();
-
-  ctx.fillStyle="#111";
-  ctx.beginPath();ctx.arc(cx-11,cy-2,3,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(cx+11,cy-2,3,0,Math.PI*2);ctx.fill();
-
-  // crystal
-  const gy=h*.28+Math.sin(t*2)*5;
-  ctx.fillStyle="#62efb0";
-  ctx.shadowBlur=20;
-  ctx.shadowColor="#53e89a";
-  ctx.beginPath();
-  ctx.moveTo(w*.72,gy-22);
-  ctx.lineTo(w*.76,gy);
-  ctx.lineTo(w*.72,gy+22);
-  ctx.lineTo(w*.68,gy);
-  ctx.closePath();
-  ctx.fill();
-  ctx.shadowBlur=0;
-
-  if(!card){
-    drawText(ctx,"LUCKY FOREST",w/2,42,18,"#ffe7a1","center",900);
-  }
-}
-
-/* DRAGON */
-
-function drawDragon(ctx,w,h,t,card){
-  ctx.fillStyle="#17080a";
-  ctx.fillRect(0,0,w,h);
-
-  const glow=ctx.createRadialGradient(w*.5,h*.4,20,w*.5,h*.4,w*.7);
-  glow.addColorStop(0,"rgba(240,89,49,.2)");
-  glow.addColorStop(1,"transparent");
-  ctx.fillStyle=glow;
-  ctx.fillRect(0,0,w,h);
-
-  // mountain
-  ctx.fillStyle="#261114";
-  ctx.beginPath();
-  ctx.moveTo(0,h);
-  ctx.lineTo(w*.2,h*.4);
-  ctx.lineTo(w*.42,h*.75);
-  ctx.lineTo(w*.65,h*.35);
-  ctx.lineTo(w,h);
-  ctx.fill();
-
-  // dragon body
-  const cx=w*.5,cy=h*.48+Math.sin(t)*5;
-  ctx.fillStyle="#9d3329";
-  ctx.beginPath();
-  ctx.ellipse(cx,cy,78,42,0,0,Math.PI*2);
-  ctx.fill();
-
-  // wings
-  ctx.fillStyle="#6d211e";
-  ctx.beginPath();
-  ctx.moveTo(cx-45,cy-15);
-  ctx.lineTo(cx-120,cy-80);
-  ctx.lineTo(cx-90,cy+10);
-  ctx.lineTo(cx-45,cy+15);
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.moveTo(cx+45,cy-15);
-  ctx.lineTo(cx+120,cy-80);
-  ctx.lineTo(cx+90,cy+10);
-  ctx.lineTo(cx+45,cy+15);
-  ctx.fill();
-
-  // head
-  ctx.fillStyle="#b64131";
-  ctx.beginPath();
-  ctx.arc(cx+72,cy-8,35,0,Math.PI*2);
-  ctx.fill();
-
-  // horns
-  ctx.fillStyle="#d4aa5a";
-  ctx.beginPath();
-  ctx.moveTo(cx+57,cy-33);ctx.lineTo(cx+48,cy-62);ctx.lineTo(cx+67,cy-40);ctx.fill();
-  ctx.beginPath();
-  ctx.moveTo(cx+82,cy-35);ctx.lineTo(cx+91,cy-63);ctx.lineTo(cx+98,cy-34);ctx.fill();
-
-  // eyes
-  ctx.fillStyle="#ffd45c";
-  ctx.beginPath();ctx.arc(cx+82,cy-12,5,0,Math.PI*2);ctx.fill();
-
-  // treasure
-  for(let i=0;i<7;i++){
-    ctx.fillStyle=i%2?"#f4c95d":"#b97c2c";
-    ctx.beginPath();
-    ctx.arc(w*.22+i*20,h*.83-(i%2)*7,8,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  if(!card)drawText(ctx,"DRAGON VAULT",w/2,42,18,"#ffe7a1","center",900);
-}
-
-/* COSMO */
-
-function drawCosmo(ctx,w,h,t,card){
-  ctx.fillStyle="#05081a";
-  ctx.fillRect(0,0,w,h);
-
-  for(let i=0;i<90;i++){
-    const x=(i*71+w*.2)%w;
-    const y=(i*37+h*.2)%h;
-    const a=.25+.25*Math.sin(t*2+i);
-    ctx.fillStyle=`rgba(255,255,255,${a})`;
-    ctx.fillRect(x,y,1.5,1.5);
-  }
-
-  const planetX=w*.7,planetY=h*.45;
-  ctx.fillStyle="#263f8f";
-  ctx.beginPath();ctx.arc(planetX,planetY,70,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle="rgba(83,232,154,.55)";
-  ctx.lineWidth=8;
-  ctx.beginPath();
-  ctx.ellipse(planetX,planetY,105,28,-.2,0,Math.PI*2);
-  ctx.stroke();
-
-  // ship
-  const sx=w*.33+Math.sin(t)*10,sy=h*.55;
-  ctx.fillStyle="#e6e1d2";
-  ctx.beginPath();
-  ctx.moveTo(sx-50,sy);
-  ctx.lineTo(sx+35,sy-23);
-  ctx.lineTo(sx+60,sy);
-  ctx.lineTo(sx+35,sy+23);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle="#53e89a";
-  ctx.beginPath();
-  ctx.arc(sx+5,sy,10,0,Math.PI*2);
-  ctx.fill();
-
-  ctx.fillStyle="rgba(83,232,154,.4)";
-  ctx.beginPath();
-  ctx.moveTo(sx-48,sy-8);
-  ctx.lineTo(sx-105,sy);
-  ctx.lineTo(sx-48,sy+8);
-  ctx.fill();
-
-  if(!card)drawText(ctx,"COSMO RUSH",w/2,42,18,"#ffe7a1","center",900);
-}
-
-/* PIRATE */
-
-function drawPirate(ctx,w,h,t,card){
-  const g=ctx.createLinearGradient(0,0,0,h);
-  g.addColorStop(0,"#0b2330");
-  g.addColorStop(1,"#071016");
-  ctx.fillStyle=g;
-  ctx.fillRect(0,0,w,h);
-
-  // moon
-  ctx.fillStyle="#f4c95d";
-  ctx.beginPath();
-  ctx.arc(w*.75,h*.22,38,0,Math.PI*2);
-  ctx.fill();
-
-  // sea
-  ctx.fillStyle="#0d3a47";
-  ctx.fillRect(0,h*.62,w,h*.38);
-
-  for(let i=0;i<7;i++){
-    ctx.strokeStyle="rgba(83,232,154,.2)";
-    ctx.beginPath();
-    ctx.moveTo(0,h*.67+i*25);
-    ctx.quadraticCurveTo(w*.25,h*.62+i*25,w*.5,h*.67+i*25);
-    ctx.quadraticCurveTo(w*.75,h*.72+i*25,w,h*.67+i*25);
-    ctx.stroke();
-  }
-
-  // ship
-  const sx=w*.5,sy=h*.55+Math.sin(t)*3;
-  ctx.fillStyle="#6f321f";
-  ctx.beginPath();
-  ctx.moveTo(sx-90,sy);
-  ctx.lineTo(sx+90,sy);
-  ctx.lineTo(sx+55,sy+45);
-  ctx.lineTo(sx-55,sy+45);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.strokeStyle="#b98745";
-  ctx.lineWidth=5;
-  ctx.beginPath();
-  ctx.moveTo(sx,sy);
-  ctx.lineTo(sx,sy-115);
-  ctx.stroke();
-
-  ctx.fillStyle="#1b2520";
-  ctx.beginPath();
-  ctx.moveTo(sx+4,sy-110);
-  ctx.lineTo(sx+80,sy-65);
-  ctx.lineTo(sx+4,sy-45);
-  ctx.fill();
-
-  // treasure chest
-  ctx.fillStyle="#c58b2e";
-  ctx.fillRect(w*.17,h*.78,75,42);
-  ctx.fillStyle="#f4c95d";
-  ctx.fillRect(w*.17,h*.78,75,8);
-
-  if(!card)drawText(ctx,"PIRATE TREASURE",w/2,42,18,"#ffe7a1","center",900);
-}
-
-/* RACER */
-
-function drawRacer(ctx,w,h,t,card){
-  ctx.fillStyle="#090916";
-  ctx.fillRect(0,0,w,h);
-
-  // city
-  for(let i=0;i<16;i++){
-    const bw=25+(i%4)*10;
-    const bh=70+(i%5)*25;
-    const x=i*w/15;
-    ctx.fillStyle=i%2?"#15152a":"#101025";
-    ctx.fillRect(x,h*.5-bh,bw,bh);
-
-    for(let j=0;j<4;j++){
-      ctx.fillStyle="rgba(83,232,154,.45)";
-      ctx.fillRect(x+5,h*.5-bh+12+j*17,4,7);
-    }
-  }
-
-  // road
-  ctx.fillStyle="#16171b";
-  ctx.beginPath();
-  ctx.moveTo(w*.2,h);
-  ctx.lineTo(w*.4,h*.5);
-  ctx.lineTo(w*.6,h*.5);
-  ctx.lineTo(w*.8,h);
-  ctx.fill();
-
-  ctx.strokeStyle="rgba(244,201,93,.55)";
-  ctx.setLineDash([30,25]);
-  ctx.lineWidth=4;
-  ctx.beginPath();
-  ctx.moveTo(w*.5,h);
-  ctx.lineTo(w*.5,h*.52);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // car
-  const x=w*.5+Math.sin(t*2)*25;
-  const y=h*.73;
-  ctx.fillStyle="#d93e52";
-  ctx.beginPath();
-  ctx.roundRect(x-45,y-18,90,36,10);
-  ctx.fill();
-
-  ctx.fillStyle="#cde8e2";
-  ctx.beginPath();
-  ctx.moveTo(x-24,y-18);
-  ctx.lineTo(x-10,y-36);
-  ctx.lineTo(x+20,y-36);
-  ctx.lineTo(x+30,y-18);
-  ctx.fill();
-
-  ctx.fillStyle="#050505";
-  ctx.beginPath();ctx.arc(x-30,y+18,10,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(x+30,y+18,10,0,Math.PI*2);ctx.fill();
-
-  ctx.shadowBlur=18;
-  ctx.shadowColor="#53e89a";
-  ctx.fillStyle="#53e89a";
-  ctx.fillRect(x-37,y-3,74,3);
-  ctx.shadowBlur=0;
-
-  if(!card)drawText(ctx,"NEON RACERS",w/2,42,18,"#ffe7a1","center",900);
-}
-
-/* MAGIC */
-
-function drawMagic(ctx,w,h,t,card){
-  ctx.fillStyle="#110a20";
-  ctx.fillRect(0,0,w,h);
-
-  const glow=ctx.createRadialGradient(w*.5,h*.45,10,w*.5,h*.45,w*.5);
-  glow.addColorStop(0,"rgba(83,232,154,.14)");
-  glow.addColorStop(1,"transparent");
-  ctx.fillStyle=glow;
-  ctx.fillRect(0,0,w,h);
-
-  // book
-  ctx.fillStyle="#4c2b6c";
-  ctx.beginPath();
-  ctx.roundRect(w*.28,h*.58,w*.44,h*.22,12);
-  ctx.fill();
-
-  ctx.strokeStyle="#f4c95d";
-  ctx.lineWidth=2;
-  ctx.stroke();
-
-  // floating magic circles
-  for(let r=20;r<90;r+=22){
-    ctx.strokeStyle=`rgba(244,201,93,${.25-r/500})`;
-    ctx.beginPath();
-    ctx.arc(w*.5,h*.4,r+Math.sin(t+r)*3,0,Math.PI*2);
-    ctx.stroke();
-  }
-
-  // crystal
-  ctx.fillStyle="#53e89a";
-  ctx.shadowBlur=30;
-  ctx.shadowColor="#53e89a";
-  ctx.beginPath();
-  ctx.moveTo(w*.5,h*.18);
-  ctx.lineTo(w*.55,h*.38);
-  ctx.lineTo(w*.5,h*.5);
-  ctx.lineTo(w*.45,h*.38);
-  ctx.closePath();
-  ctx.fill();
-  ctx.shadowBlur=0;
-
-  for(let i=0;i<10;i++){
-    const a=t+i;
-    const x=w*.5+Math.cos(a)*100;
-    const y=h*.4+Math.sin(a)*65;
-    ctx.fillStyle="#f4c95d";
-    ctx.beginPath();
-    ctx.arc(x,y,3,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  if(!card)drawText(ctx,"MAGIC ACADEMY",w/2,42,18,"#ffe7a1","center",900);
-}
-
-/* ROYAL WHEEL */
-
-function drawRoyal(ctx,w,h,t,card){
-  ctx.fillStyle="#100d07";
-  ctx.fillRect(0,0,w,h);
-
-  const cx=w*.5,cy=h*.53;
-  const r=Math.min(w,h)*.29;
-
-  const colors=["#d4a63c","#183c2a","#a87625","#204d38","#f4c95d","#153322","#9b6a1d","#275a40"];
-
-  for(let i=0;i<8;i++){
-    const a0=i*Math.PI/4+gameState.angle;
-    const a1=a0+Math.PI/4;
-    ctx.fillStyle=colors[i];
-    ctx.beginPath();
-    ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,a0,a1);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle="rgba(255,255,255,.15)";
-    ctx.stroke();
-  }
-
-  ctx.fillStyle="#0a0b09";
-  ctx.beginPath();
-  ctx.arc(cx,cy,48,0,Math.PI*2);
-  ctx.fill();
-
-  ctx.strokeStyle="#f4c95d";
-  ctx.lineWidth=5;
-  ctx.beginPath();
-  ctx.arc(cx,cy,r,0,Math.PI*2);
-  ctx.stroke();
-
-  ctx.fillStyle="#f4c95d";
-  ctx.beginPath();
-  ctx.moveTo(cx,cy-r-25);
-  ctx.lineTo(cx-13,cy-r+3);
-  ctx.lineTo(cx+13,cy-r+3);
-  ctx.closePath();
-  ctx.fill();
-
-  if(!card)drawText(ctx,"ROYAL WHEEL",w/2,42,18,"#ffe7a1","center",900);
-
-  gameState.angle=(gameState.angle||0)+.003;
-}
-
-/* DIAMOND */
-
-function drawDiamond(ctx,w,h,t,card){
-  ctx.fillStyle="#060b0d";
-  ctx.fillRect(0,0,w,h);
-
-  const cx=w*.5,cy=h*.48;
-  const size=Math.min(w,h)*.2;
-
-  ctx.shadowBlur=30;
-  ctx.shadowColor="#53e89a";
-
-  const grad=ctx.createLinearGradient(cx-size,cy-size,cx+size,cy+size);
-  grad.addColorStop(0,"#f4c95d");
-  grad.addColorStop(.45,"#fff0b4");
-  grad.addColorStop(1,"#53e89a");
-
-  ctx.fillStyle=grad;
-  ctx.beginPath();
-  ctx.moveTo(cx,cy-size);
-  ctx.lineTo(cx+size*.85,cy-size*.25);
-  ctx.lineTo(cx+size*.5,cy+size);
-  ctx.lineTo(cx-size*.5,cy+size);
-  ctx.lineTo(cx-size*.85,cy-size*.25);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.shadowBlur=0;
-
-  ctx.strokeStyle="rgba(255,255,255,.65)";
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  ctx.moveTo(cx,cy-size);
-  ctx.lineTo(cx,cy+size);
-  ctx.moveTo(cx-size*.85,cy-size*.25);
-  ctx.lineTo(cx+size*.85,cy-size*.25);
-  ctx.moveTo(cx-size*.5,cy+size);
-  ctx.lineTo(cx,cy-size);
-  ctx.moveTo(cx+size*.5,cy+size);
-  ctx.lineTo(cx,cy-size);
-  ctx.stroke();
-
-  for(let i=0;i<14;i++){
-    const x=(i*57+w*.1)%w;
-    const y=(i*31+h*.15)%h;
-    ctx.fillStyle=i%2?"rgba(83,232,154,.45)":"rgba(244,201,93,.5)";
-    ctx.beginPath();
-    ctx.arc(x,y,2+Math.sin(t+i),0,Math.PI*2);
-    ctx.fill();
-  }
-
-  if(!card)drawText(ctx,"BLACK DIAMOND",w/2,42,18,"#ffe7a1","center",900);
-}
-
-/* --------------------------
-   TEXT
--------------------------- */
-
-function drawText(ctx,text,x,y,size,color,align="center",weight=800){
-  ctx.fillStyle=color;
-  ctx.font=`${weight} ${size}px Inter,system-ui,sans-serif`;
-  ctx.textAlign=align;
-  ctx.textBaseline="middle";
-  ctx.fillText(text,x,y);
-}
-
-/* --------------------------
-   WIN EFFECT
--------------------------- */
-
-function showWin(text){
-  const el=document.getElementById("winText");
-  el.textContent=text;
-  el.classList.remove("show");
-
-  void el.offsetWidth;
-  el.classList.add("show");
-
-  setTimeout(()=>el.classList.remove("show"),1000);
-}
-
-/* --------------------------
-   AUDIO
--------------------------- */
-
-function playTone(freq,duration){
-  try{
-    if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();
-    const osc=audioCtx.createOscillator();
-    const gain=audioCtx.createGain();
-
-    osc.frequency.value=freq;
-    osc.type="sine";
-    gain.gain.setValueAtTime(.0001,audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.045,audioCtx.currentTime+.01);
-    gain.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+duration);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime+duration+.02);
-  }catch(e){}
-}
-
-/* prevent accidental zoom gestures in game */
-document.getElementById("gameOverlay").addEventListener("touchmove",e=>{
-  if(e.touches.length>1)e.preventDefault();
-},{passive:false});
 
 </script>
+
 </body>
 </html>
