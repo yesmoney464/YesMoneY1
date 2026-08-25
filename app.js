@@ -1,171 +1,59 @@
-/* =========================================================
-   VELORA
-   Main application logic
-   Demo / virtual currency version
-========================================================= */
-
 "use strict";
 
+const KEY = "velora_account";
 
-/* =========================================================
-   CONFIG
-========================================================= */
+let user = JSON.parse(localStorage.getItem(KEY) || "null");
 
-const STORAGE_KEY = "velora_user";
+let authMode = "register";
+let toastTimer = null;
 
-const DEFAULT_USER = {
-    logged: false,
-    name: "",
-    email: "",
-    balance: 1000,
-    bonus: 0
+const games = {
+    gorila: {
+        title: "GORILA KING",
+        text: "Король джунглів",
+        background: "linear-gradient(145deg,#173f29,#050806)"
+    },
+    candy: {
+        title: "CANDY RUSH",
+        text: "Солодкий світ",
+        background: "linear-gradient(145deg,#542d66,#08070b)"
+    },
+    pirate: {
+        title: "GOLDEN PIRATE",
+        text: "Полювання за скарбом",
+        background: "linear-gradient(145deg,#123b4a,#07100d)"
+    },
+    dragon: {
+        title: "DRAGON FORTUNE",
+        text: "Скарби стародавнього дракона",
+        background: "linear-gradient(145deg,#512515,#080706)"
+    }
 };
 
 
-/* =========================================================
-   STATE
-========================================================= */
-
-let user = loadUser();
-
-let currentPage = "home";
-
-let authMode = "login";
-
-let currentGame = null;
-
-let toastTimer = null;
-
-
-/* =========================================================
-   DOM HELPERS
-========================================================= */
-
-const $ = (selector, parent = document) =>
-    parent.querySelector(selector);
-
-const $$ = (selector, parent = document) =>
-    [...parent.querySelectorAll(selector)];
-
-
-/* =========================================================
-   USER STORAGE
-========================================================= */
-
-function loadUser() {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-
-        if (!saved) {
-            return { ...DEFAULT_USER };
-        }
-
-        const parsed = JSON.parse(saved);
-
-        return {
-            ...DEFAULT_USER,
-            ...parsed
-        };
-
-    } catch (error) {
-
-        console.error("VELORA storage error:", error);
-
-        return { ...DEFAULT_USER };
-    }
-}
-
-
-function saveUser() {
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(user)
-    );
-}
-
-
-function clearUser() {
-    user = {
-        ...DEFAULT_USER
-    };
-
-    saveUser();
-}
-
-
-/* =========================================================
-   INIT
-========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
-    initNavigation();
+    setupNavigation();
+    setupAuth();
+    setupGames();
+    setupSupport();
+    setupProfile();
+    setupButtons();
 
-    initAuth();
-
-    initGames();
-
-    initSupport();
-
-    initButtons();
-
-    updateInterface();
-
-    showPage("home");
+    updateUI();
 
 });
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
+/* ================= NAVIGATION ================= */
 
-function initNavigation() {
+function setupNavigation(){
 
-    $$(".nav-link").forEach(button => {
+    document.querySelectorAll("[data-page]").forEach(button => {
 
         button.addEventListener("click", () => {
 
-            const page =
-                button.dataset.page ||
-                button.getAttribute("data-page");
-
-            if (page) {
-                showPage(page);
-            }
-
-        });
-
-    });
-
-
-    $$(".mobile-nav-item").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const page =
-                button.dataset.page ||
-                button.getAttribute("data-page");
-
-            if (page) {
-                showPage(page);
-            }
-
-        });
-
-    });
-
-
-    $$("[data-open-page]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const page =
-                button.dataset.openPage;
-
-            if (page) {
-                showPage(page);
-            }
+            openPage(button.dataset.page);
 
         });
 
@@ -174,42 +62,19 @@ function initNavigation() {
 }
 
 
-function showPage(page) {
+function openPage(page){
 
-    const target =
-        document.getElementById(page) ||
-        document.querySelector(`[data-page-content="${page}"]`);
-
-    if (!target) {
-        console.warn(
-            `VELORA: page "${page}" not found`
-        );
-
-        return;
-    }
-
-    currentPage = page;
-
-
-    $$(".page").forEach(section => {
+    document.querySelectorAll(".page").forEach(section => {
         section.classList.remove("active");
     });
 
+    const target = document.getElementById(page);
 
-    target.classList.add("active");
+    if(target){
+        target.classList.add("active");
+    }
 
-
-    $$(".nav-link").forEach(button => {
-
-        button.classList.toggle(
-            "active",
-            button.dataset.page === page
-        );
-
-    });
-
-
-    $$(".mobile-nav-item").forEach(button => {
+    document.querySelectorAll("[data-page]").forEach(button => {
 
         button.classList.toggle(
             "active",
@@ -217,296 +82,272 @@ function showPage(page) {
         );
 
     });
-
 
     window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+        top:0,
+        behavior:"smooth"
     });
+
 }
 
 
-/* =========================================================
-   AUTH
-========================================================= */
+/* ================= BUTTONS ================= */
 
-function initAuth() {
+function setupButtons(){
 
-    $$("[data-auth]").forEach(button => {
+    document.getElementById("homeBtn")?.addEventListener(
+        "click",
+        () => openPage("home")
+    );
+
+    document.querySelectorAll("[data-page-btn]").forEach(button => {
 
         button.addEventListener("click", () => {
 
-            const mode =
-                button.dataset.auth;
-
-            openAuth(mode || "login");
+            openPage(button.dataset.pageBtn);
 
         });
 
     });
 
+    document.getElementById("heroRegister")?.addEventListener(
+        "click",
+        () => openAuth("register")
+    );
 
-    const closeButton =
-        $(".modal-close");
+    document.getElementById("bonusBtn")?.addEventListener(
+        "click",
+        () => {
 
-    if (closeButton) {
+            if(!user){
 
-        closeButton.addEventListener(
-            "click",
-            closeAuth
-        );
+                openAuth("register");
 
-    }
+                showToast("Спочатку створіть акаунт.");
 
-
-    const backdrop =
-        $(".modal-backdrop");
-
-    if (backdrop) {
-
-        backdrop.addEventListener(
-            "click",
-            closeAuth
-        );
-
-    }
-
-
-    const form =
-        $("#authForm");
-
-    if (form) {
-
-        form.addEventListener(
-            "submit",
-            handleAuth
-        );
-
-    }
-
-
-    const switchButton =
-        $(".modal-switch");
-
-    if (switchButton) {
-
-        switchButton.addEventListener(
-            "click",
-            () => {
-
-                openAuth(
-                    authMode === "login"
-                        ? "register"
-                        : "login"
-                );
-
+                return;
             }
-        );
 
-    }
+            user.balance += 500;
+
+            saveUser();
+            updateUI();
+
+            showToast("Бонус +500 віртуальних монет.");
+
+        }
+    );
 
 }
 
 
-function openAuth(mode = "login") {
+/* ================= AUTH ================= */
+
+function setupAuth(){
+
+    document.getElementById("loginBtn")?.addEventListener(
+        "click",
+        () => openAuth("login")
+    );
+
+    document.getElementById("registerBtn")?.addEventListener(
+        "click",
+        () => openAuth("register")
+    );
+
+    document.getElementById("profileBtn")?.addEventListener(
+        "click",
+        () => openPage("profile")
+    );
+
+    document.getElementById("closeAuth")?.addEventListener(
+        "click",
+        closeAuth
+    );
+
+    document.querySelector(".modal-bg")?.addEventListener(
+        "click",
+        closeAuth
+    );
+
+    document.getElementById("switchAuth")?.addEventListener(
+        "click",
+        () => {
+
+            openAuth(
+                authMode === "register"
+                ? "login"
+                : "register"
+            );
+
+        }
+    );
+
+    document.getElementById("authForm")?.addEventListener(
+        "submit",
+        handleAuth
+    );
+
+}
+
+
+function openAuth(mode){
 
     authMode = mode;
 
     const modal =
-        $("#authModal") ||
-        $(".modal");
+        document.getElementById("authModal");
 
-    if (!modal) return;
+    const title =
+        document.getElementById("authTitle");
+
+    const text =
+        document.getElementById("authText");
+
+    const submit =
+        document.getElementById("authSubmit");
+
+    const nameWrap =
+        document.getElementById("nameWrap");
+
+    const switchButton =
+        document.getElementById("switchAuth");
 
     modal.classList.add("show");
 
-    updateAuthModal();
+    if(mode === "register"){
 
-}
+        title.textContent =
+            "Створити акаунт";
 
+        text.textContent =
+            "Зареєструйся та відкрий свій профіль VELORA.";
 
-function closeAuth() {
+        submit.textContent =
+            "ЗАРЕЄСТРУВАТИСЯ";
 
-    const modal =
-        $("#authModal") ||
-        $(".modal");
+        nameWrap.style.display =
+            "block";
 
-    if (!modal) return;
+        switchButton.textContent =
+            "Вже маєш акаунт? Увійти";
 
-    modal.classList.remove("show");
+    }else{
 
-}
+        title.textContent =
+            "Вхід";
 
+        text.textContent =
+            "Раді бачити тебе знову у VELORA.";
 
-function updateAuthModal() {
+        submit.textContent =
+            "УВІЙТИ";
 
-    const title =
-        $("#authTitle");
+        nameWrap.style.display =
+            "none";
 
-    const description =
-        $("#authDescription");
-
-    const submit =
-        $("#authSubmit");
-
-    const switchButton =
-        $(".modal-switch");
-
-    const nameField =
-        $("#nameField");
-
-    if (authMode === "register") {
-
-        if (title) {
-            title.textContent =
-                "Створити акаунт";
-        }
-
-        if (description) {
-            description.textContent =
-                "Приєднуйтесь до VELORA та відкрийте ігровий простір.";
-        }
-
-        if (submit) {
-            submit.textContent =
-                "Створити акаунт";
-        }
-
-        if (switchButton) {
-            switchButton.textContent =
-                "Вже маєте акаунт? Увійти";
-        }
-
-        if (nameField) {
-            nameField.style.display =
-                "flex";
-        }
-
-    } else {
-
-        if (title) {
-            title.textContent =
-                "Вхід";
-        }
-
-        if (description) {
-            description.textContent =
-                "Раді бачити вас знову у VELORA.";
-        }
-
-        if (submit) {
-            submit.textContent =
-                "Увійти";
-        }
-
-        if (switchButton) {
-            switchButton.textContent =
-                "Немає акаунта? Реєстрація";
-        }
-
-        if (nameField) {
-            nameField.style.display =
-                "none";
-        }
+        switchButton.textContent =
+            "Немає акаунта? Реєстрація";
 
     }
 
 }
 
 
-function handleAuth(event) {
+function closeAuth(){
+
+    document
+        .getElementById("authModal")
+        .classList.remove("show");
+
+}
+
+
+function handleAuth(event){
 
     event.preventDefault();
 
+    const name =
+        document.getElementById("authName").value.trim();
+
     const email =
-        $("#email")?.value.trim();
+        document.getElementById("authEmail").value.trim();
 
     const password =
-        $("#password")?.value.trim();
-
-    const name =
-        $("#name")?.value.trim();
+        document.getElementById("authPassword").value.trim();
 
 
-    if (!email || !password) {
+    if(!email || !password){
 
-        showToast(
-            "Заповніть усі необхідні поля."
-        );
+        showToast("Заповніть email та пароль.");
 
         return;
     }
 
 
-    if (authMode === "register") {
+    if(authMode === "register"){
 
-        if (!name) {
+        if(!name){
 
-            showToast(
-                "Введіть ваше ім'я."
-            );
+            showToast("Введіть ім'я або нікнейм.");
 
             return;
         }
 
 
         user = {
-            logged: true,
+
             name,
             email,
-            balance: 1000,
-            bonus: 0
+
+            /*
+             * Тільки демо-дані.
+             * Пароль не використовується
+             * як справжня серверна авторизація.
+             */
+
+            balance:10000,
+            logged:true
+
         };
+
 
         saveUser();
 
-
         closeAuth();
 
-
         showToast(
-            "Акаунт створено. Ласкаво просимо до VELORA!"
+            "Акаунт створено. Відкриваємо VELORA..."
         );
 
 
-        /*
-         * Невелика пауза робить перехід
-         * більш природним.
-         */
-
         setTimeout(() => {
 
-            updateInterface();
+            updateUI();
 
-            showPage("home");
+            openPage("home");
 
         }, 3500);
 
 
-    } else {
+    }else{
 
-        /*
-         * У демо-версії вхід перевіряє,
-         * чи існує локальний акаунт.
-         */
-
-        if (
-            user.email &&
-            user.email !== email
-        ) {
+        if(!user){
 
             showToast(
-                "У демо-версії введіть email, з яким створено акаунт."
+                "Акаунт не знайдено. Спочатку зареєструйтесь."
             );
 
             return;
         }
 
 
-        if (!user.email) {
+        if(
+            user.email !== email
+        ){
 
             showToast(
-                "Спочатку створіть акаунт."
+                "Email не відповідає створеному акаунту."
             );
 
             return;
@@ -519,10 +360,10 @@ function handleAuth(event) {
 
         closeAuth();
 
-        updateInterface();
+        updateUI();
 
         showToast(
-            "Ви успішно увійшли до VELORA."
+            "Вхід виконано."
         );
 
     }
@@ -530,378 +371,222 @@ function handleAuth(event) {
 }
 
 
-/* =========================================================
-   INTERFACE
-========================================================= */
+/* ================= STORAGE ================= */
 
-function updateInterface() {
+function saveUser(){
 
-    updateBalance();
-
-    updateProfile();
-
-    updateAuthButtons();
+    localStorage.setItem(
+        KEY,
+        JSON.stringify(user)
+    );
 
 }
 
 
-function updateBalance() {
+/* ================= UI ================= */
 
-    const formatted =
-        Number(user.balance || 0)
-            .toLocaleString(
-                "uk-UA",
-                {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }
-            );
+function updateUI(){
 
+    const balance =
+        user?.balance ?? 10000;
 
-    $$("#balance").forEach(element => {
+    document.getElementById("balance").textContent =
+        formatMoney(balance);
 
-        element.textContent =
-            formatted;
-
-    });
+    document.getElementById("gameBalance").textContent =
+        formatMoney(balance);
 
 
-    $$(".user-balance").forEach(element => {
+    const login =
+        document.getElementById("loginBtn");
 
-        element.textContent =
-            formatted;
+    const register =
+        document.getElementById("registerBtn");
 
-    });
+    const avatar =
+        document.getElementById("profileBtn");
 
-}
-
-
-function updateProfile() {
-
-    const name =
-        user.name ||
-        "Гість";
-
-    const email =
-        user.email ||
-        "Акаунт не створено";
+    const logout =
+        document.getElementById("logoutBtn");
 
 
-    $$("#profileName").forEach(element => {
+    if(user?.logged){
 
-        element.textContent =
-            name;
+        login.classList.add("hidden");
 
-    });
+        register.classList.add("hidden");
 
+        avatar.classList.remove("hidden");
 
-    $$("#profileEmail").forEach(element => {
-
-        element.textContent =
-            email;
-
-    });
+        logout.classList.remove("hidden");
 
 
-    $$("#profileInitial").forEach(element => {
-
-        element.textContent =
-            name.charAt(0).toUpperCase();
-
-    });
-
-}
+        const first =
+            user.name
+            ? user.name.charAt(0).toUpperCase()
+            : "V";
 
 
-function updateAuthButtons() {
+        avatar.textContent = first;
 
-    const loginButtons =
-        $$("[data-auth='login']");
+        document.getElementById("profileAvatar").textContent =
+            first;
 
-    const registerButtons =
-        $$("[data-auth='register']");
+        document.getElementById("profileName").textContent =
+            user.name;
 
-    const profileButtons =
-        $$("[data-page='profile']");
+        document.getElementById("profileEmail").textContent =
+            user.email;
 
+    }else{
 
-    if (user.logged) {
+        login.classList.remove("hidden");
 
-        loginButtons.forEach(button => {
-            button.classList.add("hidden");
-        });
+        register.classList.remove("hidden");
 
-        registerButtons.forEach(button => {
-            button.classList.add("hidden");
-        });
+        avatar.classList.add("hidden");
 
-        profileButtons.forEach(button => {
-            button.classList.remove("hidden");
-        });
-
-    } else {
-
-        loginButtons.forEach(button => {
-            button.classList.remove("hidden");
-        });
-
-        registerButtons.forEach(button => {
-            button.classList.remove("hidden");
-        });
-
-        profileButtons.forEach(button => {
-            button.classList.add("hidden");
-        });
+        logout.classList.add("hidden");
 
     }
 
 }
 
 
-/* =========================================================
-   GAMES
-========================================================= */
+function formatMoney(number){
 
-function initGames() {
+    return Number(number).toLocaleString(
+        "uk-UA"
+    );
 
-    $$("[data-game]").forEach(button => {
+}
 
-        button.addEventListener(
-            "click",
-            () => {
 
-                const game =
-                    button.dataset.game;
+/* ================= GAMES ================= */
 
-                openGame(game);
+function setupGames(){
+
+    document.querySelectorAll("[data-game]").forEach(card => {
+
+        card.addEventListener("click", event => {
+
+            if(
+                event.target.classList.contains("play") ||
+                event.currentTarget === card
+            ){
+
+                openGame(
+                    card.dataset.game
+                );
 
             }
-        );
+
+        });
 
     });
 
 
-    const backButton =
-        $(".game-back");
-
-    if (backButton) {
-
-        backButton.addEventListener(
-            "click",
-            closeGame
-        );
-
-    }
-
-}
-
-
-function openGame(gameName) {
-
-    currentGame = gameName;
-
-
-    const modal =
-        $("#gameModal") ||
-        $(".game-modal");
-
-    if (!modal) {
-
-        showToast(
-            "Ігровий модуль ще не підключено."
-        );
-
-        return;
-    }
-
-
-    modal.classList.add("show");
-
-
-    const title =
-        $(".game-header-title");
-
-    if (title) {
-
-        title.textContent =
-            getGameTitle(gameName);
-
-    }
-
-
-    renderGame(gameName);
-
-}
-
-
-function closeGame() {
-
-    const modal =
-        $("#gameModal") ||
-        $(".game-modal");
-
-    if (!modal) return;
-
-    modal.classList.remove("show");
-
-    currentGame = null;
-
-}
-
-
-function getGameTitle(game) {
-
-    const titles = {
-
-        gorila:
-            "GORILA KING",
-
-        candy:
-            "CANDY DREAMS",
-
-        pirate:
-            "GOLDEN PIRATE"
-
-    };
-
-    return (
-        titles[game] ||
-        "VELORA GAME"
-    );
-
-}
-
-
-function renderGame(game) {
-
-    const container =
-        $("#gameContainer") ||
-        $(".game-container");
-
-    if (!container) return;
-
-
-    /*
-     * Тут поки створюється ігрове полотно.
-     *
-     * Наступним етапом ми зробимо для кожної гри
-     * окрему повноцінну графічну сцену.
-     */
-
-    container.innerHTML = "";
-
-
-    const scene =
-        document.createElement("div");
-
-    scene.className =
-        `velora-game-scene game-${game || "default"}`;
-
-
-    const title =
-        document.createElement("div");
-
-    title.className =
-        "game-scene-title";
-
-    title.textContent =
-        getGameTitle(game);
-
-
-    const subtitle =
-        document.createElement("div");
-
-    subtitle.className =
-        "game-scene-subtitle";
-
-    subtitle.textContent =
-        "Ігрова сцена VELORA";
-
-
-    scene.appendChild(title);
-
-    scene.appendChild(subtitle);
-
-    container.appendChild(scene);
-
-
-    /*
-     * Для першого тесту.
-     * Реальна механіка кожної гри буде
-     * окремою функцією, а не одним шаблоном.
-     */
-
-    createDemoControls(
-        scene,
-        game
-    );
-
-}
-
-
-function createDemoControls(
-    scene,
-    game
-) {
-
-    const controls =
-        document.createElement("div");
-
-    controls.className =
-        "game-controls";
-
-
-    const play =
-        document.createElement("button");
-
-    play.className =
-        "primary-button";
-
-    play.textContent =
-        "ГРАТИ";
-
-
-    play.addEventListener(
+    document.getElementById("closeGame")?.addEventListener(
         "click",
-        () => {
-
-            playVirtualRound(game);
-
-        }
+        closeGame
     );
-
-
-    controls.appendChild(play);
-
-    scene.appendChild(controls);
 
 }
 
 
-/* =========================================================
-   VIRTUAL GAME ROUND
-========================================================= */
+function openGame(id){
 
-function playVirtualRound(game) {
-
-    const cost = 10;
-
-
-    if (!user.logged) {
-
-        closeGame();
+    if(!user?.logged){
 
         openAuth("register");
 
         showToast(
-            "Створіть акаунт, щоб продовжити."
+            "Створіть акаунт, щоб відкрити гру."
         );
 
         return;
     }
 
 
-    if (user.balance < cost) {
+    const game =
+        games[id];
+
+    if(!game) return;
+
+
+    document.getElementById("gameTitle").textContent =
+        game.title;
+
+
+    const screen =
+        document.getElementById("gameScreen");
+
+
+    screen.innerHTML = "";
+
+
+    const board =
+        document.createElement("div");
+
+
+    board.className =
+        "game-board";
+
+
+    board.style.background =
+        game.background;
+
+
+    board.innerHTML = `
+
+        <div class="game-decoration"></div>
+
+        <h2>${game.title}</h2>
+
+        <p>${game.text}</p>
+
+        <button class="game-action">
+            ПОЧАТИ ГРУ
+        </button>
+
+    `;
+
+
+    screen.appendChild(board);
+
+
+    board
+        .querySelector(".game-action")
+        .addEventListener(
+            "click",
+            () => playGame(id)
+        );
+
+
+    document
+        .getElementById("gameModal")
+        .classList.add("show");
+
+}
+
+
+function closeGame(){
+
+    document
+        .getElementById("gameModal")
+        .classList.remove("show");
+
+}
+
+
+/* ================= GAME DEMO ================= */
+
+function playGame(id){
+
+    const cost = 100;
+
+
+    if(user.balance < cost){
 
         showToast(
             "Недостатньо віртуального балансу."
@@ -914,52 +599,46 @@ function playVirtualRound(game) {
     user.balance -= cost;
 
 
-    /*
-     * Демо-результат.
-     *
-     * Це не реальні гроші і не підключено
-     * до платежів або ставок.
-     */
-
-    const roll =
+    const random =
         Math.random();
 
 
     let reward = 0;
 
 
-    if (roll > 0.94) {
+    if(random > .93){
 
-        reward = 100;
+        reward = 1500;
 
-    } else if (roll > 0.78) {
+    }else if(random > .75){
 
-        reward = 35;
+        reward = 500;
 
-    } else if (roll > 0.55) {
+    }else if(random > .48){
 
-        reward = 15;
+        reward = 200;
 
     }
 
 
     user.balance += reward;
 
+
     saveUser();
 
-    updateInterface();
+    updateUI();
 
 
-    if (reward > 0) {
+    if(reward){
 
         showToast(
-            `Виграш у демо: +${reward}`
+            `Результат: +${formatMoney(reward)}`
         );
 
-    } else {
+    }else{
 
         showToast(
-            "Спроба завершена. Спробуйте ще раз."
+            "Раунд завершено."
         );
 
     }
@@ -967,194 +646,77 @@ function playVirtualRound(game) {
 }
 
 
-/* =========================================================
-   SUPPORT
-========================================================= */
+/* ================= SUPPORT ================= */
 
-function initSupport() {
+function setupSupport(){
 
-    const form =
-        $("#supportForm") ||
-        $(".support-form");
+    document
+        .getElementById("supportForm")
+        ?.addEventListener(
+            "submit",
+            event => {
 
-    if (!form) return;
-
-
-    form.addEventListener(
-        "submit",
-        event => {
-
-            event.preventDefault();
-
-
-            const name =
-                form.querySelector(
-                    "[name='name']"
-                )?.value.trim();
-
-
-            const email =
-                form.querySelector(
-                    "[name='email']"
-                )?.value.trim();
-
-
-            const message =
-                form.querySelector(
-                    "[name='message']"
-                )?.value.trim();
-
-
-            if (
-                !name ||
-                !email ||
-                !message
-            ) {
+                event.preventDefault();
 
                 showToast(
-                    "Будь ласка, заповніть форму."
+                    "Звернення прийнято. Підтримка зв'яжеться з вами."
                 );
 
-                return;
+                event.target.reset();
+
             }
-
-
-            /*
-             * Зараз повідомлення лише
-             * імітується локально.
-             *
-             * Після підключення backend
-             * тут можна буде відправляти
-             * звернення на сервер.
-             */
-
-            showToast(
-                "Звернення прийнято. Підтримка зв'яжеться з вами."
-            );
-
-
-            form.reset();
-
-        }
-    );
+        );
 
 }
 
 
-/* =========================================================
-   GENERAL BUTTONS
-========================================================= */
+/* ================= PROFILE ================= */
 
-function initButtons() {
+function setupProfile(){
 
-    $$("[data-close-game]").forEach(button => {
-
-        button.addEventListener(
-            "click",
-            closeGame
-        );
-
-    });
-
-
-    $$("[data-logout]").forEach(button => {
-
-        button.addEventListener(
-            "click",
-            logout
-        );
-
-    });
-
-
-    $$("[data-scroll-top]").forEach(button => {
-
-        button.addEventListener(
+    document
+        .getElementById("logoutBtn")
+        ?.addEventListener(
             "click",
             () => {
 
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
+                user = null;
+
+                localStorage.removeItem(KEY);
+
+                updateUI();
+
+                openPage("home");
+
+                showToast(
+                    "Ви вийшли з акаунта."
+                );
 
             }
         );
 
-    });
-
 }
 
 
-/* =========================================================
-   LOGOUT
-========================================================= */
+/* ================= TOAST ================= */
 
-function logout() {
+function showToast(message){
 
-    user.logged = false;
-
-    saveUser();
-
-    updateInterface();
-
-    showPage("home");
-
-    showToast(
-        "Ви вийшли з акаунта."
-    );
-
-}
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-function showToast(message) {
-
-    let toast =
-        $("#toast") ||
-        $(".toast");
-
-
-    if (!toast) {
-
-        toast =
-            document.createElement("div");
-
-        toast.id =
-            "toast";
-
-        toast.className =
-            "toast";
-
-        document.body.appendChild(
-            toast
-        );
-
-    }
-
+    const toast =
+        document.getElementById("toast");
 
     toast.textContent =
         message;
 
-
     toast.classList.add("show");
 
-
-    clearTimeout(
-        toastTimer
-    );
-
+    clearTimeout(toastTimer);
 
     toastTimer =
         setTimeout(
             () => {
 
-                toast.classList.remove(
-                    "show"
-                );
+                toast.classList.remove("show");
 
             },
             3200
@@ -1163,68 +725,18 @@ function showToast(message) {
 }
 
 
-/* =========================================================
-   KEYBOARD
-========================================================= */
+/* ================= ESC ================= */
 
 document.addEventListener(
     "keydown",
     event => {
 
-        if (
-            event.key === "Escape"
-        ) {
+        if(event.key === "Escape"){
 
             closeAuth();
-
             closeGame();
 
         }
 
     }
-);
-
-
-/* =========================================================
-   PREVENT ACCIDENTAL FORM SUBMISSION
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Enter" &&
-            event.target.tagName !== "TEXTAREA"
-        ) {
-
-            const form =
-                event.target.closest("form");
-
-            if (
-                form &&
-                event.target.type !== "submit"
-            ) {
-
-                event.preventDefault();
-
-            }
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   DEBUG
-========================================================= */
-
-console.log(
-    "%cVELORA",
-    "font-size:28px;font-weight:900;"
-);
-
-console.log(
-    "VELORA application initialized."
 );
