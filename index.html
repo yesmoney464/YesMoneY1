@@ -1,271 +1,132 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#080909">
-<title>VELORA — Original Games</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#070807">
+<title>VELORA</title>
 
 <style>
 :root{
-  --bg:#070808;
-  --bg2:#0d0f0f;
-  --panel:#111414;
-  --panel2:#151919;
-  --gold:#f4ca62;
-  --gold2:#ffe49a;
+  --bg:#070807;
+  --bg2:#0c100e;
+  --panel:#101411;
+  --panel2:#151b17;
+  --gold:#ffd86a;
+  --gold2:#f0b83d;
   --green:#2bd17e;
-  --green2:#7cf0ae;
-  --text:#f7f7f2;
-  --muted:#8f9692;
+  --green2:#1c9d5b;
+  --text:#f4f5f2;
+  --muted:#929b95;
   --line:rgba(255,255,255,.08);
-  --danger:#ff6874;
-  --shadow:0 25px 70px rgba(0,0,0,.45);
+  --danger:#ef6b6b;
+  --shadow:0 20px 60px rgba(0,0,0,.4);
 }
 
 *{
   box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
   margin:0;
   padding:0;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  min-height:100vh;
+  min-height:100%;
   background:
-    radial-gradient(circle at 20% 0%,rgba(244,202,98,.08),transparent 32%),
-    radial-gradient(circle at 90% 20%,rgba(43,209,126,.055),transparent 28%),
+    radial-gradient(circle at 50% -10%,rgba(43,209,126,.08),transparent 35%),
+    radial-gradient(circle at 80% 20%,rgba(255,216,106,.06),transparent 30%),
     var(--bg);
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
-  overflow-x:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
 }
 
-button,
-input,
-textarea,
-select{
+button,input,textarea{
   font:inherit;
 }
 
 button{
-  border:0;
   cursor:pointer;
-}
-
-a{
-  color:inherit;
-  text-decoration:none;
+  border:0;
 }
 
 .hidden{
   display:none!important;
 }
 
-/* LOADER */
-
-#loader{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  background:#070808;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.5s ease;
-}
-
-.loader-box{
-  text-align:center;
-}
-
-.loader-logo{
-  font-size:42px;
-  font-weight:900;
-  letter-spacing:8px;
-  color:var(--gold);
-}
-
-.loader-line{
-  width:130px;
-  height:2px;
-  margin:22px auto 0;
-  overflow:hidden;
-  background:rgba(255,255,255,.08);
-}
-
-.loader-line span{
-  display:block;
-  width:45%;
-  height:100%;
-  background:var(--green);
-  animation:loadline 1.1s infinite ease-in-out;
-}
-
-@keyframes loadline{
-  0%{transform:translateX(-100%)}
-  100%{transform:translateX(300%)}
-}
-
 /* AUTH */
 
-#authScreen{
+.auth{
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:24px;
-  background:
-    radial-gradient(circle at 50% 10%,rgba(244,202,98,.10),transparent 35%),
-    radial-gradient(circle at 80% 80%,rgba(43,209,126,.07),transparent 30%);
-}
-
-.auth-shell{
-  width:min(1080px,100%);
-  min-height:650px;
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  background:rgba(13,15,15,.88);
-  border:1px solid var(--line);
-  border-radius:30px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
-  backdrop-filter:blur(20px);
-}
-
-.auth-showcase{
+  padding:22px;
   position:relative;
-  padding:55px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
   overflow:hidden;
-  background:
-    radial-gradient(circle at 25% 20%,rgba(244,202,98,.15),transparent 28%),
-    radial-gradient(circle at 75% 75%,rgba(43,209,126,.10),transparent 32%);
 }
 
-.auth-showcase:before,
-.auth-showcase:after{
+.auth:before,
+.auth:after{
   content:"";
   position:absolute;
-  border:1px solid rgba(244,202,98,.12);
   border-radius:50%;
+  filter:blur(80px);
+  pointer-events:none;
 }
 
-.auth-showcase:before{
+.auth:before{
   width:420px;
   height:420px;
-  right:-180px;
-  top:-160px;
+  background:rgba(43,209,126,.08);
+  top:-180px;
+  right:-100px;
 }
 
-.auth-showcase:after{
-  width:520px;
-  height:520px;
-  left:-270px;
-  bottom:-290px;
+.auth:after{
+  width:350px;
+  height:350px;
+  background:rgba(255,216,106,.06);
+  bottom:-180px;
+  left:-100px;
 }
 
-.brand{
+.auth-box{
+  width:min(440px,100%);
+  background:linear-gradient(145deg,rgba(20,25,22,.96),rgba(9,12,10,.98));
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:32px;
+  box-shadow:var(--shadow);
+  position:relative;
+  z-index:2;
+}
+
+.logo{
+  font-size:32px;
   font-weight:900;
-  letter-spacing:8px;
+  letter-spacing:5px;
   color:var(--gold);
-  font-size:24px;
+}
+
+.logo-line{
+  width:52px;
+  height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--green));
+  margin:10px 0 24px;
+  border-radius:5px;
 }
 
 .auth-title{
-  position:relative;
-  z-index:1;
-  max-width:520px;
-}
-
-.auth-title .eyebrow{
-  color:var(--green2);
-  font-size:11px;
+  font-size:28px;
   font-weight:800;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  margin-bottom:16px;
-}
-
-.auth-title h1{
-  font-size:clamp(40px,6vw,72px);
-  line-height:.98;
-  margin-bottom:22px;
-}
-
-.auth-title p{
-  color:var(--muted);
-  line-height:1.7;
-  max-width:480px;
-}
-
-.auth-features{
-  position:relative;
-  z-index:1;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.feature-pill{
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.035);
-  border-radius:999px;
-  padding:9px 13px;
-  color:#c9ceca;
-  font-size:12px;
-}
-
-.auth-panel{
-  padding:45px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.auth-card{
-  width:100%;
-  max-width:380px;
-}
-
-.auth-tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  background:#090b0b;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:4px;
-  margin-bottom:28px;
-}
-
-.auth-tab{
-  background:transparent;
-  color:var(--muted);
-  padding:12px;
-  border-radius:10px;
-}
-
-.auth-tab.active{
-  color:#111;
-  background:var(--gold);
-  font-weight:800;
-}
-
-.auth-card h2{
-  font-size:30px;
   margin-bottom:8px;
 }
 
 .auth-sub{
   color:var(--muted);
-  font-size:14px;
-  margin-bottom:25px;
   line-height:1.5;
+  margin-bottom:25px;
 }
 
 .field{
@@ -274,126 +135,103 @@ a{
 
 .field label{
   display:block;
-  color:#aeb4b0;
-  font-size:12px;
+  color:var(--muted);
+  font-size:13px;
   margin-bottom:7px;
 }
 
 .field input,
-.field textarea,
-.field select{
-  width:100%;
-  border:1px solid var(--line);
-  background:#0a0c0c;
-  color:var(--text);
-  outline:none;
-  border-radius:12px;
-  padding:14px;
-  transition:.2s;
-}
-
 .field textarea{
-  min-height:130px;
-  resize:vertical;
+  width:100%;
+  background:#080b09;
+  border:1px solid var(--line);
+  color:white;
+  border-radius:13px;
+  padding:13px 14px;
+  outline:none;
 }
 
 .field input:focus,
-.field textarea:focus,
-.field select:focus{
-  border-color:rgba(244,202,98,.55);
-  box-shadow:0 0 0 3px rgba(244,202,98,.06);
+.field textarea:focus{
+  border-color:rgba(43,209,126,.55);
 }
 
-.primary-btn,
-.gold-btn{
+.primary{
   width:100%;
-  padding:15px;
-  border-radius:13px;
-  background:linear-gradient(135deg,var(--gold2),var(--gold));
-  color:#111;
-  font-weight:900;
-  box-shadow:0 8px 25px rgba(244,202,98,.14);
-  transition:.2s;
-}
-
-.primary-btn:hover,
-.gold-btn:hover{
-  transform:translateY(-1px);
-}
-
-.green-btn{
-  width:100%;
-  padding:15px;
-  border-radius:13px;
-  background:var(--green);
-  color:#06100a;
+  padding:14px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#15110a;
   font-weight:900;
 }
 
-.auth-note{
+.secondary{
+  width:100%;
+  padding:13px;
+  border-radius:14px;
+  background:#171d19;
+  color:white;
+  border:1px solid var(--line);
+  margin-top:9px;
+}
+
+.auth-switch{
   text-align:center;
-  color:#666d69;
-  font-size:11px;
-  margin-top:16px;
-  line-height:1.5;
+  margin-top:18px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.auth-switch button{
+  background:none;
+  color:var(--green);
+  padding:0;
 }
 
 /* APP */
 
-#app{
+.app{
   min-height:100vh;
 }
 
 .topbar{
-  position:sticky;
-  top:0;
-  z-index:100;
-  height:76px;
-  background:rgba(7,8,8,.84);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(20px);
-}
-
-.topbar-inner{
-  max-width:1400px;
-  height:100%;
-  margin:auto;
-  padding:0 25px;
+  height:74px;
   display:flex;
   align-items:center;
-  gap:30px;
+  justify-content:space-between;
+  padding:0 28px;
+  border-bottom:1px solid var(--line);
+  background:rgba(7,8,7,.86);
+  backdrop-filter:blur(18px);
+  position:sticky;
+  top:0;
+  z-index:50;
 }
 
-.logo{
-  font-size:22px;
+.brand{
+  font-size:25px;
   font-weight:900;
-  letter-spacing:6px;
+  letter-spacing:4px;
   color:var(--gold);
-  flex-shrink:0;
 }
 
 .desktop-nav{
   display:flex;
-  gap:5px;
-  flex:1;
+  gap:6px;
 }
 
 .nav-btn{
+  background:transparent;
+  color:var(--muted);
   padding:10px 13px;
   border-radius:10px;
-  background:transparent;
-  color:#929895;
-  transition:.2s;
+  font-size:14px;
 }
 
-.nav-btn:hover,
-.nav-btn.active{
-  color:var(--text);
-  background:rgba(255,255,255,.05);
-}
-
-.nav-btn.active{
-  color:var(--gold);
+.nav-btn.active,
+.nav-btn:hover{
+  background:#151b17;
+  color:white;
 }
 
 .top-actions{
@@ -402,206 +240,93 @@ a{
   gap:9px;
 }
 
-.balance-pill{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:9px 12px;
-  border:1px solid rgba(244,202,98,.18);
+.balance{
+  background:#111713;
+  border:1px solid var(--line);
   border-radius:12px;
-  background:rgba(244,202,98,.055);
-}
-
-.balance-label{
-  color:#767d79;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
-.balance-value{
-  color:var(--gold2);
-  font-weight:900;
-  font-size:14px;
+  padding:9px 13px;
+  color:var(--gold);
+  font-weight:800;
 }
 
 .icon-btn{
-  width:40px;
-  height:40px;
-  display:grid;
-  place-items:center;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:#121713;
   border:1px solid var(--line);
-  background:#0d1010;
-  color:#dce1dd;
-  border-radius:11px;
+  color:white;
   position:relative;
-}
-
-.icon-btn svg{
-  width:19px;
-  height:19px;
 }
 
 .notification-dot{
   position:absolute;
-  top:8px;
-  right:8px;
-  width:6px;
-  height:6px;
+  width:7px;
+  height:7px;
   background:var(--green);
   border-radius:50%;
-  box-shadow:0 0 10px var(--green);
+  right:7px;
+  top:7px;
 }
 
-.profile-top{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:5px 9px 5px 5px;
-  border:1px solid var(--line);
-  background:#0d1010;
+.profile-btn{
+  height:42px;
+  padding:0 14px;
   border-radius:12px;
+  background:linear-gradient(135deg,#202820,#151a16);
+  border:1px solid var(--line);
+  color:white;
+  font-weight:700;
 }
 
-.avatar{
-  width:30px;
-  height:30px;
-  display:grid;
-  place-items:center;
-  border-radius:9px;
-  background:linear-gradient(135deg,var(--gold),#b77d25);
-  color:#111;
-  font-weight:900;
-  font-size:12px;
-}
-
-.profile-name{
-  max-width:90px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  font-size:12px;
-}
-
-/* CONTENT */
-
-.main{
-  max-width:1400px;
+.page{
+  max-width:1320px;
   margin:auto;
   padding:32px 25px 110px;
 }
 
-.page{
-  display:none;
-  animation:pageIn .3s ease;
-}
-
-.page.active{
-  display:block;
-}
-
-@keyframes pageIn{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
 .hero{
-  min-height:410px;
   border:1px solid var(--line);
   border-radius:28px;
-  overflow:hidden;
-  position:relative;
+  padding:45px;
+  min-height:320px;
   display:flex;
   align-items:center;
-  padding:55px;
   background:
-    radial-gradient(circle at 70% 40%,rgba(244,202,98,.16),transparent 25%),
-    radial-gradient(circle at 90% 100%,rgba(43,209,126,.09),transparent 35%),
-    linear-gradient(135deg,#111414,#090b0b);
-}
-
-.hero-art{
-  position:absolute;
-  right:6%;
-  width:400px;
-  height:300px;
-}
-
-.orbit{
-  position:absolute;
-  border:1px solid rgba(244,202,98,.16);
-  border-radius:50%;
-  transform:rotate(-18deg);
-}
-
-.orbit.one{
-  width:330px;
-  height:150px;
-  right:20px;
-  top:55px;
-}
-
-.orbit.two{
-  width:270px;
-  height:125px;
-  right:55px;
-  top:88px;
-  border-color:rgba(43,209,126,.16);
-}
-
-.hero-core{
-  position:absolute;
-  width:130px;
-  height:130px;
-  border-radius:50%;
-  right:130px;
-  top:75px;
-  background:
-    radial-gradient(circle at 35% 30%,#fff0ae,transparent 15%),
-    radial-gradient(circle,var(--gold),#8f5e19);
-  box-shadow:0 0 80px rgba(244,202,98,.18);
-  transform:rotate(12deg);
-}
-
-.hero-core:after{
-  content:"V";
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  color:#16120a;
-  font-weight:1000;
-  font-size:55px;
-  letter-spacing:-5px;
+    radial-gradient(circle at 85% 20%,rgba(43,209,126,.13),transparent 28%),
+    radial-gradient(circle at 75% 100%,rgba(255,216,106,.08),transparent 30%),
+    linear-gradient(135deg,#101612,#0b0e0c);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
 }
 
 .hero-content{
-  position:relative;
-  z-index:2;
-  max-width:650px;
+  max-width:680px;
 }
 
 .eyebrow{
-  color:var(--green2);
-  font-size:11px;
+  color:var(--green);
+  font-size:12px;
   font-weight:900;
   letter-spacing:2px;
   text-transform:uppercase;
-  margin-bottom:14px;
+  margin-bottom:12px;
 }
 
 .hero h1{
-  font-size:clamp(42px,6vw,78px);
-  line-height:.94;
-  letter-spacing:-3px;
-  margin-bottom:20px;
+  margin:0;
+  font-size:clamp(36px,5vw,66px);
+  line-height:1;
+  letter-spacing:-2px;
 }
 
 .hero p{
-  color:#9ba29e;
-  max-width:570px;
-  line-height:1.7;
-  margin-bottom:28px;
+  color:var(--muted);
+  font-size:17px;
+  line-height:1.6;
+  max-width:600px;
+  margin:20px 0 26px;
 }
 
 .hero-actions{
@@ -610,255 +335,136 @@ a{
   flex-wrap:wrap;
 }
 
-.btn{
-  padding:13px 18px;
-  border-radius:12px;
+.hero-btn{
+  padding:13px 19px;
+  border-radius:13px;
   font-weight:800;
-  transition:.2s;
 }
 
-.btn:hover{
-  transform:translateY(-1px);
+.hero-btn.primary-btn{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#171209;
 }
 
-.btn-gold{
-  color:#111;
-  background:var(--gold);
-}
-
-.btn-dark{
-  color:#ddd;
-  background:#151919;
+.hero-btn.dark-btn{
+  background:#171d19;
   border:1px solid var(--line);
-}
-
-/* SECTION */
-
-.section{
-  margin-top:38px;
+  color:white;
 }
 
 .section-head{
   display:flex;
-  align-items:end;
+  align-items:center;
   justify-content:space-between;
-  gap:20px;
-  margin-bottom:16px;
+  margin:32px 0 15px;
 }
 
-.section-title{
-  font-size:24px;
-  font-weight:900;
+.section-head h2{
+  margin:0;
+  font-size:23px;
 }
 
-.section-sub{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:5px;
+.section-head button{
+  background:none;
+  color:var(--green);
 }
 
-.text-btn{
-  background:transparent;
-  color:var(--gold);
-  font-size:13px;
-  font-weight:800;
-}
-
-/* GAME CARDS */
-
-.games-grid{
+.game-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:16px;
+  gap:17px;
 }
 
 .game-card{
-  position:relative;
-  min-height:330px;
+  min-height:245px;
   border:1px solid var(--line);
-  border-radius:20px;
+  border-radius:22px;
   overflow:hidden;
-  background:#101313;
-  cursor:pointer;
-  transition:.25s;
+  position:relative;
+  background:#101411;
+  box-shadow:0 12px 35px rgba(0,0,0,.22);
 }
 
-.game-card:hover{
-  transform:translateY(-5px);
-  border-color:rgba(244,202,98,.25);
-  box-shadow:0 20px 45px rgba(0,0,0,.25);
-}
-
-.game-visual{
-  height:205px;
+.game-art{
+  height:150px;
   position:relative;
   overflow:hidden;
 }
 
-.game-visual.candy{
+.game-art.candy{
   background:
-    radial-gradient(circle at 30% 30%,rgba(255,183,220,.8),transparent 9%),
-    radial-gradient(circle at 75% 55%,rgba(255,232,113,.55),transparent 12%),
-    linear-gradient(135deg,#321c55,#9a3b79 55%,#ed8d6b);
+    radial-gradient(circle at 30% 35%,#ffdf79 0 5%,transparent 6%),
+    radial-gradient(circle at 70% 55%,#ff65a8 0 7%,transparent 8%),
+    linear-gradient(135deg,#5a204d,#24183f 60%,#10131e);
 }
 
-.game-visual.olympus{
+.game-art.olympus{
   background:
-    radial-gradient(circle at 50% 35%,rgba(255,228,126,.5),transparent 13%),
-    linear-gradient(135deg,#16152d,#302a61 55%,#17172b);
+    radial-gradient(circle at 65% 35%,rgba(255,216,106,.7),transparent 12%),
+    linear-gradient(135deg,#26376b,#171d43 60%,#10131d);
 }
 
-.game-visual.jungle{
+.game-art.jungle{
   background:
-    radial-gradient(circle at 70% 35%,rgba(123,255,161,.25),transparent 20%),
-    linear-gradient(135deg,#0b2820,#12543d 55%,#071b16);
+    radial-gradient(circle at 65% 40%,rgba(43,209,126,.5),transparent 18%),
+    linear-gradient(135deg,#123f31,#11261e 60%,#0c1512);
 }
 
-.game-symbol{
+.art-title{
   position:absolute;
-  border-radius:18px;
-  display:grid;
-  place-items:center;
-  font-weight:1000;
-  color:rgba(255,255,255,.9);
-  box-shadow:0 15px 35px rgba(0,0,0,.22);
-}
-
-.candy .game-symbol{
-  width:78px;
-  height:78px;
-  background:linear-gradient(145deg,#ffdb74,#e75d9a);
-  transform:rotate(-12deg);
-  left:45%;
-  top:50px;
-}
-
-.candy .game-symbol:after{
-  content:"C";
-  font-size:42px;
-  color:#fff2bd;
-}
-
-.olympus .game-symbol{
-  width:95px;
-  height:95px;
-  border-radius:50%;
-  background:radial-gradient(circle,#fff2a0,#b77a24);
-  left:40%;
-  top:45px;
-  box-shadow:0 0 55px rgba(244,202,98,.25);
-}
-
-.olympus .game-symbol:after{
-  content:"O";
-  font-size:44px;
-  color:#30220b;
-}
-
-.jungle .game-symbol{
-  width:105px;
-  height:105px;
-  border-radius:45% 55% 50% 40%;
-  background:linear-gradient(145deg,#56d18d,#164f38);
-  left:40%;
-  top:42px;
-}
-
-.jungle .game-symbol:after{
-  content:"J";
-  font-size:45px;
-  color:#d6ffe5;
+  left:18px;
+  bottom:14px;
+  font-size:25px;
+  font-weight:900;
+  text-shadow:0 3px 15px #000;
 }
 
 .game-info{
-  padding:16px;
+  padding:15px;
 }
 
-.game-name-row{
+.game-info-row{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:10px;
+  align-items:center;
 }
 
-.game-name{
-  font-size:17px;
-  font-weight:900;
+.game-info h3{
+  margin:0;
+  font-size:18px;
 }
 
-.favorite{
-  width:32px;
-  height:32px;
-  display:grid;
-  place-items:center;
-  border-radius:9px;
-  background:#181c1c;
-  color:#727976;
+.game-info p{
+  color:var(--muted);
+  margin:6px 0 12px;
+  font-size:13px;
 }
 
-.favorite.active{
-  color:var(--gold);
-  background:rgba(244,202,98,.09);
-}
-
-.game-desc{
-  color:#777f7b;
-  font-size:12px;
-  margin-top:5px;
-}
-
-.game-meta{
+.game-actions{
   display:flex;
-  gap:7px;
-  margin-top:12px;
+  gap:8px;
 }
 
-.tag{
-  font-size:9px;
-  letter-spacing:.7px;
-  text-transform:uppercase;
-  padding:5px 7px;
-  border-radius:6px;
-  background:rgba(255,255,255,.045);
-  color:#aeb4b0;
-}
-
-.tag.original{
-  color:var(--green2);
-  background:rgba(43,209,126,.07);
-}
-
-/* QUICK STATS */
-
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-}
-
-.stat-card{
-  padding:18px;
-  border:1px solid var(--line);
-  background:#0e1111;
-  border-radius:15px;
-}
-
-.stat-label{
-  color:#737a76;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
-.stat-value{
-  margin-top:8px;
-  font-size:23px;
+.play-btn{
+  flex:1;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#15110a;
+  padding:10px;
+  border-radius:10px;
   font-weight:900;
-  color:#e8ebe8;
 }
 
-.stat-value.gold{
+.fav-btn{
+  width:42px;
+  background:#171d19;
+  color:var(--muted);
+  border:1px solid var(--line);
+  border-radius:10px;
+}
+
+.fav-btn.active{
   color:var(--gold);
+  border-color:rgba(255,216,106,.4);
 }
 
 /* CATALOG */
@@ -866,387 +472,147 @@ a{
 .catalog-tools{
   display:flex;
   gap:10px;
-  margin-bottom:22px;
-  flex-wrap:wrap;
+  margin:20px 0;
 }
 
 .search{
   flex:1;
-  min-width:220px;
-  position:relative;
-}
-
-.search input{
-  width:100%;
-  background:#0d1010;
-  color:#fff;
+  background:#0e120f;
   border:1px solid var(--line);
-  border-radius:12px;
+  color:white;
   padding:13px 15px;
+  border-radius:13px;
   outline:none;
 }
 
-.filters{
-  display:flex;
-  gap:7px;
-  overflow:auto;
-}
-
 .filter{
-  white-space:nowrap;
-  padding:12px 14px;
-  border-radius:11px;
-  background:#0d1010;
-  color:#7e8581;
+  background:#0e120f;
   border:1px solid var(--line);
+  color:white;
+  border-radius:13px;
+  padding:0 14px;
 }
 
-.filter.active{
-  background:rgba(244,202,98,.1);
-  color:var(--gold);
-  border-color:rgba(244,202,98,.25);
-}
+/* CARDS */
 
-/* DASHBOARD CARDS */
-
-.dashboard-grid{
+.stat-grid{
   display:grid;
-  grid-template-columns:1.5fr 1fr;
-  gap:16px;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.stat{
+  background:#101411;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:18px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.stat-value{
+  margin-top:8px;
+  font-size:23px;
+  font-weight:900;
+  color:var(--gold);
 }
 
 .panel{
+  background:#101411;
   border:1px solid var(--line);
-  border-radius:18px;
-  background:#0e1111;
+  border-radius:20px;
   padding:20px;
+  margin-top:18px;
 }
 
-.panel-title{
-  font-size:16px;
-  font-weight:900;
-  margin-bottom:15px;
+.panel h3{
+  margin-top:0;
 }
 
-.continue-card{
-  min-height:180px;
-  border-radius:15px;
-  padding:24px;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 80% 50%,rgba(244,202,98,.16),transparent 28%),
-    linear-gradient(135deg,#171919,#0c0f0f);
+.list{
+  display:flex;
+  flex-direction:column;
+  gap:9px;
 }
 
-.continue-card h3{
-  font-size:25px;
-  margin-bottom:7px;
-}
-
-.continue-card p{
-  color:#858c88;
-  font-size:13px;
-  margin-bottom:18px;
-}
-
-.small-btn{
-  display:inline-flex;
+.list-item{
+  display:flex;
   align-items:center;
-  justify-content:center;
-  padding:10px 13px;
-  border-radius:9px;
-  background:var(--gold);
-  color:#111;
+  justify-content:space-between;
+  padding:13px;
+  border-radius:13px;
+  background:#0b0f0c;
+  border:1px solid rgba(255,255,255,.05);
+}
+
+.list-main{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.list-title{
+  font-weight:700;
+}
+
+.list-sub{
+  color:var(--muted);
   font-size:12px;
-  font-weight:900;
+}
+
+.green{
+  color:var(--green);
+}
+
+.red{
+  color:var(--danger);
+}
+
+.gold{
+  color:var(--gold);
 }
 
 /* BONUS */
 
-.bonus-hero{
-  border:1px solid rgba(244,202,98,.18);
-  background:
-    radial-gradient(circle at 80% 50%,rgba(244,202,98,.12),transparent 28%),
-    #101313;
-  border-radius:22px;
-  padding:30px;
-}
-
-.bonus-label{
-  color:var(--green2);
-  font-size:10px;
-  letter-spacing:2px;
-  font-weight:900;
-}
-
-.bonus-hero h2{
-  font-size:34px;
-  margin:8px 0;
-}
-
-.bonus-hero p{
-  color:var(--muted);
-  max-width:620px;
-  line-height:1.6;
-}
-
-.progress{
-  height:9px;
-  background:#080a0a;
-  border-radius:99px;
-  overflow:hidden;
-  margin:22px 0 10px;
-}
-
-.progress span{
-  display:block;
-  height:100%;
-  width:65%;
-  background:linear-gradient(90deg,var(--green),var(--gold));
-}
-
 .bonus-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-top:18px;
+  gap:15px;
 }
 
 .bonus-card{
-  padding:20px;
+  padding:22px;
+  border-radius:20px;
   border:1px solid var(--line);
-  background:#0e1111;
-  border-radius:16px;
+  background:
+    radial-gradient(circle at 100% 0,rgba(255,216,106,.1),transparent 35%),
+    #101411;
 }
 
 .bonus-card h3{
-  margin:10px 0 6px;
+  margin-top:0;
 }
 
 .bonus-card p{
   color:var(--muted);
-  font-size:12px;
   line-height:1.5;
 }
 
 .bonus-card button{
-  margin-top:15px;
-  padding:10px 13px;
-  border-radius:9px;
-  background:#191d1d;
-  color:var(--gold);
+  width:100%;
+  padding:11px;
+  border-radius:11px;
+  background:#171d19;
+  color:white;
   border:1px solid var(--line);
-  font-weight:800;
 }
 
-/* WHEEL */
-
-.wheel-layout{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:25px;
-  align-items:center;
-}
-
-.wheel-box{
-  display:flex;
-  justify-content:center;
-  position:relative;
-}
-
-.wheel{
-  width:min(400px,80vw);
-  aspect-ratio:1;
-  border-radius:50%;
-  position:relative;
-  border:12px solid #171a1a;
-  box-shadow:0 0 0 1px rgba(244,202,98,.25),0 25px 70px rgba(0,0,0,.4);
-  transition:transform 4.5s cubic-bezier(.12,.72,.17,1);
-  background:
-    conic-gradient(
-      #c18c31 0deg 45deg,
-      #17251d 45deg 90deg,
-      #8e6428 90deg 135deg,
-      #17251d 135deg 180deg,
-      #c18c31 180deg 225deg,
-      #17251d 225deg 270deg,
-      #8e6428 270deg 315deg,
-      #17251d 315deg 360deg
-    );
-}
-
-.wheel:after{
-  content:"VELORA";
-  position:absolute;
-  inset:35%;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#0c0f0f;
-  color:var(--gold);
-  font-size:12px;
-  font-weight:1000;
-  letter-spacing:2px;
-  border:2px solid rgba(244,202,98,.4);
-}
-
-.wheel-labels{
-  position:absolute;
-  inset:0;
-}
-
-.wheel-labels span{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:80px;
-  margin-left:-40px;
-  margin-top:-8px;
-  text-align:center;
-  font-size:11px;
-  font-weight:900;
-  color:#fff;
-}
-
-.wheel-labels span:nth-child(1){transform:translateY(-145px)}
-.wheel-labels span:nth-child(2){transform:rotate(45deg) translateY(-145px) rotate(-45deg)}
-.wheel-labels span:nth-child(3){transform:rotate(90deg) translateY(-145px) rotate(-90deg)}
-.wheel-labels span:nth-child(4){transform:rotate(135deg) translateY(-145px) rotate(-135deg)}
-.wheel-labels span:nth-child(5){transform:rotate(180deg) translateY(-145px) rotate(-180deg)}
-.wheel-labels span:nth-child(6){transform:rotate(225deg) translateY(-145px) rotate(-225deg)}
-.wheel-labels span:nth-child(7){transform:rotate(270deg) translateY(-145px) rotate(-270deg)}
-.wheel-labels span:nth-child(8){transform:rotate(315deg) translateY(-145px) rotate(-315deg)}
-
-.wheel-pointer{
-  position:absolute;
-  top:-3px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:5;
-  width:0;
-  height:0;
-  border-left:13px solid transparent;
-  border-right:13px solid transparent;
-  border-top:28px solid var(--gold);
-  filter:drop-shadow(0 4px 8px rgba(0,0,0,.5));
-}
-
-/* PROFILE */
-
-.profile-layout{
-  display:grid;
-  grid-template-columns:300px 1fr;
-  gap:16px;
-}
-
-.profile-card{
-  text-align:center;
-  padding:30px;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:#0e1111;
-}
-
-.big-avatar{
-  width:85px;
-  height:85px;
-  margin:0 auto 16px;
-  border-radius:24px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(145deg,var(--gold2),#a96e1c);
+.bonus-card button.claim{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
   color:#15110a;
-  font-size:30px;
-  font-weight:1000;
-}
-
-.profile-email{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-  word-break:break-all;
-}
-
-.profile-actions{
-  margin-top:25px;
-  display:grid;
-  gap:8px;
-}
-
-.secondary-btn{
-  padding:12px;
-  border-radius:10px;
-  background:#151919;
-  color:#c8ceca;
-  border:1px solid var(--line);
-}
-
-.danger-btn{
-  padding:12px;
-  border-radius:10px;
-  background:rgba(255,104,116,.08);
-  color:#ff8790;
-  border:1px solid rgba(255,104,116,.12);
-}
-
-.history-list{
-  display:grid;
-  gap:8px;
-}
-
-.history-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:14px;
-  border:1px solid var(--line);
-  background:#101313;
-  border-radius:12px;
-}
-
-.history-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-width:0;
-}
-
-.history-icon{
-  width:38px;
-  height:38px;
-  flex-shrink:0;
-  display:grid;
-  place-items:center;
-  border-radius:10px;
-  background:rgba(244,202,98,.08);
-  color:var(--gold);
-  font-weight:900;
-}
-
-.history-game{
-  font-size:13px;
-  font-weight:800;
-}
-
-.history-date{
-  color:#6f7773;
-  font-size:10px;
-  margin-top:3px;
-}
-
-.history-win{
-  font-size:13px;
-  font-weight:900;
-}
-
-.history-win.plus{
-  color:var(--green2);
-}
-
-.history-win.zero{
-  color:#727976;
 }
 
 /* SUPPORT */
@@ -1254,446 +620,311 @@ a{
 .support-layout{
   display:grid;
   grid-template-columns:1fr 1.2fr;
-  gap:16px;
+  gap:18px;
 }
 
 .support-info{
-  padding:30px;
-  border:1px solid var(--line);
-  border-radius:18px;
   background:
-    radial-gradient(circle at 80% 20%,rgba(43,209,126,.08),transparent 30%),
-    #0e1111;
-}
-
-.support-info h2{
-  font-size:32px;
-  margin-bottom:12px;
+    radial-gradient(circle at 80% 20%,rgba(43,209,126,.12),transparent 35%),
+    #101411;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:25px;
 }
 
 .support-info p{
   color:var(--muted);
-  line-height:1.7;
+  line-height:1.6;
 }
 
-.support-list{
-  margin-top:25px;
-  display:grid;
-  gap:10px;
-}
-
-.support-row{
-  padding:13px;
-  border-radius:11px;
-  background:#151919;
+.support-form{
+  background:#101411;
   border:1px solid var(--line);
-  color:#b6bdb9;
-  font-size:12px;
+  border-radius:22px;
+  padding:25px;
 }
 
-/* NOTIFICATIONS */
-
-.notification-panel{
-  position:fixed;
-  z-index:500;
-  right:20px;
-  top:88px;
-  width:min(370px,calc(100vw - 30px));
-  background:#101313;
-  border:1px solid var(--line);
-  border-radius:16px;
-  box-shadow:var(--shadow);
-  transform:translateY(-10px);
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
+textarea{
+  min-height:150px;
+  resize:vertical;
 }
 
-.notification-panel.open{
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
-}
+/* WHEEL */
 
-.notification-head{
+.wheel-wrap{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  padding:16px;
-  border-bottom:1px solid var(--line);
+  justify-content:center;
+  flex-direction:column;
+  gap:22px;
 }
 
-.notification-head h3{
-  font-size:14px;
+.wheel{
+  width:min(330px,75vw);
+  height:min(330px,75vw);
+  border-radius:50%;
+  border:10px solid #222921;
+  background:
+    conic-gradient(
+      #ffd86a 0deg 45deg,
+      #18251d 45deg 90deg,
+      #2bd17e 90deg 135deg,
+      #18251d 135deg 180deg,
+      #ffd86a 180deg 225deg,
+      #18251d 225deg 270deg,
+      #2bd17e 270deg 315deg,
+      #18251d 315deg 360deg
+    );
+  box-shadow:0 0 60px rgba(43,209,126,.12);
+  transition:transform 4s cubic-bezier(.12,.75,.2,1);
+  position:relative;
 }
 
-.notifications-list{
-  max-height:380px;
-  overflow:auto;
-}
-
-.notification-item{
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.notification-item strong{
-  display:block;
-  font-size:12px;
-  margin-bottom:4px;
-}
-
-.notification-item span{
-  color:#777f7b;
-  font-size:11px;
-  line-height:1.5;
-}
-
-/* TOAST */
-
-#toast{
-  position:fixed;
-  z-index:1000;
+.wheel:after{
+  content:"VELORA";
+  position:absolute;
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  background:#0c100e;
+  border:2px solid var(--gold);
+  display:flex;
+  align-items:center;
+  justify-content:center;
   left:50%;
-  bottom:35px;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  background:#161b19;
-  border:1px solid rgba(43,209,126,.25);
-  color:#dce5df;
-  border-radius:12px;
-  padding:12px 16px;
+  top:50%;
+  transform:translate(-50%,-50%);
+  color:var(--gold);
+  font-weight:900;
   font-size:12px;
-  box-shadow:var(--shadow);
-  transition:.25s;
+  letter-spacing:2px;
 }
 
-#toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
+.wheel-pointer{
+  width:0;
+  height:0;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-top:22px solid var(--gold);
 }
 
-/* GAME SCREEN */
+/* GAME */
 
-#gameScreen{
+.game-screen{
   position:fixed;
   inset:0;
-  z-index:700;
-  background:#070808;
-  display:none;
+  background:#070807;
+  z-index:100;
   overflow:auto;
 }
 
-#gameScreen.open{
-  display:block;
-}
-
-.game-header{
-  position:sticky;
-  top:0;
-  z-index:10;
+.game-top{
   height:70px;
-  background:rgba(7,8,8,.88);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--line);
-}
-
-.game-header-inner{
-  max-width:1100px;
-  height:100%;
-  margin:auto;
-  padding:0 18px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
+  padding:0 20px;
+  border-bottom:1px solid var(--line);
+  background:#0a0d0b;
+  position:sticky;
+  top:0;
+  z-index:5;
+}
+
+.game-top h2{
+  margin:0;
+  font-size:18px;
 }
 
 .back-btn{
-  padding:10px 13px;
-  border-radius:10px;
-  background:#121515;
-  color:#bbb;
+  background:#151b17;
   border:1px solid var(--line);
-}
-
-.game-title{
-  text-align:center;
-}
-
-.game-title h2{
-  font-size:17px;
-}
-
-.game-title span{
-  color:#707773;
-  font-size:10px;
+  color:white;
+  border-radius:10px;
+  padding:9px 13px;
 }
 
 .game-balance{
   color:var(--gold);
-  font-size:13px;
   font-weight:900;
 }
 
-.game-main{
-  max-width:1100px;
+.game-area{
+  width:min(1050px,100%);
   margin:auto;
-  padding:25px 15px 50px;
-}
-
-.slot-stage{
-  border:1px solid var(--line);
-  border-radius:24px;
-  overflow:hidden;
-  background:#0c0f0f;
-  box-shadow:0 25px 70px rgba(0,0,0,.3);
-}
-
-.slot-banner{
-  min-height:130px;
-  padding:25px;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-}
-
-.slot-banner.candy{
-  background:radial-gradient(circle at 70% 50%,rgba(255,150,211,.18),transparent 25%),linear-gradient(135deg,#27153e,#5c2855);
-}
-
-.slot-banner.olympus{
-  background:radial-gradient(circle at 70% 50%,rgba(255,214,94,.18),transparent 25%),linear-gradient(135deg,#17152d,#2c2857);
-}
-
-.slot-banner.jungle{
-  background:radial-gradient(circle at 70% 50%,rgba(62,219,126,.14),transparent 25%),linear-gradient(135deg,#0a2019,#124a35);
-}
-
-.slot-banner h2{
-  font-size:30px;
-}
-
-.slot-banner p{
-  color:#a0a7a3;
-  margin-top:5px;
-  font-size:12px;
-}
-
-.multiplier{
-  padding:12px 16px;
-  border:1px solid rgba(244,202,98,.22);
-  background:rgba(0,0,0,.18);
-  border-radius:12px;
-  text-align:center;
-}
-
-.multiplier span{
-  display:block;
-  color:#777f7b;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:1px;
-}
-
-.multiplier strong{
-  color:var(--gold);
-  font-size:23px;
-}
-
-.slot-area{
   padding:20px;
-  background:#080a0a;
+}
+
+.game-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.game-header .tag{
+  color:var(--green);
+  font-size:12px;
+  letter-spacing:1.5px;
+  font-weight:800;
+}
+
+.slot-machine{
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,216,106,.06),transparent 30%),
+    #0d110f;
+  border:1px solid var(--line);
+  border-radius:25px;
+  padding:18px;
+  box-shadow:var(--shadow);
 }
 
 .reels{
   display:grid;
   gap:7px;
-  margin:auto;
-  max-width:780px;
+  background:#070907;
+  padding:10px;
+  border-radius:17px;
 }
 
-.reels.r5{
+.reels.cols5{
   grid-template-columns:repeat(5,1fr);
 }
 
-.reels.r6{
+.reels.cols6{
   grid-template-columns:repeat(6,1fr);
 }
 
 .symbol{
   aspect-ratio:1;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.06);
-  display:grid;
-  place-items:center;
-  font-size:clamp(19px,4vw,34px);
-  font-weight:1000;
-  color:#fff;
+  min-height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:13px;
+  background:linear-gradient(145deg,#1a211c,#0f140f);
+  border:1px solid rgba(255,255,255,.07);
+  font-size:26px;
+  font-weight:900;
+  color:white;
   position:relative;
   overflow:hidden;
-  background:linear-gradient(145deg,#171b1b,#0d1010);
-  box-shadow:inset 0 0 25px rgba(255,255,255,.025);
-  transition:.18s;
-}
-
-.symbol.win{
-  border-color:rgba(244,202,98,.65);
-  box-shadow:0 0 22px rgba(244,202,98,.18),inset 0 0 25px rgba(244,202,98,.08);
-  transform:scale(1.04);
-}
-
-.symbol.candy{
-  background:linear-gradient(145deg,#742c67,#321d4b);
-}
-
-.symbol.olympus{
-  background:linear-gradient(145deg,#403c7c,#18172d);
-}
-
-.symbol.jungle{
-  background:linear-gradient(145deg,#174f3b,#0d251d);
-}
-
-.symbol.special{
-  border-color:rgba(244,202,98,.35);
-}
-
-.win-display{
-  text-align:center;
-  min-height:55px;
-  padding:10px;
-}
-
-.win-label{
-  color:#707773;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:1.5px;
-}
-
-.win-amount{
-  font-size:27px;
-  color:var(--green2);
-  font-weight:1000;
-}
-
-.controls{
-  display:grid;
-  grid-template-columns:auto 1fr auto;
-  gap:12px;
-  align-items:center;
-  max-width:780px;
-  margin:0 auto;
-}
-
-.control-group{
-  display:flex;
-  gap:6px;
-  align-items:center;
-}
-
-.control-btn{
-  min-width:42px;
-  height:42px;
-  padding:0 10px;
-  border-radius:10px;
-  background:#151919;
-  border:1px solid var(--line);
-  color:#d0d5d2;
-  font-weight:900;
-}
-
-.bet-box{
-  min-width:100px;
-  text-align:center;
-}
-
-.bet-box small{
-  display:block;
-  color:#686f6c;
-  font-size:9px;
-  text-transform:uppercase;
-}
-
-.bet-box strong{
-  color:#eee;
-}
-
-.spin-btn{
-  width:120px;
-  height:52px;
-  border-radius:14px;
-  background:linear-gradient(135deg,var(--gold2),var(--gold));
-  color:#111;
-  font-weight:1000;
-  box-shadow:0 10px 30px rgba(244,202,98,.13);
-}
-
-.spin-btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-.game-options{
-  max-width:780px;
-  margin:15px auto 0;
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.option{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  color:#7c8480;
-  font-size:11px;
-}
-
-.toggle{
-  width:35px;
-  height:20px;
-  border-radius:99px;
-  background:#202525;
-  border:1px solid var(--line);
-  position:relative;
-  cursor:pointer;
-}
-
-.toggle span{
-  position:absolute;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  left:2px;
-  top:2px;
-  background:#777;
   transition:.2s;
 }
 
-.toggle.on{
-  background:rgba(43,209,126,.18);
+.symbol:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.08),transparent 50%);
+  pointer-events:none;
 }
 
-.toggle.on span{
-  left:17px;
-  background:var(--green);
+.symbol.win{
+  border-color:var(--gold);
+  box-shadow:0 0 20px rgba(255,216,106,.22);
+  transform:scale(1.04);
 }
 
-.paytable{
-  max-width:780px;
-  margin:18px auto 0;
-  padding:14px;
+.symbol.candyA{color:#ff78b5}
+.symbol.candyB{color:#ffd86a}
+.symbol.candyC{color:#6adfff}
+.symbol.candyD{color:#a57cff}
+.symbol.candyE{color:#65e89a}
+
+.symbol.olympusA{color:#ffd86a}
+.symbol.olympusB{color:#74b9ff}
+.symbol.olympusC{color:#c891ff}
+.symbol.olympusD{color:#69e0d1}
+.symbol.fate{
+  color:#fff;
+  background:linear-gradient(145deg,#503e13,#17140c);
+  border-color:rgba(255,216,106,.45);
+}
+
+.symbol.jungleA{color:#73e38e}
+.symbol.jungleB{color:#d9a15d}
+.symbol.jungleC{color:#79c8ff}
+.symbol.jungleD{color:#d982e9}
+.symbol.wild{
+  color:var(--gold);
+  background:linear-gradient(145deg,#2a3218,#11160f);
+  border-color:rgba(255,216,106,.35);
+}
+
+.game-message{
+  min-height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-size:14px;
+  text-align:center;
+  padding:8px;
+}
+
+.game-message.big{
+  color:var(--gold);
+  font-size:20px;
+  font-weight:900;
+}
+
+.game-controls{
+  display:grid;
+  grid-template-columns:auto auto 1fr auto auto;
+  gap:8px;
+  align-items:center;
+  margin-top:15px;
+}
+
+.control{
+  background:#171d19;
+  color:white;
   border:1px solid var(--line);
-  border-radius:12px;
-  color:#777f7b;
-  font-size:10px;
-  line-height:1.7;
+  padding:11px 14px;
+  border-radius:11px;
+}
+
+.spin{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#161108;
+  font-weight:900;
+  min-width:140px;
+}
+
+.bet-box{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#0a0d0b;
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:4px;
+}
+
+.bet-box button{
+  width:32px;
+  height:32px;
+  background:#171d19;
+  color:white;
+  border-radius:8px;
+}
+
+.bet-value{
+  min-width:60px;
+  text-align:center;
+  font-weight:800;
+}
+
+.game-paytable{
+  margin-top:16px;
+  padding:15px;
+  border-radius:15px;
+  background:#0b0f0c;
+  border:1px solid var(--line);
+  color:var(--muted);
+  line-height:1.6;
+  font-size:13px;
 }
 
 /* BONUS OVERLAY */
@@ -1701,3123 +932,2116 @@ a{
 .bonus-overlay{
   position:fixed;
   inset:0;
-  z-index:900;
-  display:none;
+  z-index:200;
+  display:flex;
   align-items:center;
   justify-content:center;
-  padding:20px;
   background:rgba(0,0,0,.78);
   backdrop-filter:blur(10px);
-}
-
-.bonus-overlay.open{
-  display:flex;
+  padding:20px;
 }
 
 .bonus-modal{
-  width:min(430px,100%);
+  width:min(440px,100%);
+  padding:30px;
+  border-radius:25px;
+  background:linear-gradient(145deg,#151b17,#0b0f0c);
+  border:1px solid rgba(255,216,106,.25);
   text-align:center;
-  padding:38px 28px;
-  border:1px solid rgba(244,202,98,.3);
-  border-radius:22px;
-  background:linear-gradient(145deg,#151313,#0d1010);
   box-shadow:0 30px 90px rgba(0,0,0,.6);
 }
 
-.bonus-modal .bonus-icon{
-  width:80px;
-  height:80px;
-  margin:0 auto 18px;
-  display:grid;
-  place-items:center;
-  border-radius:50%;
-  background:radial-gradient(circle,#ffeaa2,#a46f22);
-  color:#171108;
-  font-weight:1000;
-  font-size:28px;
-}
-
 .bonus-modal h2{
-  font-size:29px;
+  color:var(--gold);
+  margin-top:0;
 }
 
-.bonus-modal p{
-  color:#858d89;
-  line-height:1.6;
-  margin:9px 0 22px;
-}
-
-/* EMPTY */
-
-.empty{
-  text-align:center;
-  padding:55px 20px;
-  color:#68706c;
-  border:1px dashed var(--line);
-  border-radius:15px;
-}
-
-/* MOBILE NAV */
+/* MOBILE */
 
 .mobile-nav{
   display:none;
 }
 
-/* RESPONSIVE */
-
-@media(max-width:1000px){
-  .games-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .bonus-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .wheel-layout,
-  .support-layout{
-    grid-template-columns:1fr;
-  }
-
-  .profile-layout{
-    grid-template-columns:1fr;
-  }
-
-  .hero-art{
-    opacity:.45;
-  }
-}
-
-@media(max-width:760px){
-  body{
-    padding-bottom:75px;
-  }
-
-  .topbar{
-    height:65px;
-  }
-
-  .topbar-inner{
-    padding:0 15px;
-    gap:10px;
-  }
-
-  .logo{
-    font-size:18px;
-    letter-spacing:4px;
-  }
-
+@media(max-width:850px){
   .desktop-nav{
     display:none;
   }
 
-  .profile-top{
-    display:none;
+  .topbar{
+    padding:0 14px;
   }
 
-  .balance-pill{
-    margin-left:auto;
+  .brand{
+    font-size:21px;
   }
 
-  .balance-label{
-    display:none;
+  .balance{
+    font-size:12px;
+    padding:8px 9px;
   }
 
-  .main{
-    padding:18px 14px 95px;
+  .profile-btn{
+    width:42px;
+    padding:0;
+    font-size:0;
+  }
+
+  .profile-btn:after{
+    content:"P";
+    font-size:14px;
+  }
+
+  .page{
+    padding:20px 14px 100px;
   }
 
   .hero{
-    min-height:480px;
-    padding:28px;
-    align-items:flex-end;
+    padding:27px 21px;
+    min-height:360px;
   }
 
   .hero h1{
-    font-size:45px;
-    letter-spacing:-2px;
+    font-size:40px;
   }
 
-  .hero-art{
-    right:-70px;
-    top:20px;
-    opacity:.55;
-    transform:scale(.8);
-  }
-
-  .hero-content{
-    align-self:flex-end;
-  }
-
-  .stats-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .games-grid{
-    grid-template-columns:1fr;
-  }
-
-  .game-card{
-    min-height:310px;
-  }
-
-  .dashboard-grid{
-    grid-template-columns:1fr;
-  }
-
+  .game-grid,
   .bonus-grid{
     grid-template-columns:1fr;
   }
 
+  .stat-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .support-layout{
+    grid-template-columns:1fr;
+  }
+
+  .catalog-tools{
+    flex-direction:column;
+  }
+
+  .filter{
+    height:45px;
+  }
+
   .mobile-nav{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
     position:fixed;
-    z-index:200;
+    display:flex;
     bottom:0;
     left:0;
     right:0;
-    height:72px;
-    padding:7px 6px calc(7px + env(safe-area-inset-bottom));
-    background:rgba(8,10,10,.94);
+    height:68px;
+    background:rgba(8,10,9,.96);
     border-top:1px solid var(--line);
-    backdrop-filter:blur(20px);
+    backdrop-filter:blur(18px);
+    z-index:60;
+    justify-content:space-around;
   }
 
   .mobile-nav button{
-    background:transparent;
-    color:#707773;
-    font-size:9px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:5px;
+    flex:1;
+    background:none;
+    color:var(--muted);
+    font-size:10px;
   }
 
   .mobile-nav button.active{
     color:var(--gold);
   }
 
-  .mobile-icon{
-    width:20px;
-    height:20px;
-    border:1px solid currentColor;
-    border-radius:6px;
-    opacity:.9;
+  .game-controls{
+    grid-template-columns:1fr 1fr;
   }
 
-  .auth-shell{
-    grid-template-columns:1fr;
-    min-height:auto;
-    border-radius:22px;
-  }
-
-  .auth-showcase{
-    min-height:300px;
-    padding:30px;
-  }
-
-  .auth-title h1{
-    font-size:43px;
-  }
-
-  .auth-panel{
-    padding:30px 22px;
-  }
-
-  .wheel-layout{
-    gap:10px;
-  }
-
-  .wheel{
-    width:320px;
-  }
-
-  .controls{
-    grid-template-columns:1fr;
-  }
-
-  .control-group{
-    justify-content:center;
-  }
-
-  .spin-btn{
+  .spin{
+    grid-column:1/-1;
+    order:-1;
     width:100%;
   }
 
-  .game-options{
-    justify-content:center;
-  }
-
-  .slot-banner{
-    min-height:115px;
-    padding:18px;
-  }
-
-  .slot-banner h2{
-    font-size:23px;
-  }
-
-  .multiplier{
-    padding:8px 10px;
-  }
-
-  .multiplier strong{
-    font-size:18px;
-  }
-
-  .reels{
-    gap:4px;
-  }
-
   .symbol{
-    border-radius:8px;
+    min-height:54px;
+    font-size:21px;
   }
 
-  .game-main{
-    padding:12px 8px 30px;
+  .game-area{
+    padding:12px;
+  }
+
+  .game-top{
+    padding:0 12px;
+  }
+
+  .game-top h2{
+    font-size:15px;
   }
 }
 
-@media(max-width:400px){
-  .balance-value{
-    font-size:12px;
+@media(max-width:420px){
+  .reels{
+    gap:4px;
+    padding:6px;
   }
 
-  .hero{
-    padding:22px;
+  .symbol{
+    min-height:49px;
+    border-radius:9px;
+    font-size:18px;
   }
 
-  .hero h1{
-    font-size:39px;
+  .game-message.big{
+    font-size:17px;
   }
+}
 
-  .wheel{
-    width:285px;
-  }
+/* NOTIFICATION */
+
+.toast{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:300;
+  background:#151b17;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px 16px;
+  box-shadow:var(--shadow);
+  transform:translateY(120px);
+  opacity:0;
+  transition:.3s;
+  max-width:340px;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-box">
-    <div class="loader-logo">VELORA</div>
-    <div class="loader-line"><span></span></div>
-  </div>
-</div>
-
 <!-- AUTH -->
-<section id="authScreen">
 
-  <div class="auth-shell">
+<section id="authScreen" class="auth">
+  <div class="auth-box">
+    <div class="logo">VELORA</div>
+    <div class="logo-line"></div>
 
-    <div class="auth-showcase">
-      <div class="brand">VELORA</div>
-
-      <div class="auth-title">
-        <div class="eyebrow">VELORA ORIGINALS</div>
-        <h1>Играй.<br>Открывай.<br>Побеждай.</h1>
-        <p>
-          Премиальная игровая платформа с авторскими мирами,
-          динамическими играми и единой системой прогресса.
-        </p>
+    <div id="authLogin">
+      <div class="auth-title">Добро пожаловать</div>
+      <div class="auth-sub">
+        Твоя игровая зона VELORA с оригинальными играми и виртуальными кредитами.
       </div>
 
-      <div class="auth-features">
-        <span class="feature-pill">Original Games</span>
-        <span class="feature-pill">Bonuses</span>
-        <span class="feature-pill">Daily Wheel</span>
-        <span class="feature-pill">Player Profile</span>
+      <div class="field">
+        <label>Email</label>
+        <input id="loginEmail" type="email" placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label>Пароль</label>
+        <input id="loginPassword" type="password" placeholder="••••••••">
+      </div>
+
+      <button class="primary" onclick="login()">Войти</button>
+
+      <div class="auth-switch">
+        Нет аккаунта?
+        <button onclick="showRegister()">Создать аккаунт</button>
       </div>
     </div>
 
-    <div class="auth-panel">
-
-      <div class="auth-card">
-
-        <div class="auth-tabs">
-          <button class="auth-tab active" id="loginTab">Вход</button>
-          <button class="auth-tab" id="registerTab">Регистрация</button>
-        </div>
-
-        <div id="loginForm">
-          <h2>С возвращением</h2>
-          <div class="auth-sub">
-            Войди в свой профиль VELORA и продолжи игру.
-          </div>
-
-          <div class="field">
-            <label>Email</label>
-            <input id="loginEmail" type="email" placeholder="you@example.com">
-          </div>
-
-          <div class="field">
-            <label>Пароль</label>
-            <input id="loginPassword" type="password" placeholder="Введите пароль">
-          </div>
-
-          <button class="primary-btn" onclick="login()">
-            Войти в VELORA
-          </button>
-
-          <div class="auth-note">
-            Демо-режим. Используются виртуальные игровые кредиты.
-          </div>
-        </div>
-
-        <div id="registerForm" class="hidden">
-          <h2>Создать профиль</h2>
-          <div class="auth-sub">
-            Создай аккаунт и получи стартовый баланс.
-          </div>
-
-          <div class="field">
-            <label>Email</label>
-            <input id="registerEmail" type="email" placeholder="you@example.com">
-          </div>
-
-          <div class="field">
-            <label>Пароль</label>
-            <input id="registerPassword" type="password" placeholder="Минимум 4 символа">
-          </div>
-
-          <button class="primary-btn" onclick="register()">
-            Создать аккаунт
-          </button>
-
-          <div class="auth-note">
-            После регистрации профиль будет подготовлен автоматически.
-          </div>
-        </div>
-
+    <div id="authRegister" class="hidden">
+      <div class="auth-title">Создать аккаунт</div>
+      <div class="auth-sub">
+        Регистрация сохранится на этом устройстве.
       </div>
 
-    </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="registerEmail" type="email" placeholder="you@example.com">
+      </div>
 
+      <div class="field">
+        <label>Пароль</label>
+        <input id="registerPassword" type="password" placeholder="Минимум 6 символов">
+      </div>
+
+      <button class="primary" onclick="register()">Зарегистрироваться</button>
+
+      <div class="auth-switch">
+        Уже есть аккаунт?
+        <button onclick="showLogin()">Войти</button>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- APP -->
-<div id="app" class="hidden">
 
-  <!-- TOPBAR -->
+<div id="app" class="app hidden">
+
   <header class="topbar">
-    <div class="topbar-inner">
-
-      <div class="logo">VELORA</div>
-
-      <nav class="desktop-nav">
-        <button class="nav-btn active" data-page="home">Главная</button>
-        <button class="nav-btn" data-page="games">Игры</button>
-        <button class="nav-btn" data-page="bonuses">Бонусы</button>
-        <button class="nav-btn" data-page="wheel">Колесо</button>
-        <button class="nav-btn" data-page="support">Поддержка</button>
-      </nav>
-
-      <div class="top-actions">
-
-        <div class="balance-pill">
-          <div class="balance-label">Баланс</div>
-          <div class="balance-value" id="topBalance">10 000</div>
-        </div>
-
-        <button class="icon-btn" onclick="toggleNotifications()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-            <path d="M10 21h4"/>
-          </svg>
-          <span class="notification-dot" id="notificationDot"></span>
-        </button>
-
-        <button class="profile-top" onclick="navigate('profile')">
-          <div class="avatar" id="topAvatar">V</div>
-          <div class="profile-name" id="topProfileName">Player</div>
-        </button>
-
-      </div>
-
-    </div>
-  </header>
-
-  <!-- NOTIFICATIONS -->
-  <div class="notification-panel" id="notificationPanel">
-    <div class="notification-head">
-      <h3>Уведомления</h3>
-      <button class="text-btn" onclick="clearNotifications()">Очистить</button>
-    </div>
-    <div class="notifications-list" id="notificationsList"></div>
-  </div>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <!-- HOME -->
-    <section class="page active" id="page-home">
-
-      <div class="hero">
-
-        <div class="hero-art">
-          <div class="orbit one"></div>
-          <div class="orbit two"></div>
-          <div class="hero-core"></div>
-        </div>
-
-        <div class="hero-content">
-          <div class="eyebrow">VELORA ORIGINALS</div>
-
-          <h1>Грай у світи,<br>створені для тебе.</h1>
-
-          <p>
-            Авторские игры VELORA, уникальные игровые механики,
-            бонусы и единый профиль игрока в одной премиальной платформе.
-          </p>
-
-          <div class="hero-actions">
-            <button class="btn btn-gold" onclick="navigate('games')">
-              Играть сейчас
-            </button>
-
-            <button class="btn btn-dark" onclick="navigate('bonuses')">
-              Открыть бонусы
-            </button>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="section">
-
-        <div class="section-head">
-          <div>
-            <div class="section-title">Твоя VELORA</div>
-            <div class="section-sub">Основные показатели профиля</div>
-          </div>
-        </div>
-
-        <div class="stats-grid">
-
-          <div class="stat-card">
-            <div class="stat-label">Баланс</div>
-            <div class="stat-value gold" id="homeBalance">10 000</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-label">Игр сыграно</div>
-            <div class="stat-value" id="homeGames">0</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-label">Всего выигрышей</div>
-            <div class="stat-value" id="homeWins">0</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-label">Избранных</div>
-            <div class="stat-value" id="homeFavorites">0</div>
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="section">
-
-        <div class="section-head">
-          <div>
-            <div class="section-title">Играть сейчас</div>
-            <div class="section-sub">Original Games от VELORA</div>
-          </div>
-
-          <button class="text-btn" onclick="navigate('games')">
-            Все игры
-          </button>
-        </div>
-
-        <div class="games-grid" id="homeGamesGrid"></div>
-
-      </div>
-
-      <div class="section dashboard-grid">
-
-        <div class="panel">
-          <div class="panel-title">Продолжить игру</div>
-
-          <div class="continue-card">
-            <h3 id="continueGameName">Выбери свою игру</h3>
-            <p id="continueGameText">
-              Последняя открытая игра появится здесь.
-            </p>
-
-            <button class="small-btn" id="continueBtn" onclick="continueGame()">
-              Открыть
-            </button>
-          </div>
-        </div>
-
-        <div class="panel">
-          <div class="panel-title">Последние результаты</div>
-          <div class="history-list" id="homeHistory"></div>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- GAMES -->
-    <section class="page" id="page-games">
-
-      <div class="section-head">
-        <div>
-          <div class="section-title">Игры</div>
-          <div class="section-sub">Оригинальные игровые миры VELORA</div>
-        </div>
-      </div>
-
-      <div class="catalog-tools">
-
-        <div class="search">
-          <input
-            id="gameSearch"
-            type="search"
-            placeholder="Поиск игры..."
-            oninput="renderCatalog()"
-          >
-        </div>
-
-        <div class="filters">
-          <button class="filter active" data-filter="all" onclick="setFilter('all',this)">
-            Все
-          </button>
-
-          <button class="filter" data-filter="original" onclick="setFilter('original',this)">
-            Originals
-          </button>
-
-          <button class="filter" data-filter="favorite" onclick="setFilter('favorite',this)">
-            Избранное
-          </button>
-        </div>
-
-      </div>
-
-      <div class="games-grid" id="catalogGrid"></div>
-
-    </section>
-
-    <!-- BONUSES -->
-    <section class="page" id="page-bonuses">
-
-      <div class="bonus-hero">
-
-        <div class="bonus-label">WELCOME PROGRAM</div>
-
-        <h2>Твой прогресс VELORA</h2>
-
-        <p>
-          Выполняй игровые задания, открывай новые награды
-          и следи за прогрессом своего профиля.
-        </p>
-
-        <div class="progress">
-          <span id="bonusProgress"></span>
-        </div>
-
-        <div style="display:flex;justify-content:space-between;color:#707773;font-size:11px;">
-          <span id="bonusProgressText">0 / 10 игр</span>
-          <span>Следующий уровень</span>
-        </div>
-
-      </div>
-
-      <div class="bonus-grid">
-
-        <div class="bonus-card">
-          <div class="bonus-label">WELCOME</div>
-          <h3>Старт VELORA</h3>
-          <p>
-            Стартовый виртуальный баланс доступен каждому новому игроку.
-          </p>
-          <button onclick="claimWelcome()">Получить</button>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-label">DAILY</div>
-          <h3>Ежедневная награда</h3>
-          <p>
-            Забери ежедневную виртуальную награду один раз в сутки.
-          </p>
-          <button id="dailyBtn" onclick="claimDaily()">Получить</button>
-        </div>
-
-        <div class="bonus-card">
-          <div class="bonus-label">MISSION</div>
-          <h3>Игровая миссия</h3>
-          <p>
-            Сыграй 10 раундов и открой дополнительную виртуальную награду.
-          </p>
-          <button onclick="claimMission()">Проверить</button>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- WHEEL -->
-    <section class="page" id="page-wheel">
-
-      <div class="section-head">
-        <div>
-          <div class="section-title">Колесо VELORA</div>
-          <div class="section-sub">Одна бесплатная попытка в день</div>
-        </div>
-      </div>
-
-      <div class="wheel-layout">
-
-        <div class="wheel-box">
-
-          <div class="wheel-pointer"></div>
-
-          <div class="wheel" id="wheel">
-
-            <div class="wheel-labels">
-              <span>100</span>
-              <span>250</span>
-              <span>50</span>
-              <span>500</span>
-              <span>100</span>
-              <span>750</span>
-              <span>50</span>
-              <span>300</span>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="panel">
-
-          <div class="panel-title">Daily Wheel</div>
-
-          <p style="color:#7d8581;line-height:1.7;font-size:13px;">
-            Вращай колесо один раз в день и получай виртуальные кредиты.
-            Результат автоматически добавится к твоему балансу.
-          </p>
-
-          <div style="margin-top:22px;">
-            <button class="gold-btn" id="wheelBtn" onclick="spinWheel()">
-              Вращать колесо
-            </button>
-          </div>
-
-          <div style="margin-top:15px;color:#69716d;font-size:11px;text-align:center;" id="wheelStatus">
-            Попытка доступна
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- PROFILE -->
-    <section class="page" id="page-profile">
-
-      <div class="section-head">
-        <div>
-          <div class="section-title">Профиль</div>
-          <div class="section-sub">Твой аккаунт VELORA</div>
-        </div>
-      </div>
-
-      <div class="profile-layout">
-
-        <div class="profile-card">
-
-          <div class="big-avatar" id="profileAvatar">V</div>
-
-          <h2 id="profileName">Player</h2>
-
-          <div class="profile-email" id="profileEmail">
-            email@example.com
-          </div>
-
-          <div class="profile-actions">
-            <button class="secondary-btn" onclick="showProfileStats()">
-              Статистика
-            </button>
-
-            <button class="secondary-btn" onclick="navigate('support')">
-              Связаться с поддержкой
-            </button>
-
-            <button class="danger-btn" onclick="logout()">
-              Выйти из аккаунта
-            </button>
-          </div>
-
-        </div>
-
-        <div class="panel">
-
-          <div class="panel-title">История игры</div>
-
-          <div class="history-list" id="fullHistory"></div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- SUPPORT -->
-    <section class="page" id="page-support">
-
-      <div class="support-layout">
-
-        <div class="support-info">
-
-          <div class="eyebrow">VELORA CARE</div>
-
-          <h2>Нужна помощь?</h2>
-
-          <p>
-            Если не получается войти, возникла проблема с профилем
-            или ты хочешь сообщить об ошибке — отправь обращение.
-          </p>
-
-          <div class="support-list">
-
-            <div class="support-row">
-              Проблема со входом
-            </div>
-
-            <div class="support-row">
-              Проблема с профилем
-            </div>
-
-            <div class="support-row">
-              Ошибка в игре
-            </div>
-
-            <div class="support-row">
-              Другое обращение
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="panel">
-
-          <div class="panel-title">Новое обращение</div>
-
-          <div class="field">
-            <label>Тема</label>
-            <select id="supportSubject">
-              <option>Проблема со входом</option>
-              <option>Проблема с профилем</option>
-              <option>Ошибка в игре</option>
-              <option>Другое</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label>Email</label>
-            <input id="supportEmail" type="email">
-          </div>
-
-          <div class="field">
-            <label>Сообщение</label>
-            <textarea id="supportMessage" placeholder="Опиши проблему..."></textarea>
-          </div>
-
-          <button class="gold-btn" onclick="sendSupport()">
-            Отправить обращение
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <!-- MOBILE NAV -->
-  <nav class="mobile-nav">
-
-    <button class="active" data-page="home">
-      <span class="mobile-icon"></span>
-      Главная
-    </button>
-
-    <button data-page="games">
-      <span class="mobile-icon"></span>
-      Игры
-    </button>
-
-    <button data-page="bonuses">
-      <span class="mobile-icon"></span>
-      Бонусы
-    </button>
-
-    <button data-page="wheel">
-      <span class="mobile-icon"></span>
-      Колесо
-    </button>
-
-    <button data-page="profile">
-      <span class="mobile-icon"></span>
-      Профиль
-    </button>
-
-  </nav>
-
-</div>
-
-<!-- GAME SCREEN -->
-<div id="gameScreen">
-
-  <header class="game-header">
-
-    <div class="game-header-inner">
-
-      <button class="back-btn" onclick="closeGame()">
-        Назад
+    <div class="brand">VELORA</div>
+
+    <nav class="desktop-nav">
+      <button class="nav-btn active" data-page="home">Главная</button>
+      <button class="nav-btn" data-page="games">Игры</button>
+      <button class="nav-btn" data-page="bonuses">Бонусы</button>
+      <button class="nav-btn" data-page="wheel">Колесо</button>
+      <button class="nav-btn" data-page="history">История</button>
+      <button class="nav-btn" data-page="support">Поддержка</button>
+    </nav>
+
+    <div class="top-actions">
+      <div id="topBalance" class="balance">10 000</div>
+      <button class="icon-btn" onclick="openPage('notifications')">
+        N
+        <span id="notificationDot" class="notification-dot"></span>
       </button>
-
-      <div class="game-title">
-        <h2 id="gameTitle">Game</h2>
-        <span id="gameSubtitle">VELORA ORIGINAL</span>
-      </div>
-
-      <div class="game-balance" id="gameBalance">
-        10 000
-      </div>
-
+      <button class="profile-btn" onclick="openPage('profile')">Профиль</button>
     </div>
-
   </header>
 
-  <main class="game-main">
+  <main id="content"></main>
 
-    <div class="slot-stage">
-
-      <div class="slot-banner" id="slotBanner">
-
-        <div>
-          <div class="eyebrow">VELORA ORIGINAL</div>
-          <h2 id="bannerTitle">Candy Kingdom</h2>
-          <p id="bannerDescription">Sweet cluster adventure</p>
-        </div>
-
-        <div class="multiplier">
-          <span>Multiplier</span>
-          <strong id="gameMultiplier">x1</strong>
-        </div>
-
-      </div>
-
-      <div class="slot-area">
-
-        <div class="reels r5" id="reels"></div>
-
-        <div class="win-display">
-          <div class="win-label">Win</div>
-          <div class="win-amount" id="winAmount">0</div>
-        </div>
-
-        <div class="controls">
-
-          <div class="control-group">
-            <button class="control-btn" onclick="changeBet(-10)">−</button>
-
-            <div class="bet-box">
-              <small>Bet</small>
-              <strong id="betValue">100</strong>
-            </div>
-
-            <button class="control-btn" onclick="changeBet(10)">+</button>
-          </div>
-
-          <div></div>
-
-          <button class="spin-btn" id="spinBtn" onclick="spinGame()">
-            SPIN
-          </button>
-
-        </div>
-
-        <div class="game-options">
-
-          <div class="option">
-            Turbo
-            <div class="toggle" id="turboToggle" onclick="toggleOption('turbo')">
-              <span></span>
-            </div>
-          </div>
-
-          <div class="option">
-            Auto
-            <div class="toggle" id="autoToggle" onclick="toggleOption('auto')">
-              <span></span>
-            </div>
-          </div>
-
-          <div class="option" id="freeSpinStatus">
-            Обычный режим
-          </div>
-
-        </div>
-
-        <div class="paytable" id="paytable">
-          Комбинации определяются игровой механикой каждой оригинальной игры.
-        </div>
-
-      </div>
-
-    </div>
-
-  </main>
-
+  <nav class="mobile-nav">
+    <button data-page="home">Главная</button>
+    <button data-page="games">Игры</button>
+    <button data-page="bonuses">Бонусы</button>
+    <button data-page="wheel">Колесо</button>
+    <button data-page="profile">Профиль</button>
+  </nav>
 </div>
 
-<!-- BONUS OVERLAY -->
-<div class="bonus-overlay" id="bonusOverlay">
+<!-- GAME -->
 
-  <div class="bonus-modal">
-
-    <div class="bonus-icon">V</div>
-
-    <h2 id="bonusTitle">BONUS UNLOCKED</h2>
-
-    <p id="bonusText">
-      Ты открыл дополнительный игровой раунд.
-    </p>
-
-    <button class="gold-btn" onclick="closeBonusOverlay()">
-      Продолжить
-    </button>
-
+<div id="gameScreen" class="game-screen hidden">
+  <div class="game-top">
+    <button class="back-btn" onclick="closeGame()">Назад</button>
+    <h2 id="gameTitle">VELORA</h2>
+    <div id="gameBalance" class="game-balance">10 000</div>
   </div>
 
+  <div id="gameArea" class="game-area"></div>
 </div>
 
-<!-- TOAST -->
-<div id="toast"></div>
+<!-- BONUS MODAL -->
 
+<div id="bonusOverlay" class="bonus-overlay hidden">
+  <div class="bonus-modal">
+    <div class="eyebrow">VELORA BONUS</div>
+    <h2 id="bonusModalTitle">Бонус активирован</h2>
+    <p id="bonusModalText">Ты получил дополнительные вращения.</p>
+    <button class="primary" onclick="closeBonusModal()">Продолжить</button>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
 
 <script>
-/* =========================================================
-   VELORA CORE
-========================================================= */
+/* =========================
+   STORAGE
+========================= */
 
 const STORAGE = {
-  user: "velora_user_v2",
-  session: "velora_session_v2",
-  balance: "velora_balance_v2",
-  history: "velora_history_v2",
-  favorites: "velora_favorites_v2",
-  notifications: "velora_notifications_v2",
-  lastGame: "velora_last_game_v2",
-  wheel: "velora_wheel_v2",
-  daily: "velora_daily_v2",
-  mission: "velora_mission_v2",
-  welcome: "velora_welcome_v2"
+  user:"velora_user_v2",
+  session:"velora_session_v2",
+  balance:"velora_balance_v2",
+  history:"velora_history_v2",
+  favorites:"velora_favorites_v2",
+  notifications:"velora_notifications_v2",
+  daily:"velora_daily_v2",
+  wheel:"velora_wheel_v2",
+  stats:"velora_stats_v2"
 };
 
-const GAMES = [
-  {
-    id:"candy",
-    name:"Candy Kingdom",
-    desc:"Сладкое королевство",
-    theme:"candy",
-    type:"original",
-    reels:5,
-    rows:3
-  },
-  {
-    id:"olympus",
-    name:"Olympus Fate",
-    desc:"Сила древних богов",
-    theme:"olympus",
-    type:"original",
-    reels:6,
-    rows:5
-  },
-  {
-    id:"jungle",
-    name:"Jungle Fortune",
-    desc:"Тайна зелёных джунглей",
-    theme:"jungle",
-    type:"original",
-    reels:5,
-    rows:3
-  }
-];
+const defaultStats = {
+  spins:0,
+  wins:0,
+  totalWon:0,
+  totalBet:0
+};
 
 let state = {
-  user: null,
-  balance: 10000,
-  history: [],
-  favorites: [],
-  notifications: [],
-  lastGame: null,
-  wheelDate: null,
-  dailyDate: null,
-  missionClaimed: false
+  user:null,
+  balance:10000,
+  history:[],
+  favorites:[],
+  notifications:[],
+  daily:null,
+  wheelLast:0,
+  stats:{...defaultStats}
 };
 
-let currentPage = "home";
-let catalogFilter = "all";
+let currentPage="home";
+let currentGame=null;
+let currentBet=20;
+let spinning=false;
+let autoSpin=false;
+let audioCtx=null;
+let wheelRotation=0;
 
-let gameState = {
-  open:false,
-  id:null,
-  bet:100,
-  turbo:false,
-  auto:false,
-  spinning:false,
-  multiplier:1,
-  bonusSpins:0,
-  bonusActive:false,
-  autoTimer:null
-};
+/* =========================
+   HELPERS
+========================= */
 
-function loadState(){
+function money(n){
+  return Math.round(n).toLocaleString("ru-RU");
+}
 
-  const user = localStorage.getItem(STORAGE.user);
-  const session = localStorage.getItem(STORAGE.session);
+function save(){
+  localStorage.setItem(STORAGE.balance,String(state.balance));
+  localStorage.setItem(STORAGE.history,JSON.stringify(state.history));
+  localStorage.setItem(STORAGE.favorites,JSON.stringify(state.favorites));
+  localStorage.setItem(STORAGE.notifications,JSON.stringify(state.notifications));
+  localStorage.setItem(STORAGE.daily,JSON.stringify(state.daily));
+  localStorage.setItem(STORAGE.wheel,String(state.wheelLast));
+  localStorage.setItem(STORAGE.stats,JSON.stringify(state.stats));
+  updateBalance();
+}
 
-  if(user && session){
-    state.user = JSON.parse(user);
-  }
-
-  state.balance = Number(localStorage.getItem(STORAGE.balance)) || 10000;
-
+function load(){
   try{
-    state.history = JSON.parse(localStorage.getItem(STORAGE.history)) || [];
-  }catch{
-    state.history = [];
-  }
+    const user=localStorage.getItem(STORAGE.user);
+    const session=localStorage.getItem(STORAGE.session);
 
-  try{
-    state.favorites = JSON.parse(localStorage.getItem(STORAGE.favorites)) || [];
-  }catch{
-    state.favorites = [];
-  }
+    if(!user || session!=="1") return false;
 
-  try{
-    state.notifications = JSON.parse(localStorage.getItem(STORAGE.notifications)) || [];
-  }catch{
-    state.notifications = [];
-  }
+    state.user=JSON.parse(user);
+    state.balance=Number(localStorage.getItem(STORAGE.balance)) || 10000;
+    state.history=JSON.parse(localStorage.getItem(STORAGE.history)||"[]");
+    state.favorites=JSON.parse(localStorage.getItem(STORAGE.favorites)||"[]");
+    state.notifications=JSON.parse(localStorage.getItem(STORAGE.notifications)||"[]");
+    state.daily=JSON.parse(localStorage.getItem(STORAGE.daily)||"null");
+    state.wheelLast=Number(localStorage.getItem(STORAGE.wheel)||"0");
+    state.stats={
+      ...defaultStats,
+      ...(JSON.parse(localStorage.getItem(STORAGE.stats)||"{}"))
+    };
 
-  state.lastGame = localStorage.getItem(STORAGE.lastGame);
-
-  state.wheelDate = localStorage.getItem(STORAGE.wheel);
-
-  state.dailyDate = localStorage.getItem(STORAGE.daily);
-
-  state.missionClaimed =
-    localStorage.getItem(STORAGE.mission) === "true";
-}
-
-function saveState(){
-
-  localStorage.setItem(
-    STORAGE.balance,
-    String(state.balance)
-  );
-
-  localStorage.setItem(
-    STORAGE.history,
-    JSON.stringify(state.history)
-  );
-
-  localStorage.setItem(
-    STORAGE.favorites,
-    JSON.stringify(state.favorites)
-  );
-
-  localStorage.setItem(
-    STORAGE.notifications,
-    JSON.stringify(state.notifications)
-  );
-
-  if(state.lastGame){
-    localStorage.setItem(
-      STORAGE.lastGame,
-      state.lastGame
-    );
+    return true;
+  }catch(e){
+    return false;
   }
 }
 
-function formatMoney(value){
-  return Number(value || 0).toLocaleString("ru-RU");
+function updateBalance(){
+  const text=money(state.balance);
+  const top=document.getElementById("topBalance");
+  const game=document.getElementById("gameBalance");
+
+  if(top) top.textContent=text;
+  if(game) game.textContent=text;
 }
 
-function todayKey(){
-  const d = new Date();
+function toast(text){
+  const el=document.getElementById("toast");
+  el.textContent=text;
+  el.classList.add("show");
 
-  return [
-    d.getFullYear(),
-    String(d.getMonth()+1).padStart(2,"0"),
-    String(d.getDate()).padStart(2,"0")
-  ].join("-");
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer=setTimeout(()=>{
+    el.classList.remove("show");
+  },2600);
 }
 
-function formatDate(date){
-  return new Date(date).toLocaleString("ru-RU",{
-    day:"2-digit",
-    month:"2-digit",
-    hour:"2-digit",
-    minute:"2-digit"
+function addHistory(type,game,amount,result){
+  state.history.unshift({
+    id:Date.now()+Math.random(),
+    date:new Date().toLocaleString("ru-RU"),
+    type,
+    game,
+    amount,
+    result
   });
-}
 
-/* =========================================================
-   AUTH
-========================================================= */
-
-function switchAuth(mode){
-
-  const loginTab = document.getElementById("loginTab");
-  const registerTab = document.getElementById("registerTab");
-
-  const loginForm = document.getElementById("loginForm");
-  const registerForm = document.getElementById("registerForm");
-
-  if(mode === "login"){
-
-    loginTab.classList.add("active");
-    registerTab.classList.remove("active");
-
-    loginForm.classList.remove("hidden");
-    registerForm.classList.add("hidden");
-
-  }else{
-
-    registerTab.classList.add("active");
-    loginTab.classList.remove("active");
-
-    registerForm.classList.remove("hidden");
-    loginForm.classList.add("hidden");
+  if(state.history.length>100){
+    state.history=state.history.slice(0,100);
   }
+
+  save();
 }
 
-document.getElementById("loginTab").onclick =
-  () => switchAuth("login");
+function addNotification(title,text){
+  state.notifications.unshift({
+    id:Date.now()+Math.random(),
+    title,
+    text,
+    read:false,
+    date:new Date().toLocaleString("ru-RU")
+  });
 
-document.getElementById("registerTab").onclick =
-  () => switchAuth("register");
+  if(state.notifications.length>30){
+    state.notifications=state.notifications.slice(0,30);
+  }
+
+  save();
+}
+
+/* =========================
+   AUTH
+========================= */
+
+function showRegister(){
+  document.getElementById("authLogin").classList.add("hidden");
+  document.getElementById("authRegister").classList.remove("hidden");
+}
+
+function showLogin(){
+  document.getElementById("authRegister").classList.add("hidden");
+  document.getElementById("authLogin").classList.remove("hidden");
+}
 
 function register(){
+  const email=document.getElementById("registerEmail").value.trim();
+  const password=document.getElementById("registerPassword").value;
 
-  const email =
-    document.getElementById("registerEmail").value.trim().toLowerCase();
-
-  const password =
-    document.getElementById("registerPassword").value;
-
-  if(!email || !email.includes("@")){
+  if(!email.includes("@")){
     toast("Введите корректный email");
     return;
   }
 
-  if(password.length < 4){
-    toast("Пароль должен содержать минимум 4 символа");
+  if(password.length<6){
+    toast("Пароль должен содержать минимум 6 символов");
     return;
   }
 
-  const user = {
+  state.user={
     email,
-    createdAt:Date.now()
+    createdAt:new Date().toISOString()
   };
 
-  localStorage.setItem(
-    STORAGE.user,
-    JSON.stringify(user)
-  );
+  state.balance=10000;
+  state.history=[];
+  state.favorites=[];
+  state.notifications=[];
+  state.stats={...defaultStats};
 
-  localStorage.setItem(
-    STORAGE.session,
-    "active"
-  );
-
-  localStorage.setItem(
-    STORAGE.balance,
-    "10000"
-  );
-
-  state.user = user;
-  state.balance = 10000;
+  localStorage.setItem(STORAGE.user,JSON.stringify(state.user));
+  localStorage.setItem(STORAGE.session,"1");
 
   addNotification(
-    "Добро пожаловать",
-    "Твой профиль VELORA успешно создан."
+    "Добро пожаловать в VELORA",
+    "Аккаунт успешно создан. На баланс начислено 10 000 виртуальных кредитов."
   );
 
-  toast("Профиль создан. Добро пожаловать в VELORA");
+  save();
+
+  toast("Аккаунт создан");
 
   setTimeout(()=>{
-    showApp();
-  },3500);
+    enterApp();
+  },1200);
 }
 
 function login(){
+  const email=document.getElementById("loginEmail").value.trim();
+  const password=document.getElementById("loginPassword").value;
 
-  const email =
-    document.getElementById("loginEmail").value.trim().toLowerCase();
+  const saved=localStorage.getItem(STORAGE.user);
 
-  const password =
-    document.getElementById("loginPassword").value;
-
-  if(!email || !email.includes("@")){
-    toast("Введите email");
+  if(!saved){
+    toast("Сначала создай аккаунт");
     return;
   }
 
-  if(!password){
-    toast("Введите пароль");
+  if(!email || !password){
+    toast("Заполни все поля");
     return;
   }
 
-  let savedUser = localStorage.getItem(STORAGE.user);
+  const user=JSON.parse(saved);
 
-  if(!savedUser){
-
-    const user = {
-      email,
-      createdAt:Date.now()
-    };
-
-    localStorage.setItem(
-      STORAGE.user,
-      JSON.stringify(user)
-    );
-
-    localStorage.setItem(
-      STORAGE.balance,
-      "10000"
-    );
-
-    state.user = user;
-
-  }else{
-
-    state.user = JSON.parse(savedUser);
+  if(user.email!==email){
+    toast("Неверный email");
+    return;
   }
 
-  localStorage.setItem(
-    STORAGE.session,
-    "active"
-  );
+  localStorage.setItem(STORAGE.session,"1");
 
-  toast("Вход выполнен");
+  state.user=user;
 
-  setTimeout(()=>{
-    showApp();
-  },500);
+  if(!state.balance){
+    state.balance=10000;
+  }
+
+  save();
+
+  enterApp();
 }
 
 function logout(){
-
-  if(gameState.autoTimer){
-    clearTimeout(gameState.autoTimer);
-  }
-
   localStorage.removeItem(STORAGE.session);
-
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("authScreen").style.display="flex";
-
-  switchAuth("login");
-
-  toast("Ты вышел из аккаунта");
+  location.reload();
 }
 
-/* =========================================================
-   APP INIT
-========================================================= */
-
-function showApp(){
-
-  document.getElementById("authScreen").style.display="none";
+function enterApp(){
+  document.getElementById("authScreen").classList.add("hidden");
   document.getElementById("app").classList.remove("hidden");
 
-  updateUI();
-  navigate("home");
+  updateBalance();
+  openPage("home");
 }
 
-function updateUI(){
-
-  document.getElementById("topBalance").textContent =
-    formatMoney(state.balance);
-
-  document.getElementById("homeBalance").textContent =
-    formatMoney(state.balance);
-
-  document.getElementById("gameBalance").textContent =
-    formatMoney(state.balance);
-
-  const email = state.user?.email || "Player";
-
-  const shortName =
-    email.split("@")[0] || "Player";
-
-  document.getElementById("topProfileName").textContent =
-    shortName;
-
-  document.getElementById("profileName").textContent =
-    shortName;
-
-  document.getElementById("profileEmail").textContent =
-    email;
-
-  const letter =
-    shortName.charAt(0).toUpperCase() || "V";
-
-  document.getElementById("topAvatar").textContent = letter;
-  document.getElementById("profileAvatar").textContent = letter;
-
-  document.getElementById("homeGames").textContent =
-    state.history.length;
-
-  document.getElementById("homeWins").textContent =
-    state.history.filter(x=>x.win > 0).length;
-
-  document.getElementById("homeFavorites").textContent =
-    state.favorites.length;
-
-  renderHomeGames();
-  renderCatalog();
-  renderHistory();
-  renderContinue();
-  renderNotifications();
-  renderBonus();
-  updateWheelStatus();
-}
-
-/* =========================================================
+/* =========================
    NAVIGATION
-========================================================= */
+========================= */
 
-function navigate(page){
-
-  currentPage = page;
-
-  document.querySelectorAll(".page").forEach(el=>{
-    el.classList.remove("active");
-  });
-
-  const target =
-    document.getElementById("page-"+page);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  document.querySelectorAll(".nav-btn").forEach(btn=>{
-    btn.classList.toggle(
-      "active",
-      btn.dataset.page === page
-    );
-  });
-
-  document.querySelectorAll(".mobile-nav button").forEach(btn=>{
-    btn.classList.toggle(
-      "active",
-      btn.dataset.page === page
-    );
-  });
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-document.querySelectorAll("[data-page]").forEach(btn=>{
+document.querySelectorAll(".nav-btn,.mobile-nav button").forEach(btn=>{
   btn.addEventListener("click",()=>{
-    navigate(btn.dataset.page);
+    openPage(btn.dataset.page);
   });
 });
 
-/* =========================================================
-   GAMES CATALOG
-========================================================= */
+function openPage(page){
+  if(currentGame){
+    closeGame();
+  }
+
+  currentPage=page;
+
+  document.querySelectorAll(".nav-btn").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.page===page);
+  });
+
+  document.querySelectorAll(".mobile-nav button").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.page===page);
+  });
+
+  const content=document.getElementById("content");
+
+  if(page==="home") renderHome();
+  else if(page==="games") renderGames();
+  else if(page==="bonuses") renderBonuses();
+  else if(page==="wheel") renderWheel();
+  else if(page==="history") renderHistory();
+  else if(page==="support") renderSupport();
+  else if(page==="profile") renderProfile();
+  else if(page==="notifications") renderNotifications();
+}
+
+/* =========================
+   GAME DATA
+========================= */
+
+const games=[
+  {
+    id:"candy",
+    title:"Candy Kingdom",
+    type:"Cascade",
+    description:"Каскадные цепочки и растущий множитель.",
+    art:"candy"
+  },
+  {
+    id:"olympus",
+    title:"Olympus Fate",
+    type:"Lines",
+    description:"Линии, Fate-события и редкие множители.",
+    art:"olympus"
+  },
+  {
+    id:"jungle",
+    title:"Jungle Fortune",
+    type:"Hold & Win",
+    description:"Удерживай ценные символы и собирай джекпот.",
+    art:"jungle"
+  }
+];
 
 function gameCard(game){
-
-  const favorite =
-    state.favorites.includes(game.id);
+  const fav=state.favorites.includes(game.id);
 
   return `
-    <article class="game-card" onclick="openGame('${game.id}')">
-
-      <div class="game-visual ${game.theme}">
-        <div class="game-symbol"></div>
+    <article class="game-card">
+      <div class="game-art ${game.art}">
+        <div class="art-title">${game.title}</div>
       </div>
 
       <div class="game-info">
+        <div class="game-info-row">
+          <h3>${game.title}</h3>
+          <span class="eyebrow">${game.type}</span>
+        </div>
 
-        <div class="game-name-row">
+        <p>${game.description}</p>
 
-          <div class="game-name">
-            ${game.name}
-          </div>
-
-          <button
-            class="favorite ${favorite ? "active":""}"
-            onclick="event.stopPropagation();toggleFavorite('${game.id}')"
-          >
-            ${favorite ? "★":"☆"}
+        <div class="game-actions">
+          <button class="play-btn" onclick="openGame('${game.id}')">
+            Играть
           </button>
 
+          <button
+            class="fav-btn ${fav?"active":""}"
+            onclick="toggleFavorite('${game.id}')"
+          >
+            ${fav?"★":"☆"}
+          </button>
         </div>
-
-        <div class="game-desc">
-          ${game.desc}
-        </div>
-
-        <div class="game-meta">
-          <span class="tag original">Original</span>
-          <span class="tag">
-            ${game.reels}×${game.rows}
-          </span>
-        </div>
-
       </div>
-
     </article>
   `;
 }
 
-function renderHomeGames(){
-
-  const el =
-    document.getElementById("homeGamesGrid");
-
-  el.innerHTML =
-    GAMES.map(gameCard).join("");
-}
-
-function setFilter(filter,button){
-
-  catalogFilter = filter;
-
-  document.querySelectorAll(".filter").forEach(el=>{
-    el.classList.remove("active");
-  });
-
-  button.classList.add("active");
-
-  renderCatalog();
-}
-
-function renderCatalog(){
-
-  const grid =
-    document.getElementById("catalogGrid");
-
-  if(!grid) return;
-
-  const search =
-    (document.getElementById("gameSearch")?.value || "")
-      .trim()
-      .toLowerCase();
-
-  let games = [...GAMES];
-
-  if(catalogFilter === "favorite"){
-    games = games.filter(game =>
-      state.favorites.includes(game.id)
-    );
-  }
-
-  if(catalogFilter === "original"){
-    games = games.filter(game =>
-      game.type === "original"
-    );
-  }
-
-  if(search){
-    games = games.filter(game =>
-      game.name.toLowerCase().includes(search) ||
-      game.desc.toLowerCase().includes(search)
-    );
-  }
-
-  if(!games.length){
-
-    grid.innerHTML = `
-      <div class="empty" style="grid-column:1/-1;">
-        Ничего не найдено
-      </div>
-    `;
-
-    return;
-  }
-
-  grid.innerHTML =
-    games.map(gameCard).join("");
-}
-
 function toggleFavorite(id){
-
   if(state.favorites.includes(id)){
-
-    state.favorites =
-      state.favorites.filter(x=>x!==id);
-
+    state.favorites=state.favorites.filter(x=>x!==id);
     toast("Удалено из избранного");
-
   }else{
-
     state.favorites.push(id);
-
     toast("Добавлено в избранное");
   }
 
-  saveState();
-  updateUI();
+  save();
+
+  if(currentPage==="home") renderHome();
+  if(currentPage==="games") renderGames();
 }
 
-/* =========================================================
-   CONTINUE
-========================================================= */
+/* =========================
+   HOME
+========================= */
 
-function renderContinue(){
+function renderHome(){
+  const favGames=games.filter(g=>state.favorites.includes(g.id));
 
-  const game =
-    GAMES.find(g=>g.id === state.lastGame);
+  document.getElementById("content").innerHTML=`
+    <div class="page">
 
-  const name =
-    document.getElementById("continueGameName");
+      <section class="hero">
+        <div class="hero-content">
+          <div class="eyebrow">VELORA ORIGINALS</div>
+          <h1>Играй в миры,<br>созданные для тебя.</h1>
+          <p>
+            Три оригинальные игры VELORA с разными механиками,
+            анимациями, звуком и общей системой прогресса.
+          </p>
 
-  const text =
-    document.getElementById("continueGameText");
+          <div class="hero-actions">
+            <button class="hero-btn primary-btn" onclick="openPage('games')">
+              Открыть игры
+            </button>
 
-  const btn =
-    document.getElementById("continueBtn");
-
-  if(!game){
-
-    name.textContent =
-      "Выбери свою игру";
-
-    text.textContent =
-      "Последняя открытая игра появится здесь.";
-
-    btn.textContent =
-      "Открыть игры";
-
-    btn.onclick =
-      () => navigate("games");
-
-    return;
-  }
-
-  name.textContent = game.name;
-  text.textContent =
-    "Продолжи игру с того места, где остановился.";
-
-  btn.textContent =
-    "Играть";
-
-  btn.onclick =
-    () => openGame(game.id);
-}
-
-function continueGame(){
-
-  if(state.lastGame){
-    openGame(state.lastGame);
-  }else{
-    navigate("games");
-  }
-}
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-function addHistory(gameId,bet,win){
-
-  const game =
-    GAMES.find(g=>g.id === gameId);
-
-  state.history.unshift({
-    id:Date.now(),
-    gameId,
-    game:game?.name || gameId,
-    bet,
-    win,
-    date:Date.now()
-  });
-
-  state.history =
-    state.history.slice(0,50);
-
-  saveState();
-}
-
-function renderHistory(){
-
-  const full =
-    document.getElementById("fullHistory");
-
-  const home =
-    document.getElementById("homeHistory");
-
-  if(!state.history.length){
-
-    const empty = `
-      <div class="empty">
-        История пока пуста
-      </div>
-    `;
-
-    full.innerHTML = empty;
-    home.innerHTML = empty;
-
-    return;
-  }
-
-  const makeItem = item => `
-
-    <div class="history-item">
-
-      <div class="history-left">
-
-        <div class="history-icon">
-          V
-        </div>
-
-        <div>
-          <div class="history-game">
-            ${item.game}
-          </div>
-
-          <div class="history-date">
-            ${formatDate(item.date)}
+            <button class="hero-btn dark-btn" onclick="openPage('bonuses')">
+              Получить бонус
+            </button>
           </div>
         </div>
+      </section>
 
+      <div class="section-head">
+        <h2>Игры VELORA</h2>
+        <button onclick="openPage('games')">Все игры</button>
       </div>
 
-      <div class="history-win ${item.win > 0 ? "plus":"zero"}">
-        ${item.win > 0 ? "+" : ""}
-        ${formatMoney(item.win)}
+      <div class="game-grid">
+        ${games.map(gameCard).join("")}
       </div>
 
+      <div class="section-head">
+        <h2>Твоя статистика</h2>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="stat-label">Баланс</div>
+          <div class="stat-value">${money(state.balance)}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Вращений</div>
+          <div class="stat-value">${state.stats.spins}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Выигрышей</div>
+          <div class="stat-value">${state.stats.wins}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Всего выиграно</div>
+          <div class="stat-value">${money(state.stats.totalWon)}</div>
+        </div>
+      </div>
+
+      ${
+        favGames.length
+        ? `
+          <div class="section-head">
+            <h2>Избранное</h2>
+          </div>
+
+          <div class="game-grid">
+            ${favGames.map(gameCard).join("")}
+          </div>
+        `
+        :""
+      }
     </div>
   `;
-
-  full.innerHTML =
-    state.history.map(makeItem).join("");
-
-  home.innerHTML =
-    state.history.slice(0,4).map(makeItem).join("");
 }
 
-/* =========================================================
-   NOTIFICATIONS
-========================================================= */
+/* =========================
+   GAMES CATALOG
+========================= */
 
-function addNotification(title,text){
+function renderGames(){
+  document.getElementById("content").innerHTML=`
+    <div class="page">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">VELORA GAMES</div>
+          <h2>Каталог игр</h2>
+        </div>
+      </div>
 
-  state.notifications.unshift({
-    id:Date.now(),
-    title,
-    text,
-    date:Date.now()
+      <div class="catalog-tools">
+        <input
+          id="gameSearch"
+          class="search"
+          placeholder="Поиск игры..."
+          oninput="filterGames()"
+        >
+
+        <select id="gameFilter" class="filter" onchange="filterGames()">
+          <option value="all">Все механики</option>
+          <option value="Cascade">Cascade</option>
+          <option value="Lines">Lines</option>
+          <option value="Hold & Win">Hold & Win</option>
+        </select>
+      </div>
+
+      <div id="catalogGrid" class="game-grid">
+        ${games.map(gameCard).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function filterGames(){
+  const q=document.getElementById("gameSearch").value.toLowerCase();
+  const type=document.getElementById("gameFilter").value;
+
+  const filtered=games.filter(game=>{
+    const matchText=
+      game.title.toLowerCase().includes(q) ||
+      game.description.toLowerCase().includes(q);
+
+    const matchType=
+      type==="all" || game.type===type;
+
+    return matchText && matchType;
   });
 
-  state.notifications =
-    state.notifications.slice(0,20);
-
-  saveState();
-}
-
-function renderNotifications(){
-
-  const list =
-    document.getElementById("notificationsList");
-
-  const dot =
-    document.getElementById("notificationDot");
-
-  if(!state.notifications.length){
-
-    list.innerHTML = `
-      <div class="empty" style="border:0;border-radius:0;">
-        Нет новых уведомлений
+  document.getElementById("catalogGrid").innerHTML=
+    filtered.length
+    ? filtered.map(gameCard).join("")
+    : `
+      <div class="panel">
+        По твоему запросу ничего не найдено.
       </div>
     `;
-
-    dot.style.display="none";
-
-    return;
-  }
-
-  dot.style.display="block";
-
-  list.innerHTML =
-    state.notifications.map(n=>`
-
-      <div class="notification-item">
-        <strong>${n.title}</strong>
-        <span>${n.text}</span>
-      </div>
-
-    `).join("");
 }
 
-function toggleNotifications(){
-
-  document
-    .getElementById("notificationPanel")
-    .classList.toggle("open");
-}
-
-function clearNotifications(){
-
-  state.notifications = [];
-
-  saveState();
-
-  renderNotifications();
-}
-
-/* =========================================================
+/* =========================
    BONUSES
-========================================================= */
+========================= */
 
-function renderBonus(){
+function renderBonuses(){
+  const today=new Date().toDateString();
+  const claimed=state.daily===today;
 
-  const games =
-    state.history.length;
+  document.getElementById("content").innerHTML=`
+    <div class="page">
+      <div class="eyebrow">VELORA REWARDS</div>
+      <h1>Бонусы</h1>
 
-  const progress =
-    Math.min(100,(games/10)*100);
+      <div class="bonus-grid">
 
-  document.getElementById("bonusProgress").style.width =
-    progress+"%";
+        <div class="bonus-card">
+          <div class="eyebrow">DAILY</div>
+          <h3>Ежедневный бонус</h3>
+          <p>
+            Один раз в сутки получай виртуальные кредиты
+            прямо на баланс.
+          </p>
 
-  document.getElementById("bonusProgressText").textContent =
-    `${Math.min(games,10)} / 10 игр`;
+          <button
+            class="${claimed?"":"claim"}"
+            ${claimed?"disabled":""}
+            onclick="claimDaily()"
+          >
+            ${claimed?"Уже получен":"Получить 500"}
+          </button>
+        </div>
 
-  const daily =
-    state.dailyDate === todayKey();
+        <div class="bonus-card">
+          <div class="eyebrow">MISSION</div>
+          <h3>Игровая активность</h3>
+          <p>
+            Сделай 10 вращений в любых играх.
+            Текущий прогресс: ${Math.min(state.stats.spins,10)}/10.
+          </p>
 
-  document.getElementById("dailyBtn").textContent =
-    daily ? "Получено сегодня" : "Получить";
+          <button
+            class="${state.stats.spins>=10?"claim":""}"
+            ${state.stats.spins<10?"disabled":""}
+            onclick="claimMission()"
+          >
+            ${state.stats.spins>=10?"Забрать 1 000":"В процессе"}
+          </button>
+        </div>
 
-  document.getElementById("dailyBtn").disabled =
-    daily;
+        <div class="bonus-card">
+          <div class="eyebrow">WHEEL</div>
+          <h3>Колесо VELORA</h3>
+          <p>
+            Отдельная механика с собственным временем ожидания.
+          </p>
+
+          <button onclick="openPage('wheel')">
+            Открыть колесо
+          </button>
+        </div>
+
+      </div>
+    </div>
+  `;
 }
 
-function claimWelcome(){
+function claimDaily(){
+  const today=new Date().toDateString();
 
-  const claimed =
-    localStorage.getItem(STORAGE.welcome);
-
-  if(claimed){
-    toast("Стартовая награда уже получена");
+  if(state.daily===today){
+    toast("Бонус уже получен");
     return;
   }
 
-  state.balance += 1000;
+  state.balance+=500;
+  state.daily=today;
 
-  localStorage.setItem(
-    STORAGE.welcome,
-    "true"
-  );
+  addHistory("bonus","Daily Bonus",500,"+500");
 
   addNotification(
-    "Welcome Bonus",
-    "На баланс добавлено 1 000 виртуальных кредитов."
+    "Ежедневный бонус",
+    "На баланс начислено 500 виртуальных кредитов."
   );
 
-  saveState();
-  updateUI();
+  save();
+  renderBonuses();
+  toast("+500 виртуальных кредитов");
+}
+
+function claimMission(){
+  const key="velora_mission_claimed";
+
+  if(localStorage.getItem(key)==="1"){
+    toast("Задание уже получено");
+    return;
+  }
+
+  if(state.stats.spins<10){
+    toast("Сделай ещё несколько вращений");
+    return;
+  }
+
+  state.balance+=1000;
+
+  localStorage.setItem(key,"1");
+
+  addHistory("bonus","Mission",1000,"+1000");
+
+  save();
+  renderBonuses();
 
   toast("+1 000 виртуальных кредитов");
 }
 
-function claimDaily(){
-
-  if(state.dailyDate === todayKey()){
-    toast("Ежедневная награда уже получена");
-    return;
-  }
-
-  state.balance += 250;
-
-  state.dailyDate = todayKey();
-
-  localStorage.setItem(
-    STORAGE.daily,
-    state.dailyDate
-  );
-
-  addNotification(
-    "Daily Bonus",
-    "Ежедневная награда: +250 виртуальных кредитов."
-  );
-
-  saveState();
-  updateUI();
-
-  toast("+250 виртуальных кредитов");
-}
-
-function claimMission(){
-
-  if(state.missionClaimed){
-    toast("Миссия уже выполнена");
-    return;
-  }
-
-  if(state.history.length < 10){
-
-    toast(
-      `Нужно сыграть ещё ${10-state.history.length} раундов`
-    );
-
-    return;
-  }
-
-  state.balance += 750;
-
-  state.missionClaimed = true;
-
-  localStorage.setItem(
-    STORAGE.mission,
-    "true"
-  );
-
-  addNotification(
-    "Mission Complete",
-    "Игровая миссия выполнена. +750 виртуальных кредитов."
-  );
-
-  saveState();
-  updateUI();
-
-  toast("+750 за выполнение миссии");
-}
-
-/* =========================================================
+/* =========================
    WHEEL
-========================================================= */
+========================= */
 
-function updateWheelStatus(){
+function renderWheel(){
+  const now=Date.now();
+  const cooldown=6*60*60*1000;
+  const ready=now-state.wheelLast>=cooldown;
 
-  const btn =
-    document.getElementById("wheelBtn");
+  document.getElementById("content").innerHTML=`
+    <div class="page">
+      <div class="eyebrow">VELORA WHEEL</div>
+      <h1>Колесо удачи</h1>
 
-  const status =
-    document.getElementById("wheelStatus");
+      <div class="panel">
+        <div class="wheel-wrap">
+          <div class="wheel-pointer"></div>
+          <div id="wheel" class="wheel"></div>
 
-  if(state.wheelDate === todayKey()){
+          <p style="color:var(--muted);text-align:center">
+            ${ready
+              ?"Колесо готово к запуску."
+              :"Следующее вращение будет доступно через 6 часов."
+            }
+          </p>
 
-    btn.disabled = true;
-    btn.style.opacity = ".45";
-
-    status.textContent =
-      "Сегодня попытка уже использована";
-
-  }else{
-
-    btn.disabled = false;
-    btn.style.opacity = "1";
-
-    status.textContent =
-      "Попытка доступна";
-  }
+          <button
+            class="hero-btn primary-btn"
+            ${ready?"":"disabled"}
+            onclick="spinWheel()"
+          >
+            ${ready?"Крутить колесо":"Недоступно"}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function spinWheel(){
-
-  if(state.wheelDate === todayKey()){
-    toast("Колесо уже использовано сегодня");
+  if(Date.now()-state.wheelLast<6*60*60*1000){
+    toast("Колесо пока недоступно");
     return;
   }
 
-  const wheel =
-    document.getElementById("wheel");
+  const rewards=[100,250,500,750,1000,150,300,2000];
+  const reward=rewards[Math.floor(Math.random()*rewards.length)];
 
-  const prizes =
-    [100,250,50,500,100,750,50,300];
+  wheelRotation+=1440+Math.floor(Math.random()*360);
 
-  const index =
-    Math.floor(Math.random()*prizes.length);
+  const wheel=document.getElementById("wheel");
 
-  const prize =
-    prizes[index];
+  if(wheel){
+    wheel.style.transform=`rotate(${wheelRotation}deg)`;
+  }
 
-  const degrees =
-    360*5 + (index*45) + 22;
+  state.wheelLast=Date.now();
+  state.balance+=reward;
 
-  wheel.style.transform =
-    `rotate(${degrees}deg)`;
+  addHistory("wheel","VELORA Wheel",reward,"+"+reward);
+  addNotification(
+    "Колесо VELORA",
+    "Ты получил "+money(reward)+" виртуальных кредитов."
+  );
 
-  const btn =
-    document.getElementById("wheelBtn");
-
-  btn.disabled = true;
+  save();
 
   setTimeout(()=>{
-
-    state.balance += prize;
-
-    state.wheelDate =
-      todayKey();
-
-    localStorage.setItem(
-      STORAGE.wheel,
-      state.wheelDate
-    );
-
-    addNotification(
-      "Колесо VELORA",
-      `Ты получил ${formatMoney(prize)} виртуальных кредитов.`
-    );
-
-    saveState();
-    updateUI();
-
-    toast(`Колесо: +${formatMoney(prize)}`);
-
-  },4600);
+    toast("Колесо принесло +"+money(reward));
+    renderWheel();
+  },4100);
 }
 
-/* =========================================================
+/* =========================
+   HISTORY
+========================= */
+
+function renderHistory(){
+  document.getElementById("content").innerHTML=`
+    <div class="page">
+      <div class="eyebrow">ACTIVITY</div>
+      <h1>История</h1>
+
+      <div class="panel">
+        ${
+          state.history.length
+          ? `
+            <div class="list">
+              ${state.history.map(item=>`
+                <div class="list-item">
+                  <div class="list-main">
+                    <div class="list-title">
+                      ${item.game}
+                    </div>
+                    <div class="list-sub">
+                      ${item.type} · ${item.date}
+                    </div>
+                  </div>
+
+                  <div class="${item.amount>=0?"green":"red"}">
+                    ${item.amount>=0?"+":""}${money(item.amount)}
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          `
+          : `
+            <div style="color:var(--muted)">
+              История пока пустая.
+            </div>
+          `
+        }
+      </div>
+    </div>
+  `;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+function renderProfile(){
+  const user=state.user||{email:"unknown"};
+
+  document.getElementById("content").innerHTML=`
+    <div class="page">
+      <div class="eyebrow">ACCOUNT</div>
+      <h1>Профиль</h1>
+
+      <div class="panel">
+        <h3>Аккаунт</h3>
+
+        <div class="list">
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Email</div>
+              <div class="list-sub">${user.email}</div>
+            </div>
+          </div>
+
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Баланс</div>
+              <div class="list-sub">Виртуальные кредиты</div>
+            </div>
+            <strong class="gold">${money(state.balance)}</strong>
+          </div>
+
+          <div class="list-item">
+            <div class="list-main">
+              <div class="list-title">Дата регистрации</div>
+              <div class="list-sub">
+                ${user.createdAt
+                  ?new Date(user.createdAt).toLocaleDateString("ru-RU")
+                  :"—"
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-grid" style="margin-top:18px">
+        <div class="stat">
+          <div class="stat-label">Ставки</div>
+          <div class="stat-value">${money(state.stats.totalBet)}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Вращения</div>
+          <div class="stat-value">${state.stats.spins}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Выигрыши</div>
+          <div class="stat-value">${state.stats.wins}</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Выиграно</div>
+          <div class="stat-value">${money(state.stats.totalWon)}</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <button class="secondary" onclick="logout()">
+          Выйти из аккаунта
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+/* =========================
    SUPPORT
-========================================================= */
+========================= */
 
-function sendSupport(){
+function renderSupport(){
+  document.getElementById("content").innerHTML=`
+    <div class="page">
+      <div class="eyebrow">VELORA CARE</div>
+      <h1>Поддержка</h1>
 
-  const subject =
-    document.getElementById("supportSubject").value;
+      <div class="support-layout">
 
-  const email =
-    document.getElementById("supportEmail").value.trim();
+        <div class="support-info">
+          <h2>Нужна помощь?</h2>
 
-  const message =
-    document.getElementById("supportMessage").value.trim();
+          <p>
+            Если не получается войти в аккаунт, возникла проблема
+            с профилем или ты заметил ошибку на сайте —
+            отправь сообщение через форму.
+          </p>
 
-  if(!email || !email.includes("@")){
-    toast("Укажи корректный email");
+          <div class="panel">
+            <strong>Твой аккаунт</strong>
+            <div style="color:var(--muted);margin-top:6px">
+              ${state.user?.email||"—"}
+            </div>
+          </div>
+
+          <div class="panel">
+            <strong>История обращений</strong>
+            <div style="color:var(--muted);margin-top:6px">
+              Сообщения сохраняются локально на этом устройстве.
+            </div>
+          </div>
+        </div>
+
+        <form class="support-form" onsubmit="sendSupport(event)">
+          <h2>Новое обращение</h2>
+
+          <div class="field">
+            <label>Тема</label>
+            <input id="supportSubject" required placeholder="Например: не могу войти">
+          </div>
+
+          <div class="field">
+            <label>Сообщение</label>
+            <textarea id="supportMessage" required placeholder="Опиши проблему..."></textarea>
+          </div>
+
+          <button class="primary">
+            Отправить обращение
+          </button>
+        </form>
+
+      </div>
+    </div>
+  `;
+}
+
+function sendSupport(e){
+  e.preventDefault();
+
+  const subject=document.getElementById("supportSubject").value.trim();
+  const message=document.getElementById("supportMessage").value.trim();
+
+  if(!subject || !message){
+    toast("Заполни все поля");
     return;
   }
 
-  if(message.length < 5){
-    toast("Опиши проблему подробнее");
-    return;
-  }
+  addHistory(
+    "support",
+    subject,
+    0,
+    "Отправлено"
+  );
 
   addNotification(
     "Обращение отправлено",
-    `Тема: ${subject}. Мы сохранили обращение в демо-системе.`
+    "Твоё сообщение принято системой VELORA."
   );
 
+  document.getElementById("supportSubject").value="";
   document.getElementById("supportMessage").value="";
 
   toast("Обращение отправлено");
 }
 
-/* =========================================================
-   PROFILE
-========================================================= */
+/* =========================
+   NOTIFICATIONS
+========================= */
 
-function showProfileStats(){
+function renderNotifications(){
+  state.notifications.forEach(n=>n.read=true);
+  save();
 
-  const games =
-    state.history.length;
+  document.getElementById("content").innerHTML=`
+    <div class="page">
+      <div class="eyebrow">CENTER</div>
+      <h1>Уведомления</h1>
 
-  const wins =
-    state.history.filter(x=>x.win>0).length;
+      <div class="panel">
+        ${
+          state.notifications.length
+          ? `
+            <div class="list">
+              ${state.notifications.map(n=>`
+                <div class="list-item">
+                  <div class="list-main">
+                    <div class="list-title">${n.title}</div>
+                    <div class="list-sub">${n.text}</div>
+                    <div class="list-sub">${n.date}</div>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          `
+          : `
+            <div style="color:var(--muted)">
+              Уведомлений пока нет.
+            </div>
+          `
+        }
+      </div>
+    </div>
+  `;
 
-  const totalWin =
-    state.history.reduce(
-      (sum,x)=>sum+Number(x.win||0),
-      0
-    );
-
-  toast(
-    `Игр: ${games} • Выигрышей: ${wins} • Сумма выигрышей: ${formatMoney(totalWin)}`
-  );
+  updateNotificationDot();
 }
 
-/* =========================================================
-   GAME SYSTEM
-========================================================= */
+function updateNotificationDot(){
+  const dot=document.getElementById("notificationDot");
+
+  if(!dot) return;
+
+  const unread=state.notifications.some(n=>!n.read);
+
+  dot.style.display=unread?"block":"none";
+}
+
+/* =========================
+   AUDIO
+========================= */
+
+function initAudio(){
+  if(!audioCtx){
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  }
+
+  if(audioCtx.state==="suspended"){
+    audioCtx.resume();
+  }
+}
+
+function tone(freq,duration=.08,type="sine",volume=.035){
+  try{
+    initAudio();
+
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
+
+    osc.type=type;
+    osc.frequency.value=freq;
+
+    gain.gain.setValueAtTime(volume,audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+      .001,
+      audioCtx.currentTime+duration
+    );
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime+duration);
+  }catch(e){}
+}
+
+function soundSpin(){
+  tone(130,.05,"square");
+  setTimeout(()=>tone(180,.05,"square"),60);
+  setTimeout(()=>tone(230,.06,"square"),120);
+}
+
+function soundWin(){
+  tone(520,.1,"sine");
+  setTimeout(()=>tone(660,.1,"sine"),90);
+  setTimeout(()=>tone(820,.16,"sine"),180);
+}
+
+function soundBigWin(){
+  tone(440,.12,"triangle");
+  setTimeout(()=>tone(620,.12,"triangle"),100);
+  setTimeout(()=>tone(820,.12,"triangle"),200);
+  setTimeout(()=>tone(1100,.25,"triangle"),300);
+}
+
+function soundWheel(){
+  tone(250,.06,"square");
+  setTimeout(()=>tone(340,.06,"square"),70);
+  setTimeout(()=>tone(450,.08,"square"),140);
+}
+
+/* =========================
+   GAME ENGINE
+========================= */
+
+const candySymbols=[
+  {v:"A",cls:"candyA",p:1},
+  {v:"B",cls:"candyB",p:1},
+  {v:"C",cls:"candyC",p:1},
+  {v:"D",cls:"candyD",p:1},
+  {v:"E",cls:"candyE",p:1}
+];
+
+const olympusSymbols=[
+  {v:"A",cls:"olympusA",p:1},
+  {v:"B",cls:"olympusB",p:1},
+  {v:"C",cls:"olympusC",p:1},
+  {v:"D",cls:"olympusD",p:1},
+  {v:"F",cls:"fate",p:.32}
+];
+
+const jungleSymbols=[
+  {v:"A",cls:"jungleA",p:1},
+  {v:"B",cls:"jungleB",p:1},
+  {v:"C",cls:"jungleC",p:1},
+  {v:"D",cls:"jungleD",p:1},
+  {v:"W",cls:"wild",p:.35}
+];
+
+function weightedSymbol(list){
+  const total=list.reduce((s,x)=>s+x.p,0);
+  let r=Math.random()*total;
+
+  for(const item of list){
+    r-=item.p;
+    if(r<=0) return item;
+  }
+
+  return list[0];
+}
 
 function openGame(id){
+  currentGame=id;
+  currentBet=20;
+  spinning=false;
+  autoSpin=false;
 
-  const game =
-    GAMES.find(g=>g.id === id);
+  document.getElementById("gameScreen").classList.remove("hidden");
 
-  if(!game) return;
+  if(id==="candy") renderCandy();
+  if(id==="olympus") renderOlympus();
+  if(id==="jungle") renderJungle();
 
-  state.lastGame = id;
-
-  saveState();
-
-  gameState.open = true;
-  gameState.id = id;
-  gameState.multiplier = 1;
-  gameState.bonusSpins = 0;
-  gameState.bonusActive = false;
-
-  document.getElementById("gameScreen")
-    .classList.add("open");
-
-  document.getElementById("gameTitle").textContent =
-    game.name;
-
-  document.getElementById("bannerTitle").textContent =
-    game.name;
-
-  document.getElementById("bannerDescription").textContent =
-    game.desc;
-
-  document.getElementById("slotBanner").className =
-    `slot-banner ${game.theme}`;
-
-  document.getElementById("gameMultiplier").textContent =
-    "x1";
-
-  document.getElementById("winAmount").textContent =
-    "0";
-
-  document.getElementById("betValue").textContent =
-    gameState.bet;
-
-  createReels(game);
-
-  setPaytable(game);
-  updateGameBalance();
-
-  if(gameState.autoTimer){
-    clearTimeout(gameState.autoTimer);
-  }
+  initAudio();
 }
 
 function closeGame(){
-
-  if(gameState.autoTimer){
-    clearTimeout(gameState.autoTimer);
-    gameState.autoTimer = null;
-  }
-
-  gameState.auto = false;
-  gameState.spinning = false;
-
-  document
-    .getElementById("gameScreen")
-    .classList.remove("open");
-
-  updateUI();
+  autoSpin=false;
+  spinning=false;
+  currentGame=null;
+  document.getElementById("gameScreen").classList.add("hidden");
+  updateBalance();
 }
 
-function updateGameBalance(){
+/* =========================
+   COMMON GAME UI
+========================= */
 
-  document.getElementById("gameBalance").textContent =
-    formatMoney(state.balance);
-}
+function gameControls(gameName){
+  return `
+    <div class="game-controls">
 
-function createReels(game){
-
-  const reels =
-    document.getElementById("reels");
-
-  reels.className =
-    `reels r${game.reels}`;
-
-  const total =
-    game.reels * game.rows;
-
-  let html="";
-
-  for(let i=0;i<total;i++){
-
-    html += `
-      <div class="symbol ${game.theme}" data-index="${i}">
-        ${getGameSymbol(game.id)}
+      <div class="bet-box">
+        <button onclick="changeBet(-10)">−</button>
+        <div class="bet-value">${currentBet}</div>
+        <button onclick="changeBet(10)">+</button>
       </div>
-    `;
-  }
 
-  reels.innerHTML = html;
+      <button class="control" onclick="toggleAuto()">
+        <span id="autoText">Auto</span>
+      </button>
+
+      <div></div>
+
+      <button class="control" onclick="toggleTurbo()">
+        Turbo
+      </button>
+
+      <button class="control spin" onclick="spinCurrentGame()">
+        SPIN
+      </button>
+    </div>
+
+    <div class="game-paytable">
+      <strong>${gameName}</strong><br>
+      Ставка: ${currentBet} виртуальных кредитов.
+      Все результаты работают только с виртуальным балансом VELORA.
+    </div>
+  `;
 }
 
-function getGameSymbol(gameId){
+function changeBet(delta){
+  currentBet=Math.max(10,Math.min(500,currentBet+delta));
 
-  if(gameId === "candy"){
-
-    const symbols =
-      ["A","K","Q","J","7","C"];
-
-    return symbols[
-      Math.floor(Math.random()*symbols.length)
-    ];
-  }
-
-  if(gameId === "olympus"){
-
-    const symbols =
-      ["A","K","Q","J","O","F"];
-
-    return symbols[
-      Math.floor(Math.random()*symbols.length)
-    ];
-  }
-
-  const symbols =
-    ["A","K","Q","J","W","S"];
-
-  return symbols[
-    Math.floor(Math.random()*symbols.length)
-  ];
+  if(currentGame==="candy") renderCandy(false);
+  if(currentGame==="olympus") renderOlympus(false);
+  if(currentGame==="jungle") renderJungle(false);
 }
 
-function setPaytable(game){
+let turbo=false;
 
-  const table =
-    document.getElementById("paytable");
+function toggleTurbo(){
+  turbo=!turbo;
+  toast(turbo?"Turbo включён":"Turbo выключен");
+}
 
-  if(game.id === "candy"){
+function toggleAuto(){
+  autoSpin=!autoSpin;
 
-    table.innerHTML =
-      "<b>Candy Kingdom</b> — группы одинаковых символов создают каскады. Каждый новый каскад увеличивает множитель.";
+  const el=document.getElementById("autoText");
 
-  }else if(game.id === "olympus"){
+  if(el){
+    el.textContent=autoSpin?"Stop":"Auto";
+  }
 
-    table.innerHTML =
-      "<b>Olympus Fate</b> — комбинации идут слева направо. Редкие Fate-символы могут усилить множитель.";
-
-  }else{
-
-    table.innerHTML =
-      "<b>Jungle Fortune</b> — Wild заменяет обычные символы. Scatter открывает дополнительный раунд бесплатных вращений.";
+  if(autoSpin && !spinning){
+    spinCurrentGame();
   }
 }
 
-/* =========================================================
-   BET
-========================================================= */
+function spinCurrentGame(){
+  if(spinning) return;
 
-function changeBet(amount){
-
-  if(gameState.spinning) return;
-
-  let bet =
-    gameState.bet + amount;
-
-  bet =
-    Math.max(20,Math.min(1000,bet));
-
-  gameState.bet = bet;
-
-  document.getElementById("betValue").textContent =
-    bet;
-}
-
-/* =========================================================
-   OPTIONS
-========================================================= */
-
-function toggleOption(option){
-
-  if(option === "turbo"){
-
-    gameState.turbo =
-      !gameState.turbo;
-
-    document
-      .getElementById("turboToggle")
-      .classList.toggle(
-        "on",
-        gameState.turbo
-      );
-  }
-
-  if(option === "auto"){
-
-    gameState.auto =
-      !gameState.auto;
-
-    document
-      .getElementById("autoToggle")
-      .classList.toggle(
-        "on",
-        gameState.auto
-      );
-
-    if(
-      gameState.auto &&
-      !gameState.spinning
-    ){
-
-      spinGame();
-    }
-
-    if(!gameState.auto && gameState.autoTimer){
-
-      clearTimeout(gameState.autoTimer);
-      gameState.autoTimer = null;
-    }
-  }
-}
-
-/* =========================================================
-   RANDOM HELPERS
-========================================================= */
-
-function weightedSymbol(gameId){
-
-  if(gameId === "candy"){
-
-    const pool =
-      [
-        "A","A","A","K","K","K",
-        "Q","Q","J","J","7","C"
-      ];
-
-    return pool[
-      Math.floor(Math.random()*pool.length)
-    ];
-  }
-
-  if(gameId === "olympus"){
-
-    const pool =
-      [
-        "A","A","A",
-        "K","K","K",
-        "Q","Q",
-        "J","J",
-        "O","O",
-        "F"
-      ];
-
-    return pool[
-      Math.floor(Math.random()*pool.length)
-    ];
-  }
-
-  const pool =
-    [
-      "A","A","A",
-      "K","K","K",
-      "Q","Q",
-      "J","J",
-      "W",
-      "S"
-    ];
-
-  return pool[
-    Math.floor(Math.random()*pool.length)
-  ];
-}
-
-function randomGrid(game){
-
-  const total =
-    game.reels * game.rows;
-
-  const values=[];
-
-  for(let i=0;i<total;i++){
-    values.push(
-      weightedSymbol(game.id)
-    );
-  }
-
-  return values;
-}
-
-function countSymbol(values,symbol){
-
-  return values.filter(x=>x===symbol).length;
-}
-
-/* =========================================================
-   SPIN
-========================================================= */
-
-async function spinGame(){
-
-  if(gameState.spinning){
-    return;
-  }
-
-  const game =
-    GAMES.find(g=>g.id === gameState.id);
-
-  if(!game) return;
-
-  const free =
-    gameState.bonusActive &&
-    gameState.bonusSpins > 0;
-
-  if(!free && state.balance < gameState.bet){
-
+  if(state.balance<currentBet){
     toast("Недостаточно виртуальных кредитов");
+    autoSpin=false;
     return;
   }
 
-  gameState.spinning = true;
-
-  const spinBtn =
-    document.getElementById("spinBtn");
-
-  spinBtn.disabled = true;
-
-  let betUsed = 0;
-
-  if(!free){
-
-    state.balance -=
-      gameState.bet;
-
-    betUsed =
-      gameState.bet;
-  }
-
-  updateGameBalance();
-  updateUI();
-
-  const duration =
-    gameState.turbo ? 250 : 650;
-
-  await animateReels(game,duration);
-
-  const values =
-    randomGrid(game);
-
-  paintGrid(game,values);
-
-  let result;
-
-  if(game.id === "candy"){
-
-    result =
-      playCandy(values,game);
-
-  }else if(game.id === "olympus"){
-
-    result =
-      playOlympus(values,game);
-
-  }else{
-
-    result =
-      playJungle(values,game);
-  }
-
-  let totalWin =
-    result.win;
-
-  if(
-    gameState.bonusActive &&
-    totalWin > 0
-  ){
-    totalWin =
-      Math.floor(totalWin * 1.25);
-  }
-
-  if(totalWin > 0){
-
-    state.balance += totalWin;
-
-    document.getElementById("winAmount").textContent =
-      formatMoney(totalWin);
-
-  }else{
-
-    document.getElementById("winAmount").textContent =
-      "0";
-  }
-
-  addHistory(
-    game.id,
-    betUsed,
-    totalWin
-  );
-
-  if(gameState.bonusActive){
-
-    gameState.bonusSpins--;
-
-    document.getElementById("freeSpinStatus").textContent =
-      `FREE SPINS: ${gameState.bonusSpins}`;
-
-    if(gameState.bonusSpins <= 0){
-
-      gameState.bonusActive = false;
-      gameState.multiplier = 1;
-
-      setTimeout(()=>{
-        showBonusOverlay(
-          "BONUS COMPLETE",
-          "Бесплатный игровой раунд завершён."
-        );
-      },500);
-    }
-  }
-
-  if(
-    result.scatter &&
-    !gameState.bonusActive &&
-    game.id === "jungle"
-  ){
-
-    gameState.bonusSpins = 5;
-
-    showBonusOverlay(
-      "BONUS UNLOCKED",
-      "Ты получил 5 бесплатных вращений Jungle Fortune."
-    );
-  }
-
-  updateGameBalance();
-  updateUI();
-
-  gameState.spinning = false;
-
-  spinBtn.disabled = false;
-
-  if(
-    gameState.auto &&
-    !gameState.bonusActive &&
-    state.balance >= gameState.bet
-  ){
-
-    gameState.autoTimer =
-      setTimeout(
-        spinGame,
-        gameState.turbo ? 350 : 1000
-      );
-  }
-
-  if(
-    gameState.auto &&
-    gameState.bonusActive
-  ){
-
-    gameState.autoTimer =
-      setTimeout(
-        spinGame,
-        gameState.turbo ? 350 : 1000
-      );
-  }
+  if(currentGame==="candy") playCandy();
+  if(currentGame==="olympus") playOlympus();
+  if(currentGame==="jungle") playJungle();
 }
 
-/* =========================================================
-   REEL ANIMATION
-========================================================= */
-
-function animateReels(game,duration){
-
-  return new Promise(resolve=>{
-
-    const cells =
-      document.querySelectorAll(".symbol");
-
-    let tick=0;
-
-    const interval =
-      setInterval(()=>{
-
-        cells.forEach(cell=>{
-          cell.textContent =
-            getGameSymbol(game.id);
-        });
-
-        tick++;
-
-        if(tick >= 6){
-
-          clearInterval(interval);
-
-          setTimeout(
-            resolve,
-            duration/3
-          );
-        }
-
-      },duration/7);
-  });
-}
-
-function paintGrid(game,values){
-
-  const cells =
-    document.querySelectorAll(".symbol");
-
-  cells.forEach((cell,index)=>{
-
-    cell.classList.remove("win");
-
-    cell.textContent =
-      values[index];
-
-    if(
-      values[index] === "W" ||
-      values[index] === "S" ||
-      values[index] === "F" ||
-      values[index] === "C"
-    ){
-
-      cell.classList.add("special");
-    }
-  });
-}
-
-/* =========================================================
+/* =========================
    CANDY KINGDOM
-========================================================= */
+   CLUSTER CASCADE
+========================= */
 
-function playCandy(values,game){
+let candyGrid=[];
 
-  const rows =
-    game.rows;
+function renderCandy(show=true){
+  const area=document.getElementById("gameArea");
 
-  const cols =
-    game.reels;
-
-  const grid =
-    [];
-
-  for(let r=0;r<rows;r++){
-
-    grid[r]=[];
-
-    for(let c=0;c<cols;c++){
-
-      grid[r][c] =
-        values[r*cols+c];
-    }
+  if(show){
+    candyGrid=Array.from({length:15},()=>weightedSymbol(candySymbols));
   }
 
-  const symbols =
-    ["A","K","Q","J","7","C"];
+  area.innerHTML=`
+    <div class="game-header">
+      <div>
+        <div class="tag">VELORA ORIGINAL</div>
+        <h2>Candy Kingdom</h2>
+      </div>
 
-  let best = null;
+      <div class="tag">CASCADE</div>
+    </div>
 
-  for(const symbol of symbols){
+    <div class="slot-machine">
+      <div id="candyGrid" class="reels cols5">
+        ${candyGrid.map((s,i)=>`
+          <div class="symbol ${s.cls}" data-i="${i}">
+            ${s.v}
+          </div>
+        `).join("")}
+      </div>
 
-    for(let r=0;r<rows;r++){
+      <div id="candyMessage" class="game-message">
+        Собери группу из 5 одинаковых конфет.
+      </div>
 
-      for(let c=0;c<cols;c++){
-
-        const cluster =
-          findCluster(grid,r,c,symbol);
-
-        if(cluster.length >= 4){
-
-          if(!best || cluster.length > best.length){
-
-            best = cluster;
-          }
-        }
-
-      }
-    }
-  }
-
-  if(!best){
-
-    gameState.multiplier = 1;
-
-    document.getElementById("gameMultiplier").textContent =
-      "x1";
-
-    return {
-      win:0,
-      scatter:false
-    };
-  }
-
-  best.forEach(index=>{
-
-    const cell =
-      document.querySelector(
-        `.symbol[data-index="${index}"]`
-      );
-
-    if(cell){
-      cell.classList.add("win");
-    }
-  });
-
-  const base =
-    best.length * gameState.bet * .18;
-
-  const win =
-    Math.floor(
-      base * gameState.multiplier
-    );
-
-  gameState.multiplier =
-    Math.min(
-      5,
-      gameState.multiplier + 1
-    );
-
-  document.getElementById("gameMultiplier").textContent =
-    "x"+gameState.multiplier;
-
-  return {
-    win,
-    scatter:false
-  };
+      ${gameControls("Candy Kingdom — Cluster Cascade")}
+    </div>
+  `;
 }
 
-function findCluster(grid,startR,startC,symbol){
-
-  if(
-    grid[startR]?.[startC] !== symbol
-  ){
-    return [];
-  }
-
-  const rows =
-    grid.length;
-
-  const cols =
-    grid[0].length;
-
-  const visited =
-    new Set();
-
-  const queue =
-    [[startR,startC]];
+function candyNeighbors(index){
+  const row=Math.floor(index/5);
+  const col=index%5;
 
   const result=[];
 
-  while(queue.length){
-
-    const [r,c] =
-      queue.shift();
-
-    const key =
-      r+"_"+c;
-
-    if(visited.has(key)) continue;
-
-    visited.add(key);
-
-    if(
-      r<0 ||
-      c<0 ||
-      r>=rows ||
-      c>=cols ||
-      grid[r][c] !== symbol
-    ){
-      continue;
-    }
-
-    result.push(r*cols+c);
-
-    queue.push([r+1,c]);
-    queue.push([r-1,c]);
-    queue.push([r,c+1]);
-    queue.push([r,c-1]);
-  }
+  if(row>0) result.push(index-5);
+  if(row<2) result.push(index+5);
+  if(col>0) result.push(index-1);
+  if(col<4) result.push(index+1);
 
   return result;
 }
 
-/* =========================================================
-   OLYMPUS FATE
-========================================================= */
+function findCandyClusters(){
+  const visited=new Set();
+  const clusters=[];
 
-function playOlympus(values,game){
+  for(let i=0;i<15;i++){
+    if(visited.has(i)) continue;
 
-  const rows =
-    game.rows;
+    const value=candyGrid[i].v;
+    const cluster=[];
+    const queue=[i];
 
-  const cols =
-    game.reels;
+    visited.add(i);
 
-  const grid=[];
+    while(queue.length){
+      const cur=queue.shift();
+      cluster.push(cur);
 
-  for(let r=0;r<rows;r++){
-
-    grid[r]=[];
-
-    for(let c=0;c<cols;c++){
-
-      grid[r][c] =
-        values[r*cols+c];
-    }
-  }
-
-  const symbols =
-    ["A","K","Q","J","O"];
-
-  let best = {
-    count:0,
-    indexes:[]
-  };
-
-  for(const symbol of symbols){
-
-    for(let row=0;row<rows;row++){
-
-      let indexes=[];
-
-      for(let col=0;col<cols;col++){
-
-        const value =
-          grid[row][col];
-
-        if(
-          value === symbol ||
-          (value === "F" && col > 0)
-        ){
-
-          indexes.push(
-            row*cols+col
-          );
-
-        }else{
-
-          break;
+      for(const n of candyNeighbors(cur)){
+        if(!visited.has(n) && candyGrid[n].v===value){
+          visited.add(n);
+          queue.push(n);
         }
       }
+    }
 
-      if(indexes.length > best.count){
-
-        best = {
-          count:indexes.length,
-          indexes
-        };
-      }
+    if(cluster.length>=5){
+      clusters.push(cluster);
     }
   }
 
-  if(best.count < 3){
+  return clusters;
+}
 
-    gameState.multiplier = 1;
+async function playCandy(){
+  spinning=true;
 
-    document.getElementById("gameMultiplier").textContent =
-      "x1";
-
-    return {
-      win:0,
-      scatter:false
-    };
+  if(state.balance<currentBet){
+    spinning=false;
+    return;
   }
 
-  best.indexes.forEach(index=>{
+  state.balance-=currentBet;
+  state.stats.spins++;
+  state.stats.totalBet+=currentBet;
 
-    const cell =
-      document.querySelector(
-        `.symbol[data-index="${index}"]`
-      );
+  save();
+  updateBalance();
 
-    if(cell){
-      cell.classList.add("win");
-    }
-  });
+  soundSpin();
 
-  let fate = 1;
+  let multiplier=1;
+  let totalWin=0;
+  let cascades=0;
 
-  const fateCount =
-    countSymbol(values,"F");
+  candyGrid=Array.from({length:15},()=>weightedSymbol(candySymbols));
 
-  if(fateCount >= 3){
+  renderCandy(false);
 
-    const rare =
-      Math.random();
+  await wait(turbo?250:650);
 
-    if(rare < .12){
+  while(cascades<4){
 
-      fate =
-        5 + Math.floor(Math.random()*11);
+    const clusters=findCandyClusters();
 
-    }else{
+    if(!clusters.length) break;
 
-      fate =
-        2 + Math.floor(Math.random()*4);
-    }
-  }
+    cascades++;
 
-  gameState.multiplier =
-    fate;
+    const message=document.getElementById("candyMessage");
 
-  document.getElementById("gameMultiplier").textContent =
-    "x"+fate;
+    const indexes=clusters.flat();
 
-  const win =
-    Math.floor(
-      gameState.bet *
-      best.count *
-      .22 *
-      fate
+    indexes.forEach(i=>{
+      const el=document.querySelector(`#candyGrid [data-i="${i}"]`);
+      if(el) el.classList.add("win");
+    });
+
+    await wait(turbo?150:420);
+
+    let cells=0;
+
+    clusters.forEach(c=>cells+=c.length);
+
+    const win=Math.round(
+      currentBet *
+      Math.max(.5,cells*.22) *
+      multiplier
     );
 
+    totalWin+=win;
+
+    if(message){
+      message.className="game-message big";
+      message.textContent=
+        `Цепочка ${cascades} · +${money(win)} · x${multiplier}`;
+    }
+
+    soundWin();
+
+    indexes.sort((a,b)=>b-a).forEach(i=>{
+      candyGrid.splice(i,1);
+    });
+
+    while(candyGrid.length<15){
+      candyGrid.unshift(weightedSymbol(candySymbols));
+    }
+
+    multiplier++;
+
+    renderCandy(false);
+
+    await wait(turbo?120:350);
+  }
+
+  if(totalWin>0){
+    state.balance+=totalWin;
+    state.stats.wins++;
+    state.stats.totalWon+=totalWin;
+
+    addHistory(
+      "spin",
+      "Candy Kingdom",
+      totalWin-currentBet,
+      "win"
+    );
+
+    if(totalWin>=currentBet*8){
+      soundBigWin();
+      addNotification(
+        "Большой выигрыш",
+        `Candy Kingdom: +${money(totalWin)}`
+      );
+    }
+  }else{
+    addHistory(
+      "spin",
+      "Candy Kingdom",
+      -currentBet,
+      "loss"
+    );
+  }
+
+  save();
+  updateBalance();
+
+  const message=document.getElementById("candyMessage");
+
+  if(message){
+    message.className=totalWin>0
+      ?"game-message big"
+      :"game-message";
+
+    message.textContent=totalWin>0
+      ?`Итог: +${money(totalWin)}`
+      :"Нет комбинации";
+  }
+
+  spinning=false;
+
+  if(autoSpin){
+    setTimeout(spinCurrentGame,turbo?180:800);
+  }
+}
+
+/* =========================
+   OLYMPUS FATE
+   PAYLINES + FATE
+========================= */
+
+let olympusGrid=[];
+
+function renderOlympus(show=true){
+  const area=document.getElementById("gameArea");
+
+  if(show){
+    olympusGrid=Array.from({length:30},()=>weightedSymbol(olympusSymbols));
+  }
+
+  area.innerHTML=`
+    <div class="game-header">
+      <div>
+        <div class="tag">VELORA ORIGINAL</div>
+        <h2>Olympus Fate</h2>
+      </div>
+
+      <div class="tag">LINES</div>
+    </div>
+
+    <div class="slot-machine">
+      <div id="olympusGrid" class="reels cols6">
+        ${olympusGrid.map((s,i)=>`
+          <div class="symbol ${s.cls}" data-i="${i}">
+            ${s.v}
+          </div>
+        `).join("")}
+      </div>
+
+      <div id="olympusMessage" class="game-message">
+        Собирай одинаковые символы слева направо.
+      </div>
+
+      ${gameControls("Olympus Fate — Lines & Multipliers")}
+    </div>
+  `;
+}
+
+function evaluateOlympus(){
+  let win=0;
+  let winning=[];
+
+  /*
+    5 рядов.
+    Комбинация должна начинаться с первого столбца.
+    Минимум 3 одинаковых подряд.
+  */
+
+  for(let row=0;row<5;row++){
+
+    const first=olympusGrid[row*6];
+
+    if(first.v==="F") continue;
+
+    let count=1;
+    let cells=[row*6];
+
+    for(let col=1;col<6;col++){
+      const index=row*6+col;
+
+      if(olympusGrid[index].v===first.v){
+        count++;
+        cells.push(index);
+      }else{
+        break;
+      }
+    }
+
+    if(count>=3){
+      const base=currentBet*.45*count;
+
+      win+=base;
+      winning.push(...cells);
+    }
+  }
+
+  const fateCount=olympusGrid.filter(s=>s.v==="F").length;
+
+  let multiplier=1;
+
+  if(fateCount>=3){
+    const options=[2,2,3,3,5,8,12];
+    multiplier=options[Math.floor(Math.random()*options.length)];
+  }
+
   return {
-    win,
-    scatter:false
+    win:Math.round(win*multiplier),
+    winning,
+    fateCount,
+    multiplier
   };
 }
 
-/* =========================================================
-   JUNGLE FORTUNE
-========================================================= */
+async function playOlympus(){
+  spinning=true;
 
-function playJungle(values,game){
+  state.balance-=currentBet;
+  state.stats.spins++;
+  state.stats.totalBet+=currentBet;
 
-  const rows =
-    game.rows;
+  save();
+  updateBalance();
 
-  const cols =
-    game.reels;
+  soundSpin();
 
-  const grid=[];
+  olympusGrid=Array.from(
+    {length:30},
+    ()=>weightedSymbol(olympusSymbols)
+  );
 
-  for(let r=0;r<rows;r++){
+  renderOlympus(false);
 
-    grid[r]=[];
+  await wait(turbo?220:650);
 
-    for(let c=0;c<cols;c++){
+  const result=evaluateOlympus();
 
-      grid[r][c] =
-        values[r*cols+c];
+  result.winning.forEach(i=>{
+    const el=document.querySelector(`#olympusGrid [data-i="${i}"]`);
+    if(el) el.classList.add("win");
+  });
+
+  let finalWin=result.win;
+
+  if(result.fateCount>=3){
+    const msg=document.getElementById("olympusMessage");
+
+    if(msg){
+      msg.className="game-message big";
+      msg.textContent=
+        `FATE ACTIVATED · x${result.multiplier}`;
     }
+
+    soundBigWin();
+
+    await wait(turbo?150:450);
   }
 
-  const scatters =
-    countSymbol(values,"S");
+  if(finalWin>0){
+    state.balance+=finalWin;
+    state.stats.wins++;
+    state.stats.totalWon+=finalWin;
 
-  const symbols =
-    ["A","K","Q","J"];
+    soundWin();
 
-  let best = {
-    count:0,
-    indexes:[]
-  };
+    addHistory(
+      "spin",
+      "Olympus Fate",
+      finalWin-currentBet,
+      "win"
+    );
 
-  for(const symbol of symbols){
+    if(finalWin>=currentBet*10){
+      addNotification(
+        "Fate принесла большой выигрыш",
+        `Olympus Fate: +${money(finalWin)}`
+      );
+    }
+  }else{
+    addHistory(
+      "spin",
+      "Olympus Fate",
+      -currentBet,
+      "loss"
+    );
+  }
 
-    for(let row=0;row<rows;row++){
+  save();
+  updateBalance();
 
-      let indexes=[];
+  const msg=document.getElementById("olympusMessage");
 
-      for(let col=0;col<cols;col++){
+  if(msg){
+    msg.className=finalWin>0
+      ?"game-message big"
+      :"game-message";
 
-        const value =
-          grid[row][col];
+    msg.textContent=finalWin>0
+      ?`Выигрыш: +${money(finalWin)}`
+      :"Линии не собраны";
+  }
 
-        if(
-          value === symbol ||
-          value === "W"
-        ){
+  spinning=false;
 
-          indexes.push(
-            row*cols+col
-          );
+  if(autoSpin){
+    setTimeout(spinCurrentGame,turbo?180:800);
+  }
+}
 
-        }else{
+/* =========================
+   JUNGLE FORTUNE
+   HOLD & WIN
+========================= */
 
-          break;
+let jungleGrid=[];
+let jungleLocked=[];
+
+function renderJungle(show=true){
+  const area=document.getElementById("gameArea");
+
+  if(show){
+    jungleGrid=Array.from({length:15},()=>weightedSymbol(jungleSymbols));
+    jungleLocked=[];
+  }
+
+  area.innerHTML=`
+    <div class="game-header">
+      <div>
+        <div class="tag">VELORA ORIGINAL</div>
+        <h2>Jungle Fortune</h2>
+      </div>
+
+      <div class="tag">HOLD & WIN</div>
+    </div>
+
+    <div class="slot-machine">
+
+      <div id="jungleGrid" class="reels cols5">
+        ${jungleGrid.map((s,i)=>`
+          <div class="symbol ${s.cls} ${jungleLocked.includes(i)?"win":""}" data-i="${i}">
+            ${s.v}
+          </div>
+        `).join("")}
+      </div>
+
+      <div id="jungleMessage" class="game-message">
+        Ценные символы остаются на месте и могут собрать приз.
+      </div>
+
+      ${gameControls("Jungle Fortune — Hold & Win")}
+    </div>
+  `;
+}
+
+async function playJungle(){
+  spinning=true;
+
+  state.balance-=currentBet;
+  state.stats.spins++;
+  state.stats.totalBet+=currentBet;
+
+  save();
+  updateBalance();
+
+  soundSpin();
+
+  /*
+    HOLD & WIN:
+    1. Поле запускается.
+    2. Некоторые специальные символы фиксируются.
+    3. Следующий раунд пытается заполнить свободные позиции.
+    4. Если набралось 5+ ценных символов — приз.
+  */
+
+  jungleGrid=Array.from(
+    {length:15},
+    ()=>weightedSymbol(jungleSymbols)
+  );
+
+  jungleLocked=[];
+
+  renderJungle(false);
+
+  await wait(turbo?220:600);
+
+  let specialIndexes=[];
+
+  jungleGrid.forEach((s,i)=>{
+    if(s.v==="W"){
+      specialIndexes.push(i);
+    }
+  });
+
+  if(specialIndexes.length>0){
+    jungleLocked=[...specialIndexes];
+
+    const msg=document.getElementById("jungleMessage");
+
+    if(msg){
+      msg.textContent=
+        `Удержано символов: ${jungleLocked.length}`;
+    }
+
+    soundWin();
+
+    await wait(turbo?150:350);
+
+    /*
+      Дополнительный шанс заполнения.
+    */
+    for(let round=0;round<2;round++){
+
+      if(jungleLocked.length>=7) break;
+
+      for(let i=0;i<15;i++){
+        if(jungleLocked.includes(i)) continue;
+
+        if(Math.random()<.18){
+          jungleGrid[i]={
+            v:"W",
+            cls:"wild",
+            p:.35
+          };
+
+          jungleLocked.push(i);
         }
       }
 
-      if(indexes.length > best.count){
+      renderJungle(false);
 
-        best = {
-          count:indexes.length,
-          indexes
-        };
-      }
+      await wait(turbo?100:250);
     }
   }
 
   let win=0;
 
-  if(best.count >= 3){
-
-    best.indexes.forEach(index=>{
-
-      const cell =
-        document.querySelector(
-          `.symbol[data-index="${index}"]`
-        );
-
-      if(cell){
-        cell.classList.add("win");
-      }
-    });
-
-    let wildBonus =
-      countSymbol(values,"W") >= 2
-        ? 1.5
-        : 1;
-
-    win =
-      Math.floor(
-        gameState.bet *
-        best.count *
-        .25 *
-        wildBonus
-      );
-
-    gameState.multiplier =
-      wildBonus;
-
-    document.getElementById("gameMultiplier").textContent =
-      "x"+wildBonus;
-  }else{
-
-    gameState.multiplier=1;
-
-    document.getElementById("gameMultiplier").textContent =
-      "x1";
+  if(jungleLocked.length>=7){
+    win=currentBet*15;
+  }else if(jungleLocked.length>=5){
+    win=currentBet*6;
+  }else if(jungleLocked.length>=3){
+    win=currentBet*1.5;
   }
 
-  return {
-    win,
-    scatter:scatters >= 3
-  };
-}
+  win=Math.round(win);
 
-/* =========================================================
-   BONUS OVERLAY
-========================================================= */
+  if(win>0){
+    state.balance+=win;
+    state.stats.wins++;
+    state.stats.totalWon+=win;
 
-function showBonusOverlay(title,text){
+    soundWin();
 
-  document.getElementById("bonusTitle").textContent =
-    title;
+    if(win>=currentBet*10){
+      soundBigWin();
+    }
 
-  document.getElementById("bonusText").textContent =
-    text;
-
-  document
-    .getElementById("bonusOverlay")
-    .classList.add("open");
-}
-
-function closeBonusOverlay(){
-
-  document
-    .getElementById("bonusOverlay")
-    .classList.remove("open");
-
-  if(gameState.bonusSpins > 0){
-
-    gameState.bonusActive = true;
-
-    document.getElementById("freeSpinStatus").textContent =
-      `FREE SPINS: ${gameState.bonusSpins}`;
-
-    toast(
-      `Начинаем ${gameState.bonusSpins} бесплатных вращений`
+    addHistory(
+      "spin",
+      "Jungle Fortune",
+      win-currentBet,
+      "win"
     );
 
-    if(gameState.auto){
+    const msg=document.getElementById("jungleMessage");
 
-      gameState.autoTimer =
-        setTimeout(
-          spinGame,
-          gameState.turbo ? 300 : 700
-        );
+    if(msg){
+      msg.className="game-message big";
+      msg.textContent=
+        `${jungleLocked.length} символов · +${money(win)}`;
+    }
+  }else{
+    addHistory(
+      "spin",
+      "Jungle Fortune",
+      -currentBet,
+      "loss"
+    );
+
+    const msg=document.getElementById("jungleMessage");
+
+    if(msg){
+      msg.className="game-message";
+      msg.textContent=
+        "Комбинация не собрана. Попробуй ещё раз.";
     }
   }
-}
 
-/* =========================================================
-   TOAST
-========================================================= */
+  save();
+  updateBalance();
 
-let toastTimer=null;
+  spinning=false;
 
-function toast(message){
-
-  const el =
-    document.getElementById("toast");
-
-  el.textContent =
-    message;
-
-  el.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer =
-    setTimeout(()=>{
-      el.classList.remove("show");
-    },2600);
-}
-
-/* =========================================================
-   CLOSE NOTIFICATIONS WHEN CLICKING OUTSIDE
-========================================================= */
-
-document.addEventListener("click",event=>{
-
-  const panel =
-    document.getElementById("notificationPanel");
-
-  const target =
-    event.target;
-
-  if(
-    panel.classList.contains("open") &&
-    !panel.contains(target) &&
-    !target.closest(".icon-btn")
-  ){
-
-    panel.classList.remove("open");
+  if(autoSpin){
+    setTimeout(spinCurrentGame,turbo?180:800);
   }
-});
-
-/* =========================================================
-   START
-========================================================= */
-
-loadState();
-
-setTimeout(()=>{
-
-  document.getElementById("loader").style.opacity="0";
-
-  setTimeout(()=>{
-
-    document.getElementById("loader").style.display="none";
-
-  },500);
-
-},700);
-
-if(state.user){
-
-  document.getElementById("authScreen").style.display="none";
-  document.getElementById("app").classList.remove("hidden");
-
-  updateUI();
-
-}else{
-
-  document.getElementById("authScreen").style.display="flex";
 }
 
+/* =========================
+   BONUS MODAL
+========================= */
+
+function showBonusModal(title,text){
+  document.getElementById("bonusModalTitle").textContent=title;
+  document.getElementById("bonusModalText").textContent=text;
+  document.getElementById("bonusOverlay").classList.remove("hidden");
+}
+
+function closeBonusModal(){
+  document.getElementById("bonusOverlay").classList.add("hidden");
+}
+
+/* =========================
+   UTILITY
+========================= */
+
+function wait(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms));
+}
+
+/* =========================
+   START
+========================= */
+
+if(load()){
+  enterApp();
+}else{
+  document.getElementById("authScreen").classList.remove("hidden");
+}
+
+updateNotificationDot();
+
+/* First user interaction enables audio on iOS */
+document.addEventListener("touchstart",()=>{
+  try{
+    initAudio();
+  }catch(e){}
+},{once:true});
 </script>
 
 </body>
 </html>
+```
