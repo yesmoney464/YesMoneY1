@@ -1,268 +1,379 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#07080c">
-<title>VELORA</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#08090b">
+  <title>VELORA — Casino</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="authScreen" class="auth-screen">
-    <div class="auth-bg">
-        <div class="orb orb-a"></div>
-        <div class="orb orb-b"></div>
-        <div class="grid-lines"></div>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">V</span>
+      <span>VELORA</span>
     </div>
 
-    <div class="auth-brand">
-        <div class="brand-mark">V</div>
-        <div class="brand-name">VELORA</div>
-        <div class="brand-sub">ORIGINAL GAMING</div>
-    </div>
-
-    <div class="auth-card">
-        <div class="auth-tabs">
-            <button class="auth-tab active" id="loginTab">Вхід</button>
-            <button class="auth-tab" id="registerTab">Реєстрація</button>
-        </div>
-
-        <form id="authForm">
-            <div id="nameWrap" class="field hidden">
-                <label>Ім'я або нікнейм</label>
-                <input id="authName" type="text" autocomplete="name">
-            </div>
-
-            <div class="field">
-                <label>Email</label>
-                <input id="authEmail" type="email" autocomplete="email" required>
-            </div>
-
-            <div class="field">
-                <label>Пароль</label>
-                <input id="authPassword" type="password" autocomplete="current-password" required>
-            </div>
-
-            <button class="gold-button" type="submit" id="authSubmit">
-                Увійти
-            </button>
-        </form>
-
-        <div class="auth-note">
-            VELORA — ігрова платформа
-        </div>
-    </div>
-</div>
-
-
-<div id="app" class="app hidden">
-
-    <header class="topbar">
-        <button class="logo-button" id="homeLogo">
-            <span class="logo-v">V</span>
-            <span>
-                <b>VELORA</b>
-                <small>ORIGINAL GAMING</small>
-            </span>
-        </button>
-
-        <nav class="desktop-nav">
-            <button class="nav active" data-page="home">Головна</button>
-            <button class="nav" data-page="games">Ігри</button>
-            <button class="nav" data-page="bonuses">Бонуси</button>
-            <button class="nav" data-page="support">Підтримка</button>
-        </nav>
-
-        <div class="top-right">
-            <div class="balance">
-                <span>БАЛАНС</span>
-                <strong id="balance">10 000</strong>
-            </div>
-            <button class="profile-mini" id="profileOpen">
-                <span id="profileLetter">V</span>
-            </button>
-        </div>
-    </header>
-
-
-    <main>
-
-        <section id="home" class="page active">
-
-            <div class="hero">
-                <div class="hero-copy">
-                    <div class="eyebrow">VELORA ORIGINALS</div>
-                    <h1>Ігри, які<br><span>оживають.</span></h1>
-                    <p>
-                        Авторські світи, персонажі та анімація,
-                        створені спеціально для VELORA.
-                    </p>
-
-                    <div class="hero-actions">
-                        <button class="gold-button" data-page="games">
-                            Відкрити ігри
-                        </button>
-                        <button class="dark-button" id="heroProfile">
-                            Мій профіль
-                        </button>
-                    </div>
-                </div>
-
-                <div class="hero-stage">
-                    <canvas id="heroCanvas"></canvas>
-                </div>
-            </div>
-
-            <section class="section">
-                <div class="section-title">
-                    <div>
-                        <span>VELORA ORIGINALS</span>
-                        <h2>Наші світи</h2>
-                    </div>
-                    <button class="link-button" data-page="games">Усі ігри</button>
-                </div>
-
-                <div class="game-grid" id="homeGames"></div>
-            </section>
-
-        </section>
-
-
-        <section id="games" class="page">
-            <div class="page-intro">
-                <span>VELORA GAMES</span>
-                <h1>Обери свій світ</h1>
-                <p>Вісім різних ігрових всесвітів.</p>
-            </div>
-
-            <div class="game-grid full" id="allGames"></div>
-        </section>
-
-
-        <section id="bonuses" class="page">
-            <div class="page-intro">
-                <span>VELORA REWARDS</span>
-                <h1>Нагороди</h1>
-                <p>Віртуальні нагороди для тестової версії платформи.</p>
-            </div>
-
-            <div class="bonus-grid">
-                <article class="bonus">
-                    <div class="bonus-art">
-                        <div class="bonus-ring"></div>
-                        <div class="bonus-core">V</div>
-                    </div>
-                    <div>
-                        <small>WELCOME</small>
-                        <h2>Стартовий пакет</h2>
-                        <p>Додаткові віртуальні кредити для нового гравця.</p>
-                        <button class="gold-button" id="claimBonus">Отримати</button>
-                    </div>
-                </article>
-
-                <article class="bonus">
-                    <div class="bonus-art blue">
-                        <div class="bonus-ring"></div>
-                        <div class="bonus-core">V</div>
-                    </div>
-                    <div>
-                        <small>VELORA EVENT</small>
-                        <h2>Golden Hour</h2>
-                        <p>Спеціальна нагорода ігрової платформи.</p>
-                        <button class="gold-button" id="claimBonus2">Отримати</button>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-
-        <section id="support" class="page">
-            <div class="page-intro">
-                <span>VELORA SUPPORT</span>
-                <h1>Підтримка</h1>
-                <p>Залиш повідомлення для служби підтримки.</p>
-            </div>
-
-            <div class="support-box">
-                <form id="supportForm">
-                    <label>Email</label>
-                    <input id="supportEmail" type="email" required>
-
-                    <label>Тема</label>
-                    <input id="supportSubject" required>
-
-                    <label>Повідомлення</label>
-                    <textarea id="supportMessage" rows="6" required></textarea>
-
-                    <button class="gold-button" type="submit">
-                        Відправити
-                    </button>
-                </form>
-            </div>
-        </section>
-
-
-        <section id="profile" class="page">
-            <div class="page-intro">
-                <span>MY VELORA</span>
-                <h1>Профіль</h1>
-            </div>
-
-            <div class="profile-card">
-                <div class="big-avatar" id="bigAvatar">V</div>
-                <div>
-                    <small>ГРАВЕЦЬ</small>
-                    <h2 id="profileName">Гравець VELORA</h2>
-                    <p id="profileEmail"></p>
-                </div>
-
-                <button class="dark-button" id="logout">
-                    Вийти
-                </button>
-            </div>
-        </section>
-
-    </main>
-
-
-    <nav class="mobile-nav">
-        <button class="mobile active" data-page="home">Головна</button>
-        <button class="mobile" data-page="games">Ігри</button>
-        <button class="mobile" data-page="bonuses">Бонуси</button>
-        <button class="mobile" data-page="profile">Профіль</button>
+    <nav>
+      <button data-section="home">Головна</button>
+      <button data-section="games">Ігри</button>
+      <button data-section="bonuses">Бонуси</button>
+      <button data-section="support">Підтримка</button>
     </nav>
 
-</div>
+    <div class="account">
+      <div class="balance">
+        <small>Баланс</small>
+        <strong id="balance">10 000</strong>
+      </div>
 
-
-<div id="gameOverlay" class="game-overlay hidden">
-
-    <header class="game-top">
-        <button id="gameBack" class="game-back">Назад</button>
-
-        <div class="game-title">
-            <span id="gameCategory">VELORA ORIGINAL</span>
-            <strong id="gameTitle">GAME</strong>
-        </div>
-
-        <div class="game-money">
-            <span>КРЕДИТИ</span>
-            <b id="gameBalance">10 000</b>
-        </div>
-    </header>
-
-    <div class="game-body">
-        <canvas id="gameCanvas"></canvas>
-
-        <div class="game-controls" id="gameControls"></div>
+      <button class="login-btn" id="loginBtn">Вхід</button>
+      <button class="register-btn" id="registerBtn">Реєстрація</button>
     </div>
+  </header>
+
+
+  <main>
+
+    <!-- HOME -->
+    <section id="home" class="section active">
+
+      <div class="hero">
+        <div class="hero-content">
+          <div class="eyebrow">VELORA ORIGINALS</div>
+
+          <h1>Грай у світи,<br><span>створені для тебе.</span></h1>
+
+          <p>
+            Авторські ігри VELORA з яскравою графікою,
+            плавною анімацією та атмосферою сучасного
+            мобільного ігрового застосунку.
+          </p>
+
+          <button class="primary-btn" id="heroGames">
+            Переглянути ігри
+          </button>
+        </div>
+
+        <div class="hero-orb orb-one"></div>
+        <div class="hero-orb orb-two"></div>
+
+        <div class="hero-card">
+          <div class="mini-label">FEATURED</div>
+          <div class="hero-game-title">Candy<br>Kingdom</div>
+          <div class="hero-game-sub">CASCADE • MULTIPLIERS</div>
+          <button id="heroPlay">Грати</button>
+        </div>
+      </div>
+
+      <div class="section-title">
+        <div>
+          <span>VELORA ORIGINALS</span>
+          <h2>Популярні ігри</h2>
+        </div>
+        <button class="link-btn" data-section="games">Усі ігри →</button>
+      </div>
+
+      <div class="game-grid">
+
+        <article class="game-card candy-card" data-game="candy">
+          <div class="game-art">
+            <div class="art-glow"></div>
+            <div class="art-symbols">
+              <b>◆</b><b>●</b><b>✦</b>
+            </div>
+            <div class="game-art-title">CANDY<br>KINGDOM</div>
+            <div class="game-art-sub">CASCADE SLOTS</div>
+          </div>
+
+          <div class="game-info">
+            <div>
+              <h3>Candy Kingdom</h3>
+              <p>Солодкий світ • Каскади</p>
+            </div>
+            <button class="play-card">Грати</button>
+          </div>
+        </article>
+
+
+        <article class="game-card myth-card" data-game="myth">
+          <div class="game-art">
+            <div class="myth-sun"></div>
+            <div class="myth-symbol">✦</div>
+            <div class="game-art-title">OLYMPUS<br>FATE</div>
+            <div class="game-art-sub">MULTIPLIER SLOTS</div>
+          </div>
+
+          <div class="game-info">
+            <div>
+              <h3>Olympus Fate</h3>
+              <p>Міфічний світ • Множники</p>
+            </div>
+            <button class="play-card">Грати</button>
+          </div>
+        </article>
+
+
+        <article class="game-card jungle-card" data-game="jungle">
+          <div class="game-art">
+            <div class="jungle-leaf leaf-one"></div>
+            <div class="jungle-leaf leaf-two"></div>
+            <div class="jungle-title">JUNGLE<br>FORTUNE</div>
+            <div class="game-art-sub">WILD ADVENTURE</div>
+          </div>
+
+          <div class="game-info">
+            <div>
+              <h3>Jungle Fortune</h3>
+              <p>Дика пригода • Wild</p>
+            </div>
+            <button class="play-card">Грати</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+
+    <!-- GAMES -->
+    <section id="games" class="section">
+
+      <div class="page-heading">
+        <span>VELORA GAMES</span>
+        <h1>Ігри</h1>
+        <p>Оберіть світ та запустіть гру.</p>
+      </div>
+
+      <div class="game-grid large-grid">
+
+        <article class="game-card candy-card" data-game="candy">
+          <div class="game-art">
+            <div class="art-glow"></div>
+            <div class="art-symbols">
+              <b>◆</b><b>●</b><b>✦</b>
+            </div>
+            <div class="game-art-title">CANDY<br>KINGDOM</div>
+            <div class="game-art-sub">CASCADE SLOTS</div>
+          </div>
+          <div class="game-info">
+            <div>
+              <h3>Candy Kingdom</h3>
+              <p>6×5 • Cascades</p>
+            </div>
+            <button class="play-card">Грати</button>
+          </div>
+        </article>
+
+
+        <article class="game-card myth-card" data-game="myth">
+          <div class="game-art">
+            <div class="myth-sun"></div>
+            <div class="myth-symbol">✦</div>
+            <div class="game-art-title">OLYMPUS<br>FATE</div>
+            <div class="game-art-sub">MULTIPLIERS</div>
+          </div>
+          <div class="game-info">
+            <div>
+              <h3>Olympus Fate</h3>
+              <p>6×5 • Multipliers</p>
+            </div>
+            <button class="play-card">Грати</button>
+          </div>
+        </article>
+
+
+        <article class="game-card jungle-card" data-game="jungle">
+          <div class="game-art">
+            <div class="jungle-leaf leaf-one"></div>
+            <div class="jungle-leaf leaf-two"></div>
+            <div class="jungle-title">JUNGLE<br>FORTUNE</div>
+            <div class="game-art-sub">WILD ADVENTURE</div>
+          </div>
+          <div class="game-info">
+            <div>
+              <h3>Jungle Fortune</h3>
+              <p>5×3 • Wilds</p>
+            </div>
+            <button class="play-card">Грати</button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+
+    <!-- BONUSES -->
+    <section id="bonuses" class="section simple-section">
+      <div class="page-heading">
+        <span>VELORA REWARDS</span>
+        <h1>Бонуси</h1>
+        <p>Розділ підготовлений для майбутньої бонусної системи.</p>
+      </div>
+
+      <div class="bonus-panel">
+        <div>
+          <span>WELCOME</span>
+          <h2>VELORA START</h2>
+          <p>Демо-бонус для тестування інтерфейсу.</p>
+        </div>
+        <div class="bonus-value">+1 000</div>
+      </div>
+    </section>
+
+
+    <!-- SUPPORT -->
+    <section id="support" class="section simple-section">
+      <div class="page-heading">
+        <span>VELORA CARE</span>
+        <h1>Підтримка</h1>
+        <p>Залиште повідомлення, якщо потрібна допомога.</p>
+      </div>
+
+      <div class="support-box">
+        <input type="text" placeholder="Ваше ім'я">
+        <input type="email" placeholder="Email">
+        <textarea placeholder="Ваше повідомлення"></textarea>
+        <button class="primary-btn" id="supportSend">Надіслати</button>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- GAME OVERLAY -->
+
+  <div id="gameOverlay" class="game-overlay">
+
+    <div class="game-top">
+
+      <button class="close-game" id="closeGame">×</button>
+
+      <div class="game-brand">
+        <span>VELORA</span>
+        <small id="gameName">ORIGINAL</small>
+      </div>
+
+      <div class="game-wallet">
+        <small>Баланс</small>
+        <strong id="gameBalance">10 000</strong>
+      </div>
+
+    </div>
+
+
+    <div class="slot-stage">
+
+      <div class="slot-background"></div>
+
+      <div class="slot-header">
+        <div>
+          <span id="slotCategory">VELORA ORIGINAL</span>
+          <h2 id="slotTitle">CANDY KINGDOM</h2>
+        </div>
+
+        <button class="info-button" id="infoButton">i</button>
+      </div>
+
+
+      <div class="win-display">
+        <small>ВИГРАШ</small>
+        <strong id="winAmount">0</strong>
+      </div>
+
+
+      <div class="reels-frame" id="reelsFrame">
+        <div class="reels" id="reels"></div>
+        <div class="reel-shine"></div>
+      </div>
+
+
+      <div class="status-text" id="statusText">
+        Зробіть обертання
+      </div>
+
+
+      <div class="controls">
+
+        <div class="bet-control">
+          <button id="betMinus">−</button>
+          <div>
+            <small>СТАВКА</small>
+            <strong id="betValue">20</strong>
+          </div>
+          <button id="betPlus">+</button>
+        </div>
+
+
+        <button class="spin-button" id="spinButton">
+          <span>SPIN</span>
+        </button>
+
+
+        <div class="side-controls">
+          <button id="autoButton">AUTO</button>
+          <button id="turboButton">TURBO</button>
+        </div>
+
+      </div>
+
+
+      <div class="game-footer">
+        <button id="paytableButton">ТАБЛИЦЯ ВИПЛАТ</button>
+        <span>Демо-гра • Віртуальні кредити</span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- PAYTABLE -->
+
+  <div id="paytable" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" id="closePaytable">×</button>
+
+      <span>GAME INFORMATION</span>
+      <h2>Таблиця виплат</h2>
+
+      <div id="paytableContent"></div>
+
+      <p class="modal-note">
+        Це демонстраційна гра з віртуальним балансом.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- LOGIN -->
+
+  <div id="authModal" class="modal">
+    <div class="modal-content auth-content">
+      <button class="modal-close" id="closeAuth">×</button>
+
+      <span>VELORA ACCOUNT</span>
+      <h2 id="authTitle">Вхід</h2>
+
+      <input id="authEmail" type="email" placeholder="Email">
+      <input id="authPassword" type="password" placeholder="Пароль">
+
+      <button class="primary-btn" id="authSubmit">
+        Продовжити
+      </button>
+
+      <button class="switch-auth" id="switchAuth">
+        Створити акаунт
+      </button>
+    </div>
+  </div>
+
+
 </div>
 
-
-<div id="toast"></div>
-
-<script src="app.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
