@@ -1,1748 +1,1804 @@
-/* =========================================================
-   VELORA
-   Original Virtual Casino Demo
-   No external libraries required.
-   GitHub Pages compatible.
-========================================================= */
+```javascript
+"use strict";
 
-(() => {
-    "use strict";
+/*
+    VELORA
+    Frontend demo casino experience
+    Virtual credits only.
+*/
 
 
-    /* =====================================================
-       STORAGE
-    ===================================================== */
+/* =========================================
+   STORAGE
+========================================= */
 
-    const STORAGE_KEY = "velora_state_v3";
+const STORAGE_USER = "velora_user";
+const STORAGE_ACCOUNT = "velora_account";
 
-    const defaultState = {
-        registered: false,
-        loggedIn: false,
-        user: null,
-        balance: 10000,
-        xp: 0,
-        level: 1,
-        welcomeClaimed: false,
-        lastDailyBonus: null,
-        totalSpins: 0,
-        totalWins: 0
-    };
 
-    function loadState() {
-        try {
-            const saved = localStorage.getItem(STORAGE_KEY);
+/* =========================================
+   GAME DATA
+========================================= */
 
-            if (!saved) {
-                return { ...defaultState };
-            }
+const games = {
 
-            const parsed = JSON.parse(saved);
+    candy: {
+        id: "candy",
+        title: "Candy Kingdom",
+        category: "SWEET ORIGINAL",
+        description: "Сладкое королевство",
+        visual: "candy-visual",
+        emblem: "C",
+        symbols: ["C", "◆", "★", "7", "V"],
+        colors: ["#ff8ed0", "#c6a5ff", "#ffe39a", "#fff1b5", "#e8bd61"],
+        payouts: {
+            "C": 8,
+            "◆": 12,
+            "★": 18,
+            "7": 35,
+            "V": 60
+        }
+    },
 
-            return {
-                ...defaultState,
-                ...parsed
-            };
-        } catch (error) {
-            console.warn("VELORA storage error:", error);
-            return { ...defaultState };
+    olympus: {
+        id: "olympus",
+        title: "Olympus Fate",
+        category: "MYTHIC ORIGINAL",
+        description: "Сила небес",
+        visual: "olympus-visual",
+        emblem: "O",
+        symbols: ["O", "◆", "★", "7", "V"],
+        colors: ["#8fc5ff", "#b79cff", "#ffd36e", "#fff1b5", "#e8bd61"],
+        payouts: {
+            "O": 8,
+            "◆": 12,
+            "★": 18,
+            "7": 35,
+            "V": 70
+        }
+    },
+
+    jungle: {
+        id: "jungle",
+        title: "Jungle Fortune",
+        category: "WILD ORIGINAL",
+        description: "Тайна джунглей",
+        visual: "jungle-visual",
+        emblem: "J",
+        symbols: ["J", "◆", "★", "7", "V"],
+        colors: ["#61e7a2", "#b8e78d", "#ffd56e", "#fff1b5", "#e8bd61"],
+        payouts: {
+            "J": 8,
+            "◆": 12,
+            "★": 20,
+            "7": 38,
+            "V": 75
         }
     }
 
-    let state = loadState();
-
-    function saveState() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
+};
 
 
-    /* =====================================================
-       HELPERS
-    ===================================================== */
+/* =========================================
+   STATE
+========================================= */
 
-    const $ = (selector) => document.querySelector(selector);
-    const $$ = (selector) => [...document.querySelectorAll(selector)];
+let account = null;
 
-    function formatNumber(number) {
-        return Number(number || 0).toLocaleString("uk-UA", {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-        });
-    }
+let currentGame = null;
 
-    function formatMoney(number) {
-        return Number(number || 0).toLocaleString("uk-UA", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        });
-    }
+let balance = 10000;
 
-    function random(min, max) {
-        return Math.random() * (max - min) + min;
-    }
+let bet = 100;
 
-    function randomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+let isSpinning = false;
 
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
+let autoMode = false;
 
-    function todayKey() {
-        const date = new Date();
+let turboMode = false;
 
-        return [
-            date.getFullYear(),
-            String(date.getMonth() + 1).padStart(2, "0"),
-            String(date.getDate()).padStart(2, "0")
-        ].join("-");
-    }
+let soundOn = true;
+
+let autoTimer = null;
+
+let totalWin = 0;
+
+let gamesPlayed = 0;
 
 
-    /* =====================================================
-       TOAST
-    ===================================================== */
+/* =========================================
+   DOM
+========================================= */
 
-    let toastTimer = null;
+const authScreen = document.getElementById("authScreen");
+const mainApp = document.getElementById("mainApp");
+const gameScreen = document.getElementById("gameScreen");
 
-    function showToast(title, message) {
-        const toast = $("#toast");
+const loginTab = document.getElementById("loginTab");
+const registerTab = document.getElementById("registerTab");
 
-        if (!toast) return;
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
 
-        $("#toastTitle").textContent = title;
-        $("#toastMessage").textContent = message;
+const loginName = document.getElementById("loginName");
+const loginPassword = document.getElementById("loginPassword");
 
-        toast.classList.add("show");
+const registerName = document.getElementById("registerName");
+const registerPassword = document.getElementById("registerPassword");
+const registerPassword2 = document.getElementById("registerPassword2");
 
-        clearTimeout(toastTimer);
+const headerBalance = document.getElementById("headerBalance");
+const gameBalance = document.getElementById("gameBalance");
 
-        toastTimer = setTimeout(() => {
-            toast.classList.remove("show");
-        }, 3500);
-    }
+const profileName = document.getElementById("profileName");
 
+const profileButton = document.getElementById("profileButton");
+const profileModal = document.getElementById("profileModal");
 
-    /* =====================================================
-       BALANCE / PROFILE UI
-    ===================================================== */
+const profileModalName = document.getElementById("profileModalName");
+const profileModalBalance = document.getElementById("profileModalBalance");
+const profileGamesPlayed = document.getElementById("profileGamesPlayed");
+const profileTotalWin = document.getElementById("profileTotalWin");
 
-    function updateBalanceUI() {
-        const balance = formatNumber(state.balance);
+const logoutButton = document.getElementById("logoutButton");
+const profileLogout = document.getElementById("profileLogout");
 
-        const balanceValue = $("#balanceValue");
-        const menuBalance = $("#menuBalance");
-        const gameBalance = $("#gameBalance");
+const closeProfile = document.getElementById("closeProfile");
 
-        if (balanceValue) {
-            balanceValue.textContent = balance;
-        }
+const featuredGames = document.getElementById("featuredGames");
+const allGames = document.getElementById("allGames");
 
-        if (menuBalance) {
-            menuBalance.textContent = balance;
-        }
+const closeGame = document.getElementById("closeGame");
 
-        if (gameBalance) {
-            gameBalance.textContent = balance;
-        }
-    }
+const gameTitle = document.getElementById("gameTitle");
+const gameCategory = document.getElementById("gameCategory");
+const machineGameName = document.getElementById("machineGameName");
 
-    function updateProfileUI() {
+const currentBetLabel = document.getElementById("currentBetLabel");
+const betValue = document.getElementById("betValue");
 
-        const guestButtons = $("#guestButtons");
-        const profileArea = $("#profileArea");
+const winAmount = document.getElementById("winAmount");
 
-        if (!guestButtons || !profileArea) return;
+const gameModeLabel = document.getElementById("gameModeLabel");
 
-        if (state.loggedIn && state.user) {
+const spinButton = document.getElementById("spinButton");
 
-            guestButtons.classList.add("hidden");
-            profileArea.classList.remove("hidden");
+const betMinus = document.getElementById("betMinus");
+const betPlus = document.getElementById("betPlus");
 
-            const name = state.user.name || "Player";
-            const letter = name.charAt(0).toUpperCase();
+const autoButton = document.getElementById("autoButton");
+const turboButton = document.getElementById("turboButton");
 
-            $("#profileName").textContent = name;
-            $("#menuName").textContent = name;
-            $("#profileAvatar").textContent = letter;
-            $("#menuAvatar").textContent = letter;
+const gameMessage = document.getElementById("gameMessage");
 
-        } else {
+const paytableButton = document.getElementById("paytableButton");
+const paytableModal = document.getElementById("paytableModal");
+const closePaytable = document.getElementById("closePaytable");
+const paytableContent = document.getElementById("paytableContent");
 
-            guestButtons.classList.remove("hidden");
-            profileArea.classList.add("hidden");
-        }
+const soundButton = document.getElementById("soundButton");
 
-        updateBalanceUI();
-        updateBonusUI();
-    }
+const supportForm = document.getElementById("supportForm");
 
-
-    /* =====================================================
-       ROUTER
-    ===================================================== */
-
-    const validRoutes = [
-        "home",
-        "games",
-        "bonuses",
-        "support",
-        "login",
-        "register"
-    ];
-
-    function getRoute() {
-        const hash = window.location.hash.replace("#", "").trim();
-
-        if (!hash) {
-            return "home";
-        }
-
-        return validRoutes.includes(hash) ? hash : "home";
-    }
-
-    function navigate(route) {
-        window.location.hash = route;
-    }
-
-    function setActiveNavigation(route) {
-
-        $$("[data-route]").forEach(link => {
-            const linkRoute = link.dataset.route;
-
-            link.classList.toggle(
-                "active",
-                linkRoute === route
-            );
-        });
-    }
-
-    function renderRoute() {
-
-        const route = getRoute();
-
-        $$(".page").forEach(page => {
-            page.classList.remove("active");
-        });
-
-        const page = $("#page-" + route);
-
-        if (page) {
-            page.classList.add("active");
-        }
-
-        setActiveNavigation(route);
-
-        $("#mobileNav")?.classList.remove("open");
-
-        window.scrollTo({
-            top: 0,
-            behavior: "instant"
-        });
-    }
+const toast = document.getElementById("toast");
+const toastText = document.getElementById("toastText");
 
 
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
+/* =========================================
+   INIT
+========================================= */
 
-    const mobileMenuButton = $("#mobileMenuButton");
-    const mobileNav = $("#mobileNav");
+document.addEventListener("DOMContentLoaded", () => {
 
-    mobileMenuButton?.addEventListener("click", () => {
-        mobileNav.classList.toggle("open");
+    buildGameCards();
+
+    setupAuth();
+
+    setupNavigation();
+
+    setupGameControls();
+
+    setupProfile();
+
+    setupSupport();
+
+    setupPaytable();
+
+    loadSession();
+
+});
+
+
+/* =========================================
+   AUTH
+========================================= */
+
+function setupAuth() {
+
+    loginTab.addEventListener("click", () => {
+        showLogin();
     });
 
-
-    /* =====================================================
-       PROFILE MENU
-    ===================================================== */
-
-    $("#profileButton")?.addEventListener("click", (event) => {
-        event.stopPropagation();
-
-        $("#profileArea").classList.toggle("open");
+    registerTab.addEventListener("click", () => {
+        showRegister();
     });
 
-    document.addEventListener("click", (event) => {
-
-        const profileArea = $("#profileArea");
-
-        if (!profileArea) return;
-
-        if (!profileArea.contains(event.target)) {
-            profileArea.classList.remove("open");
-        }
-    });
-
-
-    /* =====================================================
-       WELCOME
-    ===================================================== */
-
-    const welcomeOverlay = $("#welcomeOverlay");
-
-    function showWelcomeIfNeeded() {
-
-        const alreadySeen =
-            sessionStorage.getItem("velora_welcome_seen");
-
-        if (!alreadySeen) {
-            setTimeout(() => {
-                welcomeOverlay?.classList.add("open");
-            }, 900);
-        }
-    }
-
-    $("#closeWelcome")?.addEventListener("click", () => {
-        welcomeOverlay?.classList.remove("open");
-        sessionStorage.setItem("velora_welcome_seen", "1");
-    });
-
-    $("#welcomePlay")?.addEventListener("click", () => {
-        welcomeOverlay?.classList.remove("open");
-        sessionStorage.setItem("velora_welcome_seen", "1");
-    });
-
-    welcomeOverlay?.addEventListener("click", (event) => {
-
-        if (event.target === welcomeOverlay) {
-            welcomeOverlay.classList.remove("open");
-            sessionStorage.setItem("velora_welcome_seen", "1");
-        }
-    });
-
-
-    /* =====================================================
-       REGISTER
-    ===================================================== */
-
-    $("#registerForm")?.addEventListener("submit", async (event) => {
+    loginForm.addEventListener("submit", event => {
 
         event.preventDefault();
 
-        const name = $("#registerName").value.trim();
-        const email = $("#registerEmail").value.trim().toLowerCase();
-        const password = $("#registerPassword").value;
-        const terms = $("#registerTerms").checked;
+        const name = loginName.value.trim();
+        const password = loginPassword.value;
 
-        if (name.length < 2) {
-            showToast("VELORA", "Ім'я повинно містити щонайменше 2 символи.");
-            return;
-        }
+        const saved = getSavedAccount();
 
-        if (password.length < 6) {
-            showToast("VELORA", "Пароль повинен містити щонайменше 6 символів.");
-            return;
-        }
+        if (!saved) {
 
-        if (!terms) {
-            showToast("VELORA", "Потрібно погодитися з правилами.");
-            return;
-        }
+            showToast("Аккаунт не найден. Сначала зарегистрируйтесь.");
 
-        const submit = event.target.querySelector("button[type='submit']");
+            showRegister();
 
-        submit.disabled = true;
-        submit.innerHTML = "<strong>СТВОРЕННЯ...</strong>";
-
-        await sleep(1400);
-
-        state.registered = true;
-        state.loggedIn = true;
-
-        state.user = {
-            name,
-            email,
-            password
-        };
-
-        state.balance = 10000;
-        state.xp = 0;
-        state.level = 1;
-        state.welcomeClaimed = false;
-        state.totalSpins = 0;
-        state.totalWins = 0;
-
-        saveState();
-
-        submit.disabled = false;
-        submit.innerHTML = "Створити акаунт <span>→</span>";
-
-        updateProfileUI();
-
-        showToast(
-            "Профіль створено",
-            "Ласкаво просимо до VELORA. Перенаправлення..."
-        );
-
-        await sleep(1600);
-
-        navigate("games");
-    });
-
-
-    /* =====================================================
-       LOGIN
-    ===================================================== */
-
-    $("#loginForm")?.addEventListener("submit", async (event) => {
-
-        event.preventDefault();
-
-        const email = $("#loginEmail").value.trim().toLowerCase();
-        const password = $("#loginPassword").value;
-
-        if (!state.registered || !state.user) {
-            showToast(
-                "VELORA",
-                "Профіль ще не створений. Зареєструйся спочатку."
-            );
             return;
         }
 
         if (
-            email !== state.user.email ||
-            password !== state.user.password
+            name.toLowerCase() !== saved.name.toLowerCase() ||
+            password !== saved.password
         ) {
-            showToast(
-                "Помилка входу",
-                "Email або пароль введено неправильно."
-            );
+
+            showToast("Неверное имя пользователя или пароль.");
+
             return;
         }
 
-        const submit = event.target.querySelector("button[type='submit']");
+        account = saved;
 
-        submit.disabled = true;
-        submit.innerHTML = "<strong>ВХІД...</strong>";
+        balance = Number(saved.balance || 10000);
 
-        await sleep(900);
+        totalWin = Number(saved.totalWin || 0);
 
-        state.loggedIn = true;
+        gamesPlayed = Number(saved.gamesPlayed || 0);
 
-        saveState();
+        saveSession();
 
-        updateProfileUI();
+        enterApplication();
 
-        submit.disabled = false;
-        submit.innerHTML = "Увійти <span>→</span>";
-
-        showToast(
-            "VELORA",
-            "Вхід виконано успішно."
-        );
-
-        await sleep(700);
-
-        navigate("home");
     });
 
 
-    /* =====================================================
-       LOGOUT
-    ===================================================== */
-
-    $("#logoutButton")?.addEventListener("click", () => {
-
-        state.loggedIn = false;
-
-        saveState();
-
-        $("#profileArea")?.classList.remove("open");
-
-        updateProfileUI();
-
-        showToast(
-            "VELORA",
-            "Ти вийшов із профілю."
-        );
-
-        navigate("home");
-    });
-
-
-    /* =====================================================
-       PASSWORD VISIBILITY
-    ===================================================== */
-
-    $$(".show-password").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const target = $("#" + button.dataset.target);
-
-            if (!target) return;
-
-            if (target.type === "password") {
-
-                target.type = "text";
-                button.textContent = "HIDE";
-
-            } else {
-
-                target.type = "password";
-                button.textContent = "SHOW";
-            }
-        });
-    });
-
-
-    /* =====================================================
-       FORGOT PASSWORD
-    ===================================================== */
-
-    $("#forgotPassword")?.addEventListener("click", () => {
-
-        showToast(
-            "Демо-режим",
-            "Відновлення пароля буде підключено після додавання backend."
-        );
-    });
-
-
-    /* =====================================================
-       BONUS SYSTEM
-    ===================================================== */
-
-    function updateBonusUI() {
-
-        const progress = $("#levelProgress");
-        const levelText = $("#levelText");
-        const welcomeStatus = $("#welcomeStatus");
-        const dailyStatus = $("#dailyStatus");
-
-        if (!progress || !levelText) return;
-
-        const xpForLevel = 1000;
-        const xpInsideLevel = state.xp % xpForLevel;
-
-        progress.style.width =
-            Math.max(4, (xpInsideLevel / xpForLevel) * 100) + "%";
-
-        levelText.textContent =
-            `Рівень ${state.level} · ${state.xp} XP`;
-
-        if (state.welcomeClaimed) {
-            welcomeStatus.textContent = "Бонус уже отримано";
-        } else {
-            welcomeStatus.textContent = "Доступний один раз на акаунт";
-        }
-
-        const today = todayKey();
-
-        if (state.lastDailyBonus === today) {
-            dailyStatus.textContent = "Бонус уже отримано сьогодні";
-        } else {
-            dailyStatus.textContent = "Доступний сьогодні";
-        }
-    }
-
-    $("#claimWelcome")?.addEventListener("click", () => {
-
-        if (state.welcomeClaimed) {
-            showToast(
-                "VELORA",
-                "Стартовий бонус уже було отримано."
-            );
-            return;
-        }
-
-        state.balance += 10000;
-        state.welcomeClaimed = true;
-
-        saveState();
-
-        updateBalanceUI();
-        updateBonusUI();
-
-        showToast(
-            "+10 000 VC",
-            "Стартовий бонус додано до балансу."
-        );
-    });
-
-
-    $("#dailyBonus")?.addEventListener("click", () => {
-
-        const today = todayKey();
-
-        if (state.lastDailyBonus === today) {
-            showToast(
-                "VELORA",
-                "Сьогоднішній бонус уже отримано."
-            );
-            return;
-        }
-
-        state.balance += 500;
-        state.lastDailyBonus = today;
-
-        saveState();
-
-        updateBalanceUI();
-        updateBonusUI();
-
-        showToast(
-            "+500 VC",
-            "Щоденний бонус додано."
-        );
-    });
-
-
-    /* =====================================================
-       SUPPORT FORM
-    ===================================================== */
-
-    $("#supportForm")?.addEventListener("submit", (event) => {
+    registerForm.addEventListener("submit", event => {
 
         event.preventDefault();
 
-        const name = $("#supportName").value.trim();
-        const email = $("#supportEmail").value.trim();
-        const message = $("#supportMessage").value.trim();
+        const name = registerName.value.trim();
+        const password = registerPassword.value;
+        const password2 = registerPassword2.value;
 
-        if (!name || !email || !message) {
-            showToast(
-                "VELORA",
-                "Заповни всі необхідні поля."
-            );
+        if (name.length < 3) {
+
+            showToast("Имя должно содержать минимум 3 символа.");
+
             return;
         }
 
-        event.target.reset();
+        if (password.length < 4) {
 
-        showToast(
-            "Повідомлення створено",
-            "У демо-версії воно не надсилається на сервер."
-        );
+            showToast("Пароль должен содержать минимум 4 символа.");
+
+            return;
+        }
+
+        if (password !== password2) {
+
+            showToast("Пароли не совпадают.");
+
+            return;
+        }
+
+        const saved = getSavedAccount();
+
+        if (saved) {
+
+            showToast("Аккаунт уже существует. Выполните вход.");
+
+            showLogin();
+
+            return;
+        }
+
+        account = {
+            name,
+            password,
+            balance: 10000,
+            totalWin: 0,
+            gamesPlayed: 0
+        };
+
+        balance = 10000;
+
+        totalWin = 0;
+
+        gamesPlayed = 0;
+
+        saveAccount();
+
+        saveSession();
+
+        registerForm.reset();
+
+        showToast("Аккаунт создан. Добро пожаловать в VELORA.");
+
+        setTimeout(() => {
+
+            enterApplication();
+
+        }, 1200);
+
+    });
+
+}
+
+
+function showLogin() {
+
+    loginTab.classList.add("active");
+    registerTab.classList.remove("active");
+
+    loginForm.classList.remove("hidden");
+    registerForm.classList.add("hidden");
+
+}
+
+
+function showRegister() {
+
+    registerTab.classList.add("active");
+    loginTab.classList.remove("active");
+
+    registerForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+
+}
+
+
+/* =========================================
+   SESSION
+========================================= */
+
+function loadSession() {
+
+    const session = localStorage.getItem(STORAGE_USER);
+
+    if (!session) {
+
+        showAuth();
+
+        return;
+    }
+
+    const saved = getSavedAccount();
+
+    if (!saved) {
+
+        localStorage.removeItem(STORAGE_USER);
+
+        showAuth();
+
+        return;
+    }
+
+    account = saved;
+
+    balance = Number(saved.balance || 10000);
+
+    totalWin = Number(saved.totalWin || 0);
+
+    gamesPlayed = Number(saved.gamesPlayed || 0);
+
+    enterApplication();
+
+}
+
+
+function getSavedAccount() {
+
+    try {
+
+        const raw = localStorage.getItem(STORAGE_ACCOUNT);
+
+        if (!raw) {
+            return null;
+        }
+
+        return JSON.parse(raw);
+
+    } catch (error) {
+
+        return null;
+
+    }
+
+}
+
+
+function saveAccount() {
+
+    if (!account) {
+        return;
+    }
+
+    account.balance = balance;
+
+    account.totalWin = totalWin;
+
+    account.gamesPlayed = gamesPlayed;
+
+    localStorage.setItem(
+        STORAGE_ACCOUNT,
+        JSON.stringify(account)
+    );
+
+}
+
+
+function saveSession() {
+
+    if (!account) {
+        return;
+    }
+
+    localStorage.setItem(
+        STORAGE_USER,
+        account.name
+    );
+
+    saveAccount();
+
+}
+
+
+function clearSession() {
+
+    localStorage.removeItem(STORAGE_USER);
+
+}
+
+
+function enterApplication() {
+
+    authScreen.classList.add("hidden");
+
+    mainApp.classList.remove("hidden");
+
+    gameScreen.classList.add("hidden");
+
+    updateUserUI();
+
+    showPage("home");
+
+}
+
+
+function showAuth() {
+
+    authScreen.classList.remove("hidden");
+
+    mainApp.classList.add("hidden");
+
+    gameScreen.classList.add("hidden");
+
+}
+
+
+function logout() {
+
+    stopAuto();
+
+    currentGame = null;
+
+    clearSession();
+
+    account = null;
+
+    balance = 10000;
+
+    totalWin = 0;
+
+    gamesPlayed = 0;
+
+    profileModal.classList.add("hidden");
+
+    showAuth();
+
+    showLogin();
+
+    loginForm.reset();
+
+}
+
+
+/* =========================================
+   USER UI
+========================================= */
+
+function updateUserUI() {
+
+    const name = account?.name || "Игрок";
+
+    profileName.textContent = name;
+
+    profileModalName.textContent = name;
+
+    headerBalance.textContent = formatNumber(balance);
+
+    gameBalance.textContent = `${formatNumber(balance)} VC`;
+
+    profileModalBalance.textContent =
+        `${formatNumber(balance)} VC`;
+
+    profileGamesPlayed.textContent =
+        gamesPlayed.toString();
+
+    profileTotalWin.textContent =
+        `${formatNumber(totalWin)} VC`;
+
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function setupNavigation() {
+
+    document.querySelectorAll("[data-page]").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const page = button.dataset.page;
+
+            showPage(page);
+
+        });
+
     });
 
 
-    /* =====================================================
-       GAME DATA
-    ===================================================== */
+    document.getElementById("brandButton")
+        .addEventListener("click", () => {
 
-    const games = {
+            showPage("home");
 
-        candy: {
-            title: "Candy Kingdom",
-            logo: "CANDY",
-            sub: "KINGDOM",
-            description:
-                "Каскадні комбінації у солодкому королівстві.",
-            reels: 5,
-            rows: 5,
-            maxWin: 5000,
-            baseWinChance: .37,
-            symbols: [
-                {
-                    id: "crown",
-                    name: "Royal Crown",
-                    color: "#e5bd50",
-                    multiplier: 8
-                },
-                {
-                    id: "heart",
-                    name: "Ruby Heart",
-                    color: "#ed6d7b",
-                    multiplier: 6
-                },
-                {
-                    id: "star",
-                    name: "Golden Star",
-                    color: "#f5d66d",
-                    multiplier: 5
-                },
-                {
-                    id: "candy",
-                    name: "Blue Candy",
-                    color: "#69bdf1",
-                    multiplier: 4
-                },
-                {
-                    id: "berry",
-                    name: "Berry",
-                    color: "#bd70e5",
-                    multiplier: 3
-                },
-                {
-                    id: "mint",
-                    name: "Mint",
-                    color: "#64d7a2",
-                    multiplier: 2
-                }
-            ]
-        },
+        });
 
-        olympus: {
-            title: "Olympus Fate",
-            logo: "OLYMPUS",
-            sub: "FATE",
-            description:
-                "Містичний світ богів та великих множників.",
-            reels: 6,
-            rows: 5,
-            maxWin: 5000,
-            baseWinChance: .29,
-            symbols: [
-                {
-                    id: "bolt",
-                    name: "Thunder",
-                    color: "#7fd7ff",
-                    multiplier: 12
-                },
-                {
-                    id: "sun",
-                    name: "Solar Crown",
-                    color: "#f2c85f",
-                    multiplier: 9
-                },
-                {
-                    id: "gem",
-                    name: "Divine Gem",
-                    color: "#bf8bff",
-                    multiplier: 7
-                },
-                {
-                    id: "helm",
-                    name: "Warrior Helm",
-                    color: "#aeb7c2",
-                    multiplier: 5
-                },
-                {
-                    id: "eye",
-                    name: "Oracle Eye",
-                    color: "#62d6b5",
-                    multiplier: 4
-                },
-                {
-                    id: "ring",
-                    name: "Golden Ring",
-                    color: "#e9ad51",
-                    multiplier: 3
-                }
-            ]
-        },
+}
 
-        jungle: {
-            title: "Jungle Fortune",
-            logo: "JUNGLE",
-            sub: "FORTUNE",
-            description:
-                "Дикі символи, скарби та джунглеві множники.",
-            reels: 6,
-            rows: 4,
-            maxWin: 3000,
-            baseWinChance: .32,
-            symbols: [
-                {
-                    id: "idol",
-                    name: "Golden Idol",
-                    color: "#e2b84d",
-                    multiplier: 10
-                },
-                {
-                    id: "mask",
-                    name: "Jungle Mask",
-                    color: "#72d7a2",
-                    multiplier: 8
-                },
-                {
-                    id: "ruby",
-                    name: "Red Ruby",
-                    color: "#e66e64",
-                    multiplier: 6
-                },
-                {
-                    id: "leaf",
-                    name: "Emerald Leaf",
-                    color: "#57bd7a",
-                    multiplier: 5
-                },
-                {
-                    id: "sun",
-                    name: "Sun Stone",
-                    color: "#e8c45e",
-                    multiplier: 4
-                },
-                {
-                    id: "coin",
-                    name: "Ancient Coin",
-                    color: "#cda154",
-                    multiplier: 3
-                }
-            ]
+
+function showPage(pageName) {
+
+    if (gameScreen && !gameScreen.classList.contains("hidden")) {
+
+        gameScreen.classList.add("hidden");
+
+    }
+
+    document.querySelectorAll(".page").forEach(page => {
+
+        page.classList.remove("active-page");
+
+    });
+
+    const page = document.getElementById(
+        `page-${pageName}`
+    );
+
+    if (page) {
+
+        page.classList.add("active-page");
+
+    }
+
+    document.querySelectorAll(".nav-item").forEach(button => {
+
+        button.classList.toggle(
+            "active",
+            button.dataset.page === pageName
+        );
+
+    });
+
+    document.querySelectorAll(".mobile-nav-item").forEach(button => {
+
+        button.classList.toggle(
+            "active",
+            button.dataset.page === pageName
+        );
+
+    });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================
+   GAME CARDS
+========================================= */
+
+function buildGameCards() {
+
+    const list = Object.values(games);
+
+    featuredGames.innerHTML = "";
+
+    allGames.innerHTML = "";
+
+    list.forEach(game => {
+
+        featuredGames.appendChild(
+            createGameCard(game)
+        );
+
+        allGames.appendChild(
+            createGameCard(game)
+        );
+
+    });
+
+}
+
+
+function createGameCard(game) {
+
+    const article = document.createElement("article");
+
+    article.className = "game-card";
+
+    article.innerHTML = `
+
+        <div class="game-visual ${game.visual}">
+
+            <div class="game-logo-art">
+
+                <div class="game-emblem">
+                    ${game.emblem}
+                </div>
+
+                <div class="game-mini-title">
+                    ${game.title}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="game-card-info">
+
+            <div class="game-card-top">
+
+                <span class="original-badge">
+                    ORIGINAL
+                </span>
+
+                <span class="game-type">
+                    5 × 3
+                </span>
+
+            </div>
+
+            <h3>
+                ${game.title}
+            </h3>
+
+            <p>
+                ${game.description}
+            </p>
+
+            <button
+                class="primary-button play-game"
+                data-game="${game.id}"
+            >
+                ИГРАТЬ
+                <b>→</b>
+            </button>
+
+        </div>
+
+    `;
+
+    article
+        .querySelector(".play-game")
+        .addEventListener("click", () => {
+
+            openGame(game.id);
+
+        });
+
+    return article;
+
+}
+
+
+/* =========================================
+   GAME OPEN
+========================================= */
+
+function openGame(gameId) {
+
+    const game = games[gameId];
+
+    if (!game) {
+        return;
+    }
+
+    currentGame = game;
+
+    bet = Math.min(
+        bet,
+        Math.max(10, balance)
+    );
+
+    if (balance < 10) {
+
+        showToast("Недостаточно виртуальных средств.");
+
+        return;
+    }
+
+    gameTitle.textContent = game.title;
+
+    gameCategory.textContent = game.category;
+
+    machineGameName.textContent =
+        game.title.toUpperCase();
+
+    winAmount.textContent = "0 VC";
+
+    gameMessage.textContent =
+        "Сделайте ставку и нажмите SPIN";
+
+    gameMessage.classList.remove("win");
+
+    updateBetUI();
+
+    renderInitialReels();
+
+    gameScreen.classList.remove("hidden");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "instant"
+    });
+
+}
+
+
+function closeCurrentGame() {
+
+    stopAuto();
+
+    gameScreen.classList.add("hidden");
+
+    currentGame = null;
+
+    showPage("games");
+
+}
+
+
+/* =========================================
+   REELS
+========================================= */
+
+function renderInitialReels() {
+
+    if (!currentGame) {
+        return;
+    }
+
+    const reels = document.querySelectorAll(".reel");
+
+    reels.forEach(reel => {
+
+        const cells =
+            reel.querySelectorAll(".symbol-cell");
+
+        cells.forEach(cell => {
+
+            const symbol =
+                randomSymbol();
+
+            setSymbolStyle(
+                cell,
+                symbol
+            );
+
+        });
+
+    });
+
+}
+
+
+function randomSymbol() {
+
+    if (!currentGame) {
+        return "V";
+    }
+
+    const symbols = currentGame.symbols;
+
+    return symbols[
+        Math.floor(Math.random() * symbols.length)
+    ];
+
+}
+
+
+function setSymbolStyle(cell, symbol) {
+
+    cell.textContent = symbol;
+
+    const index =
+        currentGame.symbols.indexOf(symbol);
+
+    const color =
+        currentGame.colors[index] || "#ffffff";
+
+    cell.style.color = color;
+
+}
+
+
+function generateMatrix() {
+
+    const matrix = [];
+
+    for (let reel = 0; reel < 5; reel++) {
+
+        matrix[reel] = [];
+
+        for (let row = 0; row < 3; row++) {
+
+            matrix[reel][row] =
+                randomSymbol();
+
         }
+
+    }
+
+    return matrix;
+
+}
+
+
+function renderMatrix(matrix) {
+
+    const reels =
+        document.querySelectorAll(".reel");
+
+    reels.forEach((reel, reelIndex) => {
+
+        const cells =
+            reel.querySelectorAll(".symbol-cell");
+
+        cells.forEach((cell, rowIndex) => {
+
+            const symbol =
+                matrix[reelIndex][rowIndex];
+
+            setSymbolStyle(
+                cell,
+                symbol
+            );
+
+            cell.classList.remove("win");
+
+        });
+
+    });
+
+}
+
+
+/* =========================================
+   SPIN
+========================================= */
+
+async function spin() {
+
+    if (isSpinning || !currentGame) {
+        return;
+    }
+
+    if (balance < bet) {
+
+        stopAuto();
+
+        showToast("Недостаточно виртуального баланса.");
+
+        return;
+
+    }
+
+    isSpinning = true;
+
+    spinButton.classList.add("spinning");
+
+    spinButton.disabled = true;
+
+    balance -= bet;
+
+    gamesPlayed++;
+
+    saveAccount();
+
+    updateUserUI();
+
+    const duration =
+        turboMode ? 300 : 850;
+
+    gameModeLabel.textContent =
+        turboMode ? "TURBO" : "NORMAL";
+
+    gameMessage.classList.remove("win");
+
+    gameMessage.textContent =
+        "Барабаны вращаются...";
+
+    winAmount.textContent = "0 VC";
+
+    const reels =
+        document.querySelectorAll(".reel");
+
+    reels.forEach(reel => {
+
+        reel.classList.add("reel-spinning");
+
+    });
+
+    await animateReels(duration);
+
+    const matrix =
+        generateMatrix();
+
+    renderMatrix(matrix);
+
+    reels.forEach(reel => {
+
+        reel.classList.remove("reel-spinning");
+
+    });
+
+    const result =
+        calculateWin(matrix);
+
+    if (result.win > 0) {
+
+        balance += result.win;
+
+        totalWin += result.win;
+
+        winAmount.textContent =
+            `${formatNumber(result.win)} VC`;
+
+        gameMessage.textContent =
+            `${result.message} +${formatNumber(result.win)} VC`;
+
+        gameMessage.classList.add("win");
+
+        highlightWin(result.symbol);
+
+    } else {
+
+        winAmount.textContent = "0 VC";
+
+        gameMessage.textContent =
+            "Попробуйте ещё раз";
+
+    }
+
+    saveAccount();
+
+    updateUserUI();
+
+    isSpinning = false;
+
+    spinButton.classList.remove("spinning");
+
+    spinButton.disabled = false;
+
+    if (autoMode) {
+
+        scheduleAutoSpin();
+
+    }
+
+}
+
+
+/* =========================================
+   REEL ANIMATION
+========================================= */
+
+function animateReels(duration) {
+
+    return new Promise(resolve => {
+
+        const start =
+            performance.now();
+
+        const reels =
+            document.querySelectorAll(".reel");
+
+        const interval =
+            setInterval(() => {
+
+                reels.forEach(reel => {
+
+                    const cells =
+                        reel.querySelectorAll(".symbol-cell");
+
+                    cells.forEach(cell => {
+
+                        setSymbolStyle(
+                            cell,
+                            randomSymbol()
+                        );
+
+                    });
+
+                });
+
+                if (
+                    performance.now() - start
+                    >= duration
+                ) {
+
+                    clearInterval(interval);
+
+                    resolve();
+
+                }
+
+            }, turboMode ? 55 : 90);
+
+    });
+
+}
+
+
+/* =========================================
+   WIN CALCULATION
+========================================= */
+
+function calculateWin(matrix) {
+
+    const rows = [0,1,2];
+
+    let bestWin = 0;
+
+    let bestSymbol = null;
+
+    let message = "Небольшой выигрыш";
+
+    rows.forEach(row => {
+
+        const line = matrix.map(
+            reel => reel[row]
+        );
+
+        const first = line[0];
+
+        let count = 1;
+
+        for (let i = 1; i < line.length; i++) {
+
+            if (line[i] === first) {
+
+                count++;
+
+            } else {
+
+                break;
+
+            }
+
+        }
+
+        if (count >= 3) {
+
+            const multiplier =
+                currentGame.payouts[first] || 5;
+
+            let win =
+                bet * multiplier;
+
+            if (count === 4) {
+
+                win *= 2;
+
+            }
+
+            if (count === 5) {
+
+                win *= 4;
+
+            }
+
+            if (win > bestWin) {
+
+                bestWin = win;
+
+                bestSymbol = first;
+
+                if (count === 5) {
+
+                    message = "MEGA WIN";
+
+                } else if (count === 4) {
+
+                    message = "BIG WIN";
+
+                } else {
+
+                    message = "WIN";
+
+                }
+
+            }
+
+        }
+
+    });
+
+
+    /*
+       Small random bonus to keep the demo
+       entertaining, but always tied to
+       virtual credits.
+    */
+
+    if (
+        bestWin === 0 &&
+        Math.random() < 0.12
+    ) {
+
+        bestWin =
+            Math.round(bet * 1.5);
+
+        bestSymbol =
+            matrix[2][1];
+
+        message = "BONUS WIN";
+
+    }
+
+    return {
+        win: bestWin,
+        symbol: bestSymbol,
+        message
     };
 
+}
 
-    let currentGame = null;
-    let currentGameKey = "candy";
 
-    let currentBet = 50;
-    const betSteps = [
+/* =========================================
+   HIGHLIGHT
+========================================= */
+
+function highlightWin(symbol) {
+
+    if (!symbol) {
+        return;
+    }
+
+    document
+        .querySelectorAll(".symbol-cell")
+        .forEach(cell => {
+
+            if (cell.textContent === symbol) {
+
+                cell.classList.add("win");
+
+                setTimeout(() => {
+
+                    cell.classList.remove("win");
+
+                }, 1300);
+
+            }
+
+        });
+
+}
+
+
+/* =========================================
+   BET CONTROLS
+========================================= */
+
+function setupGameControls() {
+
+    closeGame.addEventListener(
+        "click",
+        closeCurrentGame
+    );
+
+    spinButton.addEventListener(
+        "click",
+        spin
+    );
+
+    betMinus.addEventListener(
+        "click",
+        decreaseBet
+    );
+
+    betPlus.addEventListener(
+        "click",
+        increaseBet
+    );
+
+    autoButton.addEventListener(
+        "click",
+        toggleAuto
+    );
+
+    turboButton.addEventListener(
+        "click",
+        toggleTurbo
+    );
+
+    soundButton.addEventListener(
+        "click",
+        toggleSound
+    );
+
+}
+
+
+function decreaseBet() {
+
+    const steps = [
         10,
         25,
         50,
         100,
         250,
-        500
+        500,
+        1000
     ];
 
-    let autoMode = false;
-    let turboMode = false;
-    let spinning = false;
-    let autoTimer = null;
-
-
-    /* =====================================================
-       GAME DOM
-    ===================================================== */
-
-    const gameModal = $("#gameModal");
-    const reelsContainer = $("#reels");
-    const gameStage = $("#gameStage");
-
-    function openGame(gameKey) {
-
-        const game = games[gameKey];
-
-        if (!game) return;
-
-        currentGame = game;
-        currentGameKey = gameKey;
-
-        autoMode = false;
-        turboMode = false;
-
-        clearTimeout(autoTimer);
-
-        $("#autoButton")?.classList.remove("active");
-        $("#turboButton")?.classList.remove("active");
-
-        $("#autoText").textContent = "OFF";
-        $("#turboText").textContent = "OFF";
-
-        $("#gameTitle").textContent = game.title;
-        $("#gameLogoTitle").textContent = game.logo;
-        $("#gameLogoSub").textContent = game.sub;
-
-        gameStage.classList.remove(
-            "candy",
-            "olympus",
-            "jungle"
+    const index =
+        steps.findIndex(
+            value => value >= bet
         );
 
-        gameStage.classList.add(gameKey);
+    if (index <= 0) {
 
-        $("#winAmount").textContent = "0.00";
+        bet = steps[0];
 
-        buildReels();
+    } else {
 
-        updateBalanceUI();
+        bet = steps[index - 1];
 
-        gameModal.classList.add("open");
-        document.body.classList.add("modal-open");
-
-        setTimeout(() => {
-            $("#gameMessage").textContent =
-                "Вибери ставку та натисни SPIN";
-        }, 100);
     }
 
+    updateBetUI();
 
-    function closeGame() {
-
-        autoMode = false;
-
-        clearTimeout(autoTimer);
-
-        gameModal.classList.remove("open");
-        document.body.classList.remove("modal-open");
-
-        spinning = false;
-    }
+}
 
 
-    $("#closeGame")?.addEventListener("click", closeGame);
+function increaseBet() {
 
-    gameModal?.addEventListener("click", (event) => {
+    const steps = [
+        10,
+        25,
+        50,
+        100,
+        250,
+        500,
+        1000
+    ];
 
-        if (event.target === gameModal) {
-            closeGame();
-        }
-    });
-
-
-    /* =====================================================
-       BUILD REELS
-    ===================================================== */
-
-    function buildReels() {
-
-        if (!currentGame || !reelsContainer) return;
-
-        const reels = currentGame.reels;
-        const rows = currentGame.rows;
-
-        reelsContainer.innerHTML = "";
-
-        for (let column = 0; column < reels; column++) {
-
-            const reel = document.createElement("div");
-
-            reel.className = "reel";
-
-            for (let row = 0; row < rows; row++) {
-
-                const symbol = document.createElement("div");
-
-                symbol.className = "symbol";
-
-                setRandomSymbol(symbol);
-
-                reel.appendChild(symbol);
-            }
-
-            reelsContainer.appendChild(reel);
-        }
-
-        if (reels === 5) {
-            reelsContainer.style.gridTemplateColumns =
-                "repeat(5, 1fr)";
-        } else {
-            reelsContainer.style.gridTemplateColumns =
-                "repeat(6, 1fr)";
-        }
-    }
-
-
-    function setRandomSymbol(element) {
-
-        const symbol =
-            currentGame.symbols[
-                randomInt(0, currentGame.symbols.length - 1)
-            ];
-
-        element.dataset.symbol =
-            getSymbolLetter(symbol.id);
-
-        element.style.setProperty(
-            "--symbol-color",
-            symbol.color
+    const index =
+        steps.findIndex(
+            value => value > bet
         );
 
-        element.dataset.id = symbol.id;
-        element.title = symbol.name;
+    if (index === -1) {
+
+        bet = steps[steps.length - 1];
+
+    } else {
+
+        bet = steps[index];
+
     }
 
+    if (bet > balance && balance > 0) {
 
-    function getSymbolLetter(id) {
-
-        const map = {
-            crown: "C",
-            heart: "H",
-            star: "S",
-            candy: "D",
-            berry: "B",
-            mint: "M",
-
-            bolt: "Z",
-            sun: "S",
-            gem: "G",
-            helm: "H",
-            eye: "E",
-            ring: "R",
-
-            idol: "I",
-            mask: "M",
-            ruby: "R",
-            leaf: "L",
-            coin: "C"
-        };
-
-        return map[id] || "V";
-    }
-
-
-    /* =====================================================
-       BET
-    ===================================================== */
-
-    function updateBetUI() {
-
-        $("#betValue").textContent = formatNumber(currentBet);
-        $("#spinCost").textContent =
-            formatNumber(currentBet) + " VC";
-    }
-
-    function changeBet(direction) {
-
-        const currentIndex = betSteps.indexOf(currentBet);
-
-        let nextIndex =
-            currentIndex + direction;
-
-        nextIndex = Math.max(
-            0,
-            Math.min(
-                betSteps.length - 1,
-                nextIndex
-            )
+        bet = Math.max(
+            10,
+            Math.floor(balance / 10) * 10
         );
 
-        currentBet = betSteps[nextIndex];
-
-        updateBetUI();
     }
 
-    $("#betMinus")?.addEventListener("click", () => {
-        changeBet(-1);
-    });
+    updateBetUI();
 
-    $("#betPlus")?.addEventListener("click", () => {
-        changeBet(1);
-    });
+}
 
 
-    /* =====================================================
-       SPIN
-    ===================================================== */
+function updateBetUI() {
 
-    $("#spinButton")?.addEventListener("click", () => {
-        spin();
-    });
+    betValue.textContent =
+        formatNumber(bet);
+
+    currentBetLabel.textContent =
+        `${formatNumber(bet)} VC`;
+
+}
 
 
-    async function spin() {
+/* =========================================
+   AUTO
+========================================= */
 
-        if (spinning) return;
+function toggleAuto() {
 
-        if (!currentGame) return;
+    autoMode = !autoMode;
 
-        if (state.balance < currentBet) {
+    autoButton.classList.toggle(
+        "active",
+        autoMode
+    );
 
-            showToast(
-                "Недостатньо VC",
-                "Зменш ставку або отримай бонус."
-            );
+    autoButton.querySelector("small").textContent =
+        autoMode ? "ON" : "OFF";
 
-            autoMode = false;
-            clearTimeout(autoTimer);
+    if (autoMode) {
 
-            return;
+        showToast("AUTO включён");
+
+        if (!isSpinning) {
+            scheduleAutoSpin();
         }
 
-        spinning = true;
+    } else {
 
-        state.balance -= currentBet;
-        state.totalSpins++;
+        stopAuto();
 
-        saveState();
-        updateBalanceUI();
+        showToast("AUTO выключен");
 
-        $("#spinButton").disabled = true;
-
-        $("#gameMessage").textContent =
-            "Обертання...";
-
-        $("#winAmount").textContent = "0.00";
-
-        clearWinState();
-
-        reelsContainer.classList.add("spinning");
-
-        const spinDuration =
-            turboMode ? 550 : 1050;
-
-        await animateReels(spinDuration);
-
-        reelsContainer.classList.remove("spinning");
-
-        const result = generateResult();
-
-        applyResult(result);
-
-        spinning = false;
-
-        $("#spinButton").disabled = false;
-
-        if (autoMode) {
-
-            autoTimer = setTimeout(() => {
-
-                if (autoMode) {
-                    spin();
-                }
-
-            }, turboMode ? 350 : 900);
-        }
     }
 
+}
 
-    async function animateReels(duration) {
 
-        const reelElements =
-            $$(".reel", reelsContainer);
+function scheduleAutoSpin() {
 
-        const start =
-            performance.now();
+    clearTimeout(autoTimer);
 
-        return new Promise(resolve => {
-
-            function frame(now) {
-
-                const elapsed = now - start;
-
-                reelElements.forEach((reel, index) => {
-
-                    const symbols =
-                        [...reel.children];
-
-                    symbols.forEach(symbol => {
-
-                        if (
-                            Math.random() <
-                            (turboMode ? .65 : .35)
-                        ) {
-                            setRandomSymbol(symbol);
-                        }
-                    });
-
-                    reel.style.transform =
-                        `translateY(${Math.sin(
-                            elapsed / 40 + index
-                        ) * 2}px)`;
-                });
-
-                if (elapsed < duration) {
-
-                    requestAnimationFrame(frame);
-
-                } else {
-
-                    reelElements.forEach(reel => {
-                        reel.style.transform = "";
-                    });
-
-                    resolve();
-                }
-            }
-
-            requestAnimationFrame(frame);
-        });
+    if (!autoMode) {
+        return;
     }
 
+    autoTimer = setTimeout(() => {
 
-    /* =====================================================
-       RESULT GENERATOR
-    ===================================================== */
+        if (!isSpinning) {
 
-    function generateResult() {
+            if (balance >= bet) {
 
-        const reels =
-            [...reelsContainer.querySelectorAll(".reel")];
-
-        const result = [];
-
-        reels.forEach(reel => {
-
-            const column = [];
-
-            [...reel.children].forEach(symbolElement => {
-
-                setRandomSymbol(symbolElement);
-
-                column.push({
-                    id: symbolElement.dataset.id,
-                    element: symbolElement
-                });
-            });
-
-            result.push(column);
-        });
-
-        let win = 0;
-        let winningElements = [];
-
-        const winChance =
-            currentGame.baseWinChance;
-
-        if (Math.random() < winChance) {
-
-            const targetSymbol =
-                currentGame.symbols[
-                    randomInt(
-                        0,
-                        currentGame.symbols.length - 1
-                    )
-                ];
-
-            const positions = [];
-
-            result.forEach((column, columnIndex) => {
-
-                column.forEach((cell, rowIndex) => {
-
-                    if (
-                        cell.id === targetSymbol.id &&
-                        Math.random() < .55
-                    ) {
-                        positions.push({
-                            columnIndex,
-                            rowIndex,
-                            element: cell.element
-                        });
-                    }
-                });
-            });
-
-            if (positions.length >= 3) {
-
-                const chosen =
-                    positions.slice(
-                        0,
-                        Math.min(
-                            positions.length,
-                            randomInt(3, 8)
-                        )
-                    );
-
-                winningElements =
-                    chosen.map(item => item.element);
-
-                const base =
-                    currentBet *
-                    targetSymbol.multiplier *
-                    (chosen.length - 2);
-
-                const multiplier =
-                    currentGameKey === "olympus"
-                        ? random(1, 2.2)
-                        : currentGameKey === "jungle"
-                            ? random(1, 1.8)
-                            : random(1, 1.6);
-
-                win =
-                    Math.min(
-                        currentGame.maxWin * currentBet,
-                        base * multiplier
-                    );
-            }
-        }
-
-        /*
-           Невелика компенсація нульових раундів,
-           щоб демо-гра не відчувалась повністю порожньою.
-        */
-
-        if (
-            win <= 0 &&
-            state.totalSpins % 7 === 0 &&
-            Math.random() < .6
-        ) {
-
-            const symbol =
-                currentGame.symbols[
-                    randomInt(
-                        0,
-                        currentGame.symbols.length - 1
-                    )
-                ];
-
-            const targetElements = [];
-
-            result.forEach(column => {
-
-                column.forEach(cell => {
-
-                    if (
-                        cell.id === symbol.id &&
-                        targetElements.length < 3
-                    ) {
-                        targetElements.push(cell.element);
-                    }
-                });
-            });
-
-            if (targetElements.length >= 3) {
-
-                winningElements = targetElements;
-
-                win =
-                    currentBet *
-                    symbol.multiplier;
-            }
-        }
-
-        return {
-            win,
-            winningElements
-        };
-    }
-
-
-    /* =====================================================
-       APPLY RESULT
-    ===================================================== */
-
-    async function applyResult(result) {
-
-        const win =
-            Number(result.win || 0);
-
-        if (result.winningElements.length > 0) {
-
-            result.winningElements.forEach(element => {
-                element.classList.add("win");
-            });
-
-            $(".win-lines")?.classList.add("active");
-
-            createParticles(
-                result.winningElements.length
-            );
-
-            await sleep(550);
-
-            state.balance += win;
-            state.totalWins++;
-
-            const xpGain =
-                Math.max(
-                    10,
-                    Math.floor(win / 10)
-                );
-
-            addXP(xpGain);
-
-            saveState();
-
-            updateBalanceUI();
-
-            animateWinNumber(
-                0,
-                win,
-                500
-            );
-
-            $("#gameMessage").textContent =
-                `WIN! +${formatMoney(win)} VC`;
-
-            if (win >= currentBet * 20) {
-
-                showToast(
-                    "BIG WIN",
-                    `Ти виграв ${formatMoney(win)} VC`
-                );
+                spin();
 
             } else {
 
+                stopAuto();
+
                 showToast(
-                    "WIN",
-                    `+${formatMoney(win)} VC`
-                );
-            }
-
-        } else {
-
-            $("#winAmount").textContent = "0.00";
-
-            $("#gameMessage").textContent =
-                "Цього разу без виграшу. Спробуй ще раз.";
-
-            clearWinState();
-        }
-    }
-
-
-    function animateWinNumber(from, to, duration) {
-
-        const element = $("#winAmount");
-
-        if (!element) return;
-
-        const start =
-            performance.now();
-
-        function update(now) {
-
-            const progress =
-                Math.min(
-                    1,
-                    (now - start) / duration
+                    "AUTO остановлен: недостаточно средств."
                 );
 
-            const eased =
-                1 - Math.pow(1 - progress, 3);
-
-            const value =
-                from + (to - from) * eased;
-
-            element.textContent =
-                formatMoney(value);
-
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            }
-        }
-
-        requestAnimationFrame(update);
-    }
-
-
-    function clearWinState() {
-
-        $$(".symbol.win").forEach(element => {
-            element.classList.remove("win");
-        });
-
-        $(".win-lines")?.classList.remove("active");
-    }
-
-
-    function createParticles(amount) {
-
-        const container =
-            $("#gameParticles");
-
-        if (!container) return;
-
-        for (
-            let i = 0;
-            i < Math.min(amount * 3, 24);
-            i++
-        ) {
-
-            const particle =
-                document.createElement("i");
-
-            particle.className = "particle";
-
-            particle.style.left =
-                random(35, 65) + "%";
-
-            particle.style.top =
-                random(40, 65) + "%";
-
-            particle.style.setProperty(
-                "--x",
-                random(-180, 180) + "px"
-            );
-
-            particle.style.setProperty(
-                "--y",
-                random(-180, -40) + "px"
-            );
-
-            container.appendChild(particle);
-
-            setTimeout(() => {
-                particle.remove();
-            }, 1100);
-        }
-    }
-
-
-    /* =====================================================
-       XP / LEVEL
-    ===================================================== */
-
-    function addXP(amount) {
-
-        state.xp += amount;
-
-        const calculatedLevel =
-            Math.floor(state.xp / 1000) + 1;
-
-        if (
-            calculatedLevel >
-            state.level
-        ) {
-
-            state.level =
-                calculatedLevel;
-
-            showToast(
-                "NEW LEVEL",
-                `Ти досяг рівня ${state.level}.`
-            );
-        }
-
-        updateBonusUI();
-    }
-
-
-    /* =====================================================
-       AUTO
-    ===================================================== */
-
-    $("#autoButton")?.addEventListener("click", () => {
-
-        autoMode = !autoMode;
-
-        $("#autoButton")
-            .classList.toggle(
-                "active",
-                autoMode
-            );
-
-        $("#autoText").textContent =
-            autoMode ? "ON" : "OFF";
-
-        if (autoMode) {
-
-            showToast(
-                "AUTO SPIN",
-                "Автоматичні обертання увімкнено."
-            );
-
-            if (!spinning) {
-                spin();
             }
 
-        } else {
-
-            clearTimeout(autoTimer);
-
-            showToast(
-                "AUTO SPIN",
-                "Автоматичні обертання вимкнено."
-            );
         }
-    });
+
+    }, turboMode ? 400 : 900);
+
+}
 
 
-    /* =====================================================
-       TURBO
-    ===================================================== */
+function stopAuto() {
 
-    $("#turboButton")?.addEventListener("click", () => {
+    autoMode = false;
 
-        turboMode = !turboMode;
+    clearTimeout(autoTimer);
 
-        $("#turboButton")
-            .classList.toggle(
-                "active",
-                turboMode
+    autoTimer = null;
+
+    autoButton.classList.remove("active");
+
+    if (autoButton.querySelector("small")) {
+
+        autoButton.querySelector("small").textContent =
+            "OFF";
+
+    }
+
+}
+
+
+/* =========================================
+   TURBO
+========================================= */
+
+function toggleTurbo() {
+
+    turboMode = !turboMode;
+
+    turboButton.classList.toggle(
+        "active",
+        turboMode
+    );
+
+    turboButton.querySelector("small").textContent =
+        turboMode ? "ON" : "OFF";
+
+    gameModeLabel.textContent =
+        turboMode ? "TURBO" : "NORMAL";
+
+}
+
+
+/* =========================================
+   SOUND
+========================================= */
+
+function toggleSound() {
+
+    soundOn = !soundOn;
+
+    soundButton.textContent =
+        soundOn ? "SOUND ON" : "SOUND OFF";
+
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+function setupProfile() {
+
+    profileButton.addEventListener(
+        "click",
+        () => {
+
+            updateUserUI();
+
+            profileModal.classList.remove(
+                "hidden"
             );
 
-        $("#turboText").textContent =
-            turboMode ? "ON" : "OFF";
-
-        showToast(
-            "TURBO",
-            turboMode
-                ? "Швидкий режим увімкнено."
-                : "Швидкий режим вимкнено."
-        );
-    });
-
-
-    /* =====================================================
-       PAYTABLE
-    ===================================================== */
-
-    $("#paytableButton")?.addEventListener("click", () => {
-
-        if (!currentGame) return;
-
-        $("#paytableTitle").textContent =
-            currentGame.title;
-
-        $("#paytableDescription").textContent =
-            currentGame.description;
-
-        const list =
-            $("#paytableList");
-
-        list.innerHTML = "";
-
-        currentGame.symbols.forEach(symbol => {
-
-            const row =
-                document.createElement("div");
-
-            row.className = "pay-row";
-
-            row.innerHTML = `
-                <div class="pay-symbols">
-                    <div class="pay-symbol">
-                        ${getSymbolLetter(symbol.id)}
-                    </div>
-                    <div class="pay-symbol">
-                        ${getSymbolLetter(symbol.id)}
-                    </div>
-                    <div class="pay-symbol">
-                        ${getSymbolLetter(symbol.id)}
-                    </div>
-                </div>
-
-                <div class="pay-name">
-                    <strong>${symbol.name}</strong>
-                    <small>3+ SYMBOLS</small>
-                </div>
-
-                <div class="pay-value">
-                    ×${symbol.multiplier}
-                </div>
-            `;
-
-            list.appendChild(row);
-        });
-
-        $("#paytableModal").classList.add("open");
-    });
-
-
-    $("#closePaytable")?.addEventListener("click", () => {
-
-        $("#paytableModal").classList.remove("open");
-    });
-
-
-    $("#paytableModal")?.addEventListener("click", event => {
-
-        if (
-            event.target ===
-            $("#paytableModal")
-        ) {
-            $("#paytableModal")
-                .classList.remove("open");
         }
-    });
+    );
 
+    closeProfile.addEventListener(
+        "click",
+        () => {
 
-    /* =====================================================
-       GAME OPEN BUTTONS
-    ===================================================== */
+            profileModal.classList.add(
+                "hidden"
+            );
 
-    $$("[data-game]").forEach(button => {
+        }
+    );
 
-        button.addEventListener("click", event => {
+    profileLogout.addEventListener(
+        "click",
+        () => {
 
-            const key =
-                event.currentTarget.dataset.game;
+            logout();
 
-            openGame(key);
-        });
-    });
+        }
+    );
 
+    logoutButton.addEventListener(
+        "click",
+        logout
+    );
 
-    /* =====================================================
-       GAME FILTER
-    ===================================================== */
-
-    $$(".filter").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            $$(".filter").forEach(item => {
-                item.classList.remove("active");
-            });
-
-            button.classList.add("active");
-
-            const filter =
-                button.dataset.filter;
-
-            $$(".game-tile").forEach(tile => {
-
-                const volatility =
-                    tile.dataset.volatility;
-
-                if (
-                    filter === "all" ||
-                    volatility === filter
-                ) {
-
-                    tile.style.display = "";
-
-                } else {
-
-                    tile.style.display = "none";
-                }
-            });
-        });
-    });
-
-
-    /* =====================================================
-       KEYBOARD
-    ===================================================== */
-
-    document.addEventListener("keydown", event => {
-
-        if (event.key === "Escape") {
+    profileModal.addEventListener(
+        "click",
+        event => {
 
             if (
-                $("#paytableModal")
-                    ?.classList.contains("open")
+                event.target === profileModal
             ) {
-                $("#paytableModal")
-                    .classList.remove("open");
+
+                profileModal.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   PAYTABLE
+========================================= */
+
+function setupPaytable() {
+
+    paytableButton.addEventListener(
+        "click",
+        openPaytable
+    );
+
+    closePaytable.addEventListener(
+        "click",
+        () => {
+
+            paytableModal.classList.add(
+                "hidden"
+            );
+
+        }
+    );
+
+    paytableModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === paytableModal
+            ) {
+
+                paytableModal.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+function openPaytable() {
+
+    if (!currentGame) {
+        return;
+    }
+
+    paytableContent.innerHTML = "";
+
+    Object.entries(
+        currentGame.payouts
+    ).forEach(([symbol, multiplier]) => {
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "paytable-row";
+
+        row.innerHTML = `
+
+            <span
+                class="paytable-symbol"
+                style="color:${getSymbolColor(symbol)}"
+            >
+                ${symbol}
+            </span>
+
+            <span class="paytable-name">
+                3 символа подряд
+            </span>
+
+            <strong class="paytable-value">
+                x${multiplier}
+            </strong>
+
+        `;
+
+        paytableContent.appendChild(row);
+
+    });
+
+    paytableModal.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+function getSymbolColor(symbol) {
+
+    if (!currentGame) {
+        return "#e8bd61";
+    }
+
+    const index =
+        currentGame.symbols.indexOf(symbol);
+
+    return currentGame.colors[index] || "#e8bd61";
+
+}
+
+
+/* =========================================
+   SUPPORT
+========================================= */
+
+function setupSupport() {
+
+    supportForm.addEventListener(
+        "submit",
+        event => {
+
+            event.preventDefault();
+
+            const message =
+                document
+                    .getElementById("supportMessage")
+                    .value
+                    .trim();
+
+            if (!message) {
+
+                showToast(
+                    "Напишите сообщение."
+                );
+
                 return;
+
             }
 
-            if (
-                gameModal
-                    ?.classList.contains("open")
-            ) {
-                closeGame();
-            }
+            supportForm.reset();
+
+            showToast(
+                "Сообщение принято. Спасибо."
+            );
+
         }
+    );
+
+}
+
+
+/* =========================================
+   TOAST
+========================================= */
+
+let toastTimer = null;
+
+function showToast(message) {
+
+    toastText.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+
+}
+
+
+/* =========================================
+   FORMAT
+========================================= */
+
+function formatNumber(value) {
+
+    return Number(value).toLocaleString(
+        "ru-RU"
+    );
+
+}
+
+
+/* =========================================
+   KEYBOARD
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
 
         if (
             event.code === "Space" &&
-            gameModal?.classList.contains("open")
+            !gameScreen.classList.contains("hidden")
         ) {
 
             event.preventDefault();
 
-            if (!spinning) {
-                spin();
+            spin();
+
+        }
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            if (
+                !paytableModal.classList.contains(
+                    "hidden"
+                )
+            ) {
+
+                paytableModal.classList.add(
+                    "hidden"
+                );
+
             }
+
+            if (
+                !profileModal.classList.contains(
+                    "hidden"
+                )
+            ) {
+
+                profileModal.classList.add(
+                    "hidden"
+                );
+
+            }
+
         }
-    });
 
-
-    /* =====================================================
-       ROUTER EVENT
-    ===================================================== */
-
-    window.addEventListener(
-        "hashchange",
-        renderRoute
-    );
-
-
-    /* =====================================================
-       INIT
-    ===================================================== */
-
-    function init() {
-
-        updateBalanceUI();
-        updateProfileUI();
-        updateBonusUI();
-
-        updateBetUI();
-
-        renderRoute();
-
-        showWelcomeIfNeeded();
-
-        /*
-           Если користувач уже має профіль,
-           відкриваємо його стан автоматично.
-        */
-
-        if (state.loggedIn) {
-            updateProfileUI();
-        }
     }
+);
 
-    init();
 
-})();
+/* =========================================
+   PREVENT ACCIDENTAL PAGE DRAG
+========================================= */
+
+document.addEventListener(
+    "touchmove",
+    event => {
+
+        if (
+            gameScreen &&
+            !gameScreen.classList.contains("hidden")
+        ) {
+
+            /*
+                Keep normal vertical scrolling,
+                but prevent accidental browser
+                overscroll on the slot area.
+            */
+
+            const target =
+                event.target;
+
+            if (
+                target.closest(".reel-area")
+            ) {
+
+                event.preventDefault();
+
+            }
+
+        }
+
+    },
+    { passive: false }
+);
+```
