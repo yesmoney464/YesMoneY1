@@ -1,914 +1,1748 @@
 /* =========================================================
-   VELORA — DEMO GAME ENGINE
-   Virtual credits only.
+   VELORA
+   Original Virtual Casino Demo
+   No external libraries required.
+   GitHub Pages compatible.
 ========================================================= */
 
-const state = {
-  balance: 10000,
-  bet: 20,
-  spinning: false,
-  turbo: false,
-  auto: false,
-  autoTimer: null,
-  currentGame: "candy",
-  lastWin: 0
-};
+(() => {
+    "use strict";
 
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+    /* =====================================================
+       STORAGE
+    ===================================================== */
 
-const balanceEl = document.getElementById("balance");
-const gameBalanceEl = document.getElementById("gameBalance");
-const betValueEl = document.getElementById("betValue");
-const winAmountEl = document.getElementById("winAmount");
-const reelsEl = document.getElementById("reels");
-const statusEl = document.getElementById("statusText");
-const gameOverlay = document.getElementById("gameOverlay");
-const gameTitle = document.getElementById("slotTitle");
-const gameName = document.getElementById("gameName");
-const slotCategory = document.getElementById("slotCategory");
-const spinButton = document.getElementById("spinButton");
+    const STORAGE_KEY = "velora_state_v3";
 
+    const defaultState = {
+        registered: false,
+        loggedIn: false,
+        user: null,
+        balance: 10000,
+        xp: 0,
+        level: 1,
+        welcomeClaimed: false,
+        lastDailyBonus: null,
+        totalSpins: 0,
+        totalWins: 0
+    };
 
-/* =========================================================
-   GAME DATA
-========================================================= */
+    function loadState() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
 
-const games = {
+            if (!saved) {
+                return { ...defaultState };
+            }
 
-  candy: {
-    title: "CANDY KINGDOM",
-    category: "VELORA ORIGINAL • CASCADE",
-    columns: 6,
-    rows: 5,
+            const parsed = JSON.parse(saved);
 
-    symbols: [
-      { id: "A", class: "candy", value: 2 },
-      { id: "B", class: "candy", value: 3 },
-      { id: "C", class: "blue", value: 4 },
-      { id: "D", class: "red", value: 5 },
-      { id: "E", class: "gold", value: 8 },
-      { id: "W", class: "green", value: 15 }
-    ]
-  },
-
-  myth: {
-    title: "OLYMPUS FATE",
-    category: "VELORA ORIGINAL • MULTIPLIERS",
-    columns: 6,
-    rows: 5,
-
-    symbols: [
-      { id: "A", class: "gold", value: 2 },
-      { id: "B", class: "blue", value: 3 },
-      { id: "C", class: "myth", value: 4 },
-      { id: "D", class: "red", value: 6 },
-      { id: "E", class: "gold", value: 10 },
-      { id: "M", class: "green", value: 20 }
-    ]
-  },
-
-  jungle: {
-    title: "JUNGLE FORTUNE",
-    category: "VELORA ORIGINAL • WILDS",
-    columns: 5,
-    rows: 3,
-
-    symbols: [
-      { id: "A", class: "green", value: 2 },
-      { id: "B", class: "green", value: 3 },
-      { id: "C", class: "blue", value: 4 },
-      { id: "D", class: "red", value: 6 },
-      { id: "E", class: "gold", value: 10 },
-      { id: "W", class: "green", value: 18 }
-    ]
-  }
-
-};
-
-
-/* =========================================================
-   SYMBOL VISUALS
-========================================================= */
-
-const symbolVisuals = {
-  A: "◆",
-  B: "●",
-  C: "✦",
-  D: "♦",
-  E: "◇",
-  W: "W"
-};
-
-
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-function showSection(id) {
-
-  document.querySelectorAll(".section").forEach(section => {
-    section.classList.remove("active");
-  });
-
-  const target = document.getElementById(id);
-
-  if (target) {
-    target.classList.add("active");
-  }
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-}
-
-
-document.querySelectorAll("[data-section]").forEach(button => {
-
-  button.addEventListener("click", () => {
-    showSection(button.dataset.section);
-  });
-
-});
-
-
-document.getElementById("heroGames").addEventListener("click", () => {
-  showSection("games");
-});
-
-
-document.getElementById("heroPlay").addEventListener("click", () => {
-  openGame("candy");
-});
-
-
-/* =========================================================
-   OPEN GAME
-========================================================= */
-
-function openGame(gameId) {
-
-  const game = games[gameId];
-
-  if (!game) return;
-
-  state.currentGame = gameId;
-
-  gameOverlay.classList.add("open");
-
-  document.body.style.overflow = "hidden";
-
-  gameTitle.textContent = game.title;
-  gameName.textContent = "ORIGINAL";
-  slotCategory.textContent = game.category;
-
-  state.lastWin = 0;
-
-  winAmountEl.textContent = "0";
-
-  createReels();
-
-  statusEl.textContent = "Зробіть обертання";
-
-  updateUI();
-}
-
-
-/* =========================================================
-   CLOSE GAME
-========================================================= */
-
-document.getElementById("closeGame").addEventListener("click", () => {
-
-  stopAuto();
-
-  gameOverlay.classList.remove("open");
-
-  document.body.style.overflow = "";
-
-});
-
-
-/* =========================================================
-   GAME CARDS
-========================================================= */
-
-document.querySelectorAll(".game-card").forEach(card => {
-
-  card.addEventListener("click", event => {
-
-    if (event.target.closest(".play-card")) {
-      openGame(card.dataset.game);
-      return;
+            return {
+                ...defaultState,
+                ...parsed
+            };
+        } catch (error) {
+            console.warn("VELORA storage error:", error);
+            return { ...defaultState };
+        }
     }
 
-    if (card.dataset.game) {
-      openGame(card.dataset.game);
+    let state = loadState();
+
+    function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     }
 
-  });
 
-});
+    /* =====================================================
+       HELPERS
+    ===================================================== */
 
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => [...document.querySelectorAll(selector)];
 
-/* =========================================================
-   CREATE REELS
-========================================================= */
-
-function createReels() {
-
-  const game = games[state.currentGame];
-
-  reelsEl.innerHTML = "";
-
-  for (let col = 0; col < game.columns; col++) {
-
-    const column = document.createElement("div");
-
-    column.className = "reel-column";
-
-    for (let row = 0; row < game.rows; row++) {
-
-      const symbol = randomSymbol();
-
-      column.appendChild(createSymbolElement(symbol));
-
+    function formatNumber(number) {
+        return Number(number || 0).toLocaleString("uk-UA", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        });
     }
 
-    reelsEl.appendChild(column);
-  }
-}
+    function formatMoney(number) {
+        return Number(number || 0).toLocaleString("uk-UA", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
 
+    function random(min, max) {
+        return Math.random() * (max - min) + min;
+    }
 
-/* =========================================================
-   CREATE SYMBOL
-========================================================= */
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
-function createSymbolElement(symbol) {
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
-  const el = document.createElement("div");
+    function todayKey() {
+        const date = new Date();
 
-  el.className = `symbol ${symbol.class}`;
+        return [
+            date.getFullYear(),
+            String(date.getMonth() + 1).padStart(2, "0"),
+            String(date.getDate()).padStart(2, "0")
+        ].join("-");
+    }
 
-  el.dataset.symbol = symbol.id;
 
-  el.textContent = symbolVisuals[symbol.id] || symbol.id;
+    /* =====================================================
+       TOAST
+    ===================================================== */
 
-  return el;
-}
+    let toastTimer = null;
 
+    function showToast(title, message) {
+        const toast = $("#toast");
 
-/* =========================================================
-   RANDOM SYMBOL
-========================================================= */
+        if (!toast) return;
 
-function randomSymbol() {
+        $("#toastTitle").textContent = title;
+        $("#toastMessage").textContent = message;
 
-  const game = games[state.currentGame];
+        toast.classList.add("show");
 
-  const pool = game.symbols;
+        clearTimeout(toastTimer);
 
-  const index = Math.floor(Math.random() * pool.length);
+        toastTimer = setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3500);
+    }
 
-  return pool[index];
-}
 
+    /* =====================================================
+       BALANCE / PROFILE UI
+    ===================================================== */
 
-/* =========================================================
-   SPIN
-========================================================= */
+    function updateBalanceUI() {
+        const balance = formatNumber(state.balance);
 
-async function spin() {
+        const balanceValue = $("#balanceValue");
+        const menuBalance = $("#menuBalance");
+        const gameBalance = $("#gameBalance");
 
-  if (state.spinning) return;
+        if (balanceValue) {
+            balanceValue.textContent = balance;
+        }
 
-  if (state.balance < state.bet) {
+        if (menuBalance) {
+            menuBalance.textContent = balance;
+        }
 
-    statusEl.textContent = "Недостатньо віртуальних кредитів";
+        if (gameBalance) {
+            gameBalance.textContent = balance;
+        }
+    }
 
-    return;
-  }
+    function updateProfileUI() {
 
-  state.spinning = true;
+        const guestButtons = $("#guestButtons");
+        const profileArea = $("#profileArea");
 
-  spinButton.classList.add("disabled");
+        if (!guestButtons || !profileArea) return;
 
-  state.balance -= state.bet;
+        if (state.loggedIn && state.user) {
 
-  updateUI();
+            guestButtons.classList.add("hidden");
+            profileArea.classList.remove("hidden");
 
-  winAmountEl.textContent = "0";
+            const name = state.user.name || "Player";
+            const letter = name.charAt(0).toUpperCase();
 
-  statusEl.textContent = "Барабани обертаються...";
+            $("#profileName").textContent = name;
+            $("#menuName").textContent = name;
+            $("#profileAvatar").textContent = letter;
+            $("#menuAvatar").textContent = letter;
 
-  clearWinningSymbols();
+        } else {
 
-  const duration = state.turbo ? 420 : 1050;
+            guestButtons.classList.remove("hidden");
+            profileArea.classList.add("hidden");
+        }
 
-  await animateSpin(duration);
+        updateBalanceUI();
+        updateBonusUI();
+    }
 
-  const result = generateResult();
 
-  renderResult(result);
+    /* =====================================================
+       ROUTER
+    ===================================================== */
 
-  const win = calculateWin(result);
+    const validRoutes = [
+        "home",
+        "games",
+        "bonuses",
+        "support",
+        "login",
+        "register"
+    ];
 
-  await sleep(state.turbo ? 80 : 250);
+    function getRoute() {
+        const hash = window.location.hash.replace("#", "").trim();
 
-  state.lastWin = win;
+        if (!hash) {
+            return "home";
+        }
 
-  if (win > 0) {
+        return validRoutes.includes(hash) ? hash : "home";
+    }
 
-    state.balance += win;
+    function navigate(route) {
+        window.location.hash = route;
+    }
 
-    winAmountEl.textContent = formatMoney(win);
+    function setActiveNavigation(route) {
 
-    statusEl.textContent = "Виграш!";
+        $$("[data-route]").forEach(link => {
+            const linkRoute = link.dataset.route;
 
-    highlightWins(result);
+            link.classList.toggle(
+                "active",
+                linkRoute === route
+            );
+        });
+    }
 
-  } else {
+    function renderRoute() {
 
-    winAmountEl.textContent = "0";
+        const route = getRoute();
 
-    statusEl.textContent = "Спробуйте ще раз";
-
-  }
-
-  updateUI();
-
-  state.spinning = false;
-
-  spinButton.classList.remove("disabled");
-
-  if (state.auto) {
-
-    state.autoTimer = setTimeout(() => {
-
-      spin();
-
-    }, state.turbo ? 180 : 700);
-
-  }
-
-}
-
-
-/* =========================================================
-   SPIN ANIMATION
-========================================================= */
-
-function animateSpin(duration) {
-
-  return new Promise(resolve => {
-
-    const start = performance.now();
-
-    function frame(now) {
-
-      const progress = Math.min((now - start) / duration, 1);
-
-      document.querySelectorAll(".symbol").forEach((symbol, index) => {
-
-        const offset = (index % 6) * 25;
-
-        symbol.style.transform =
-          `translateY(${Math.sin(progress * 40 + offset) * 12}px)`;
-
-        symbol.style.filter =
-          `blur(${progress < .8 ? 1.5 : 0}px)`;
-
-      });
-
-      if (progress < 1) {
-
-        requestAnimationFrame(frame);
-
-      } else {
-
-        document.querySelectorAll(".symbol").forEach(symbol => {
-
-          symbol.style.transform = "";
-          symbol.style.filter = "";
-
+        $$(".page").forEach(page => {
+            page.classList.remove("active");
         });
 
-        resolve();
+        const page = $("#page-" + route);
 
-      }
-    }
-
-    requestAnimationFrame(frame);
-  });
-}
-
-
-/* =========================================================
-   GENERATE RESULT
-========================================================= */
-
-function generateResult() {
-
-  const game = games[state.currentGame];
-
-  const result = [];
-
-  for (let row = 0; row < game.rows; row++) {
-
-    const currentRow = [];
-
-    for (let col = 0; col < game.columns; col++) {
-
-      currentRow.push(randomSymbol());
-
-    }
-
-    result.push(currentRow);
-  }
-
-  /*
-    Small chance of producing a strong combination.
-    This is only a local demo mechanic.
-  */
-
-  const roll = Math.random();
-
-  if (roll < 0.18) {
-
-    const symbol =
-      game.symbols[
-        Math.floor(Math.random() * (game.symbols.length - 1))
-      ];
-
-    const count =
-      state.currentGame === "jungle" ? 3 : 4;
-
-    for (let row = 0; row < Math.min(game.rows, count); row++) {
-
-      result[row][0] = symbol;
-
-    }
-
-  }
-
-  return result;
-}
-
-
-/* =========================================================
-   RENDER RESULT
-========================================================= */
-
-function renderResult(result) {
-
-  const game = games[state.currentGame];
-
-  reelsEl.innerHTML = "";
-
-  for (let col = 0; col < game.columns; col++) {
-
-    const column = document.createElement("div");
-
-    column.className = "reel-column";
-
-    for (let row = 0; row < game.rows; row++) {
-
-      const symbol = result[row][col];
-
-      column.appendChild(createSymbolElement(symbol));
-
-    }
-
-    reelsEl.appendChild(column);
-  }
-}
-
-
-/* =========================================================
-   CALCULATE WIN
-========================================================= */
-
-function calculateWin(result) {
-
-  const game = games[state.currentGame];
-
-  let total = 0;
-
-  /*
-    Simple cluster/line style demo:
-    checks each symbol's count across the board.
-  */
-
-  game.symbols.forEach(symbol => {
-
-    let count = 0;
-
-    result.forEach(row => {
-
-      row.forEach(cell => {
-
-        if (cell.id === symbol.id) {
-          count++;
+        if (page) {
+            page.classList.add("active");
         }
 
-      });
+        setActiveNavigation(route);
 
-    });
+        $("#mobileNav")?.classList.remove("open");
 
-    const required =
-      state.currentGame === "jungle" ? 3 : 5;
-
-    if (count >= required) {
-
-      let multiplier = symbol.value;
-
-      if (state.currentGame === "myth") {
-
-        if (Math.random() < 0.35) {
-          multiplier *= Math.floor(Math.random() * 5) + 2;
-        }
-
-      }
-
-      total += state.bet * multiplier;
-
-    }
-
-  });
-
-  /*
-    Hard cap keeps demo balances reasonable.
-  */
-
-  return Math.min(Math.floor(total), state.bet * 250);
-}
-
-
-/* =========================================================
-   HIGHLIGHT WINS
-========================================================= */
-
-function highlightWins(result) {
-
-  const game = games[state.currentGame];
-
-  const elements =
-    document.querySelectorAll(".symbol");
-
-  let index = 0;
-
-  game.symbols.forEach(symbol => {
-
-    let count = 0;
-
-    result.forEach(row => {
-
-      row.forEach(cell => {
-
-        if (cell.id === symbol.id) {
-          count++;
-        }
-
-      });
-
-    });
-
-    const required =
-      state.currentGame === "jungle" ? 3 : 5;
-
-    if (count >= required) {
-
-      result.forEach(row => {
-
-        row.forEach(cell => {
-
-          if (cell.id === symbol.id && elements[index]) {
-            elements[index].classList.add("win");
-          }
-
-          index++;
+        window.scrollTo({
+            top: 0,
+            behavior: "instant"
         });
+    }
 
-      });
 
-    } else {
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
 
-      index += result.length * game.columns;
+    const mobileMenuButton = $("#mobileMenuButton");
+    const mobileNav = $("#mobileNav");
 
-      index = 0;
+    mobileMenuButton?.addEventListener("click", () => {
+        mobileNav.classList.toggle("open");
+    });
 
-      /*
-        Recalculate visual index cleanly below.
-      */
 
-      document.querySelectorAll(".symbol").forEach((element, i) => {
+    /* =====================================================
+       PROFILE MENU
+    ===================================================== */
 
-        const row = Math.floor(
-          i / game.columns
+    $("#profileButton")?.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        $("#profileArea").classList.toggle("open");
+    });
+
+    document.addEventListener("click", (event) => {
+
+        const profileArea = $("#profileArea");
+
+        if (!profileArea) return;
+
+        if (!profileArea.contains(event.target)) {
+            profileArea.classList.remove("open");
+        }
+    });
+
+
+    /* =====================================================
+       WELCOME
+    ===================================================== */
+
+    const welcomeOverlay = $("#welcomeOverlay");
+
+    function showWelcomeIfNeeded() {
+
+        const alreadySeen =
+            sessionStorage.getItem("velora_welcome_seen");
+
+        if (!alreadySeen) {
+            setTimeout(() => {
+                welcomeOverlay?.classList.add("open");
+            }, 900);
+        }
+    }
+
+    $("#closeWelcome")?.addEventListener("click", () => {
+        welcomeOverlay?.classList.remove("open");
+        sessionStorage.setItem("velora_welcome_seen", "1");
+    });
+
+    $("#welcomePlay")?.addEventListener("click", () => {
+        welcomeOverlay?.classList.remove("open");
+        sessionStorage.setItem("velora_welcome_seen", "1");
+    });
+
+    welcomeOverlay?.addEventListener("click", (event) => {
+
+        if (event.target === welcomeOverlay) {
+            welcomeOverlay.classList.remove("open");
+            sessionStorage.setItem("velora_welcome_seen", "1");
+        }
+    });
+
+
+    /* =====================================================
+       REGISTER
+    ===================================================== */
+
+    $("#registerForm")?.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const name = $("#registerName").value.trim();
+        const email = $("#registerEmail").value.trim().toLowerCase();
+        const password = $("#registerPassword").value;
+        const terms = $("#registerTerms").checked;
+
+        if (name.length < 2) {
+            showToast("VELORA", "Ім'я повинно містити щонайменше 2 символи.");
+            return;
+        }
+
+        if (password.length < 6) {
+            showToast("VELORA", "Пароль повинен містити щонайменше 6 символів.");
+            return;
+        }
+
+        if (!terms) {
+            showToast("VELORA", "Потрібно погодитися з правилами.");
+            return;
+        }
+
+        const submit = event.target.querySelector("button[type='submit']");
+
+        submit.disabled = true;
+        submit.innerHTML = "<strong>СТВОРЕННЯ...</strong>";
+
+        await sleep(1400);
+
+        state.registered = true;
+        state.loggedIn = true;
+
+        state.user = {
+            name,
+            email,
+            password
+        };
+
+        state.balance = 10000;
+        state.xp = 0;
+        state.level = 1;
+        state.welcomeClaimed = false;
+        state.totalSpins = 0;
+        state.totalWins = 0;
+
+        saveState();
+
+        submit.disabled = false;
+        submit.innerHTML = "Створити акаунт <span>→</span>";
+
+        updateProfileUI();
+
+        showToast(
+            "Профіль створено",
+            "Ласкаво просимо до VELORA. Перенаправлення..."
         );
 
-        const col = i % game.columns;
+        await sleep(1600);
 
-        if (
-          result[row] &&
-          result[row][col] &&
-          result[row][col].id === symbol.id &&
-          count >= required
-        ) {
-          element.classList.add("win");
+        navigate("games");
+    });
+
+
+    /* =====================================================
+       LOGIN
+    ===================================================== */
+
+    $("#loginForm")?.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const email = $("#loginEmail").value.trim().toLowerCase();
+        const password = $("#loginPassword").value;
+
+        if (!state.registered || !state.user) {
+            showToast(
+                "VELORA",
+                "Профіль ще не створений. Зареєструйся спочатку."
+            );
+            return;
         }
 
-      });
+        if (
+            email !== state.user.email ||
+            password !== state.user.password
+        ) {
+            showToast(
+                "Помилка входу",
+                "Email або пароль введено неправильно."
+            );
+            return;
+        }
 
+        const submit = event.target.querySelector("button[type='submit']");
+
+        submit.disabled = true;
+        submit.innerHTML = "<strong>ВХІД...</strong>";
+
+        await sleep(900);
+
+        state.loggedIn = true;
+
+        saveState();
+
+        updateProfileUI();
+
+        submit.disabled = false;
+        submit.innerHTML = "Увійти <span>→</span>";
+
+        showToast(
+            "VELORA",
+            "Вхід виконано успішно."
+        );
+
+        await sleep(700);
+
+        navigate("home");
+    });
+
+
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
+
+    $("#logoutButton")?.addEventListener("click", () => {
+
+        state.loggedIn = false;
+
+        saveState();
+
+        $("#profileArea")?.classList.remove("open");
+
+        updateProfileUI();
+
+        showToast(
+            "VELORA",
+            "Ти вийшов із профілю."
+        );
+
+        navigate("home");
+    });
+
+
+    /* =====================================================
+       PASSWORD VISIBILITY
+    ===================================================== */
+
+    $$(".show-password").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const target = $("#" + button.dataset.target);
+
+            if (!target) return;
+
+            if (target.type === "password") {
+
+                target.type = "text";
+                button.textContent = "HIDE";
+
+            } else {
+
+                target.type = "password";
+                button.textContent = "SHOW";
+            }
+        });
+    });
+
+
+    /* =====================================================
+       FORGOT PASSWORD
+    ===================================================== */
+
+    $("#forgotPassword")?.addEventListener("click", () => {
+
+        showToast(
+            "Демо-режим",
+            "Відновлення пароля буде підключено після додавання backend."
+        );
+    });
+
+
+    /* =====================================================
+       BONUS SYSTEM
+    ===================================================== */
+
+    function updateBonusUI() {
+
+        const progress = $("#levelProgress");
+        const levelText = $("#levelText");
+        const welcomeStatus = $("#welcomeStatus");
+        const dailyStatus = $("#dailyStatus");
+
+        if (!progress || !levelText) return;
+
+        const xpForLevel = 1000;
+        const xpInsideLevel = state.xp % xpForLevel;
+
+        progress.style.width =
+            Math.max(4, (xpInsideLevel / xpForLevel) * 100) + "%";
+
+        levelText.textContent =
+            `Рівень ${state.level} · ${state.xp} XP`;
+
+        if (state.welcomeClaimed) {
+            welcomeStatus.textContent = "Бонус уже отримано";
+        } else {
+            welcomeStatus.textContent = "Доступний один раз на акаунт";
+        }
+
+        const today = todayKey();
+
+        if (state.lastDailyBonus === today) {
+            dailyStatus.textContent = "Бонус уже отримано сьогодні";
+        } else {
+            dailyStatus.textContent = "Доступний сьогодні";
+        }
     }
 
-  });
+    $("#claimWelcome")?.addEventListener("click", () => {
+
+        if (state.welcomeClaimed) {
+            showToast(
+                "VELORA",
+                "Стартовий бонус уже було отримано."
+            );
+            return;
+        }
+
+        state.balance += 10000;
+        state.welcomeClaimed = true;
+
+        saveState();
+
+        updateBalanceUI();
+        updateBonusUI();
+
+        showToast(
+            "+10 000 VC",
+            "Стартовий бонус додано до балансу."
+        );
+    });
+
+
+    $("#dailyBonus")?.addEventListener("click", () => {
+
+        const today = todayKey();
+
+        if (state.lastDailyBonus === today) {
+            showToast(
+                "VELORA",
+                "Сьогоднішній бонус уже отримано."
+            );
+            return;
+        }
+
+        state.balance += 500;
+        state.lastDailyBonus = today;
+
+        saveState();
+
+        updateBalanceUI();
+        updateBonusUI();
+
+        showToast(
+            "+500 VC",
+            "Щоденний бонус додано."
+        );
+    });
+
+
+    /* =====================================================
+       SUPPORT FORM
+    ===================================================== */
+
+    $("#supportForm")?.addEventListener("submit", (event) => {
+
+        event.preventDefault();
+
+        const name = $("#supportName").value.trim();
+        const email = $("#supportEmail").value.trim();
+        const message = $("#supportMessage").value.trim();
+
+        if (!name || !email || !message) {
+            showToast(
+                "VELORA",
+                "Заповни всі необхідні поля."
+            );
+            return;
+        }
+
+        event.target.reset();
+
+        showToast(
+            "Повідомлення створено",
+            "У демо-версії воно не надсилається на сервер."
+        );
+    });
+
+
+    /* =====================================================
+       GAME DATA
+    ===================================================== */
+
+    const games = {
+
+        candy: {
+            title: "Candy Kingdom",
+            logo: "CANDY",
+            sub: "KINGDOM",
+            description:
+                "Каскадні комбінації у солодкому королівстві.",
+            reels: 5,
+            rows: 5,
+            maxWin: 5000,
+            baseWinChance: .37,
+            symbols: [
+                {
+                    id: "crown",
+                    name: "Royal Crown",
+                    color: "#e5bd50",
+                    multiplier: 8
+                },
+                {
+                    id: "heart",
+                    name: "Ruby Heart",
+                    color: "#ed6d7b",
+                    multiplier: 6
+                },
+                {
+                    id: "star",
+                    name: "Golden Star",
+                    color: "#f5d66d",
+                    multiplier: 5
+                },
+                {
+                    id: "candy",
+                    name: "Blue Candy",
+                    color: "#69bdf1",
+                    multiplier: 4
+                },
+                {
+                    id: "berry",
+                    name: "Berry",
+                    color: "#bd70e5",
+                    multiplier: 3
+                },
+                {
+                    id: "mint",
+                    name: "Mint",
+                    color: "#64d7a2",
+                    multiplier: 2
+                }
+            ]
+        },
+
+        olympus: {
+            title: "Olympus Fate",
+            logo: "OLYMPUS",
+            sub: "FATE",
+            description:
+                "Містичний світ богів та великих множників.",
+            reels: 6,
+            rows: 5,
+            maxWin: 5000,
+            baseWinChance: .29,
+            symbols: [
+                {
+                    id: "bolt",
+                    name: "Thunder",
+                    color: "#7fd7ff",
+                    multiplier: 12
+                },
+                {
+                    id: "sun",
+                    name: "Solar Crown",
+                    color: "#f2c85f",
+                    multiplier: 9
+                },
+                {
+                    id: "gem",
+                    name: "Divine Gem",
+                    color: "#bf8bff",
+                    multiplier: 7
+                },
+                {
+                    id: "helm",
+                    name: "Warrior Helm",
+                    color: "#aeb7c2",
+                    multiplier: 5
+                },
+                {
+                    id: "eye",
+                    name: "Oracle Eye",
+                    color: "#62d6b5",
+                    multiplier: 4
+                },
+                {
+                    id: "ring",
+                    name: "Golden Ring",
+                    color: "#e9ad51",
+                    multiplier: 3
+                }
+            ]
+        },
+
+        jungle: {
+            title: "Jungle Fortune",
+            logo: "JUNGLE",
+            sub: "FORTUNE",
+            description:
+                "Дикі символи, скарби та джунглеві множники.",
+            reels: 6,
+            rows: 4,
+            maxWin: 3000,
+            baseWinChance: .32,
+            symbols: [
+                {
+                    id: "idol",
+                    name: "Golden Idol",
+                    color: "#e2b84d",
+                    multiplier: 10
+                },
+                {
+                    id: "mask",
+                    name: "Jungle Mask",
+                    color: "#72d7a2",
+                    multiplier: 8
+                },
+                {
+                    id: "ruby",
+                    name: "Red Ruby",
+                    color: "#e66e64",
+                    multiplier: 6
+                },
+                {
+                    id: "leaf",
+                    name: "Emerald Leaf",
+                    color: "#57bd7a",
+                    multiplier: 5
+                },
+                {
+                    id: "sun",
+                    name: "Sun Stone",
+                    color: "#e8c45e",
+                    multiplier: 4
+                },
+                {
+                    id: "coin",
+                    name: "Ancient Coin",
+                    color: "#cda154",
+                    multiplier: 3
+                }
+            ]
+        }
+    };
+
+
+    let currentGame = null;
+    let currentGameKey = "candy";
+
+    let currentBet = 50;
+    const betSteps = [
+        10,
+        25,
+        50,
+        100,
+        250,
+        500
+    ];
+
+    let autoMode = false;
+    let turboMode = false;
+    let spinning = false;
+    let autoTimer = null;
+
+
+    /* =====================================================
+       GAME DOM
+    ===================================================== */
+
+    const gameModal = $("#gameModal");
+    const reelsContainer = $("#reels");
+    const gameStage = $("#gameStage");
+
+    function openGame(gameKey) {
+
+        const game = games[gameKey];
+
+        if (!game) return;
+
+        currentGame = game;
+        currentGameKey = gameKey;
+
+        autoMode = false;
+        turboMode = false;
+
+        clearTimeout(autoTimer);
+
+        $("#autoButton")?.classList.remove("active");
+        $("#turboButton")?.classList.remove("active");
+
+        $("#autoText").textContent = "OFF";
+        $("#turboText").textContent = "OFF";
+
+        $("#gameTitle").textContent = game.title;
+        $("#gameLogoTitle").textContent = game.logo;
+        $("#gameLogoSub").textContent = game.sub;
+
+        gameStage.classList.remove(
+            "candy",
+            "olympus",
+            "jungle"
+        );
+
+        gameStage.classList.add(gameKey);
+
+        $("#winAmount").textContent = "0.00";
+
+        buildReels();
+
+        updateBalanceUI();
+
+        gameModal.classList.add("open");
+        document.body.classList.add("modal-open");
+
+        setTimeout(() => {
+            $("#gameMessage").textContent =
+                "Вибери ставку та натисни SPIN";
+        }, 100);
+    }
+
+
+    function closeGame() {
+
+        autoMode = false;
+
+        clearTimeout(autoTimer);
+
+        gameModal.classList.remove("open");
+        document.body.classList.remove("modal-open");
+
+        spinning = false;
+    }
+
+
+    $("#closeGame")?.addEventListener("click", closeGame);
+
+    gameModal?.addEventListener("click", (event) => {
+
+        if (event.target === gameModal) {
+            closeGame();
+        }
+    });
+
+
+    /* =====================================================
+       BUILD REELS
+    ===================================================== */
+
+    function buildReels() {
+
+        if (!currentGame || !reelsContainer) return;
+
+        const reels = currentGame.reels;
+        const rows = currentGame.rows;
+
+        reelsContainer.innerHTML = "";
+
+        for (let column = 0; column < reels; column++) {
+
+            const reel = document.createElement("div");
+
+            reel.className = "reel";
+
+            for (let row = 0; row < rows; row++) {
+
+                const symbol = document.createElement("div");
+
+                symbol.className = "symbol";
+
+                setRandomSymbol(symbol);
+
+                reel.appendChild(symbol);
+            }
+
+            reelsContainer.appendChild(reel);
+        }
+
+        if (reels === 5) {
+            reelsContainer.style.gridTemplateColumns =
+                "repeat(5, 1fr)";
+        } else {
+            reelsContainer.style.gridTemplateColumns =
+                "repeat(6, 1fr)";
+        }
+    }
+
+
+    function setRandomSymbol(element) {
+
+        const symbol =
+            currentGame.symbols[
+                randomInt(0, currentGame.symbols.length - 1)
+            ];
+
+        element.dataset.symbol =
+            getSymbolLetter(symbol.id);
+
+        element.style.setProperty(
+            "--symbol-color",
+            symbol.color
+        );
+
+        element.dataset.id = symbol.id;
+        element.title = symbol.name;
+    }
+
+
+    function getSymbolLetter(id) {
+
+        const map = {
+            crown: "C",
+            heart: "H",
+            star: "S",
+            candy: "D",
+            berry: "B",
+            mint: "M",
+
+            bolt: "Z",
+            sun: "S",
+            gem: "G",
+            helm: "H",
+            eye: "E",
+            ring: "R",
+
+            idol: "I",
+            mask: "M",
+            ruby: "R",
+            leaf: "L",
+            coin: "C"
+        };
+
+        return map[id] || "V";
+    }
+
+
+    /* =====================================================
+       BET
+    ===================================================== */
+
+    function updateBetUI() {
+
+        $("#betValue").textContent = formatNumber(currentBet);
+        $("#spinCost").textContent =
+            formatNumber(currentBet) + " VC";
+    }
+
+    function changeBet(direction) {
+
+        const currentIndex = betSteps.indexOf(currentBet);
+
+        let nextIndex =
+            currentIndex + direction;
+
+        nextIndex = Math.max(
+            0,
+            Math.min(
+                betSteps.length - 1,
+                nextIndex
+            )
+        );
+
+        currentBet = betSteps[nextIndex];
+
+        updateBetUI();
+    }
+
+    $("#betMinus")?.addEventListener("click", () => {
+        changeBet(-1);
+    });
+
+    $("#betPlus")?.addEventListener("click", () => {
+        changeBet(1);
+    });
+
+
+    /* =====================================================
+       SPIN
+    ===================================================== */
+
+    $("#spinButton")?.addEventListener("click", () => {
+        spin();
+    });
+
+
+    async function spin() {
+
+        if (spinning) return;
+
+        if (!currentGame) return;
+
+        if (state.balance < currentBet) {
 
-}
+            showToast(
+                "Недостатньо VC",
+                "Зменш ставку або отримай бонус."
+            );
+
+            autoMode = false;
+            clearTimeout(autoTimer);
 
+            return;
+        }
+
+        spinning = true;
 
-/* =========================================================
-   CLEAR WINS
-========================================================= */
+        state.balance -= currentBet;
+        state.totalSpins++;
 
-function clearWinningSymbols() {
+        saveState();
+        updateBalanceUI();
 
-  document.querySelectorAll(".symbol").forEach(symbol => {
-    symbol.classList.remove("win");
-  });
+        $("#spinButton").disabled = true;
 
-}
+        $("#gameMessage").textContent =
+            "Обертання...";
 
+        $("#winAmount").textContent = "0.00";
 
-/* =========================================================
-   BET
-========================================================= */
+        clearWinState();
 
-document.getElementById("betMinus").addEventListener("click", () => {
+        reelsContainer.classList.add("spinning");
 
-  if (state.spinning) return;
+        const spinDuration =
+            turboMode ? 550 : 1050;
 
-  state.bet = Math.max(5, state.bet - 5);
+        await animateReels(spinDuration);
 
-  updateUI();
+        reelsContainer.classList.remove("spinning");
 
-});
+        const result = generateResult();
 
+        applyResult(result);
 
-document.getElementById("betPlus").addEventListener("click", () => {
+        spinning = false;
 
-  if (state.spinning) return;
+        $("#spinButton").disabled = false;
 
-  state.bet = Math.min(500, state.bet + 5);
+        if (autoMode) {
 
-  updateUI();
+            autoTimer = setTimeout(() => {
 
-});
+                if (autoMode) {
+                    spin();
+                }
 
+            }, turboMode ? 350 : 900);
+        }
+    }
 
-/* =========================================================
-   SPIN BUTTON
-========================================================= */
 
-spinButton.addEventListener("click", spin);
+    async function animateReels(duration) {
 
+        const reelElements =
+            $$(".reel", reelsContainer);
 
-/* =========================================================
-   TURBO
-========================================================= */
+        const start =
+            performance.now();
 
-document.getElementById("turboButton").addEventListener("click", event => {
+        return new Promise(resolve => {
 
-  state.turbo = !state.turbo;
+            function frame(now) {
 
-  event.currentTarget.classList.toggle(
-    "active",
-    state.turbo
-  );
+                const elapsed = now - start;
 
-});
+                reelElements.forEach((reel, index) => {
 
+                    const symbols =
+                        [...reel.children];
 
-/* =========================================================
-   AUTO
-========================================================= */
+                    symbols.forEach(symbol => {
 
-document.getElementById("autoButton").addEventListener("click", event => {
+                        if (
+                            Math.random() <
+                            (turboMode ? .65 : .35)
+                        ) {
+                            setRandomSymbol(symbol);
+                        }
+                    });
 
-  state.auto = !state.auto;
+                    reel.style.transform =
+                        `translateY(${Math.sin(
+                            elapsed / 40 + index
+                        ) * 2}px)`;
+                });
 
-  event.currentTarget.classList.toggle(
-    "active",
-    state.auto
-  );
+                if (elapsed < duration) {
 
-  if (!state.auto) {
+                    requestAnimationFrame(frame);
 
-    stopAuto();
+                } else {
 
-    return;
-  }
+                    reelElements.forEach(reel => {
+                        reel.style.transform = "";
+                    });
 
-  if (!state.spinning) {
-    spin();
-  }
+                    resolve();
+                }
+            }
 
-});
+            requestAnimationFrame(frame);
+        });
+    }
 
 
-function stopAuto() {
+    /* =====================================================
+       RESULT GENERATOR
+    ===================================================== */
 
-  state.auto = false;
+    function generateResult() {
+
+        const reels =
+            [...reelsContainer.querySelectorAll(".reel")];
+
+        const result = [];
+
+        reels.forEach(reel => {
+
+            const column = [];
+
+            [...reel.children].forEach(symbolElement => {
+
+                setRandomSymbol(symbolElement);
+
+                column.push({
+                    id: symbolElement.dataset.id,
+                    element: symbolElement
+                });
+            });
+
+            result.push(column);
+        });
+
+        let win = 0;
+        let winningElements = [];
+
+        const winChance =
+            currentGame.baseWinChance;
+
+        if (Math.random() < winChance) {
 
-  clearTimeout(state.autoTimer);
+            const targetSymbol =
+                currentGame.symbols[
+                    randomInt(
+                        0,
+                        currentGame.symbols.length - 1
+                    )
+                ];
+
+            const positions = [];
+
+            result.forEach((column, columnIndex) => {
+
+                column.forEach((cell, rowIndex) => {
+
+                    if (
+                        cell.id === targetSymbol.id &&
+                        Math.random() < .55
+                    ) {
+                        positions.push({
+                            columnIndex,
+                            rowIndex,
+                            element: cell.element
+                        });
+                    }
+                });
+            });
 
-  state.autoTimer = null;
+            if (positions.length >= 3) {
 
-  const button = document.getElementById("autoButton");
+                const chosen =
+                    positions.slice(
+                        0,
+                        Math.min(
+                            positions.length,
+                            randomInt(3, 8)
+                        )
+                    );
 
-  if (button) {
-    button.classList.remove("active");
-  }
-}
+                winningElements =
+                    chosen.map(item => item.element);
 
+                const base =
+                    currentBet *
+                    targetSymbol.multiplier *
+                    (chosen.length - 2);
 
-/* =========================================================
-   UI
-========================================================= */
+                const multiplier =
+                    currentGameKey === "olympus"
+                        ? random(1, 2.2)
+                        : currentGameKey === "jungle"
+                            ? random(1, 1.8)
+                            : random(1, 1.6);
 
-function updateUI() {
+                win =
+                    Math.min(
+                        currentGame.maxWin * currentBet,
+                        base * multiplier
+                    );
+            }
+        }
 
-  balanceEl.textContent = formatMoney(state.balance);
+        /*
+           Невелика компенсація нульових раундів,
+           щоб демо-гра не відчувалась повністю порожньою.
+        */
 
-  gameBalanceEl.textContent = formatMoney(state.balance);
+        if (
+            win <= 0 &&
+            state.totalSpins % 7 === 0 &&
+            Math.random() < .6
+        ) {
 
-  betValueEl.textContent = formatMoney(state.bet);
+            const symbol =
+                currentGame.symbols[
+                    randomInt(
+                        0,
+                        currentGame.symbols.length - 1
+                    )
+                ];
 
-}
+            const targetElements = [];
 
+            result.forEach(column => {
 
-/* =========================================================
-   PAYTABLE
-========================================================= */
+                column.forEach(cell => {
 
-document.getElementById("paytableButton").addEventListener("click", () => {
+                    if (
+                        cell.id === symbol.id &&
+                        targetElements.length < 3
+                    ) {
+                        targetElements.push(cell.element);
+                    }
+                });
+            });
 
-  const game = games[state.currentGame];
+            if (targetElements.length >= 3) {
 
-  const content =
-    document.getElementById("paytableContent");
+                winningElements = targetElements;
 
-  content.innerHTML = "";
+                win =
+                    currentBet *
+                    symbol.multiplier;
+            }
+        }
 
-  game.symbols.forEach(symbol => {
+        return {
+            win,
+            winningElements
+        };
+    }
 
-    const row = document.createElement("div");
 
-    row.className = "pay-row";
+    /* =====================================================
+       APPLY RESULT
+    ===================================================== */
 
-    row.innerHTML = `
-      <span>${symbolVisuals[symbol.id]} ${symbol.id}</span>
-      <span>x${symbol.value}</span>
-    `;
+    async function applyResult(result) {
 
-    content.appendChild(row);
+        const win =
+            Number(result.win || 0);
 
-  });
+        if (result.winningElements.length > 0) {
 
-  document.getElementById("paytable").classList.add("open");
+            result.winningElements.forEach(element => {
+                element.classList.add("win");
+            });
 
-});
+            $(".win-lines")?.classList.add("active");
 
+            createParticles(
+                result.winningElements.length
+            );
 
-document.getElementById("closePaytable").addEventListener("click", () => {
+            await sleep(550);
 
-  document.getElementById("paytable").classList.remove("open");
+            state.balance += win;
+            state.totalWins++;
 
-});
+            const xpGain =
+                Math.max(
+                    10,
+                    Math.floor(win / 10)
+                );
 
+            addXP(xpGain);
 
-/* =========================================================
-   AUTH
-========================================================= */
+            saveState();
 
-let registerMode = false;
+            updateBalanceUI();
 
-document.getElementById("loginBtn").addEventListener("click", () => {
+            animateWinNumber(
+                0,
+                win,
+                500
+            );
 
-  registerMode = false;
+            $("#gameMessage").textContent =
+                `WIN! +${formatMoney(win)} VC`;
 
-  openAuth();
+            if (win >= currentBet * 20) {
 
-});
+                showToast(
+                    "BIG WIN",
+                    `Ти виграв ${formatMoney(win)} VC`
+                );
 
+            } else {
 
-document.getElementById("registerBtn").addEventListener("click", () => {
+                showToast(
+                    "WIN",
+                    `+${formatMoney(win)} VC`
+                );
+            }
 
-  registerMode = true;
+        } else {
 
-  openAuth();
+            $("#winAmount").textContent = "0.00";
 
-});
+            $("#gameMessage").textContent =
+                "Цього разу без виграшу. Спробуй ще раз.";
 
+            clearWinState();
+        }
+    }
 
-function openAuth() {
 
-  document.getElementById("authTitle").textContent =
-    registerMode ? "Реєстрація" : "Вхід";
+    function animateWinNumber(from, to, duration) {
 
-  document.getElementById("switchAuth").textContent =
-    registerMode
-      ? "У мене вже є акаунт"
-      : "Створити акаунт";
+        const element = $("#winAmount");
 
-  document.getElementById("authModal").classList.add("open");
+        if (!element) return;
 
-}
+        const start =
+            performance.now();
 
+        function update(now) {
 
-document.getElementById("closeAuth").addEventListener("click", () => {
+            const progress =
+                Math.min(
+                    1,
+                    (now - start) / duration
+                );
 
-  document.getElementById("authModal").classList.remove("open");
+            const eased =
+                1 - Math.pow(1 - progress, 3);
 
-});
+            const value =
+                from + (to - from) * eased;
 
+            element.textContent =
+                formatMoney(value);
 
-document.getElementById("switchAuth").addEventListener("click", () => {
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
 
-  registerMode = !registerMode;
+        requestAnimationFrame(update);
+    }
 
-  openAuth();
 
-});
+    function clearWinState() {
 
+        $$(".symbol.win").forEach(element => {
+            element.classList.remove("win");
+        });
 
-document.getElementById("authSubmit").addEventListener("click", () => {
+        $(".win-lines")?.classList.remove("active");
+    }
 
-  const email =
-    document.getElementById("authEmail").value.trim();
 
-  const password =
-    document.getElementById("authPassword").value.trim();
+    function createParticles(amount) {
 
-  if (!email || !password) {
+        const container =
+            $("#gameParticles");
 
-    alert("Заповніть email та пароль.");
+        if (!container) return;
 
-    return;
-  }
+        for (
+            let i = 0;
+            i < Math.min(amount * 3, 24);
+            i++
+        ) {
 
-  document.getElementById("authModal").classList.remove("open");
+            const particle =
+                document.createElement("i");
 
-  alert(
-    registerMode
-      ? "Демо-реєстрацію завершено."
-      : "Демо-вхід виконано."
-  );
+            particle.className = "particle";
 
-});
+            particle.style.left =
+                random(35, 65) + "%";
 
+            particle.style.top =
+                random(40, 65) + "%";
 
-/* =========================================================
-   SUPPORT
-========================================================= */
+            particle.style.setProperty(
+                "--x",
+                random(-180, 180) + "px"
+            );
 
-document.getElementById("supportSend").addEventListener("click", () => {
+            particle.style.setProperty(
+                "--y",
+                random(-180, -40) + "px"
+            );
 
-  alert(
-    "Повідомлення підготовлено. У реальній версії тут буде відправка на сервер."
-  );
+            container.appendChild(particle);
 
-});
+            setTimeout(() => {
+                particle.remove();
+            }, 1100);
+        }
+    }
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
+    /* =====================================================
+       XP / LEVEL
+    ===================================================== */
 
-function formatMoney(value) {
+    function addXP(amount) {
 
-  return Math.floor(value)
-    .toLocaleString("uk-UA");
+        state.xp += amount;
 
-}
+        const calculatedLevel =
+            Math.floor(state.xp / 1000) + 1;
 
+        if (
+            calculatedLevel >
+            state.level
+        ) {
 
-function sleep(ms) {
+            state.level =
+                calculatedLevel;
 
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
+            showToast(
+                "NEW LEVEL",
+                `Ти досяг рівня ${state.level}.`
+            );
+        }
 
-}
+        updateBonusUI();
+    }
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
+    /* =====================================================
+       AUTO
+    ===================================================== */
 
-createReels();
+    $("#autoButton")?.addEventListener("click", () => {
 
-updateUI();
+        autoMode = !autoMode;
+
+        $("#autoButton")
+            .classList.toggle(
+                "active",
+                autoMode
+            );
+
+        $("#autoText").textContent =
+            autoMode ? "ON" : "OFF";
+
+        if (autoMode) {
+
+            showToast(
+                "AUTO SPIN",
+                "Автоматичні обертання увімкнено."
+            );
+
+            if (!spinning) {
+                spin();
+            }
+
+        } else {
+
+            clearTimeout(autoTimer);
+
+            showToast(
+                "AUTO SPIN",
+                "Автоматичні обертання вимкнено."
+            );
+        }
+    });
+
+
+    /* =====================================================
+       TURBO
+    ===================================================== */
+
+    $("#turboButton")?.addEventListener("click", () => {
+
+        turboMode = !turboMode;
+
+        $("#turboButton")
+            .classList.toggle(
+                "active",
+                turboMode
+            );
+
+        $("#turboText").textContent =
+            turboMode ? "ON" : "OFF";
+
+        showToast(
+            "TURBO",
+            turboMode
+                ? "Швидкий режим увімкнено."
+                : "Швидкий режим вимкнено."
+        );
+    });
+
+
+    /* =====================================================
+       PAYTABLE
+    ===================================================== */
+
+    $("#paytableButton")?.addEventListener("click", () => {
+
+        if (!currentGame) return;
+
+        $("#paytableTitle").textContent =
+            currentGame.title;
+
+        $("#paytableDescription").textContent =
+            currentGame.description;
+
+        const list =
+            $("#paytableList");
+
+        list.innerHTML = "";
+
+        currentGame.symbols.forEach(symbol => {
+
+            const row =
+                document.createElement("div");
+
+            row.className = "pay-row";
+
+            row.innerHTML = `
+                <div class="pay-symbols">
+                    <div class="pay-symbol">
+                        ${getSymbolLetter(symbol.id)}
+                    </div>
+                    <div class="pay-symbol">
+                        ${getSymbolLetter(symbol.id)}
+                    </div>
+                    <div class="pay-symbol">
+                        ${getSymbolLetter(symbol.id)}
+                    </div>
+                </div>
+
+                <div class="pay-name">
+                    <strong>${symbol.name}</strong>
+                    <small>3+ SYMBOLS</small>
+                </div>
+
+                <div class="pay-value">
+                    ×${symbol.multiplier}
+                </div>
+            `;
+
+            list.appendChild(row);
+        });
+
+        $("#paytableModal").classList.add("open");
+    });
+
+
+    $("#closePaytable")?.addEventListener("click", () => {
+
+        $("#paytableModal").classList.remove("open");
+    });
+
+
+    $("#paytableModal")?.addEventListener("click", event => {
+
+        if (
+            event.target ===
+            $("#paytableModal")
+        ) {
+            $("#paytableModal")
+                .classList.remove("open");
+        }
+    });
+
+
+    /* =====================================================
+       GAME OPEN BUTTONS
+    ===================================================== */
+
+    $$("[data-game]").forEach(button => {
+
+        button.addEventListener("click", event => {
+
+            const key =
+                event.currentTarget.dataset.game;
+
+            openGame(key);
+        });
+    });
+
+
+    /* =====================================================
+       GAME FILTER
+    ===================================================== */
+
+    $$(".filter").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            $$(".filter").forEach(item => {
+                item.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+            const filter =
+                button.dataset.filter;
+
+            $$(".game-tile").forEach(tile => {
+
+                const volatility =
+                    tile.dataset.volatility;
+
+                if (
+                    filter === "all" ||
+                    volatility === filter
+                ) {
+
+                    tile.style.display = "";
+
+                } else {
+
+                    tile.style.display = "none";
+                }
+            });
+        });
+    });
+
+
+    /* =====================================================
+       KEYBOARD
+    ===================================================== */
+
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+
+            if (
+                $("#paytableModal")
+                    ?.classList.contains("open")
+            ) {
+                $("#paytableModal")
+                    .classList.remove("open");
+                return;
+            }
+
+            if (
+                gameModal
+                    ?.classList.contains("open")
+            ) {
+                closeGame();
+            }
+        }
+
+        if (
+            event.code === "Space" &&
+            gameModal?.classList.contains("open")
+        ) {
+
+            event.preventDefault();
+
+            if (!spinning) {
+                spin();
+            }
+        }
+    });
+
+
+    /* =====================================================
+       ROUTER EVENT
+    ===================================================== */
+
+    window.addEventListener(
+        "hashchange",
+        renderRoute
+    );
+
+
+    /* =====================================================
+       INIT
+    ===================================================== */
+
+    function init() {
+
+        updateBalanceUI();
+        updateProfileUI();
+        updateBonusUI();
+
+        updateBetUI();
+
+        renderRoute();
+
+        showWelcomeIfNeeded();
+
+        /*
+           Если користувач уже має профіль,
+           відкриваємо його стан автоматично.
+        */
+
+        if (state.loggedIn) {
+            updateProfileUI();
+        }
+    }
+
+    init();
+
+})();
